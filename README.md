@@ -14,11 +14,6 @@ contents rather than by their names. That is what made the difference: filenames
 machines were limited to eight characters, and after thirty years of copying from one
 machine to the next, the contents are a more reliable guide than the names.
 
-Not everything was in folders. Some documents of that period survived only as
-attachments inside old Unix mailbox files, in backups of mail accounts I stopped using
-twenty years ago. That is not where the talks in this repository came from — those were
-on disk — but it is the reason I went through the mail as well.
-
 This has sentimental value for me, which is the main reason the repository exists.
 
 ## Minimal changes
