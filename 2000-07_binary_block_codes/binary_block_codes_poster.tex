@@ -1,0 +1,299 @@
+%% fuer Drucker "bilby":
+%% dvips -O 5mm,1mm
+
+%% fuer Drucker "goofy":
+%% dvips600 -O 0mm,10mm Dagstuhl
+
+\documentstyle[mathrsfs,colordvi,boldmath,semcolor,semlayer,portrait,rotate,german,epsf,fancybox,mathsym
+]{seminar}
+\input{unilogo}
+\input{amssym.def}
+\input{amssym}
+
+\def\dummy#1{}
+\overlaystrue
+\def\overlay#1{{}}
+
+\slidewidth9.5in
+\slideheight6.7in
+%\def\slidetopmargin{\iflandscape.2in\else0.8in\fi}
+\def\slidetopmargin{\iflandscape.3in\else0.8in\fi}
+\def\slidebottommargin{\iflandscape1.0in\else0.4in\fi}
+\def\slideleftmargin{\iflandscape.2in\else.5in\fi}
+\def\sliderightmargin{\iflandscape1.0in\else.8in\fi}
+
+\slidesmag{4}
+\centerslidesfalse
+\slideframewidth0.5pt
+%\slideframe{none}
+
+%\portraitonly
+%\landscapeonly
+%\def\leftsliderotation#1{\rotate[l]{#1}}
+%\sliderotation{left}
+\rotateheaderstrue
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Makros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\bra#1{\left<#1\right|}
+\def\ket#1{\left|#1\right>}
+\def\openone{\leavevmode\hbox{\small1\kern-3.3pt\normalsize1}}
+
+\def\mathsymfont#1{\ifmmode{\mathchoice{%
+    \mbox{\the\textfont0\ignorespaces#1}}{%
+    \mbox{\the\textfont0\ignorespaces#1}}{%
+    \mbox{\the\scriptfont0\ignorespaces#1}}{%
+    \mbox{\the\scriptscriptfont0\ignorespaces#1}}}%
+  \else{{\rm\ignorespaces#1}}\fi}
+%\def\C{{\cal C}}
+\def\Cdual{\C^{\perp}}
+\def\Czdual{\C_2^{\perp}}
+\def\Csum{\sum_{\bm{c}\in\C}}
+\def\Cdualsum{\sum_{\bm{c}\in\Cdual}}
+\def\F{\mathsymfont{I\kern-.25em F}}
+\def\ds{\displaystyle}
+
+\def\entspricht{\mathrel{\hat{=}}}
+
+\def\si{id}
+\def\sx{{\sigma_x}}
+\def\sy{{\sigma_y}}
+\def\sz{{\sigma_z}}
+
+\def\w{\omega}
+\def\ww{\overline{\omega}}
+
+\def\dmin{\mathop{\rm d}_{\rm H min}\nolimits}
+\def\dH{\mathop{\rm d}_{\rm H}\nolimits}
+\def\dHnor{\mathop{\underline{\rm d}}_{\rm H}\nolimits}
+\def\wH{\mathop{\rm w}_{\rm H}\nolimits}
+
+\def\lowE{\raisebox{-0.9ex}{$\scriptstyle\sim$}\kern-0.6em E}
+
+\def\trace{\mathop{\rm Tr}\nolimits}
+
+\newfont{\smallbsf}{cmssbx10}
+\newfont{\bsf}{cmssbx10 scaled 1400}
+\newfont{\lbsf}{cmssbx10 scaled 1800}
+\newfont{\emsf}{cmssi10}
+\newfont{\trm}{cmr10}  % \ten\roman
+\newfont{\twrm}{cmr12} % \twelve\roman
+\newfont{\brm}{cmbx10 scaled 1400} % \bold\roman
+\def\R{\mbox{\trm I\kern-.2em R}}
+%\def\bm#1{\mbox{\boldmath$#1$}}
+\newcommand{\heading}[1]{%
+  \begin{center}
+    \bsf
+    \shadowbox{#1}%
+  \end{center}
+  \vspace{1ex minus 1ex}%
+}
+\newcommand{\leftheading}[1]{%
+{    \bsf
+    \shadowbox{#1}%
+}
+  \vspace{1ex minus 1ex}%
+}
+\newbox{\logobox}
+\setbox\logobox=\hbox{\raise 0.17\baselineskip\hbox{\epsfbox{logo.eps}}}
+\def\logo{\usebox{\logobox}}
+\newpagestyle{MH}{\hss\hbox to \hsize{PhysComp96\hss\thepage}\hss}%
+{\hss\hbox to \hsize{\logo Graduiertenkolleg 12/1999}
+P.~Wocjan\hss}
+
+\newpagestyle{nohead}{}{\hss\hbox to \hsize{\tiny\logo
+{IAKS} \thepage/PhysComp96}\hss}
+
+\newpagestyle{nohead_beth}{}{}
+
+%{\hss\hbox to
+%  \hsize{\tiny\ \logo\ IAKS\hfil P.~Wocjan}\hss}
+
+\newbox\abc
+\newdimen\xxx
+\long\def\tbox#1{\leavevmode\setbox\abc\hbox{#1}\xxx\ht\abc\dp\abc0pt\ht\abc0pt\raise-\xxx\box\abc}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\frenchspacing
+\sf
+
+%%\pagestyle{nohead}
+\pagestyle{nohead_beth}
+%%\pagestyle{empty}
+
+\begin{slide*}\sf
+\begin{center}{\bsf Suboptimal Decoding}\end{center}
+\vfill
+For all block codes used on a memoryless classical channel the optimal decision
+rule is the \emph{Maximum-likelihood} decoding. In general, the optimal 
+decision rule on classical-quantum channels is not known.
+
+Holevo has introduced the following suboptimal decoding rule 
+${\mathscr D}_{{\mathcal H}}=
+({\mathbf D}_1,{\mathbf D}_2,\ldots,{\mathbf D}_M)$ for any block code 
+${\mathscr B}$ used on c-q channels ${\mathscr C}$ with arbitrary signal 
+states $S_i$ . The decision operators are given by
+$$
+   {\mathbf D}_m =
+     \left(\sum_{j=1}^M {\mathbf S}_j^r\right)^{-{1\over 2}}
+     {\mathbf S}_m^r \,
+     \left(\sum_{j=1}^M {\mathbf S}_j^r\right)^{-{1\over 2}}\,,
+$$
+$m=1,2\ldots,M$, and $r\in (0,1]$. 
+This decision rule produces a word error probability $P_{\rm em}$ 
+upperbounded by
+$$
+  P_{\rm em} \le \tilde{P}_{\rm em} =
+    \sum_{j=1\atop j\neq m}^M
+      {\rm Tr}\, {\mathbf S}_m^{1-r} {\mathbf S}_j^r \,.
+$$
+\vfill
+\end{slide*}
+
+
+\begin{slide*}\sf
+\begin{center}{\bsf Union Bound}\end{center}
+\vfill
+{\bf Lemma 1}
+The word error probability $P_{\rm em}$ of the binary
+code $[N,R]$ used on the binary classical-quantum channel ${\mathscr C}$ and 
+decoded by the suboptimal decision rule ${\mathscr D}_{\mathcal H}$ with 
+$r=\frac{1}{2}$ is upperbounded by
+$$ P_{\rm em} \le \sum_{j=1\atop j\neq m}^M 
+     2^{-N [-\dHnor({\mathbf x}_m,{\mathbf x}_j) \log_2 (c)]}\,, $$
+where the channel parameter $c:=\trace \sqrt{S_1} \sqrt{S_2}$ and 
+$\dHnor({\mathbf x}_m,{\mathbf x}_j)=\dH({\mathbf x}_m,{\mathbf x}_j)/N$ is the 
+normalized Hamming distance between the code words ${\mathbf x}_m$ and 
+${\mathbf x}_j$.
+\vfill
+Consequently, the overall block decoding error probability is upperbounded 
+by the \emph{union bound} given by
+$$ P_{\rm e} \le \tilde{P}_{\rm e} = 
+   \frac{1}{M} \sum_{m=1}^M \sum_{j=1\atop j\neq m}^M 
+           2^{-N [-\dHnor({\mathbf x}_m,{\mathbf x}_j)\log_2 (c)]}\,. $$
+\vfill
+\end{slide*}
+
+\begin{slide*}\sf
+\begin{center}{\bsf Rescaled Binomial Average Multiplicity Enumerators}
+\end{center}
+\vfill
+{\bf Lemma 2}
+If the average multiplicity enumerators of the codes in the fixed rate
+sequence ${\rm FRS}(R)$ are given by
+rescaled binomial coefficients
+$$
+  \left\{ \underline{M}_n^{(i)} = {a_i(n)\over 2^{N_i (1-R)}}  
+  {N_i\choose n}\right\}_{n=0}^{N_i}\,,\quad 
+  \sum_{n=0}^{N_i} \underline{M}_n^{(i)} = M_i
+$$
+where $a_i(n)=o(2^n)$, than the corresponding IAAME function is given by
+$$
+  {\mathscr M}(\underline{\delta}_{\rm H},R)_{\rm FRS}=
+    {\rm H}_2(\underline{\delta}_{\rm H}) - (1 - R) \,,
+$$
+where ${\rm H}_2(x)=-x\log_2(x) - (1-x)\log_2 (1-x)$ represents the binary 
+entropy function.
+\vfill
+\end{slide*}
+
+\begin{slide*}\sf
+\begin{center}{\bsf Cutoff Rate Lower Bound}\end{center}
+\vfill
+{\bf Theorem 1} (Cutoff rate lower bound)
+Fixed rate sequences with rescaled binomial average multiplicity enumerators 
+used on the binary c-q channel ${\mathscr C}$ and decoded by the suboptimal 
+rule ${\mathscr D}_{\mathcal H}$ with $r=\frac{1}{2}$ have an error exponent 
+whose lower bound is the cutoff rate bound given by 
+$$  \lowE_{\rm cut}(R) = R_0 - R $$
+where $R_0$ is the cutoff rate given by
+$$ R_0 = 1-\log_2(1+c)\,. $$
+\vfill
+\emph{Only} code words on the effective Hamming distance
+$$ \underline{\delta}_{\rm H eff}={c\over 1+c} $$
+determine the cutoff rate bound. Note that this distance does not depend on 
+the code rate.
+\vfill
+\end{slide*}
+
+\begin{slide*}\sf
+\begin{center}{\bsf Gilbert-Varshamov Bound}\end{center}
+\vfill
+The \emph{Gilbert-Varshamov lower bound} on the asymptotic 
+minimal normalized distance of binary block codes $[N,R]$ 
+is given by
+$$ \underline{\delta}_{\rm GV}(R) = {\rm H}_2^{-1}(1-R)\,, $$
+where ${\rm H}_2^{-1}$ denotes the inverse of the binary entropy 
+function in the interval $[0,{1\over 2}]$. 
+
+The IAAME of a FSR($R$) with rescaled binomial average multiplicity enumerators 
+satisfying the Gilbert-Varshamov bound is given by the 
+{\red \emph{expurgated IAAME}}
+$$
+  {\mathscr M}(\underline{\delta}_{\rm H},R)_{\rm FSR} = \left\{ 
+  \begin{array}{cl}
+    -\infty & \mbox{for } \underline{\delta}_{\rm H} \le 
+    \underline{\delta}_{\rm GV}\,, \\
+    {\rm H}_2(\underline{\delta}_{\rm H}) - (1 - R) & \mbox{otherwise}.
+   \end{array} \right.
+$$
+\vfill
+{\bf Lemma 3}
+Fixed rate sequences of linear block codes with rescaled binomial multiplicity
+enumerators satisfy the Gilbert-Varshamov bound.
+\vfill
+\end{slide*}
+
+\begin{slide*}\sf
+\begin{center}{\bsf Expurgated Lower Bound}\end{center}
+\vfill
+{\bf Theorem 2} (Expurgated lower bound)
+Fixed rate sequences with rescaled binomial multiplicity enumerators 
+satisfying the Gilbert-Varshamov bound used on the binary c-q channel 
+${\mathscr C}$ and decoded by the suboptimal rule ${\mathscr D}_{{\mathcal H}}$ 
+with $r=\frac{1}{2}$ have an error exponent whose lower bound is the 
+expurgated bound given by
+$$ \lowE_{\rm ex}(R)=\log_2\left({1\over c}\right) \cdot 
+  \underline{\delta}_{\rm GV}(R) $$
+for rates $R$ below the expurgated rate $R_{\rm ex}$
+$$ R_{\rm ex} = 1-{\rm H}_2\left(\underline{\delta}_{\rm H eff}\right)\, $$
+and the cutoff rate bound for rates above $R_{\rm ex}$.
+\vfill
+\end{slide*}
+
+\begin{slide*}\sf
+\begin{center}{\bsf Conclusion}\end{center}
+\vfill
+A conceptually simple method for derivation of lower bounds on the error 
+exponent of specific families of block codes used on classical-quantum 
+channels with arbitrary signal states over a finite Hilbert space has been 
+presented.
+It has benn shown that families of binary block codes with appropriately 
+rescaled binomial multiplicity enumerators used on binary
+c-q channels and decoded by the suboptimal decision rule 
+introduced by Holevo attain the expurgated and cutoff rate lower bounds on the 
+error exponent.
+\vfill
+For the classical binary symmetric channel is known that code
+families with rescaled binomial multiplicity enumerators attain the tight
+part of the random coding bound and thus the channel capacity. This has been 
+obtained by an improved upperbounding of the decoding error probability 
+assuming the Maximum-likelihood decoding. Unfortunately, this method cannot be 
+applied directly to binary c-q channels since the optimal
+decision rule for these channels is not known.
+\vfill
+\end{slide*}
+
+\end{document}
+
+
+
+
+
+
+
+
+

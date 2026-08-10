@@ -38,6 +38,18 @@ publishing is not.
   [presentation](2002-01_mutual_simulation_of_hamiltonians/mutual_simulation_of_hamiltonians_presentation.pdf) ·
   [sources](2002-01_mutual_simulation_of_hamiltonians/)
 
+- **Performances of Binary Block Codes Used on Classical-Quantum Channels** — *Poster*, July 2000  
+  QCMC 5, the Fifth International Conference on Quantum Communication, Measurement and
+  Computing, Capri, 3–8 July 2000.  
+  Joint work with Dejan E. Lazić and Thomas Beth, so not mine alone to license. The seven
+  sheets carry no title page, so the authorship is recorded only here.  
+  Lower bounds on the error exponent of binary block codes used on classical-quantum
+  channels: rescaled binomial multiplicity enumerators, Holevo's suboptimal decision rule,
+  and the expurgated and cutoff rate bounds. The accompanying paper is in the conference
+  proceedings, pp. 43–46.  
+  [poster](2000-07_binary_block_codes/binary_block_codes_poster.pdf) ·
+  [sources](2000-07_binary_block_codes/)
+
 ---
 
 ## Hauptstudium — Universität Karlsruhe (TH), after the Vordiplom
