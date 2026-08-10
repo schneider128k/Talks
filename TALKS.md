@@ -15,8 +15,11 @@ publishing is not.
   Ludwig-Maximilians-Universität München. Invited, as I remember it, by Robert Raussendorf.  
   Joint work with Dominik Janzing, Martin Rötteler and Thomas Beth, so not mine alone to
   license.  
-  Much the same talk as the one in Bad Honnef six months earlier, with a new opening on
-  the mathematics it rests on: vector and operator majorization, and Uhlmann's theorem.  
+  Much the same talk as the one in Bad Honnef six months earlier, but with new material on
+  the mathematics it rests on: vector and operator majorization, and Uhlmann's theorem.
+  Those two slides are the earliest record I have of my working with majorization, which
+  came back many years later in my work on spectral graph theory, so they are also set
+  here on their own.  
   The abstract was written in German, under the title *Simulation hamiltonscher Dynamiken
   auf wechselwirkenden Quantensystemen*.  
   [presentation](2002-07_complexity_of_mutual_simulation/complexity_of_mutual_simulation_presentation.pdf) ·

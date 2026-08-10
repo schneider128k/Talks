@@ -1,0 +1,68 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=2.7cm]{geometry}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5\baselineskip}
+
+\begin{document}
+
+\begin{center}
+  {\Large\bfseries Majorization and Uhlmann's Theorem}\\[0.6em]
+  Pawel Wocjan\\[0.2em]
+  12 July 2002
+\end{center}
+
+\vspace{0.8em}
+
+\noindent
+The two slides headed \emph{Mathematical tools} from \emph{Complexity of Mutual
+Simulation of Hamiltonian Dynamics}, Ludwig-Maximilians-Universität München,
+12 July 2002. They are set here on their own because they are the earliest record
+I have of my working with majorization, which came back much later in my work on
+spectral graph theory. The wording and the notation are those of the 2002 slides;
+only the typesetting is new.
+
+\section*{Vector majorization}
+
+Let $x=(x_1,x_2,\ldots,x_d)\in\mathbb{R}^d$.
+
+Define
+$x^\downarrow=(x^\downarrow_1,x^\downarrow_2,\ldots,x^\downarrow_d)\in\mathbb{R}^d$
+as the vector whose components are the same as those of $x$, but ordered so that
+\[
+  x^\downarrow_1\ge x^\downarrow_2\ge\ldots\ge x^\downarrow_d\,.
+\]
+
+$x$ \emph{majorizes} $y$, written $x\preceq y$, if
+\[
+  \sum_{j=1}^k x^\downarrow_j \;\le\; \sum_{j=1}^k y^\downarrow_j
+\]
+for $k=1,\ldots,d-1$ and
+\[
+  \sum_{j=1}^d x^\downarrow_j \;=\; \sum_{j=1}^d y^\downarrow_j\,.
+\]
+
+\section*{Operator majorization}
+
+Let $A$ and $B$ be two Hermitian matrices of size $d$.
+
+We say $A$ \emph{majorizes} $B$, written $A\preceq B$, if
+\[
+  \lambda(A)\preceq\lambda(B)\,,
+\]
+where $\lambda(A)$ and $\lambda(B)$ are the spectra (the vectors of eigenvalues)
+of $A$ and $B$, respectively.
+
+\subsection*{Uhlmann's theorem}
+
+We have $A\preceq B$ if and only if
+\[
+  A=\sum_{j=1}^N p_j\, U_j^\dagger B\, U_j\,,
+\]
+where $\{p_j\}$ is a probability distribution and $\{U_j\}$ is a set of unitaries.
+
+\end{document}
