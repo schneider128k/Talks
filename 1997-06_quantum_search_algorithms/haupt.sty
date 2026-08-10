@@ -1,0 +1,104 @@
+% LaTeX-Style fuer das Seminar Quantum-Computing
+
+%This is documentsubstyle DINA4 for DIN A4 pagesize. GMD Z1.BN  19.01.87
+% Must preserve "(\textheight - \topskip) divides \baselineskip".
+% \topskip always appears to be 10pt.  (from texhax86(issue#12))
+ 
+\if@twocolumn               % Die Seite wird maximal ausgenutzt
+  \topmargin -5.4mm
+  \oddsidemargin 0mm
+  \evensidemargin 0mm
+  \textwidth 160mm
+\ifcase \@ptsize
+    % mods for 10 pt (\baselineskip=12pt)
+    \textheight 658 pt  % = 230.9 mm
+\or % mods for 11 pt (\baselineskip=13.6pt)
+    \textheight 662.801 pt % = 232.6mm (!Rundungsfehler!)
+\or % mods for 12 pt  (\baselineskip=14.5pt)
+    \textheight 662.5 pt % = 232.5mm
+\fi
+ 
+% \textheight 232mm
+ \else
+  \topmargin -5mm
+  \oddsidemargin -3mm     %   5 mm
+  \evensidemargin -7.8mm  %   5 mm
+  \textwidth 170mm        % 150 mm
+\ifcase \@ptsize
+    % mods for 10 pt (\baselineskip=12pt)
+%    \textheight 634 pt  % = 222.5 mm
+    \textheight 670 pt 
+\or % mods for 11 pt (\baselineskip=13.6pt)
+%    \textheight 635.601 pt % = 223 mm  (!Rundungsfehler!)
+    \textheight 676.401 pt %  (!Rundungsfehler!)
+\or % mods for 12 pt  (\baselineskip=14.5pt)
+%    \textheight 633.5 pt % = 222.8mm
+    \textheight 677 pt % = 232.5mm
+\fi
+ 
+% \textheight 222mm
+\fi
+\flushbottom
+ 
+\marginparwidth 0mm
+\marginparsep 0mm
+\marginparpush 0pt
+\columnwidth\textwidth
+
+\input unilogo
+\setlength{\parskip}{5pt plus 8pt minus 2pt}
+\setlength{\topsep}{0pt}
+\setlength{\partopsep}{5pt plus 4pt minus 2pt}
+\setlength{\parindent}{0pt}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+\def\topfraction{0.9}
+\def\bottomfraction{0.9}
+\def\textfraction{0.1}
+
+\def\ps@headings{\let\@mkboth\markboth
+\def\@oddfoot{}\def\@evenfoot{}\def\@evenhead{%
+\rlap{\hbox to \hsize{\rm \thepage\hfil \sc
+\leftmark}}\raise-3pt\hbox to \hsize{\hrulefill}}
+\def\@oddhead{\rlap{\hbox to \hsize{\hbox{}\sc \rightmark \hfil
+\rm\thepage}}\raise-3pt\hbox to \hsize{\hrulefill}}
+\def\chaptermark##1{\markboth {{\ifnum \c@secnumdepth
+>\m@ne
+ \@chapapp\ \thechapter. \ \fi ##1}}{}}\def\sectionmark##1{\markright
+{{\ifnum \c@secnumdepth >\z@
+ \thesection. \ \fi ##1}}}}
+
+\pagestyle{headings}
+
+% Aufruf \Vortrag[Titel fuer headings]{Titel}{Autor}
+\def\Vortrag{\@ifnextchar [{\@vortiii}{\@vortii}}
+
+\def\@vortii#1#2{\@vortrag{#1}{#2}{#1}}
+\def\@vortiii[#1]#2#3{\@vortrag{#2}{#3}{#1}}
+\def\@vortrag#1#2#3{%
+\chapter[#1]{{#1\\{\Large #2}}}%
+\addtocontents{toc}{\string\leavevmode\hbox to \string\@tempdima {\hfil}{\bf (#2)}}%
+\chaptermark{#3}}
+
+\def\chaptername{Vortrag}
+\def\uppercase#1{{\sc #1}}
+
+\def\@makechapterhead#1{ \vspace*{20pt} { \parindent 0pt \raggedright
+ \ifnum \c@secnumdepth >\m@ne 
+ \huge\bf \@chapapp{} \thechapter \par
+ \vskip 10pt \fi 
+ \huge\bf #1 \\
+ \nobreak \vskip 20pt} }
+
+\def\thebibliography#1{\section*{\bibname\def\leftmark{\uppercase{\bibname}}}\list
+ {[\arabic{enumi}]}{\settowidth\labelwidth{[#1]}\leftmargin\labelwidth
+ \advance\leftmargin\labelsep
+ \usecounter{enumi}}
+ \def\newblock{\hskip .11em plus .33em minus .07em}
+ \sloppy\clubpenalty4000\widowpenalty4000
+ \sfcode`\.=1000\relax
+ \addcontentsline{toc}{section}{\bibname}}
+\let\endthebibliography=\endlist
+
+

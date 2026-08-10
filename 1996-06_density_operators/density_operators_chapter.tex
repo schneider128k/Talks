@@ -1,0 +1,456 @@
+%% \documentstyle[german,11pt,a4,mathsym]{article}
+%% \begin{document}
+\newcommand{\scalar}[3]{\left< #1 | #2 | #3 \right>}
+\newcommand{\betrag}[1]{\left| #1 \right|}
+\newcommand{\norm}[1]{\| #1\|}
+\newcommand{\raum}{H}
+%\newcommand{\traum}[1]{$H_{#1}$}
+\newcommand{\quadr}[1]{\left( #1 \right) ^2}
+\newcommand{\menge}[1]{\left\{ #1 \right\}}
+\newcommand{\scalars}[2]{\left< #1 | #2 \right>}
+\newcommand{\tscalars}[6]{ \left< #1 #3 | #2 #4 \right>_{#5 , #6} }
+\newcommand{\Ima}{\mbox{Im}}
+\newcommand{\Spur}[1]{\mbox{Sp} \left( #1\right)}
+\newcommand{\Proj}[1]{\ket{#1}\bra{#1}}
+\newcommand{\Prob}[2]{{\cal P}_{#1} \left( #2 \right)}
+\newcommand{\bra}[1]{\left< #1 \right|}
+\newcommand{\ket}[1]{\left| #1 \right>}
+\newcommand{\tbra}[2]{\left< #1 \right|_{#2}}
+\newcommand{\tket}[2]{\left| #1 \right>_{#2}}
+\newcommand{\mean}[1]{\left< #1 \right>}
+\newcommand{\var}[1]{\left( \triangle \left< #1 \right> \right)^2}
+\newcommand{\unscharf}[1]{ \triangle \left< #1 \right>}
+\newcommand{\id}{\hbox{\small1\kern-3.8pt\normalsize1}}
+\newcommand{\difft}{{\partial \over \partial t}}
+\newcommand{\kommutator}[2]{\left[ #1 , #2 \right]}
+\newcommand{\Hamilton}{{\cal H}}
+\newcommand{\Poisson}[2]{\lbrace #1 , #2 \rbrace}
+\newcommand{\tupel}[1]{\left( #1 \right)}
+\Vortrag{Quantentheorie}{Pawel Wocjan}
+
+{\bf Vorbemerkung} \\
+Im ersten Teil wird eine Einf"uhrung in die Grundgedanken der Quantentheorie gegeben und ihre mathematische Formulierung erarbeitet. Im zweiten Teil wird der
+bisher entwickelte Kalk"ul um statistische Methoden erweitert. Diese Erweiterung wird notwendig, wenn nur eine unvollst"andige Information "uber den Zustand des
+Quantensystems vorliegt. 
+
+\section{Formulierung und Interpretation der Quantentheorie}
+  \subsection{Der Zustandsraum}
+    Die mathematische Theorie der Hilbertr"aume stellt das richtige Werkzeug dar, um Quantensysteme zu beschreiben. Jedes Quantensystem wird in einem geeigneten
+    komplexen Hilbertraum, dem Zustandsraum \raum, beschrieben. Dieser Zustandsraum \raum{} wird durch die Struktur des speziell betrachteten physikalischen Problems
+    bestimmt. Im folgenden wird die Korrespondenz zwischen den mathematischen Objekten in der Theorie und den physikalischen Gegebenheiten eines Quantensystems 
+    beschrieben.
+    
+  \subsection{Zust"ande} 
+      Die Einheitsvektoren $\ket{\Psi} \in$ \raum{} hei\3en Zustandsvektoren. Zwei Zustandsvektoren $\ket{\Psi}$ und $\ket{\Phi}$ hei\3en "aquivalent, wenn 
+      $\ket{\Psi} = e^{i\Theta}\ket{\Phi}$ f"ur $\Theta \in \R$ gilt. 
+      Jeder physikalische Zustand eines Quantensystems entspricht einem Zustandsvektor $\ket{\Psi}$ in \raum. Dabei repr"asentieren "aquivalente Zust"ande denselben
+      physikalischen Zustand des Systems. \\
+      Betrachten wir als Beispiel die lineare Ionenfalle, um die Unterschiede zwischen der klassischen und der quantentheoretischen Beschreibung zu sehen. Die lineare Ionenfalle
+      ist eine der bisher
+      erwogenen Hardwarel"osungen f"ur einen Quantencomputer. Sie ist (in einfachster Beschreibungsstufe) ein System mit $n$ Komponenten, die jeweils zwei Zust"ande $\ket{0}$ und
+      $\ket{1}$ annehmen k"onnen. Klassisch wird der Zustand dieses Systems mit $n$ Bits vollst"andig beschrieben; jeder m"ogliche Zustand des Systems entspricht einer Ecke eines
+      $2^n$-dimensionalen Hyperw"urfels. Quantentheoretisch dagegen sind f"ur eine vollst"andige Beschreibung $2^n-1$ komplexe Zahlen notwendig. Der Zustand des Quantensystems
+      entspricht einem Zustandsvektor in einem $2^n$ dimensionalen Hilbertraum, dem Zustandsraum \raum. Jeder Zustand dieses Systems zu einem beliebigen Zeitpunkt wird durch einen
+      Einheitsvektor
+      beschrieben. Die Zust"ande liegen auf also einer $2^n$-dimensionalen Einheitskugel. Wenn man einen Zustandsvektor mit einem beliebigen
+      Phasenfaktor $e^{i\Theta}, \Theta \in \R,$ multipliziert, erh"alt man einen "aquivalenten Zustandsvektor. Man braucht also nur $2^n-1$ komplexe Zahlen (Charakterisierung
+      der L"ange und Phase der Basisvektoren relativ zueinander), um den Zustand eindeutig festzulegen, da ein globaler Phasenfaktor physikalisch unrelevant ist. Man kann diesen
+      an sich beliebigen Phasenfaktor eliminieren, wenn man die Zust"ande des Quantenssystems nicht mit Zustandsvektoren $\ket{\Psi}$, sondern mit den Projektionsoperatoren
+      $\Proj{\Psi}$ beschreibt, weil sich durch Adjugieren der Phasenfaktor aufhebt
+      $$ e^{i\Theta}\ket{\Psi} \mbox{"aquivalent zu} \ket{\Psi} \Longrightarrow \ket{\Psi}e^{-i\Theta}e^{i\Theta}\bra{\Psi} = \Proj{\Psi}. $$
+      Im zweiten Teil wird genau dieses Konzept benutzt, um die reinen Zust"ande und statistische Mischungszust"ande einheitlich mit Hilfe solcher Operatoren, den Dichteoperatoren,
+      zu beschreiben. Ein beliebiger Zustand des Systems kann als eine lineare Superposition der Basiszust"ande $\ket{i} = \ket{\mbox{Bin"ardarstellung von $i$}}$
+      $$ \ket{\Phi} = \sum_{i=0}^{2^n-1} a_i \ket{i}$$
+      dargestellt werden, wobei f"ur die Koeffizientenn $a_i \in \C$ gilt $\sum_{i} \betrag{a_i}^2 = 1$. Zu jedem klassisch m"oglichen Zustand gibt es
+      einen Basisvektor des Zustandsraums \raum. 
+   \subsection{Observablen}
+      Bei der Messung an Quantensystemen ist im Gegensatz zu den makroskopischen Systemen, die korrekt durch die klassische Physik beschrieben werden, eine
+      Abstraktion von der Me\3vorrichtung prinzipiell nicht mehr m"oglich. Man ist nicht
+      imstande, irgendwelche Observable des Quantensystems gleichzeitig zu messen. Nur der Me\3wert derjenigen Observable, die man gerade gemessen hat, kann
+      dem Quantensystem zugeordent werden. Die Me\3werte anderer Observablen d"urfen also im allgemeinen nicht aus den Me\3werten anderer Observabler berechenbar 
+      sein. Es mu\3 daher ein mathematisches Kalk"ul entwickelt werden, der diese Tatsache ber"ucksichtigt. Das bedeutet, da\3 quantentheoretisch die Observablen in
+      anderer Weise zu erfassen sind als in der klassischen Physik. Die Operatoren des Zustandsraumes \raum{} des Quantensystems, die bestimmte Eigenschaften erf"ullen, sind die 
+      geeigneten mathematischen Objekte f"ur die quantentheoretischen Beschreibung der Observablen.
+      Die im allgemeinen gegebene Nichtvertauschbarkeit zweier Operatoren erlaubt n"amlich automatisch die mathematische Erfassung der nicht beliebigen scharfen, gleichzeitigen 
+      Me\3barkeit zweier Observablen. Da es sich ferner erweisen wird, da\3 die Eigenwerte der Operatoren die m"oglichen Me\3werte der Observablen sind, beschr"ankt
+      man sich auf hermitesche Operatoren, weil deren Eigenwerte reell sind, wie man es von physikalischen Me\3werten  verlangt. Au\3erdem m"ussen die Eigenvektoren des 
+      Operators eine Basis des Zustandraumes \raum{} bilden. 
+   \subsection{Messungen}
+      Um "uber den Ausgang der Messung einer quantenmechanischen Observablen zu einem bestimmten Zeitpunkt Aussagen machen zu k"onnen, ist es notwendig, den
+      Zustand, in dem sich das physikalische System unmittelbar vor der Messung befindet, durch einen Zustandsvektor zu beschreiben. Durch eine mathematische
+      Verkn"upfung zwischen dem Zustandsvektor und dem Operator, der die zu messende Observable darstellt, mu\3 es dann m"oglich sein, die gew"unschten 
+      quantentheoretischen Aussagen "uber den Me\3vorgang zu machen. 
+      \subsubsection{Erwartungswert}
+         Im Gegensatz zur klassischen Physik ergeben sich in der Quantentheorie bei mehrmaliger Ausf"uhrung einer Messung derselben Observablen im allgemeinen
+         verschiedene Me\3ergebnisse, auch wenn das System vor der Messung immer im gleichen Zustand war. Wenn man also wei\3, da\3 sich das System im Zustand
+         ${\ket{\Phi}}$ befindet, so kann man "uber den Ausgang der Messung einer Observablen $A$ nur Vorhersagen "uber den Mittelwert oder den Erwartungswert
+         $\mean{A}$ der verschiedenen m"oglichen Me\3werte machen. Der radikale Unterschied zwischen der klassischen Physik und der Quantentheorie ist derjenige, da\3 der 
+         Me\3vorgang an Quantensystemen nicht deterministisch ist. Dies ist eine inherente Eigenschaft der Natur, die prinzipiell nicht umgangen werden kann. Die fundamentale
+         Behauptung der Quantentheorie (Born) ist, da\3 dieser Erwarungswert durch das
+         Skalarprodukt $\scalar{\Phi}{A}{\Phi}$ gegeben ist. Dieser Zusammenhang zwischen dem Me\3vorgang und den im mathematische Kalk"ul der Quantentheorie 
+         vorkommenden Objekten best"atigt sich in allen Experimenten. \\
+         Die statistische Aussagen der Quantentheorie lautet also:
+         Der Zustand eines Quantensystems wird durch einen Zustandsvektor $\ket{\Phi}$ im geeigneten Zustandsraum \raum{} beschrieben. F"uhrt man an dem System die Messung einer
+         Observablen $A$ sehr oft aus, und ist vor jeder Messung das System immer im gleichen Zustand $\ket{\Phi}$, so ist der Erwartungswert $\mean{A}$ der 
+         Me\3ergebnisse gegeben durch
+         $$ \mean{A} = \scalar{\Phi}{A}{\Phi}. $$
+         Sind die Eigenwerte $\alpha_i$ von $A$ alle einfach, so gilt mit Hilfe der Entwicklung von $\ket{\Phi}$ nach den Eigenvektoren $\menge{\ket{\Psi_i}}$ von $A$
+         $$ \mean{A} = \sum_i \alpha_i\betrag{\scalars{\Psi_i}{\Phi}}^2. $$
+         Sind nicht alle Eigenwerte $\alpha_i$ von $A$ einfach, so erh"alt man mit der Enwicklung nach den Eigenvektoren $\menge{\ket{\Psi_{ij}}}$
+         $$ \mean{A} = \sum_i \alpha_i \sum_j \betrag{\scalars{\Psi_{ij}}{\Phi}}^2, $$
+         wobei $\ket{\Psi_{ij}}$ ein Eigenvektor zum Eigenwert $\alpha_i$ ist.
+      \subsubsection{Varianz}
+         F"uhrt man die Messung einer Observablen $A$ mehrmals aus (wobei das System vor der Messung immer im gleichen Zustand sei), so streuen im allgemeinen die
+         Me\3werte um den Mittelwert $\mean{A}$. Das Ma\3 f"ur die Streuung ist ihre Varianz $\var{A}$, die als Erwartungswert der quadratischen Abweichung von $\mean{A}$
+         definiert ist.
+         \begin{eqnarray*}
+            \var{A} & = & \mean{\left( A-\mean{A}\id\right)^2} \\
+                    & = & \scalar{\Phi}{\left( A-\mean{A}\id\right)^2}{\Phi}
+         \end{eqnarray*}
+         Wegen
+         $$ \mean{\left( A-\mean{A}\id\right)^2} = \mean{A^2} - 2\mean{A\mean{A}} + \mean{\mean{A}^2} = \mean{A^2} - \mean{A}^2 $$
+         gilt auch
+         $$ \var{A} = \mean{A^2} - \mean{A}^2 = \scalar{\Phi}{A^2}{\Phi} - \scalar{\Phi}{A}{\Phi}^2 $$
+         Mit $A$ ist auch $A-\mean{A}\id$ hermitesch, so da\3 man f"ur die Varianz auch
+         $$ \var{A} = \norm{\left(A-\mean{A}\id\right)\ket{\Phi}}^2 \ge 0 $$
+         schreiben kann. \\
+         Die Unsch"arfe $\unscharf{A} = \sqrt{\var{A}}$ ist nichts anderes als die L"ange des Vektors $\left(A-\mean{A}\id\right)\ket{\Phi}$,
+         $$ \unscharf{A} = \norm{\left(A-\mean{A}\id\right)\ket{\Phi}}. $$
+       \subsubsection{Der Einflu\3{} der Messung}
+         Es stellt sich die Frage, bei welchen speziellen Zustandsvektoren $\ket{\Phi_A}$ die Me\3werte bei der Messung von $A$ streuungsfrei sind. Dazu ist notwendig und
+         hinreichend, da\3 \\ $\norm{\left(A-\mean{A}\id\right)\ket{\Phi_A}} = 0$ oder "aquivalent dazu
+         $$ A\ket{\Phi_A} = \mean{A}\ket{\Phi_A} $$
+         gilt. Der Zustandsvektor $\ket{\Phi_A}$ mu\3 also ein Eigenvektor von $A$ und $\mean{A}$ der zugeh"orige Eigenwert sein. Da bei Streuugsfreiheit der 
+         Erwartungswert zu einem mit Sicherheit vorliegenden Me\3wert wird, kann man schlie\3en: \\
+         Ergibt sich bei einer Messung von $A$ ein Me\3wert mit Sicherheit, so ist dieser Me\3wert ein Eigenwert von $A$, und der Zustandsvektor vor der Messung mu\3
+         der zugeh"orige Eigenvektor gewesen sein. Nat"urlich gilt auch die Umkehrung dieses Satzes: \\
+         Ist der Zustandsvektor $\ket{\Phi}$ ein Eigenvektor, so ergibt sich bei der Messung von $A$ mit Sicherheit der zugeh"orige Eigenwert als Me\3wert. Ist der
+         Eigenwert entartet, so gilt Entsprechendes, wenn der Zustandsvektor im zugeh"origen Eigenraum liegt. \\
+         Es mu\3 noch gekl"art werden, welcher Zustandsvektor unmittelbar nach der Messung einer Observablen vorliegt. Wenn die Messungen "uberhaupt einen 
+         physikalischen Sinn haben sollen, so ist zu fordern, da\3 bei einer unmittelbaren Wiederholung derselben Messung sich das Ergebnis der vorangehenden Messung nicht
+         "andert. Bei der zweiten Messung mu\3 sich also mit Sicherheit dasselbe Ergebnis wie in der ersten ergeben. Deswegen m"ussen  also auch bei einem beliebigen                Anfangszustand $\ket{\Phi}$ vor der Messung die "uberhaupt m"oglichen Me\3werte einer Observablen $A$ ihre reellen Eigenwerte sein. Der Zustandsvektor geht
+         aufgrund der Einwirkung der Messung in den zugeh"origen Eigenvektor von $A$ "uber, der zu dem gemessenen nichtentarteten Eigenwert geh"ort. Dies wird
+         als die Reduktion des Zustandsvektors bezeichnet. \\
+         Wenn bei der Messung einer Observablen $A$ ein entarteter Eigenwert $\alpha_i$ eintritt, so mu\3 der Zustandsvektor $\ket{\Phi_{\alpha_i}}$ nach der Messung im
+         Eigenraum $E_{\alpha_i}$ liegen. Wird dieser von den orthonormierten Eigenvekoren $\menge{\ket{\Psi_{ij}}}$, wobei $j$ der Index des Eigenvektors im Eigenraum angibt,
+         aufgespannt, so gilt also
+         $$ \ket{\Phi_{\alpha_i}} = \sum_j \ket{\Psi_{ij}} c_{ij}. $$
+         Es kann gezeigt werden, da\3  die Koeffizienten $c_{ij}$ nicht wilk"urlich, sondern proportional zu $\scalars{\Psi_{ij}}{\Phi}$ sind
+         $$ \ket{\Phi_{\alpha_i}} = c \sum_j \ket{\Psi_{ij}}\scalars{\Psi_{ij}}{\Phi}.$$
+         Der Zustandsvektors $\ket{\Phi_{\alpha_i}}$ entsteht aus $\ket{\Phi}$ durch Projektion auf den Eigenraum $E_{\alpha_i}$. Bestimmt man den Betrag der 
+         Konstanten $c$ aus der Normierungsbedingung $\scalars{\Phi_{\alpha_i}}{\Phi_{\alpha_i}} = 1$, so ergibt sich
+         $$ \ket{\Phi} \Longrightarrow \frac{\sum_j \ket{\Psi_{ij}} \scalars{\Psi_{ij}}{\Phi}} {\sqrt{\sum_j\scalars{\Psi_{ij}}{\Phi}}} $$
+         Bei dem Me\3vorgang werden also gerade die Komponeten von $\ket{\Phi}$ herausgefiltert, die auf dem Eigenraum $E_{\alpha_i}$ senkrecht stehen.
+       \subsubsection{Die Wahrscheinlichkeit f"ur das Eintreten eines Me\3wertes}
+         Vor der Ausf"uhrung der Messung einer Observablen $A$ l"a\3t sich nicht mit Sicherheit sagen, welcher Me\3wert sich aus der Vielfalt der Eigenwerte ergibt -
+         abgesehen von dem Fall, da\3 vor der Messung der Zustandsvektor $\ket{\Phi}$ ein Eigenvektor von $A$ ist. Es sind vielmehr bei dem beliebigen Zustandsvektors
+         $\ket{\Phi}$ nur Wahrscheinlichkeitsaussagen m"oglich. Durch Vergleich der Definition des Erwartungswertes
+         $$ \mean{A} = \sum_i \Prob{\ket{\Phi}}{\alpha_i} \alpha_i $$
+         mit der quantentheoretischen
+         $$ \mean{A} = \sum_i \betrag{\scalars{\Psi_i}{\Phi}}^2 \alpha_i $$
+         ergibt sich f"ur die Wahrscheinlichkeit, da\3 der Eigenwert $\alpha_i$ gemessen wird,
+         $$\Prob{\ket{\Phi}}{\alpha_i} = \betrag{\scalars{\Psi_i}{\Phi}}^2 .$$
+         Man nennt daher die Komponenten $\scalars{\Psi_i}{\Phi}$ des Zustandsvektors $\ket{\Phi}$ Wahrscheinlichkeitsamplituden f"ur den Me\3wert $\alpha_i$.
+         Die Wahrscheinlichkeit $\Prob{\ket{\Phi}}{\alpha_i}$ hat die Gestalt $\scalars{\Phi}{\Psi_i}\scalars{\Psi_i}{\Phi}$ und kann daher als Erwartungswert des
+         Projektionsoperators $P_{\ket{\Psi_i}} = \Proj{\Psi_i}$ aufgefa\3t werden,
+         $$ \Prob{\ket{\Phi}}{\alpha_i} = \mean{P_{\ket{\Psi_i}}} = \scalar{\Phi}{P_{\ket{\Psi_i}}}{\Phi}.$$
+         Dem Projektionsoperator $P_{\ket{\Psi_i}}$ entspricht die Observable "{}Ist das System im Zustand $\ket{\Psi_i}$?". Da die Eigenwerte von Projektionsoperatoren nur
+         1 oder 0 sind, bedeuten diese Me\3werte, da\3 die Messung entscheidet, ob diese Frage mit Ja oder Nein zu beantworten ist. Vor der Messung kann man aber im allgemeinen 
+         nicht mit Sicherheit vorhersagen, welche Antwort durch die Messung gegeben wird. Man kann vielmehr nur den Erwartungswert $\mean{P_{\ket{\Psi_i}}}$ angeben, der sich
+         einstellt, wenn man - immer wieder vom gleichen Zustand $\ket{\Phi}$ ausgehend - die Frage h"aufig durch die Messung beantworten l"a\3t. Der Erwartungswert von
+         $P_{\ket{\Psi_i}}$ ist aber gerade der Mittelwert "uber viele Entscheidungen "{}Ist das System in $\ket{\Psi_i}$?" gedanklich gleich der Wahrscheinlichkeit 
+         $\Prob{\Phi}{\alpha_i}$ f"ur das Eintreffen von $\alpha_i$. \\
+         Bei entarteten Eigenwerten gewinnt man die Wahrscheinlichkeit $\Prob{\Phi}{\alpha_i}$ f"ur das Eintreffen eines Eigenwerts $\alpha_i$ aus der Gleichung
+         $$ \mean{A} = \sum_i \alpha_i \sum_j \betrag{\scalars{\Psi_{ij}}{\Phi}}^2 $$
+         f"ur den Erwarungswert. 
+         \begin{eqnarray*}
+            \Prob{\Phi}{\alpha_i} & = & \sum_j \betrag{\scalars{\Psi_{ij}}{\Phi}}^2 \\
+                                  & = & \sum_j \scalars{\Phi}{\Psi_{ij}}\scalars{\Psi_{ij}}{\Phi} \\
+                                  & = & \sum_j \mean{P_{\ket{\Psi_{ij}}}}
+         \end{eqnarray*}
+         Diese Wahrscheinlichkeit kann mit der Spur als
+         \begin{eqnarray*}
+           \Prob{\Phi}{\alpha_i} & = & \sum_j \scalars{\Phi}{\Psi_{ij}}\scalars{\Psi_{ij}}{\Phi} \\
+                                 & = & \Bigl< \Phi \Big| \bigl( \sum_j \Proj{\Psi_{ij}} \bigr) \Big| \Phi \Bigr> \\
+                                 & = & \scalar{\Phi}{P_{\alpha_i}}{\Phi} \\
+                                 & = & \Spur{ P_{\ket{\Phi}} P_{\alpha_i} }
+         \end{eqnarray*}
+         ausgedr"uckt werden. Sie kann als wieder als Erwartungswert des Projektionsopetartors $P_{\alpha_i}$ auf den Eigenraum $E_{\alpha_i}$ aufgefa\3t werden.
+         
+       \subsubsection{Die Unsch"arferelation}
+         Kommutieren zwei Observable A und B nicht (ihr Kommutator $\kommutator{A}{B} = AB - BA \neq 0$), so existiert im allgemeinen kein Zustand, f"ur den die Unsch"arfe von
+         $A$ und $B$ gleichzeitig Null ist. Es mu\3 als eine Beziehung zwischen den Unsch"arfen $\unscharf{A}$ und $\unscharf{B}$ bestehen, die das gleichzeitige
+         Verschwinden von $\unscharf{A}$ und $\unscharf{B}$ ausschlie\3t, die Unsch"arferelation. Es gilt:
+         $$ \unscharf{A}=\norm{\left( A-\mean{A}\id\right)\ket{\Phi}} = \sqrt{\scalar{\Psi}{\left( A-\mean{A}\id\right)^2}{\Psi}} $$
+         $$ \unscharf{B}=\norm{\left( B-\mean{B}\id\right)\ket{\Phi}} = \sqrt{\scalar{\Psi}{\left( B-\mean{B}\id\right)^2}{\Psi}} $$
+         Mit Hilfe der Schwarzschen Ungleichung erh"alt man
+         \begin{eqnarray*}
+           \unscharf{A}\unscharf{B} & \ge & \betrag{\scalar{\Psi}{\left( A-\mean{A}\id\right)\left( B-\mean{B}\id\right)}{\Psi}} \\
+                                    & \ge & \betrag{\Ima\scalar{\Psi}{\left( A-\mean{A}\id\right)\left( B-\mean{B}\id\right)}{\Psi}} \\
+                                    & = &   \betrag{ \frac{1}{2i} \left(\scalar{\Psi}{\left( A-\mean{A}\id\right)\left( B-\mean{B}\id\right)}{\Psi} -
+                                                                        \scalar{\Psi}{\left( B-\mean{B}\id\right)\left( A-\mean{A}\id\right)}{\Psi} \right) } \\
+                                    & = &   \frac{1}{2}\betrag{\scalar{\Psi}{AB-BA}{\Psi}} \\
+                                    & = &   \frac{1}{2}\betrag{\scalar{\Psi}{\kommutator{A}{B}}{\Psi}} \\
+                                    & = &   \frac{1}{2}\betrag{\mean{\kommutator{A}{B}}_{\ket{\Psi}}}
+         \end{eqnarray*}
+         Diese Absch"atzung gilt ganz allgemein f"ur alle Observablen. Man erh"alt die Heisenbergsche Unsch"arferelation, indem man den Impulsoperator und den Ortsoperator in die 
+         obige Formel einsetzt.
+
+     \subsection{Ein vollst"andiger Satz kommutierender Observablen}
+         Die Nichtkommutativit"at zweier Operatoren bringt die nicht gleichzeitige, scharfe Me\3barkeit der zugeh"origen physikalischen Observablen zum Ausdruck. Der
+         Zustand eines Quantensystems ist damit nicht wie in der klassischen Physik durch die genaue Angabe der Me\3werte aller Observablen festzulegen. \\
+         Ist der Eigenwert $\alpha$ der Observablen $A$ einfach, so wird durch die Messung dieser Observablen bei Einstellung des Me\3wertes $\alpha$ der 
+         Zustand nach der Messung eindeutig (bis auf einen physikalisch uninteressanten Phasenfaktor) festgelegt: $\ket{\Psi'} = \ket{\Psi_{\alpha}}$. Besitzt ein 
+         Operator $A$ nur einfache 
+         Eigenwerte, so nennt man die zugeh"orige Observable vollst"andig, weil durch ihre Messung der Zustand des Quantensysstems vollst"andig festgelegt wird - 
+         eine dar"uber hinausgehende, genauere Information "uber den Zustand des Systems erlaubt die Quantentheorie nicht. \\
+         Sind die Eigenwerte des Operators $A$ nicht alle einfach, so wird durch die Messung eines seiner entarteten Eigenwerte $\alpha$ der Zustandsvektor
+         $\ket{\Psi}$ auf den zugeh"origen Eigenraum $E_{\alpha}$ projiziert. Die Richtung des entstehenden Zustandsvektors $\ket{\Psi'}$ im Eigenraum h"angt also
+         von der Richtung von $\ket{\Psi}$ vor der Messung ab. Kennt man diese Richtung nicht, so wei\3 man nach der Messung von $\alpha$ nichts "uber die Richtung
+         von $\ket{\Psi'}$. Zur genaueren Festlegung von $\ket{\Psi'}$ ist es dann n"otig, neben der Observablen $A$ noch
+         eine weitere, mit $A$ kommutierende Observable $B$ zu messen. Sind die simultanen Eigenr"aume von $A$ und $B$ alle eindimensional, so legt die gleichzeitige
+         Messung von $A$ und $B$ den Zustandsvektor eindeutig fest: $\ket{\Psi''} = \ket{\Psi_{\alpha\beta}}$. Man nennt die beiden vertr"aglichen Observablen dann einen
+         vollst"andigen Satz von Observablen; ihr simultane Messung hat dieselbe Wirkung wie die Messung eines vollst"andigen Operators. \\
+         Sind die simultanten Eigenr"aume von $A$ und $B$ jedoch noch nicht eindimensional, so sind noch weitere, kommutierende Operatoren $C,\ldots$ hinzuzuf"ugen,
+         bis schlie\3lich die simultanten Eigenr"aume all dieser Operatoren eindimensional sind. Durch die gleichzeitige Messung eines solchen vollst"andigen Satzes
+         kommutierener Observablen wird der Zustand des Systems vollst"andig bestimmt,
+         $$ \ket{\Psi'''^{\dots}} = \ket{\Psi_{\alpha\beta\gamma\ldots}}. $$ 
+         
+     \subsection{Zeitliche Entwicklung}
+        Die Gleichung
+        $$ \ket{\Psi\left( t\right)} = \exp\left( -\frac{itH}{\hbar}\right) \ket{\Psi_0} $$
+        beschreibt die zeitliche Evolution des Quantensystems, wenn $\ket{\Psi_0}$ dem Zustand des Systems zum Zeitpunkt $t=0$ und $\ket{\Psi\left( t\right)}$
+        zum Zeitpunkt $t$ entspricht und $H$ der Hamiltonoperator ist. 
+        $$ \left\{ \exp\left( -\frac{itH}{\hbar}\right)\right\} $$
+        ist die einparametrige unit"are Gruppe, die durch den schiefadjungierten Operator $ -\frac{itH}{\hbar}$ erzeugt wird. Den Evolutionsoperator
+        $$ U\left( t\right) = \exp\left( -\frac{itH}{\hbar}\right) $$
+        kann man aus der Schr"odingergleichung 
+        $$ i\hbar {\partial \over \partial t} \ket{\Psi\left( t\right)} = H\ket{\Psi\left( t\right)} $$
+        ableiten. Die Schr"odingergleichung ist eine Differentialgleichung erster Ordung in der Zeit, und deswegen ist $\ket{\Psi\left( t\right)}$ eindeutig durch den
+        Anfangszustand $\ket{\Psi_0}$ bestimmt. Au\3erdem gen"ugt sie dem Superpositionsprinzip, da\3 hei\3t Linearkombinationen von L"osungen stellen wieder
+        L"osungen dar. Deshalb k"onnen Interferenzeffekte auftreten. \\
+        Da der Evolutionsoperator $U\left( t\right)$ f"ur alle $t$ unit"ar ist, gilt
+        $$ \scalars{\Psi\left( t\right)}{\Psi\left( t\right)} = \scalars{\Psi_0}{\Psi_0} = 1 $$
+        Bei der zeitlichen Evolution eines Quantensystems werden also Zust"ande in Zust"ande "uberf"uhrt. Dabei beschreibt der Zustandsvektor einen Weg auf der Einheitskugel. 
+    
+ 
+\section{Quantentheorie bei unvollst"andiger Information "uber den Zustand des Systems}
+  \subsection{Analogie zur klassischen statistischen Mechanik}
+    Beim Hamilton-Formalismus wird das System in der klassischen Mechanik durch die Angabe der 
+    Orts- und Impulskoordinaten $q_i$, $p_i$ beschrieben, die einen Punkt im Phasenraum darstellen.
+    Bei vielen Problemen sind jedoch diese Werte keineswegs exakt bekannt. Man kann in solchen
+    F"allen lediglich sagen, da\3 sich das System in bestimmten Bereichen des Phasenraumes
+    nicht (oder kaum) befindet, w"ahrend es in anderen Bereichen mit gro\3er Wahrscheinlichkeit
+    vorkommt. Man dr"uckt also die Information, die man "uber das System (zu einem
+    bestimmten Zeitpunkt) hat, durch eine Wahrscheinlichkeitsverteilung
+    $$ \rho = \rho\left( q_1 ,\ldots ,p_1 \ldots \right) $$
+    im Phasenraum aus. Sie ist die Wahrscheinlichkeitsdichte daf"ur, da\3 sich das
+    System in einem Phasenpunkt befindet (klassische statistische Mechanik). Man
+    normiert $\rho$, indem man das Integral "uber den ganzen Phasenraum eins setzt,
+    $$ \int\rho\mbox{d}\Omega = 1 \mbox{, d}\Omega = \mbox{d}q_1\ldots \mbox{d}p_1\ldots $$
+    In der Quantentheorie mu\3  eine vollst"andige Observable an dem System gemessen werden, um den Zustandsvektor im Zustandsraum \raum{} eindeutig zu pr"aparieren. Dies kann 
+    durch die Messung eines vollst"andigen Satzes kommutierender Observablen geschehen. F"ur sp"atere Zeitpunkte kann der Zustandsvektor 
+    mit Hilfe der Schr"odingergleichung berechnet werden. In vielen F"allen ist eine solche vollst"andige Messung "uberhaupt nicht zu realisieren. Es
+    k"onnen lediglich hochgradig entartete Observable gemessen werden. Nach der Messung einer solchen Observablen liegt der Zustand im Eigenraum der zugeh"orenden
+    Observablen. Da man die Richtung in diesem Eigenraum dadurch erh"alt, da\3 man den Ausgangszustand auf diesen Eigenraum projiziert, ergibt die Messung keine
+    Information "uber die Richtung im Eigenraum. Je gr"o\3er die Entartung der gemessenen Observablen (entspricht der Dimension des Eigenraumes), um so weniger
+    Inforamtion liefert die Messung "uber den Zustand des Systems. F"ur die Vorhersage bei so schwach pr"aparierten Zust"anden, m"ussen die bisherigen
+    "Uberlegungen um statistische Methoden erg"anzt werden.
+  \subsection{Der statisische Mischungszustand} 
+    "Ahnlich wie in der klassischen Mechanik geht man in der Quantenmechanik vor, wenn man "uber das System nicht gen"ugend Informationen besitzt, um sagen zu 
+    k"onnen, welche Richtung der Zustand des Quantensystems im Zustandsraum \raum{} einnimmt. 
+    Sei $\Gamma$ ein Quantensystem. Die physikalischen Zust"ande des Systems $\Gamma$ entsprechen den Zust"anden im Zustandsraum \raum. Es soll jetzt das
+    physikalische Verhalten des Systems $\Gamma$ mit statistischen Methoden beschrieben werden.
+    \begin{itemize}
+      \item[(i)]{\bf Statistischer Mischungszustand} \\
+        Ein statistischer Mischungszustand $\Phi$ des Systems $\Gamma$ ist ein Tupel
+        $$ \Phi = \left( \ket{\Phi_1}, p_1 ;\ket{\Phi_2}, p_2 ;\ldots \right) $$
+        wobei $\ket{\Psi_i}$ Zust"ande in \raum{} sind, und $p_1 , p_2 ,\ldots \in \R$ mit $0 \le p_i \le 1$ f"ur alle $i$, und $\sum_i p_i = 1$.
+        $p_m$ entspricht der Wahrscheinlichkeit, da\3 sich das System $\Gamma$ im Zustand $\ket{\Phi_m}$ befindet.
+        Eine statistische Mischung $\Phi$ hei\3t ein reiner Zustand, wenn $p_{m_0} = 1$ f"ur ein festes $m_0$ und $p_m = 0$ f"ur alle $m \neq m_0$, sonst hei\3t
+        $\Phi$ ein Mischungszustand.
+      \item[(ii)]{\bf Messungen bei statistischen Mischungszust"anden} \\
+        Es mu\3 gekl"art werden, was sich bei Vorliegen eines Mischungszustands $\Phi$ f"ur den Mittelwert $\mean{A}$ einer beliebigen Observablen $A$ ergibt. Nach den 
+        statistischen Aussagen der Quantenmechanik ist der Mittelwert im Zustand $\ket{\Phi_m}$ gegeben durch
+        $$ \mean{A}_m = \scalar{\Phi_m}{A}{\Phi_m} $$
+        Diese Ergebnisse sind nun bei Vorliegen eines statistischen Mischungszustands mit den Gewichten $p_m$ zu gewichten, so da\3 man insgesamt f"ur den
+        Mittelwert
+        $\mean{A}_{\Phi}$ der Observablen im Mischungszustand $\Phi$ erh"alt
+        $$ \mean{A}_{\Phi} = \sum_m p_m \mean{A}_m = \sum_m p_m \scalar{\Phi_m}{A}{\Phi_m}. $$
+        Dabei ist zu beachten, da\3 man die Mittelung "uber die statistische Mischung in den Mittelwerten $\mean{A}_m$ ausf"uhrt. \\
+        Entwickelt man die Zust"ande $\ket{\Phi_m}$ nach einer Basis $\menge{\ket{\Psi_i}}$, die zugleich die einfachen Einheitsvektoren des Operators A sind, so erh"alt man
+        \begin{eqnarray*}
+           \ket{\Phi_m} & = & \id\ket{\Phi_m} \\
+                        & = & \sum_i \left(\ket{\Psi_i}\bra{\Psi_i}\right)\ket{\Phi_m} \\
+                        & = & \sum_i \scalars{\Psi_i}{\Phi_m}\ket{\Psi_i}
+        \end{eqnarray*}
+        \begin{eqnarray*}
+           \mean{A}_m  & = & \scalar{\Phi_m}{A}{\Phi_m} \\
+                       & = & \sum_i \alpha_i \betrag{\scalars{\Phi_m}{\Psi_i}}^2 \\
+           \mean{A}_{\Phi} & = & \sum_m p_m \left( \sum_i \alpha_i \betrag{\scalars{\Phi_m}{\Psi_i}}^2 \right)  
+        \end{eqnarray*}
+        In dieser Formel kommt ganz deutlich der Unterschied zwischen den beiden Arten der Mittelung zum Ausdruck: die quanten\-mechanische geschieht 
+        mittels Wahrscheinlichkeitsamplituden und f"uhrt zu Interferenztermen, die Mittelung "uber die Mischung hingegen erfolgt durch die Gewichte $p_m$ und
+        ergibt keine Interferenz.
+    \end{itemize}
+
+
+  \subsection{Das Konzept des Dichteoperators}
+    Um die beiden verschiedenen Wahrscheinlichkeiten (klassische und quantenmechanische Wahrscheinlichkeiten) in einem gemeinsamen Kalk"ul zu verbinden, f"uhrt man
+    den Dichteoperator
+    $$ \rho = \sum_m p_m \ket{\Phi_m}\bra{\Phi_m} $$
+    f"ur die statistische Mischung $\Phi$ ein. Bildet man in einer orthonormierten Basis $\menge{\ket{\Psi_i}}$ des Zustandraumes \raum{} die
+    Matrixelemente des Dichteoperators $\rho$ 
+    $$ \scalar{\Psi_k}{\rho}{\Psi_l} $$
+    so erh"alt man die statistische Matrix oder die Dichtematrix (in Anlehnung an die Phasenraumdichte der statistischen Mechanik). Der Dichteoperator $\rho$ besitzt folgende 
+    Eigenschaften (Verifikation durch Berechnung der Spur mit Hilfe einer beliebigen Basis): 
+    \begin{eqnarray*}
+      \mean{A}_{\Phi} & = & \Spur{\rho A} \\
+      \Spur{\rho} & = & 1 \mbox{ da sich alle Wahrscheinlichkeiten $p_m$ zu 1 addieren }\\
+      \Spur{\rho ^2} & = & 1 \Longleftrightarrow \mbox{ $\rho$ reiner Zustand} \\
+      \Spur{\rho ^2} & \le & 1 \Longleftrightarrow \mbox{ $\rho$ statistischer Mischungszustand} \\
+      \rho^{\dag} & = & \rho \mbox{ das hei\3t $\rho$ ist hermitesch}
+    \end{eqnarray*}
+    Besonders interessant ist die Formel $\mean{A}_{\Phi} = \Spur{\rho A}$, weil sie der Formel zu Berechnung des Mittelwertes einer Observablen in der klassischen 
+    statistischen Physik entspricht, wobei die Integration "uber den Phasenraum der Spurbildung und die Wahrscheinlichkeitsdichte dem Dichteoperator entspricht.     
+    Das Kriterium f"ur einen reinen oder gemischten Zustand ist $\Spur{\rho^2} = 1$ bzw. $\Spur{\rho^2} \le 1$
+    F"ur einen Projektionsoperator $\Proj{\Psi}$ gilt
+    $$ \Spur{\Proj{\Psi}\rho} = \sum_m p_m \betrag{\scalars{\Psi}{\Phi_m}}^2 $$
+    ist also gleich der Wahrscheinlichkeit, den Zustand $\ket{\Psi}$ als Me\3ergebnis zu erhalten. Dies entspricht der Wahrscheinlichkeit, eine $1$ bei der Messung der Observablen
+    $\Proj{\Psi}$ zu erhalten. Die Beschreibung der reinen Zust"ande mit Hilfe des Dichteoperators hat den Vorteil, da\3 der physikalisch unbedeutende Phasenfaktor verschwindet.
+ 
+  \subsection{Besetzungen, Koh"arenzen}
+    Was ist die physikalische Bedeutung der Matrixelemente $\rho_{kl}$ der Dichtematrix in der Basis $\menge{\ket{\Psi_i}}$, wobei die $\ket{\Psi_i}$ die Eigenvektoren einer
+    vollst"andigen Observablen $A$ sind? \\
+    F"ur die Hauptdiagonalelemente $\rho_{kk}$ gilt:
+    $$ \rho_{kk} = \scalar{\Psi_k}{\rho}{\Psi_k} = \sum_m p_m \betrag{\scalars{\Psi_k}{\Phi_m}}^2 $$
+    $\rho_{kk}$ entspricht also der Wahrscheinlickkeit, da\3 sich das Quantensystem nach der Messung von $A$ im Zustand ${\ket{\Psi_k}}$ befinden wird. Deswegen hei\3t $\rho_{kk}$
+    die Besetzung des Zustands $\ket{\Psi_k}$. Wenn man diesselbe Messung $N$-mal unter denselben Bedingungen durchf"uhrt, wobei $N$ gro\3 ist, werden
+    sich ann"ahrend $N\rho_{kk}$ Systeme im Zustand $\ket{\Psi_k}$ befinden. $\rho_{kk}$ ist eine positive reelle Zahl, die nur gleich Null ist, wenn alle
+    $\betrag{\scalars{\Psi_k}{\Phi_m}}^2$ Null sind. \\
+    F"ur das Matrixelement $\rho_{kl}$ ($k\neq l$) au\3erhalb der Hauptdiagonalen gilt:
+    $$ \rho_{kl} = \sum_m p_m \scalars{\Psi_k}{\Phi_m}\overline{\scalars{\Psi_l}{\Phi_m}} $$
+    Dieses Produkt beschreibt die Interferenzeffekte zwischen den Zust"anden $\ket{\Psi_k}$ und $\ket{\Psi_l}$, wenn der Zustand $\Phi_m$ eine
+    koh"arente lineare Superposition dieser Zust"ande ist. $\rho_{kl}$ ist also der Mittelwert  der Interferenzterme aller m"oglichen 
+    Zust"ande des statistischen Mischungszustandes. Im Gegensatz zu den Besetzungen kann $\rho_{kl}$ Null sein, obwohl keines der Produkte Null ist.
+    $\rho_{kk}$ ist eine Summe von nicht negativen reellen Zahlen, w"ahrend $\rho_{kl}$ eine Summe von komplexen Zahlen ist. Wenn $\rho_{kl}$ Null ist, dann
+    l"oschen sich durch die statistische Mittelwertbildung alle Interferenzeffekte zwischen $\ket{\Psi_k}$ und $\ket{\Psi_l}$ aus. Wenn dagegen $\rho_{kl}$
+    nicht Null ist, dann existiert noch eine gewisse Koh"arenz zwischen diesen Zust"anden. Deswegen werden diese Matrixelemente $\rho_{kl}$ Koh"arenzen 
+    genannt. \\
+    Die Unterscheidung zwischen Besetzungen und Koh"arenzen h"angt offensichtlich von der Basis $\menge{\Psi_i}$ ab. Da $\rho$ hermitesch ist,
+    kann man eine orthonormale Basis $\menge{\ket{\Pi_i}}$ finden in der $\rho$ diagonal ist.
+    $$ \rho = \sum_m \pi_m \Proj{\Pi_m} $$
+    Da $\rho$ positiv semidefinit ist, und $\Spur{\rho} = 1$ gilt:
+    $$ 0 \le \pi_m \le 1 $$
+    $$ \sum_m \pi_m = 1 $$
+    $\rho$ beschreibt also eine statistische Mischung zwischen den Zustanden $\ket{\Pi_m}$ mit den Wahrscheinlichkeiten $\pi_m$. Es bestehen keine
+    Koh"arenzen zwischen diesen Zust"anden, da $\rho$ in dieser Basis diagonal ist. 
+  \subsection{Beispiel: Polarisierte Photonen}
+    Betrachten wir als Beispiel polarisierte Photonen, die auf einen Analysator treffen, um die Unterschiede zwischen reinen und statischischen Mischungszust"ande und die Bedeutung 
+    der linearen Superpositon zu verdeutlichen. Die lineare Superposition 
+    $$ \ket{\Psi} = \frac{1}{\sqrt{2}}\ket{0} + \frac{1}{\sqrt{2}}\ket{1} $$
+    entspricht einem linear polarisierten Photon. Bei dem statistischen Mischungszustand 
+    $$ \Phi = \left( \ket{0},\frac{1}{2};\ket{1},\frac{1}{2}\right) $$
+    ist die H"alfte der emittierten Photonen $\ket{0}$-polarisiert und die andere H"alfte $\ket{1}$-polarisiert. Um das Verhalten des Systems bei Vorliegen von $\ket{\Psi}$ bzw.
+    von $\Phi$ zu studieren, berechnet man die Wahrscheinlichkeiten, da\3 das Photon durch einen im Strahlengang positionierten Analysator durchgelassen wird. \\
+    \begin{tabular}{ccrcl}
+      Messung von      &    in Richtung     & \multicolumn{3}{l}{mit Wahrscheinlichkeit}\\
+      $\ket{\Psi}$     &   $\ket{0}$        &   $\betrag{\scalars{0}{\Psi}}^2$ &=& $\frac{1}{2}$ \\
+      $\ket{\Psi}$     &   $\ket{1}$        &   $\betrag{\scalars{1}{\Psi}}^2$ &=& $\frac{1}{2}$ \\
+      $\Phi$           &   $\ket{0}$        &   $\frac{1}{2}\betrag{\scalars{0}{0}}^2+\frac{1}{2}\betrag{\scalars{0}{1}}^2$ &=& $\frac{1}{2}$ \\
+      $\Phi$           &   $\ket{1}$        &   $\frac{1}{2}\betrag{\scalars{1}{0}}^2+\frac{1}{2}\betrag{\scalars{1}{1}}^2$ &=& $\frac{1}{2}$ \\
+    \end{tabular} \\
+    Die Wahrscheinlichkeiten sind bei den jeweiligen Messungen gleich. Es stellt sich also die Frage, ob $\ket{\Psi}$ als $\Phi$ interpretiert werden kann. Man sieht, da\3 
+    $\ket{\Psi}$ und $\Phi$ grunds"atzlich unterschiedliche physikalische Sitiuationen beschreiben, wenn man eine Messung in Richtung $\ket{\Psi}$ durchf"uhrt: \\
+    \begin{tabular}{cl}
+       Messung von    &    Wahrscheinlichkeit \\
+       $\ket{\Psi}$   &    $\betrag{\scalars{\Psi}{\Psi}}^2=1$ \\
+       $\Phi$         &    $\frac{1}{2}\betrag{\scalars{\Psi}{0}}^2 + \frac{1}{2}\betrag{\scalars{\Psi}{0}}^2 = \frac{1}{2}\frac{1}{2} + \frac{1}{2}\frac{1}{2} = \frac{1}{2}$
+    \end{tabular} \\
+    Man kann diese Informationen viel einfacher aus den zugeh"origen Dichtematrizen ablesen.\\
+    Der Dichteoperator f"ur die lineare Superposition $\ket{\Psi}$ in der Basis $\menge{\ket{0},\ket{1}}$ ist
+    $$ \rho_{\ket{\Psi}} = \Proj{\Psi} = \frac{1}{2}\Proj{0} + \frac{1}{2}\Proj{1} + \frac{1}{2}\ket{0}\bra{1} + \frac{1}{2}\ket{1}\bra{0}. $$
+    Die ersten beiden Summanden sind die Besetzungen, w"ahrend die letzten beiden die Koh"arenzen beschreiben. Die Dichtematrix von $\rho_{\ket{\Psi}}$ ist
+    $$ \def\arraystretch{1.5}       \rho_{\ket{\Psi}} =  \left(
+          \begin{array}{cc}                                                    
+            \frac{1}{2}&\frac{1}{2}\\
+            \frac{1}{2}&\frac{1}{2}
+          \end{array}
+        \right) .
+    $$
+    Der Dichteoperator f"ur den statistischen Mischungszustand $\Phi$ in der Basis $\menge{\ket{0},\ket{1}}$ ist
+    $$ \rho_{\Phi} = \frac{1}{2}\Proj{0} + \frac{1}{2}\Proj{1}. $$
+    Die Dichtematrix von $\rho_{\Phi}$ ist
+    $$ \rho_{\Phi} = \left(  
+         \begin{array}{cc} 
+            \frac{1}{2}&0\\
+            0&\frac{1}{2}
+         \end{array}
+       \right) .
+    $$
+    Jetzt wird eine Basis gesucht, in der der Dichteoperator $\rho_{\ket{\Psi}}$ diagonal ist, da\3 es also keine Koh"arenzen zwischen den Basiszust"anden gibt.
+    Die Eigenwerte von $\rho_{\ket{\Psi}}$ sind $0$ und $1$, da dieser Operator ein Projektionsoperator ist. Die zugeh"origen Eigenvektoren sind
+    $\frac{1}{\sqrt{2}}\left( \ket{0}+\ket{1}\right)$ und $\frac{1}{\sqrt{2}}\left( \ket{0}+\ket{1}\right)$. Der Basiswechsel wird durch die Hadamardmatrix
+    $$ \frac{1}{\sqrt{2}} \left(\matrix{1&1\cr
+                                 1&-1}\right) $$
+    realisiert. Die Dichtematrix von $\rho_{\ket{\Psi}}$ in der neuen Basis ist
+    $$ \left(\matrix{1&0\cr
+                     0&0}\right). $$
+    Die Dichtematrix von $\rho_{\Phi}$ in der neuen Basis ist
+    $$ \left(\matrix{\frac{1}{2}&0\cr
+                     0&\frac{1}{2}}\right). $$
+    Einer Messung in anderen Richtung entpricht die Betrachtung des Dichteoperators in einer anderen Basis. \\
+    Eine weitere interessante Beobachtung ist die, da\3 die statistischen Mischungszust"ande werden eindeutig durch die Dichteoperatoren charakterisiert werden, denn
+    $$ \Phi_1 = \left( \ket{0}, \frac{1}{2}; \ket{1}, \frac{1}{2}\right) $$
+    $$ \Phi_2 = \left( \ket{0}, \frac{1}{3}; \frac{1}{2}\ket{0}+\frac{\sqrt{3}}{2}\ket{1},\frac{1}{3}; \frac{1}{2}\ket{0}-\frac{\sqrt{3}}{2}\ket{1},\frac{1}{3} \right) $$
+    haben denselben Dichteoperator
+    $$ \rho = \frac{1}{2}\ket{0} + \frac{1}{2}\ket{1}. $$
+    Diese beiden statistischen Mischungszust"ande k"onnen mit keiner Messung unterschieden werden.
+   \subsection{Dynamik eines statistischen Mischungszustandes}
+    F"ur die Behandlung der Dynamik eines quantenmechanischen Systems $\Gamma$, das durch einen statistischen Mischungszustand charakterisiert ist, ist es 
+    notwendig, auch f"ur den Dichteoperator $\rho$ ein Bewegungsgesetz anzugeben, das dann erlaubt, die Zeitabh"angigkeit von Erwartungswerten ebenso zu 
+    berechnen wie im reinen Fall. Der Unterschied gegen"uber dem reinen Zustand kommt in den Gewichten $p_m$ zum Ausdruck, die die fehlende Information "uber
+    den im Gemisch tats"achlich vorliegenden Zustand  beschreiben. Weil in der quantenmechanischen Dynamik das System sich selbst "uberlassen ist und keine 
+    Messungen an dem System durchgef"uhrt werden, "andert sich die Information "uber den Zustand nicht. Die $p_m$ sind daher keine Zeitfunktionen.
+    Die zeitliche Entwicklung der m"oglichen Zustande $\menge{\ket{\Phi_m}}$ des statistischen Mischungszustandes $\Phi$ wird durch die Schr"odingergleichung  
+    $$ i\hbar \difft \ket{\Phi_m\left( t\right)} = H\ket{\Phi_m\left( t\right)} $$
+    beschrieben. Dabei sind $\menge{\ket{\Phi_m}}$ die m"oglichen Zust"ande zum Zeitpunkt $t=0$. Wenn man die Schr"odingergleichung konjugiert, erh"alt man die 
+    entsprechende Gleichung f"ur $\menge{\bra{\Phi_m}}$ 
+    $$ -i\hbar \difft \bra{\Phi_m\left( t\right)} = \bra{\Phi_m\left( t\right)}H^{\dag}. $$
+    Mit Hilfe der Produktregel erh"alt man die zeitliche Entwicklung der Projektionsoperatoren $\Proj{\Phi_m}$
+    \begin{eqnarray*}
+      i\hbar \difft\left( \Proj{\Phi_m} \right)  & = & \left( i\hbar \difft\ket{\Phi_m} \right)\bra{\Phi_m} + \ket{\Phi_m} \left( i\hbar \difft\bra{\Phi_m}\right) \\
+                                                 & = & i\hbar\left( H\Proj{\Phi_m} - \Proj{\Phi_m}H^{\dag}\right) \\
+                                                 & = & i\hbar\left( H\Proj{\Phi_m} - \Proj{\Phi_m}H\right) \\
+                                                 & = & i\hbar\kommutator{H}{\Proj{\Phi_m}}.
+    \end{eqnarray*}
+    F"ur die zeitliche Entwicklung des Dichteoperators $\rho$ ergibt sich damit
+    $$ i\hbar\difft \rho\left( t\right) = \kommutator{H\left( t\right)}{\rho\left( t\right)}. $$
+    Diese Gleichung hei\3t die von Neumann-Gleichung; sie ist das quantenmechanische Analogon der Liouville-Gleichung der klassischen statistischen Mechanik, die die zeitliche 
+    Entwicklung der Wahrrscheinlichkeitsdichte im Phasenraum beschreibt. \\
+    $\Spur{\rho^2}$ ist zeitunabh"angig. Also bleibt ein reiner (gemischter) Zustand rein (gemischt).
+    \begin{eqnarray*}
+      \Spur{\rho^2\left( t\right)} & = & \Spur{U\rho\left( t_0 \right) U^{\dag} U\rho\left( t_0 \right) U^{\dag}} \\
+                                   & = & \Spur{U\rho^2\left( t_0\right) U^{\dag}} \\
+                                   & = & \Spur{\rho^2 \left( t_0\right)} 
+    \end{eqnarray*}
+    wegen der Invarianz unter Konjugation der Spur.
+
+    \begin{thebibliography}{xxxxxxxxxx}
+    \bibitem[Cohen]{Cohen}
+      Cohen-Tannoudji, {\em Quantum Mechanics}, Wiley, 1977
+    \bibitem[Fick]{Fick}
+      Eugen Fick, {\em Einf"uhrung in die Grundlagen der Quantentheorie}, Aula-Verlag, 1984
+    \bibitem[Sakurai]{Sakurai}
+      J.J. Sakurai, {\em Modern Quantum Mechanics}, Addison-Wesley, 1985
+    \bibitem[Schwabl]{Schwabl}
+      Franz Schwabl, {\em Quantenmechanik}, Springer, 1992
+    \bibitem[Zeidler]{Zeidler}
+      Eberhard Zeidler, {\em Applied Functional Analysis}, Springer, 1995
+    \end{thebibliography}
+
+%% \end{document}      
+
+
+
+ 

@@ -1,0 +1,865 @@
+\newtheorem{theorem}{Theorem}[section] 
+\newtheorem{satz}[theorem]{Satz} 
+\newtheorem{definition}[theorem]{Definition} 
+\newtheorem{lemma}[theorem]{Lemma} 
+\newtheorem{beispiel}[theorem]{Beispiel} 
+\newtheorem{alg}[theorem]{Algorithmus} 
+
+\newcommand{\ket}[1]{\left| #1 \right>}
+\newcommand{\proj}[2]{|#1\left.\right>\left<\right.#2|} 
+\newcommand{\scalar}[2]{\left<#1|#2\right>} 
+\newcommand{\scalars}[3]{\left<#1|#2|#3\right>} 
+\newcommand{\reg}[2]{\ket{\Psi\left( #1,#2\right)}} 
+\newcommand{\dft}{\mbox{DFT}} 
+\newcommand{\diag}[1]{\mbox{ diag}\left(#1\right)} 
+\newcommand{\unten}[1]{\lfloor #1 \rfloor} 
+\newcommand{\oben}[1]{\lceil #1 \rceil} 
+\newcommand{\betrag}[1]{\vert #1 \vert} 
+\newcommand{\k}{\log_{\lambda} m_0} 
+\newcommand{\ok}{\lceil \log_{\lambda} m_0 \rceil} 
+
+\newenvironment{beweis}{{\bf Beweis: }}{\hfill *}
+ 
+\Vortrag{Quantenalgorithmen}{Pawel Wocjan}
+\noindent 
+
+%% *************************************** Einfuhrung ******************** 
+ \section{Einf"uhrung} 
+   Quantencomputer bieten die M"oglichkeit auf koh"arent "uberlagerten Zust"anden parallel zu rechnen und die Interferenz zwischen verschiedenen Berechnungspfaden 
+   auszunutzen. Der "ubliche Weg, das Vorhandensein 
+   eines Zustands festzustellen, ist die Durchf"uhrung einer Messung, also einer Projektion auf orthogonale Eigenr"aume einer geeigneten Observablen. Die 
+   Wahrscheinlichkeit, den gew"unschten Zustand zu messen, ist das Betragsquadrat seiner Amplitude in der "Uberlagerung bez"uglich der durch 
+   die Eigenvektoren der Observablen definierten Orthonormalbasis. Ungl"ucklicherweise kann es jedoch passieren, da\3 das Betragsquadrat der Amplitude des gesuchten Zustands
+   exponentiell klein ist. In einem solchen Fall sind durchschnittlich exponentiell viele Messungen notwendig, 
+   um den gew"unschten Zustand festzustellen. Die einfachste Vorgehensweise, in der resultierenden "Uberlagerung die gew"unschte Ausgabe festzustellen, 
+   scheitert also an den physikalischen Prinzipien der Messung eines quantenmechanischen Systems. 
+  
+   Im folgenden werden drei Algorithmen behandelt, die durch eine iterative Anwendung einer unit"aren Operation die Amplituden der L"osungen verst"arken und 
+   damit die Wahrscheinlichkeit, eine L"osung bei der Messung zu erhalten, erheblich erh"ohen. Leider ben"otigt dieser Verst"arkungsproze\3 eine 
+   exponentielle Laufzeit. Trotzdem sind diese Algorithmen schneller als alle m"oglichen klassischen Algorithmen.  
+%% ************************* Grovers Algorthmus ************************** 
+ \section{Grovers Suchalgorithmus} 
+%% ************************ Einfuhrung *********************************** 
+  \subsection{Problemstellung} 
+    Sei $X_N=\left\{0,1,\ldots ,N-1\right\}$ f"ur ein $N\in \N$ und sei $C:X_N \to \left\{ 0,1\right\}$ eine beliebige 
+    Funktion, die angibt, ob $i\in X_N$ eine bestimmte Bedingung $C$ erf"ullt . Das Ziel ist es, ein solches $i\in X_N$ zu finden, 
+    so da\3 $C\left(i\right)=1$ gilt, vorausgesetzt, da\3 so ein $i$ existiert. Falls $C$ berechnet werden kann, man aber absolut keine
+    Information "uber $i\in X_N$ mit $C(i)=1$ aus der Berechnungsvorschrift f"ur $C$ herausfinden kann, das hei\3t, wenn $C(i)=0$ oder $C(i)=1$ nur durch
+    Anwendung von $C$ entschieden werden kann, dann kann kein klassischer Algorithmus (deterministisch oder probabilistisch) eine Erfolgswahrscheinlichkeit 
+    von mehr als $50\%$ erreichen, ohne $C$ f"ur mehr als $N/2$ $i\in X_N$ auszuwerten. Jeder klassische 
+    Algorithmus braucht also ${\cal O}(N)$ Schritte, um diese Aufgabe zu l"osen. Grover \cite{grosuch} entdeckte einen Algorithmus f"ur  
+    einen Quantencomputer, der dieses Problem in einer Zeit ${\cal O}(\sqrt{ N})$ l"osen kann, vorausgesetzt, da\3 eine  
+    eindeutige L"osung existiert. Grovers Algorithmus l"a\3t sich f"ur mehrere L"osungen verallgemeinern, wobei die Anzahl der L"osungen $t$ vorher aber
+    bekannt sein mu\3. Am Ende des Algorithmus wird eine beliebige L"osung mit einer bestimmten Wahrscheinlichkeit geliefert. Die Anzahl der L"osungen ist
+    dabei entscheidend; ansonsten funktioniert der Algorithmus nicht. Er hat eine Laufzeit von ${\cal O}(\sqrt{N/t})$. Der Algorithmus l"a\3t sich weiter
+    so modifizieren, da\3 er auch bei einer unbekannten Anzahl von L"osungen am Ende der Berechnung eine beliebige L"osung liefert. Dieser Algorithmus
+    hat eine Laufzeit von ${\cal O}(\sqrt{N/t})$. Diese Algorithmen wurden in \cite{hoyer} vorgestellt.
+    Anzahl der L"osungen zu sch"atzen.
+
+%% ************************* Beschreibung des Algorithmus ****************  
+  \subsection{Beschreibung des Algorithmus} 
+    Grovers Algorithmus besteht aus einer Initialisierung, gefolgt von einer bestimmten Anzahl $m$ identischer Schritte, 
+    einer Messung und einem klassischen Test. F"ur jede Funktion $C:X_N \to \left\{ 0,1\right\}$ sei die bedingte  
+    Phasen\-drehung $S_C$ definiert durch 
+    $$ S_C \ket{i} = \left\{ 
+                        \begin{array}{cc}
+                              \ket{i} & \mbox{ falls $C\left( i\right) = 1$} \\ 
+                              \ket{i} & \mbox{ sonst }
+                        \end{array}
+                     \right.
+    $$
+    In einer praktischen Implementation der bedingten Phasendrehung $S_C$ mu\3 der Inhalt des Quantenregisters, der die Argumente aufnimmt, festgestellt 
+    werden, und es mu\3 entschieden werden, ob dessen Phase um $\pi$ gedreht werden soll oder nicht. Es darf nach dieser Operation nichts in den
+    Hilfsregistern, die zur Ausf"uhrung dieser Operation ben"otigt werden, "ubrigbleiben, um die Interferenzen nicht zu beeinflu\3en. 
+    \begin{enumerate} 
+      \item Der Ausgangspunkt dieser Operation ist $\ket{i,0,{\bf 0}}$.
+        Dabei ist $0$ eine freie Speicherstelle zur Aufnahme von $C(i)$ sowie ${\bf 0}$ ein hinreichend gro\3er Zwischenspeicher zur Berechnung  
+        von $C$. 
+      \item Berechne $C(i)$ durch die unit"are Transformation $U_C$ f"ur alle "uberlagerten Zust"ande $\ket{i}$ 
+        $$ U_C \left( \sum_{i=0}^{N-1} \alpha_i \ket{i,0,{\bf 0}} \right) = \sum_{i=0}^{N-1} \alpha_i \ket{i,C(i),\Psi_i}. $$ 
+        Dabei bezeichnet $\ket{\Psi_i}$ einen nicht n"aher spezifizierten Zustand, der w"ahrend der Berechnung von $C(i)$ entsteht. 
+      \item F"uhre eine Phasenverschiebung um $(-1)^{C(i)}$ durch. Dies liefert den Zustand 
+        $$ \sum_{i=0}^{N-1} (-1)^{C(i)} \alpha_i \ket{i,C(i),\Psi_i} $$ 
+      \item Stelle f"ur jedes i den Zustand $\ket{i,0,{\bf 0}}$ wieder her durch R"uckg"angigmachen der Berechnung von $C$ durch 
+        $$ U_C^{-1} \left( \sum_{i=0}^{N-1} (-1)^{C(i)} \alpha_i \ket{i,C(i),\Psi_i} \right) =  
+           \sum_{i=0}^{N-1}(-1)^{C(i)} \alpha_i \ket{i,0,{\bf 0}} $$ 
+           Dieser Schritt hei\3t "`uncomputing"'. Er erm"oglicht die ungest"orte Interferenz der Zust"ande $\ket{i}$. 
+    \end{enumerate} 
+    Der wichtigste Unterschied zwischen Quantenmechanik und klassischer Mechanik ist der, da\3 ein Quantenzustand des Gesamtsystems im allgemeinen nicht in die Zust"ande
+    von Untersystemen zerlegt werden kann. Deswegen d"urfen nach einer Quantenberechnung keine Zwischenergebnisse "ubrigbleiben, weil sonst die erhaltenen Ergebnisse nicht
+    in einer f"ur die Quantencomputer notwendigen Art und Weise verwendet werden k"onnte. Nach der bedingten Phasendrehung $S_C$ mu\3 $\ket{\Psi_i}$
+    durch "`uncomputing"' r"uckg"angig gemacht werden. F"ur eine genaue Erkl"arung siehe \cite{kitaev}.
+    
+    In jedem Iterationsschritt sind also zwei Auswertungen der Funktion $C$ notwendig.
+    Weiterhin braucht man f"ur Grovers Algorithmus eine lokale unit"are Transformation $W$, die zus"atzlich die Eigenschaft, aus dem Zustand $\ket{0}$ die Gleichverteilung 
+    $$ W\ket{0} = \frac{1}{\sqrt{N}} \sum_{i=0}^{N-1} \ket{i} $$  
+    herzustellen, erf"ullt. Diese Transformation mu\3 lokal sein, damit sie physikalisch implementiert werden kann. 
+    Algebraisch bedeutet dies, da\3 sie sich als Tensorprodukt von kleinen Matrizen schreiben l"a\3t. 
+    Falls $N=2^n$ eine Zweierpotenz ist, dann ist die Walsh-Hadamard-Transformation (die allgemeine Fouriertransformation $\dft_{\oplus_{i=1}^{n} Z_2}$ 
+    zu der Gruppe $\oplus_{i=1}^{n} Z_2$) eine Transformation, die sich physikalisch sehr einfach realisieren l"a\3t, da auf jeden Qubit  
+    lediglich eine "`fair coin"'-Operation ausgef"uhrt wird, und die die gew"unschte Eigenschaft besitzt. Falls $N$ keine Zweierpotenz ist, kann man die
+    Fouriertransformation $\dft_{Z_N}$ zu einer zyklischen Gruppe $Z_N$ der Ordnung $N$ nehmen. Diese Transformation l"a\3t sich auf einem 
+    Quantencomputer realisieren.
+    
+    Die Anwendung der Operation $W$ auf den Zustand $\ket{0}$ liefert die "Uberlagerung aller $n$-Qubit Eingaben mit gleicher Amplitude und  
+    Phase. Diese Konfiguration der Gleichverteilung der Zust"ande ist der Ausgangspunkt vieler Quantenalgorithmen, da nun alle m"oglichen Eingaben in der  
+    "Uberlagerung zur parallelen Abarbeitung bereitstehen. 
+    
+    Eine weitere Transformation, die ben"otigt wird, ist die {\em Diffusionsoperation} $D$, die wie folgt definiert ist 
+    $$ D = W R W^{\dagger}, $$ 
+    wobei $R = \mbox{diag}\{1,-1,\ldots,-1\}$. Die {\em Grovertransformation} $G_C$ zu der Bedingung $C$ ist die unit"are Transformation, die durch
+    die Hintereinanderausf"uhrung der bedingten Phasendrehung $S_C$ und der Diffusionstransformation $D$ 
+    $$ G_C = D S_C $$ 
+    definiert ist.
+   
+    Grovers Algorithmus stellt zun"achst den Gleichverteilungszustand $\ket{\Psi} = W\ket{0}$ her. Dann wird $G_C$ $m$-mal nacheinander 
+    angewandt, wobei $m$ noch bestimmt werden mu\3. Schlie\3lich wird der Zustand gemessen. 
+    Der Algorithmus hat nur dann Erfolg, wenn sich nach der Messung der Zustand $\ket{i}$ ergibt und $C(i)=1$ gilt. 
+%% ********************************** Interpretation der Diffusionstransformation ************************* 
+    \subsection{Interpretation der Diffusionstransformation} 
+      Die Diffusionstransformation $D$ kann als eine Inversion am Durchschnittswert betrachtet werden. Eine einfache Inversion ist eine 
+      Phasenrotation. Sei $\alpha$ der Durchschnittswert der Amplituden aller Zust"ande $\ket{i}$ . Nach Anwendung der  
+      Diffusionstransformation wird die Amplitude jedes Zustands derart ver"andert, da\3 sie jetzt um genauso viel unterhalb ("uber)  
+      $\alpha$ liegt, wie sie vor der Transformation "uber (unterhalb) $\alpha$ lag. 
+      \begin{satz} \label{diffusion}
+        Die Diffusionstransformation sieht folgenderma\3en aus 
+        $$ D = \pmatrix{ -1+\frac{2}{N} & \frac{2}{N}   & \ldots      & \frac{2}{N}   \cr 
+                               \frac{2}{N}   & \ddots        & \ddots      & \vdots        \cr 
+                               \vdots        & \ddots        & \ddots      & \frac{2}{N}   \cr 
+                               \frac{2}{N}   & \ldots        & \frac{2}{N} & -1+\frac{2}{N} \cr}. $$ 
+      \end{satz}   
+      \beweis   
+        Die Diffusionstransformation $D$ ist durch $ D = W R W^{\dagger}$ definiert. W ist eine beliebige lokale unit"are Transformation, die 
+        $ W\ket{0} = \frac{1}{\sqrt{N}} \sum_{i=0}^{N-1} \ket{i} $ erf"ullt. Damit sehen die Transformation $W$ und ihre Adjugierte 
+        $W^{\dagger}$ folgenderma\3en aus 
+        $$ W = \frac{1}{\sqrt{N}}\pmatrix{1      & *     & \ldots & *      \cr 
+                                          \vdots & \vdots& \ddots & \vdots \cr 
+                                          1      & *     & \ldots & *      \cr} $$ 
+        $$ W^{\dagger} = \frac{1}{\sqrt{N}}\pmatrix{ 1      & \ldots & 1      \cr 
+                                                     *      & \ldots & *      \cr  
+                                                     \vdots & \ddots & \vdots \cr 
+                                                     *      & \ldots & *      \cr}. $$ 
+        Um zu sehen, da\3 $D$ diese Gestalt hat, mu\3 man $D$ als Summe von zwei einfacheren Matrizen schreiben 
+        \begin{eqnarray*} 
+          D & = & W \diag{1,-1,\ldots ,-1} W^{\dagger} \\ 
+            & = & W \diag{-1,-1,\ldots ,-1} W^{\dagger} + W \diag{2,0,\ldots, 0} W^{\dagger} \\ 
+            & = & -I + \frac{2}{\sqrt{N}}\pmatrix{1      & 0     & \ldots & 0      \cr 
+                                          \vdots & \vdots& \ddots & \vdots \cr 
+                                          1      & 0     & \ldots & 0      \cr} W^{\dagger} \\ 
+            & = & -I + \frac{2}{N}\pmatrix{1      & \ldots & 1      \cr 
+                                          \vdots & \ddots  & \vdots \cr 
+                                          1      & \ldots & 1 \cr} \\ 
+            & = & -I + 2P.
+         \end{eqnarray*} 
+          $D$ kann als Summe $D=-I+2P$ geschrieben werden, wobei $I$ die Einheitsmatrix und $P$ eine Matrix ist, f"ur deren Koeffizienten 
+          $P_{ij}=\frac{1}{N}$ $ (i,j=0,\ldots N-1)$ gilt. $P$ sieht folgenderma\3en aus
+          $$ P = \frac{1}{N} \sum_{i,j=0}^{N-1} \proj{i}{j}. $$ 
+          Die Anwendung von $P$ auf einen beliebigen Zustand $\ket{\Psi}$ ergibt einen Zustand, dessen Koeffizienten gleich dem Durchschnittswert $\alpha$ der  
+          Komponenten von $\ket{\Psi}$ sind. 
+          \begin{eqnarray*}       
+            P\ket{\Psi} & = & \left( \frac{1}{N} \sum_{i,j=0}^{N-1} \proj{i}{j} \right) \sum_{k=0}^{N-1} \scalar{k}{\Psi}\ket{k} \\ 
+                        & = & \frac{1}{N} \sum_{i,j,k=0}^{N-1} \scalar{k}{\Psi} \ket{i}\scalar{j}{k} \\ 
+                        & = & \frac{1}{N} \sum_{i,j=0}^{N-1} \scalar{j}{\Psi}\ket{i} \\ 
+                        & = & \left( \frac{1}{N} \sum_{j=0}^{N-1}\scalar{j}{\Psi} \right) \sum_{i=0}^{N-1} \ket{i} \\ 
+                        & = & \sum_{i=0}^{N-1} \alpha \ket{i} 
+          \end{eqnarray*} 
+          Um zu sehen, da\3 $D$ eine Inversion am Durchschnittswert realisiert, mu\3 man betrachten, wie $D$ auf einem beliebigen Zustand $\ket{\Psi}$ 
+          wirkt. 
+          \begin{eqnarray*} 
+            D\ket{\Psi} & = & \left( -I+2P\right) \ket{\Psi} \\ 
+                        & = & -\ket{\Psi} + 2P\ket{\Psi} 
+          \end{eqnarray*} 
+          F"ur die $i$-te Komponente dieses Zustands gilt 
+          \begin{eqnarray*} 
+            \scalars{i}{D}{\Psi} & = & -\scalar{i}{\Psi} + 2\alpha \\  
+                                 & = & \left( \alpha + \left( \alpha - \scalar{i}{\Psi}\right)\right) . 
+          \end{eqnarray*} 
+          \hfill $\Box$
+          Dies entspricht genau der Inversion am Durchschnittswert. In einer Groveriteration werden durch die bedingte Phasendrehung $S_C$ zun"achst  
+          die Amplituden der L"osungen mit $-1$ multipliziert und liegen danach unter dem Durchschnittswert $\alpha$. Nach Anwendung der  
+          Diffusionstransformation sind sie positiv und gr"o\3er als zuvor. Man sieht also, da\3 mit jeder Iteration die Amplituden der L"osungen  
+          wachsen. Allerdings ist dies nicht unbegrenzt der Fall, denn wenn die Amplituden der L"osungen zu gro\3 werden, wird der Durchschnitt nach  
+          der bedingten Phasendrehung $S_C$ negativ. Damit fallen die Amplituden der L"osungen zugunsten der anderen Zust"ande ab. Es kommt also sehr 
+          genau darauf an, die Anzahl der Iterationen zu bestimmen. Eine genaue Kenntnis des geeigneten Me\3zeitpunktes ist f"ur eine  
+          praktische Anwendung unerl"a\3lich. 
+
+%% **************************** Bekannte Anzahl der Losungen ********************************** 
+       \subsection{Bekannte Anzahl der L"osungen} 
+         Betrachten wir nun den Fall, wenn $t$ L"osungen existieren, das hei\3t, es gibt $t$ verschiedene Werte f"ur $i\in X_N$ mit $C(i)=1$. Wir sind an einer 
+         beliebigen L"osung interessiert. Sei die Anzahl der L"osungen $t$ als bekannt vorausgesetzt. Definiere $A=\{ i|C(i)=1 \}$ und  
+         $B=\{ i|C(i)=0 \}$. 
+         F"ur zwei reelle positive Zahlen $k$ und $l$ mit $tk^2+(N-t)l^2=1$ definiere den Zustand des Quantenregisters durch 
+         $$ \reg{k}{l} = \sum_{i\in A} k\ket{i} + \sum_{i\in B} l\ket{i} .$$ 
+         Die Anwendung einer Groveriteration transformiert die Amplituden $k$ und $l$ folgenderma\3en 
+         \begin{eqnarray*} 
+            k_{j+1} & = & \frac{N-2t}{N}k_j + \frac{2(N-t)}{N}l_j \\ 
+            l_{j+1} & = & \frac{N-2t}{N}l_j - \frac{2t}{N}k_j . 
+         \end{eqnarray*} 
+         Um den optimalen Zeitpunkt f"ur die Messung zu bestimmen mu\3 man diese Rekurrenz l"osen und die Amplituden $k_j$ und $l_j$ in einer 
+         geschlossenen Form darstellen. Diese Rekurrenzrelation l"a\3t sich als Matrixmultiplikation 
+         $$ \pmatrix{k_{j+1} \cr l_{j+1}} = \pmatrix{ \frac{N-2t}{N} & \frac{2(N-t)}{N} \cr 
+                                                      -\frac{2t}{N}  & \frac{N-2t}{N} } 
+                                            \pmatrix{k_j \cr l_j} $$
+         schreiben. 
+         F"ur die $j$-te Iteration des Groversalgorithmus gilt 
+         $$ \pmatrix{k_{j} \cr l_{j}} = \pmatrix{ \frac{N-2t}{N} & \frac{2(N-t)}{N} \cr 
+                                                 -\frac{2t}{N}   & \frac{N-2t}{N} }^j 
+                                            \pmatrix{1/\sqrt{N} \cr 1/\sqrt{N}}. $$ 
+         Die Anfangsbedingungen $k_0=l_0=1/\sqrt{N}$ ergeben sich aus der Gleichverteilung, die am Anfang hergestellt wird.
+         Die Rekurrenzrelation l"a\3t sich mit dem folgenden Mathematica-Programm l"osen.
+         \begin{center}{\small 
+         \begin{verbatim}
+(* Grover-Iteration, SE, PW, 18.12.96, Mathematica v2.0 *)
+
+(* Setze tN = t/N = Sin[theta]^2 mit 0 < theta < Pi/2 *)
+G = {
+  { 1 - 2 tN, 2 (1 - tN) },
+  { -2 tN,    1 - 2 tN   }
+};
+
+(* spezielle Vereinfachung *)
+simplify[X_] :=
+  Expand[
+    X //. {
+      Sqrt[Sin[theta]^2]      -> Sin[theta],
+      1/Sqrt[Sin[theta]^2]    -> 1/Sin[theta],
+      Sqrt[-1 + Sin[theta]^2] -> I Cos[theta]
+    },
+    Trig -> True
+  ]
+
+(* G diagonalisieren: G = A . DiagonalMatrix[d] . Inverse[A] *)
+ES = Eigensystem[G] /. tN -> Sin[theta]^2; 
+d  = simplify[ ES[[1]] ];
+A  = simplify[ Transpose[ES[[2]]] ];
+
+(* ==> die Eigenwerte von G sind 
+   d = { Cos[2 theta] - I Sin[2 theta], 
+         Cos[2 theta] + I Sin[2 theta]
+       } 
+*)
+
+(* Damit ist die geschlossene Form: *)
+g = 
+  ComplexExpand[
+    A . 
+    DiagonalMatrix[{Exp[-2 I j theta], Exp[2 I j theta]}] . 
+    Inverse[A]
+  ];
+
+
+
+(* ==> 
+   g = { { Cos[2 j theta],               Cot[theta] Sin[2 j theta] },
+         { -(Sin[2 j theta] Tan[theta]), Cos[2 j theta]            }
+       }
+*)
+
+(* Mit den Anfangsbedingungen der Rekurrenz
+     k[0] = l[0] = 1/Sqrt[N] und
+     {k[j+1], l[j+1]} = G . {k[j], l[j]}
+   ist die geschlossene L"osung
+*)
+kl = g . {1/Sqrt[N], 1/Sqrt[N]};
+
+(* Damit ergibt sich die Loesung fuer die Amplituden {k_j, l_j} =
+         Cos[2 j theta]   Cot[theta] Sin[2 j theta]
+        {-------------- + -------------------------, 
+            Sqrt[N]                Sqrt[N]
+ 
+         Cos[2 j theta]   Sin[2 j theta] Tan[theta]
+         -------------- - -------------------------}
+            Sqrt[N]                Sqrt[N]
+*)
+         \end{verbatim} } \end{center}
+         Unter Verwendung der Additionstheoreme f"ur trigonometrische Funktionen bekommt man folgende geschlossene Formeln f"ur die Amplituden der L"osungen und
+         der Nicht-L"osungen 
+         \begin{eqnarray*} 
+           k_{j} & = & \frac{1}{\sqrt{t}}\sin\left(\left( 2j + 1\right)\Theta\right) \\ 
+           l_{j} & = & \frac{1}{\sqrt{N-t}}\cos\left(\left( 2j + 1\right)\Theta\right) . 
+         \end{eqnarray*} 
+         Der Winkel $\Theta$ ist dabei so gew"ahlt, da\3 $\sin^2\Theta =\frac{t}{N}$ gilt. Es gilt $\Theta \in \left(0,\frac{\pi}{2} \right)$. 
+         Die Erfolgswahrscheinlichkeit ist am gr"o\3ten, wenn $\betrag{l_m}^2$ minimal ist.
+         $$ l_{\tilde m} = 0 \iff \tilde m = \left( \pi - 2\Theta \right) / 4\Theta + k\cdot \frac{\pi}{2\Theta}, $$ 
+         wobei $k\in\Z.$ Im folgenden wird $k=0$ gew"ahlt.
+         Da die Anzahl der Iterationen $m$ eine nat"urliche Zahl sein mu\3, wird $m$ folgenderma\3en definiert 
+         $$ m = \unten{\pi / 4\Theta}.$$ 
+         Der optimale Zeitpunkt f"ur eine Messung w"are nach $ \tilde m = \left( \pi - 2\Theta \right) / 4\Theta $ Iterationen. Es wird gezeigt, da\3 nach
+         $m$ Iterationen die Erfolgswahrscheinlichkeit sehr gut ist. \\ 
+         \begin{tabular}{crcl} 
+                         & $\betrag{m - \tilde m}$ &   $=$   & $\betrag{\unten{\pi /4\Theta} - \pi /4\Theta + 1/2} \le 1/2$          \\ 
+           $\Rightarrow$ & $\betrag{\left( 2\tilde m + 1\right)\Theta - \left( 2m + 1\right)\Theta}$ & $\le$ & $\Theta$              \\ 
+           $\Rightarrow$ & $\betrag{\cos\left(\left(2m+1\right)\Theta\right)}$                       & $\le$ & $\betrag{\sin\Theta}$ \\ 
+         \end{tabular} \\ 
+         Die Wahrscheinlichkeit, da\3 ein falscher Wert nach $m$ Iterationen gemessen wird, ist gleich 
+         $$ \left( N-t\right) l_m^2 = \cos^2\left(\left(2m+1\right)\Theta\right) \le \sin^2\Theta = t/N. $$ 
+         Sie ist vernachl"a\3igbar, falls $t \ll N$. Dieser Algorithmus hat eine Laufzeit von ${\cal O}\left(\sqrt{\frac{N}{t}}\right)$, da 
+         $\Theta \ge \sin\Theta = \sqrt{t/N}$ und damit  
+         $$ m \le \frac{\pi}{4\Theta} \le \frac{\pi}{4} \sqrt{\frac{N}{t}} $$ 
+         gilt. 
+        
+         Bemerkung: 
+         \begin{enumerate}
+           \item Eventuell liefert $k\neq 0$ ein besseres Ergebnis.
+           \item F"uhre eine gebrochene Iteration $G^{1/\nu}$ f"ur ein geeignetes $\nu\in\Z$, um besser an die Nullstelle heranzukommen.
+         \end{enumerate}
+
+%% ********************** Untere Schranke ************************
+       \subsection{Untere Schranke f"ur die Laufzeit von Quantensuchalgorithmen}
+         Grover weist daraufhin, da\3 jeder Quantensuchalgorithmus mindestens eine zu $\sqrt{N}$ proportionale Laufzeit hat, wenn es eine eindeutige L"osung gibt, wobei er
+         sich auf allgemeine Aussagen aus \cite{bernstein} st"utzt. Diese Aussage l"a\3t sich soweit verallgemeinern, da\3 man eine explizite untere Grenze f"ur die
+         Anzahl der Auswertung der Funktion $C$ als Funktion der Anzahl der L"osungen $t$ angeben kann. 
+         \begin{satz}
+           Sei $S$ eine beliebige Menge von $N$ Strings, und $M$ eine bounded-error Quantenturingmaschine, die mit einem Orakel $O$ ausgestattet ist. Sei $A\subset S$ eine
+           zuf"allig ausgew"ahlte Untermenge von $S$ der M"achtigkeit $t$ mit $t\ge 1$, wobei alle diese Untermengen gleichwahrscheinlich sind. Das Orakel $O$ sei so definiert, 
+           da\3 $O(x)=1$ genau dann wenn $x\in A$. Die erwartete Anzahl, wie oft $M$ das Orakel $O$ befragen mu\3, um ein beliebiges $y\in A $ mit einer Wahrscheinlichkeit von
+           mindestens $1/2$ zu finden, ist mindestens $\unten{(\sin(\pi/8))\sqrt{\unten{N/t}}}.$
+         \end{satz}
+         \beweis siehe \cite{bernstein} \hfill $\Box$
+
+         Grovers Suchalgorithmus braucht $m\le\unten{(\pi/4)\sqrt{N/t}}$ Iterationen. Da in jedem Iterationsschritt, die bedingte Phasendrehung $S_C$ ben"otig wird, werden also
+         insgesamt mindestens $2\unten{\frac{\pi}{4}\sqrt{N/t}}$ Auswertungen der Funktion $C$ ausgef"uhrt. 
+
+%% ************************* Unbekannte Anzahl der Losungen ******************************************* 
+       \subsection{Unbekannte Anzahl der L"osungen} 
+         Die Anzahl der Iterationen $m$ h"angt entscheidend von der Anzahl der L"osungen $t$ ab. Grovers Algorithmus kann also nicht direkt verwendet  
+         werden, falls die Anzahl der L"osungen unbekannt ist. Der Algorithmus mu\3 geeignet modifiziert werden. Es werden die folgenden zwei Lemmata
+         bei der Analyse des Algorithmus ben"otigt.
+         \begin{lemma} F"ur eine ganze positive Zahl $m$ und eine beliebige reelle Zahl $\alpha$ mit $\alpha \neq k\pi, k\in\Z$ gilt
+           $$ \sum_{j=0}^{m-1} \cos\left(\left( 2j+1\right) \alpha\right) = \frac{\sin\left( 2m\alpha\right)}{2\sin \alpha}. $$ 
+         \end{lemma} 
+         \beweis Durch vollst"andige Induktion nach $m$ \hfill $\Box$
+         \begin{lemma} 
+           Sei $t$ die Anzahl der unbekannten L"osungen. Sei der Winkel $\Theta$ so definiert, da\3 $\sin^2\Theta = t/N$ gilt. Sei $m$ eine positive  
+           ganze Zahl. Die Zahl $j$ werde zuf"allig aus $\{ 0,\ldots, m-1\}$ ausgew"ahlt, wobei alle Zahlen gleichwahrscheinlich seien. Die Wahrscheinlichkeit, eine 
+           L"osung nach $j$ Groveriterationen zu erhalten, ist genau 
+           $$ P_m = \frac{1}{2} - \frac{\sin(4m\Theta)}{4m\sin(2\Theta)}. $$ 
+           Insbesondere ist $P_m \ge \frac{1}{4}$ falls $m \ge \frac{1}{\sin(2\Theta)}$. 
+         \end{lemma} 
+         \beweis 
+           Die Erfolgswahrscheinlichkeit nach $j$ Groveriterationen ist gerade $tk_j^2 = \sin^2((2j+1)\Theta)$. Die durchschnittliche  
+           Erfolgswahrscheinlichkeit, wenn j aus $\{0,\ldots,m-1\}$ zuf"allig gew"ahlt wird, ist 
+           \begin{eqnarray*} 
+              P_m & = & \frac{1}{m} \sum_{j=0}^{m-1} \sin^2((2j+1)\Theta) \\
+                  & = & \frac{1}{2m} \sum_{j=0}^{m-1} \left( 1-\cos((2j+1)2\Theta)\right) \\ 
+                  & = & \frac{1}{2} - \frac{1}{2m} \sum_{j=0}^{m-1} \cos((2j+1)2\Theta) \\ 
+                  & = & \frac{1}{2} - \frac{\sin(4m\Theta)}{4m\sin(2\Theta)}.  
+           \end{eqnarray*} 
+           Es wird die Identit"at $\sin^2(x)=\frac{1}{2}(1-\cos(2x))$ verwendet.
+           Falls $m \ge \frac{1}{\sin(2\Theta)}$ ist, dann gilt $\frac{\sin(4m\Theta)}{4m\sin(2\Theta)} \le \frac{1}{4m\sin(2\Theta)} \le \frac{1}{4}$ und  
+           damit $P_m \ge \frac{1}{4}$. \hfill $\Box$
+
+           Wir k"onnen jetzt einen Suchalgorithmus angeben, der eine beliebige L"osung findet, auch wenn die Anzahl $t$ aller L"osungen unbekannt ist.
+           \subsection*{Algorithmus}
+             Es wird angenommen, da\3 $1 \le t \le \frac{3}{4}N$ gilt. 
+             \begin{enumerate} 
+               \item Setze $m = 1$ und $\lambda = \frac{6}{5}$. 
+               \item W"ahle $j$ zuf"allig aus den nichtnegativen ganzen Zahlen kleiner als $m$, wobei jede dieser Zahlen gleichwahrscheinlich ist. 
+               \item F"uhre $j$ Iterationen des Groveralgorithmus beginnend im Zustand $\ket{\Psi_0} = \frac{1}{\sqrt{N}} \sum_{i_0}^{N-1} \ket{i}$ aus.
+               \item Messe das Quantenregister. Sei $i$ das Ergebnis 
+               \item Falls $C(i)=1$, dann wurde eine L"osung gefunden, stop.
+               \item Sonst setze $m = \min(\lambda m, \sqrt{N})$ und gehe zu 2. 
+             \end{enumerate} 
+           \begin{satz} 
+             Dieser Algorithmus findet eine L"osung in ${\cal O}(\sqrt{N/t})$. 
+           \end{satz} 
+           \beweis 
+              Sei $\Theta$ so, da\3 $\sin^2\Theta = t/N$ gilt. Setze $m_0 = \frac{1}{\sin(2\Theta)}$. Dann gilt 
+              \begin{eqnarray*} 
+                m_0 & = & \frac{1}{\sin(2\Theta)} \\ 
+                    & = & \frac{1}{2\sin(\Theta)\cos(\Theta)} \\
+                    & = & \frac{1}{2\sqrt{t/N}\sqrt{(N-t)/t}} \\
+                    & = & \frac{1}{2}\sqrt{\frac{N}{t}}\sqrt{\frac{t}{N-t}} \\
+                    & = & \frac{N}{2\sqrt{(N-t)N}} \\ 
+                    & < & \sqrt{N/t}
+              \end{eqnarray*} 
+              f"ur $t<\frac{3}{4}N < \frac{4}{5}N$.
+              \hfill $\Box$
+
+              Wir werden die erwartete Anzahl der ausgef"uhrten Groveriterationen absch"atzen. Bei dem $s$-ten Durchlauf der Schleife gilt  
+              $m=\lambda^{s-1}$, und die Anzahl der erwarteten Groveriterationen ist kleiner als $m/2$, da $j$ zuf"allig aus $0\le j<m$ ausgew"ahlt wird. 
+              Wir sagen, da\3 der Algorithmus die kritische Phase erreicht, wenn er mehr als $\oben{\log_{\lambda} m_0}$ mal die Schleife ausf"uhrt. Die 
+              erwartete Anzahl der insgesamt ausgef"uhrten Groveriterationen ist, wenn die kritische Phase erreicht wurde 
+              %%\newpage 
+              \begin{eqnarray*} 
+                \frac{1}{2}\sum_{s=1}^{\ok} \lambda^{s-1} & =   & \frac{1}{2} \sum_{s=0}^{\ok - 1} \lambda^s \\ 
+                                                          & =   & \frac{1}{2} \frac{\lambda^{\ok} - 1}{\lambda - 1} \\ 
+                                                          & \le & \frac{1}{2} \frac{\lambda^{\ok}}{\lambda - 1} \\ 
+                                                          & \le & \frac{1}{2} \frac{\lambda^{\k + 1}}{\lambda - 1} \\ 
+                                                          & =   & \frac{1}{2} \frac{\lambda}{\lambda - 1}m_0 \\ 
+                                                          & =   & 3 m_0 
+              \end{eqnarray*}  
+              Falls also der Algorithmus Erfolg hat, bevor er die kritische Phase erreicht, schafft er das in ${\cal O}(m_0) \subset {\cal O}(\sqrt{N/t})$ 
+              Schritten. 
+              Wenn die kritische Phase erreicht wurde, dann findet der Algorithmus wegen Lemma $1.2.4$ eine L"osung mit einer Wahrscheinlichkeit von mindestens $1/4$, da 
+              $m \ge \frac{1}{\sin(2\Theta)}$, bei jedem Durchlauf der Schleife. Die Anzahl der insgesamt ausgef"uhrten Groveriterationen, nachdem die 
+              kritische Phase erreicht wurde, wird in der Tabelle angegeben. 
+              $$
+              \begin{array}{ccc} 
+                \mbox{Durchlauf}    & \mbox{Wahrscheinlichkeit}                 & \mbox{ausgef"uhrte Iterationen} \\ 
+                                    &                                           &                                 \\
+                1                   & \frac{1}{4}                               & \frac{1}{2}\sum_{s=0}^{\ok - 1} \lambda^s + \frac{1}{2}\lambda^{\ok} \\ 
+                2                   & (\frac{3}{4})(\frac{1}{4})                & \frac{1}{2}\sum_{s=0}^{\ok + 1} \lambda^s \\ 
+                3                   & (\frac{3}{4})^2(\frac{1}{4})              & \frac{1}{2}\sum_{s=0}^{\ok + 2} \lambda^s \\ 
+                \vdots              & \vdots                                    & \vdots                                    \\
+                j                   & (\frac{3}{4})^{(j-1)}(\frac{1}{4})        & \frac{1}{2}\sum_{s=0}^{\ok + j - 1} \lambda^s
+              \end{array}
+              $$ 
+              Dabei wird durch $1/4$ die Wahrscheinlichkeit, eine L"osung zu finden, nach unten abgesch"atzt und durch $3/4$ die Wahrscheinlichkeit des
+              komplment"aren Ereignisses nach oben abgesch"atzt. Der Exponent $j$ bei $(3/4)^j$ gibt also an, wie oft keine L"osung gefunden wurde. Der Summand
+              $\frac{1}{2} \sum_{s=0}^{\ok - 1}$ ist die erwartete Anzahl der total ausgef"uhrten Groveriterationen bis die kritische Phase erreicht wurde.
+              Damit ergibt sich f"ur die erwartete Anzahl der insgesamt ausgef"uhrten Iterationen nach der kritschen Phase folgende Formel.
+              \begin{eqnarray} 
+                &     & \sum_{j=1}^{\infty}\frac{1}{4}\left(\frac{3}{4}\right)^{j-1} \left(\frac{1}{2}\sum_{s=0}^{\ok - 1 + j}\lambda^s \right) \nonumber \\ 
+                & =   & \frac{1}{8}\sum_{j=0}^{\infty}\left(\frac{3}{4}\right)^j \sum_{s=0}^{\ok + j} \lambda^s \nonumber\\ 
+                & =   & \frac{1}{8}\sum_{j=0}^{\infty}\left(\frac{3}{4}\right)^j \frac{\lambda^{\ok + j + 1} - 1}{\lambda - 1} \nonumber\\ 
+                & \le & \frac{1}{8}\sum_{j=0}^{\infty}\left(\frac{3}{4}\right)^j \frac{\lambda^{\ok + j + 1}}{\lambda - 1} \nonumber\\ 
+                & =   & \frac{1}{8} \frac{\lambda}{\lambda - 1} \lambda^{\ok} \sum_{j=0}^{\infty}\left(\frac{3\lambda}{4}\right)^j\nonumber \\
+                & =   & \left(\frac{1}{8}\frac{\lambda}{\lambda - 1} m_0\right) \frac{1}{1-\frac{3\lambda}{4}} \nonumber\\ 
+                & =   & \frac{15}{2} m_0 \label{schritte}
+              \end{eqnarray} 
+              \hfill $\Box$
+
+              Man k"onnte noch besser absch"atzen, da aufgrund der Zuweisung $m=\min(\lambda m, \sqrt{N})$ nie mehr als $\unten{\sqrt{N}}$ Iterationen 
+              ausgef"uhrt werden. Diese obere Grenze ist sinnvoll, da bei $t$ L"osungen die Anzahl der notwendigen Iterationen $m\le\frac{\pi}{4}\sqrt{N/t}$
+              gilt. $m$ wird bei $t=1$ maximal und es gilt in diesem Fall $m\le\frac{\pi}{4}\sqrt{N} < \sqrt{N}$. Mehr als $\unten{\sqrt{N}}$ Iterationen bringen also keinen 
+              Vorteil.
+              Dies wird in der obigen Absch"atzung nicht ber"ucksichtigt. Dieser Algorithmus findet also eine L"osung in ${\cal O}( \sqrt{N/t})$ Schritten, 
+              wenn $1\le t \le \frac{3}{4}N$ gilt. 
+              Der Fall $t=0$ wurde noch nicht zufriedenstellend gel"ost.
+              F"ur den Fall $t>\frac{3}{4}N$ erh"alt man klassisch mit einer Wahrscheinlichkeit von mindestens $\frac{3}{4}$ eine L"osung, wenn man ein zuf"alliges $i$ nimmt.
+
+%% ************************** M I N I M U M *********************** 
+     \section{Algorithmus zur Bestimmung des Minimums} 
+       \subsection{Problemstellung}
+         Das Auswahlproblem ist wie folgt definiert: es seien ein unsortiertes Array $V[i]$ mit $i\in X_N=\{0,\ldots,N-1\}$, das $N$ verschiedene Elemente aus einer
+         geordneten Menge ${\cal V}$ enth"alt, und eine Zahl $1\le t\le N$ gegeben. Es soll das Element vom Rang t, das hei\3t, dasjenige Element, das gr"o\3er oder gleich als
+         $t-1$ Elemente und kleiner als $N-t$ Elemente ist, bestimmt werden. Das Minimum von  $V$ ist das Element vom Rang $1$. Das Minimumsuchproblem besteht darin, den Index $y$ 
+         eines Elements zu finden, so da\3 $V[y]$ das Minimum ist. Auf einer klassischen deterministischen oder probabilistischen Turingmaschine ben"otigt dieses Problem 
+         ${\cal O}(N)$ Proben. Dieser Algorithmus wurde in \cite{hoyermin} vorgestellt.
+
+         Es wird hier ein Quantenalgorithmus vorgestellt, der das Minimum findet, wobei er lediglich ${\cal O}(\sqrt{N})$ Proben dazu ben"otigt. Die wichtigste
+         Subroutine ist der Quantensuchalgorithmus bei unbekannter Anzahl der L"osungen.
+       \subsection{Beschreibung des Algorithmus}
+         Der Minimumsuchalgorithmus benutzt den Quantensuchalgorithmus, um kleinere Elemente als ein bestimmter Schwellwert $V[y]$, der durch einen Index $y$ bestimmt 
+         wird, zu finden 
+         Das Ergebnis des Suchalgorithmus wird als neuer Schwellwert gesetzt. Dieser Proze\3 wird so oft ausgef"uhrt, bis die Wahrscheinlichkeit, da\3 der 
+         Schwellwert das Minimum ist, ausreichend gro\3 ist.
+         \begin{alg} Minimumsuchalgorithmus \end{alg} 
+         Die Markierungsfunktion sei
+         $$ C(i) = \cases{1 & falls $V[i]<V[y]$ \cr
+                          0 & sonst                 }$$
+         wobei $y$ der aktuelle Schwellwertindex ist.
+         \begin{enumerate} 
+           \item W"ahle einen Schwellwertindex $0\le y \le N - 1$ zuf"allig gleichverteilt.
+           \item Wiederhole die folgenden Schritte solange die Anzahl der ausgef"uhrten Groveriterationen kleiner als $m_0$ ist.
+             \begin{enumerate} 
+                \item Setze $m=1$ und $\lambda=\frac{6}{5}$.
+                \item W"ahle $j$ zuf"allig gleichverteilt aus den nichtnegativen ganzen Zahlen kleiner als $m$.
+                \item F"uhre $j$ Iterationen des Groveralgorithmus beginnend im Zustand $\ket{\Psi_0}=\frac{1}{\sqrt{N}}\sum_{i=0}^{N-1}\ket{i}$ aus.
+                \item Messe das Quantenregister. Es sei $i$ das Ergebnis der Messung.
+                \item Falls $V[i]<V[y]$, dann setze $y=i$ als neuen Schwellenwertindex und gehe zu (a).
+                \item Sonst setze $m=\min(\lambda m,\sqrt{N})$ und gehe zu (b)
+             \end{enumerate} 
+           \item Messe das Quantenregister. Sei $i$ das Ergebnis. Falls $V[i]<V[y]$ dann setze $y=i$. 
+         \end{enumerate} 
+         Um die Erfolgswahrscheinlichkeit des Minimumsuchalgorithmus zu bestimmen, soll angenommen werden, da\3 es keine Abbruchbedingung gibt und da\3 der Algorithmus lang
+         genug l"auft, um das Minimum zu finden. Dieser Algorithmus wird als Endlos-Algorithmus bezeichnet. Es wird jetzt die mittlere Anzahl der insgesamt ausgef"uhrten
+         Groveriterationen, die n"otig sind, um das Minimum zu finden, bestimmt.
+
+         Zu jedem Zeitpunkt sucht der Endlos-Algorithmus das Minimum unter $t$ Elementen, die kleiner sind als $V[y]$. W"ahrend der Ausf"uhrung wird jedes dieser Elemente mit
+         gleicher Wahrscheinlichkeit als neuer Schwellwertindex ausgew"ahlt. Das folgende Lemma besagt, da\3 diese Wahrscheinlichkeit der Kehrwert des Ranges des
+         Elements ist und nicht von der L"ange des Arrays abh"angt.
+         \begin{lemma} Sei $p(t,r)$ die Wahrscheinlichkeit, da\3 der Index eines Elements vom Rang $r$ irgendwann als der Schwellwertindex ausgew"ahlt wird, wenn der
+            Endlos-Algorithmus unter $t$ Elementen sucht. Es gilt $p(t,r)=1/r$, falls $r\le t$ und $p(t,r)=0$ sonst.
+         \end{lemma}
+         \beweis Der Fall $r>t$ ist klar. Der Fall $r\le t$ wird durch vollst"andige Induktion "uber $t$ f"ur ein festes $r$ bewiesen. Der Induktionsanfang $p(r,r)=1/r$ ist
+           klar, da der Quantensuchalgorithmus eine beliebige L"osung mit gleicher Wahrscheinlichkeit liefert. Die Induktionsannahme ist, da\3 $p(k,r)=1/r$ f"ur alle $k\in [r,t]$
+           gilt. Im Induktionsschritt sind $t+1$ Elemente markiert, und $y$ wird zuf"allig gleichverteilt unter den $t+1$ M"oglichkeiten ausgew"ahlt. Der Algorithmus kann
+           ein Element $V[y]$ mit Rang $r$, gr"o\3er als $r$ oder kleiner als $r$ selektieren. Nur die ersten beiden F"alle tragen zu der Summation bei
+           \begin{eqnarray*}
+              p(t+1,r) & = & \frac{1}{t+1} + \sum_{k=r+1}^{t+1}\frac{1}{t+1} p(k-1,r) \\
+                       & = & \frac{1}{t+1} + \frac{t+1-r}{t+1} \cdot \frac{1}{r} \\
+                       & = & \frac{1}{r}\left( \frac{r}{t+1} + \frac{t+1-r}{t+1}\right) \\
+                       & = & \frac{1}{r}
+           \end{eqnarray*}
+           \hfill $\Box$
+
+           Die mittlere Anzahl der insgesamt ausgef"uhrten Groveriterationen im Quantensuchalgorithmus betr"agt nach Gleichung \ref{schritte} h"ochstens $\frac{15}{2}\sqrt{N/t}$, 
+           falls $t$ Elemente unter
+           $N$ markiert sind. Damit kann man die obere Schranke f"ur die mittlere Anzahl der total ausgef"uhrten Groveriterationen $m_0$, die notwendig sind, um das 
+           Minimum zu finden, ausrechnen.
+           \begin{eqnarray*}
+              \sum_{r=2}^{N}p(N,r)\frac{15}{2} \sqrt{\frac{N}{r-1}} & =   & \frac{15}{2}\sqrt{N}\sum_{r=1}^{N-1}\frac{1}{r+1} \frac{1}{\sqrt{N}} \\
+                                                                    & \le & \frac{15}{2}\sqrt{N}\left(\frac{1}{2} + \sum_{r=2}^{N-1}r^{-3/2}\right) \\
+                                                                    & \le & \frac{15}{2}\sqrt{N}\left(\frac{1}{2} + \int_{r=1}^{N-1}r^{-3/2} dr\right) \\
+                                                                    & =   & \frac{15}{2}\sqrt{N}\left(\frac{1}{2} + \left[-2r^{-1/2}\right]_{r=1}^{N-1}\right) \\
+                                                                    & =   & \frac{15}{2}\sqrt{N}\left(\frac{1}{2} - \frac{2}{\sqrt{N-1}} + 2\right) \\
+                                                                    & \le & \frac{95}{4}\sqrt{N}
+           \end{eqnarray*}
+           \hfill $\Box$
+           \begin{satz}
+             Der Minimumsuchalgorithmus findet den Index des Minimums mit einer Wahrscheinlichkeit von mindestens $1/2$.
+           \end{satz}
+           \beweis 
+             Sei $p(t)$ die Wahrscheinlichkeit, da\3 das Minimum nach genau $t$ Groveriterationen gefunden wird. Annahme $p_0 = p(2m_0) < 1/2$. Damit ergibt sich f"ur die
+             mittlere Anzahl der total ausgef"uhrten Groveriterationen $> p_0 \cdot 0 + (1-p_0)2m_0 > m_0$. Das ist ein Widerspruch. Nach $2m_0$ Groveriterationen ist die
+             Erfolgswahrscheinlichkeit also gr"o\3er als $1/2$. \hfill $\Box$
+
+           Die Erfolgswahrscheinlichkeit kann vergr"o\3ert werden, indem man den Algorithmus $c$-mal ausf"uhrt. Sei $y$ so, da\3 $V[y]=\min\{V[y_1],\ldots,V[y_c]\}$ gilt.
+           Dann ist $V[y]$ das Minimum des Arrays $V$ mit einer Wahrscheinlichkeit von mindestens $1-1/2^c$. Die Erfolgswahrscheinlichkeit ist sogar besser, wenn man den 
+           Algorithmus mit der Abbruchbedingung $c2m_0$ ausf"uhrt, da jedesmal die Information aus den vorhergehenden Suchergebnissen ausgenutzt wird.
+              
+           
+
+
+%% ************************** M E D I A N ************************* 
+     \section{Algorithmus zur Sch"atzung des Medians}
+       \subsection{Problemstellung}
+       Das Auswahlproblem ist wie folgt definiert: es seien ein unsortiertes Array $V[i]$ mit $i\in X_N=\{0,\ldots, N-1\}$, das $N$ verschiedene Elemente 
+       aus einer geordneten Menge ${\cal V}$ enth"alt, und eine Zahl $1\le t\le N$ gegeben. Es soll
+       das $t$-gr"o\3te Element in $V$, d.h. dasjenige Element, das gr"o\3er als $t-1$ Elemente und kleiner als $N-t$ Elemente ist, bestimmt werden. Der Median
+       von $V$ ist das $\oben{N/2}$-gr"o\3te Element. 
+              
+       Betrachten wir zun"achst ein einfacheres Problem, auf das sich das Problem, den Median zu bestimmen, zur"uck\-f"uhren l"a\3t. Das Array $V$ werde durch einen 
+       Schwellenwertindex $\mu\in{\cal V}$ in zwei Teilmengen $A=\{V[i] | V[i]<\mu\}$ und in
+       $B=\{V[i] | V[i]\ge\mu\}$ partitioniert, wobei die M"achtigkeiten der beiden Mengen $\betrag{A}=(N/2)(1+\epsilon)$ bzw.
+       $\betrag{B}=(N/2)(1-\epsilon)$ seien. Dabei gelte $0.1\epsilon_0 < \betrag{\epsilon} < \epsilon_0$ f"ur ein festes $\epsilon_0$, das kleiner als $0.1$ ist.
+       Die Aufgabe ist nun, $\betrag{\epsilon}$ mit einer Genauigkeit $\Delta$ zu bestimmen. Wenn $\widetilde\epsilon$ ein Sch"atzwert f"ur $\betrag{\epsilon}$ ist, dann soll 
+       f"ur $\widetilde\epsilon$ mit einer hohen Wahrscheinlichkeit $\widetilde{\epsilon}(1-\Delta) < \betrag{\epsilon} < \widetilde{\epsilon}(1+\Delta)$ gelten.
+       Dieses Problem l"a\3t sich auf einem Quantencomputer l"osen, indem man die Anzahl der Zust"ande $\ket{i}$ mit $C(i)=0$ sch"atzt, wobei
+       $$ C(i) = \cases{ 1 & falls $V[i] \ge\mu$ \cr
+                         0 & falls $V[i] < \mu$ }. $$
+       Grovers Algorithmus ben"otigt dazu ${\cal O}(\frac{1}{\epsilon_0 \Delta^2})$ Proben. Klassische Algorithmen ben"otigen 
+       $\Omega(\frac{1}{\epsilon_0^2\Delta^2})$.
+
+       \subsection{Beschreibung des Algorithmus}
+         Die Amplituden der Zust"ande $\ket{i}$ mit $C(i)=0$ werden als $k$-Amplituden und die Amplituden der Zust"ande $\ket{j}$ mit $C(j)=1$ werden als
+         $l$-Amplituden bezeichnet. \\
+         \noindent
+         Eine bedingte Phasendrehung $S_{F,\delta}$ operiert wie folgt auf den Zust"anden $\ket{i}$ mit $i\in X_N$
+         $$ S_{F,\delta} \ket{i} = \left\{
+                                     \begin{array}{rc}
+                                       e^{i \delta}\ket{i} & \mbox{ falls } F\left( i\right) = 1 \\
+                                                   \ket{i} & \mbox{ sonst, }
+                                     \end{array}
+                                   \right.
+         $$
+         wobei die Funktion $F:X_N \to \{0,1\}$ eine Bedingung beschreibt und der Winkel $\delta\in (0,2\pi )$ angibt, um wieviel die Phase gedreht werden soll. 
+         Es werden noch folgende Transformationen ben"otigt
+         \begin{enumerate}
+           \item Diffusionstransformation $D=-I+2P$,
+           \item Schiebetransformationen $S=-iI + (1+i)P$.
+         \end{enumerate}
+         \begin{lemma}[Schiebetransformation]
+           Die Schiebetransformation l"a\3t als $S = W\diag{1,-i,\ldots,-i} W^{\dagger}$ schreiben.
+         \end{lemma}
+         \beweis Analog zu Satz~\ref{diffusion} \hfill $\Box$
+         \begin{alg}[Bestimmung von $\epsilon$] Es soll die Abweichung $\epsilon$ zwischen den Zust"anden $\ket{i}$ mit $C(i)=0$ und $\ket{j}$ mit $C(j)=1$ 
+           gesch"atzt werden.
+         \end{alg}
+         \begin{enumerate}
+         \item $\nu={\cal O}(\frac{1}{\Delta^2})$ Messwerte ermitteln
+         \begin{enumerate}
+           \item Gleichverteilung $ \ket{\Psi_0} = \sum_{i=0}^{N-1} \ket{i} $
+           \item bedingte Phasendrehung $S_{C,\frac{\pi}{2}}$ 
+           \item Schiebetransformation $S$ 
+           \item wiederhole die folgenden Schritte $m={\cal O}(\frac{1}{\epsilon_0})$ mal
+             \begin{enumerate}
+               \item bedingte Phasendrehung $S_{\neg C,\pi}$ 
+               \item Diffusionstransformation $D$ 
+               \item bedingte Phasendrehung $S_{C,\pi}$
+               \item Diffusionstransformation $D$ 
+             \end{enumerate}
+           \item Messung des Registers und Speicherung des Messwerts
+         \end{enumerate}
+         \item Sch"atzung von $\betrag{\epsilon}$ durch statistische Auswertung der Messwerte
+         \end{enumerate}
+         %% **************** Funktionsweise des Algorithmus ****************
+         \subsection{Funktionsweise des Algorithmus}
+         \subsubsection*{1. Teil : Messwerte ermitteln}
+           $$ 
+           \begin{array}{rlcc}
+             \mbox{1.(a)} & \mbox{Herstellung der Gleichverteilung }            & k=1         & l=1 \cr
+             \mbox{1.(b)} & \mbox{bedingte Phasendrehung } S_{C,\frac{\pi}{2}}  & k=1         & l=i \cr
+             \mbox{1.(c)} & \mbox{Schiebetransformation } S=-iI+(1+i)P          & k=\epsilon  & l=(1+\epsilon)+i
+           \end{array}
+           $$
+           \begin{lemma}
+             Anwendung der Schiebetransformation auf $k=1$ und $l=i$ bewirkt $k=\epsilon$ und $l=(1+\epsilon)+i$.
+           \end{lemma}
+           \beweis F"ur den Durchschnittswert $\alpha$ gilt
+             \begin{eqnarray*}
+               \alpha & = & \frac{1}{N}\left( \frac{N}{2}\left(1+\epsilon\right)+\frac{N}{2}\left(1-\epsilon\right)i\right) \\
+                      & = & \frac{1}{2}\left(1 + \epsilon + i - i\epsilon\right)
+             \end{eqnarray*}
+             Aus der Zerlegung $S=-iI+(1+i)P$ ergibt sich nun f"ur die $k$-Amplituden
+             \begin{eqnarray*}
+               k & = & -i + \frac{1}{2}\left(1+i\right)\left(1+\epsilon + i - i\epsilon \right) \\
+                 & = & -i + \frac{1}{2}\left(1+ \epsilon + i - i\epsilon + i + i\epsilon - 1 + \epsilon\right) \\
+                 & = & -i + \frac{1}{2}\left(2\epsilon + 2i\right) \\
+                 & = & \epsilon .
+             \end{eqnarray*}
+             Die $l$-Amplitude $l = \left(1+\epsilon\right) + i$ kann analog berechnet werden. \hfill $\Box$
+           
+             Die Schiebetransformation $S$ verlagert die Amplituden zu den Zust"anden $\ket{j}$ mit $C(j)=1$, das hei\3t, die $k$-Amplituden werden ungef"ahr gleich Null und
+             der Betrag der $l$-Amplituden wird ungef"ahr $\sqrt{2}$ gro\3 sein. Falls die Anzahl der Zust"ande $\ket{i}$ mit $C(i)=0$ gleich der Anzahl der 
+             Zust"ande $\ket{j}$ mit $C(j)=1$ ist, dann sind nach der Schiebetransformation die $k$-Amplituden genau gleich Null und die $l$-Amplituden gleich $1+i$.  \\
+             \noindent
+             Das Herz des Algorithmus ist die Iteration im Schritt 1.(d), die die Betr"age der $k$-Amplituden linear verst"arkt. Um diesen Verst"arkungsproze\3 zu verstehen, 
+             mu\3 man wissen, wie die Diffusionstransformation $D$ die $k$- und $l$-Amplituden
+             ver"andert. Zuerst wird die Wirkung der Diffusionstransformation bei zwei einfachen Konfigurationen der $k$- und $l$-Amplituden untersucht. Der 
+             allgemeine Fall ergibt sich aus der linearen Superposition der beiden Konfigurationen.
+             \begin{lemma}
+               Anwendung der Diffusionstransformation $D$ auf $k=1$ und $l=0$ bewirkt $k=\epsilon$ und $l=1+\epsilon$.
+             \end{lemma}
+             \beweis
+               Der Durchschnittswert ist $\alpha = \frac{1}{2}(1+\epsilon)$.
+               $$
+                 \begin{array}{ccccc}
+                   k & = & -1 + 2 \alpha  & = & \epsilon \\ 
+                   l & = & 0 + 2 \alpha   & = & 1 + \epsilon 
+                 \end{array}
+               $$  \hfill $\Box$
+             \begin{lemma}
+               Anwendung der Diffusionstransformation $D$ auf $k=0$ und $l=1$ bewirkt $k=1-\epsilon$ und $l=-\epsilon$.
+             \end{lemma}
+             \beweis 
+               Der Durchschnittswert ist $\alpha = \frac{1}{2}(1-\epsilon)$.
+               $$
+                 \begin{array}{ccccc}
+                    k & = & 0 + (1-\epsilon)  & = & 1 - \epsilon \\ 
+                    l & = & -1 + (1-\epsilon) & = & -\epsilon
+                 \end{array}
+                $$ \hfill $\Box$
+
+             \begin{lemma} Schritt 1.(d) bei Anfangskonfiguration $k=1$ und $l=0$
+             \end{lemma}
+             \begin{tabular}{rlll}
+               i.    & bedingte Phasendrehung $S_{\neg C,\pi}$ & $k = -1$        & $l = 0$                 \\
+               ii.   & Diffusionstransformation $D$            & $k = -\epsilon$ & $l = -(1+\epsilon)$     \\
+               iii.  & bedingte Phasendrehung $S_{C,\pi}$      & $k = -\epsilon$ & $l = 1+\epsilon$        \\
+               iv.   & Diffusionstransformation                &                 &
+             \end{tabular}
+             $$ 
+             \begin{array}{rclrcl}
+               k & = & -\epsilon \cdot \epsilon + (1 + \epsilon)(1 - \epsilon)  & l & = & -\epsilon (1 + \epsilon) + (1 + \epsilon)(-\epsilon) \\
+                 & = & -\epsilon^2 + 1 -\epsilon^2                              &   & = & -\epsilon - \epsilon^2 - \epsilon - \epsilon^2 \\
+                 & = & 1 - 2\epsilon^2                                          &   & = & -2\epsilon - 2\epsilon^2 
+             \end{array}
+             $$ \hfill $\Box$
+             \begin{lemma} Schritt 1.(d) bei Anfangskonfiguration $k=0$ und $l=1$
+             \end{lemma}
+             \begin{tabular}{rlll}
+               i.   & bedingte Phasendrehung $S_{\neg C,\pi}$ & $k = 0 $         & $l = 1$ \\
+               ii.  & Diffusionstransformation $D$            & $k = 1-\epsilon$ & $l = -\epsilon$ \\
+               iii. & bedingte Phasendrehung $S_{C,\pi}$      & $k = 1-\epsilon$ & $l = \epsilon$ \\
+               iv.  & Diffusionstransformation                &                  &
+             \end{tabular}
+             $$
+             \begin{array}{rclrcl}
+               k & = & (1-\epsilon)\epsilon + \epsilon(1-\epsilon)       & l & = & (1 -\epsilon )(1 + \epsilon) + \epsilon(-\epsilon) \\
+                 & = & \epsilon - \epsilon^2 + \epsilon - \epsilon^2     &   & = & 1 - \epsilon^2 - \epsilon^2 \\
+                 & = & 2\epsilon - 2 \epsilon^2                          &   & = & 1 -2\epsilon^2
+             \end{array}
+             $$ \hfill $\Box$
+             \begin{satz}[Geschlossene Formeln f"ur die $k$- und $l$-Amplituden]
+             Mit Hilfe der beiden vorhergehenden Lemmata l"a\3t sich die Wirkung eines Iterationsschrittes im Schritt  1.(d) angeben:
+             \begin{eqnarray*}
+               k_j & = & \epsilon\cos(j\Theta) + \gamma(1+\epsilon+i)\sin(j\Theta) \\
+               l_j & = & -\frac{\epsilon}{\gamma}\sin{j\Theta}+(1+\epsilon+i)\cos(j\Theta),
+             \end{eqnarray*}
+             wobei $\cos(\Theta) = 1 - 2\epsilon^2$ und $\gamma^2 = \frac{2\epsilon-2\epsilon^2}{2\epsilon+2\epsilon^2}$. 
+             \end{satz}
+             \beweis Es gilt 
+             $$ \pmatrix{k_{j+1} \cr l_{j+1}} = \pmatrix{ 1 - 2\epsilon^2           &  2\epsilon - 2\epsilon^2 \cr
+                                                          -2\epsilon - 2\epsilon^2  &  1 - 2\epsilon^2} 
+                                                \pmatrix{k_j \cr \l_j} $$
+             mit den Anfangsbedingungen $k_0 = \epsilon$ und $l_0 = (1+\epsilon)+i$. \\
+             \noindent
+             Mit den Substitutionen $\cos(\Theta) = 1 - 2\epsilon^2$ und $\gamma^2 = \frac{2\epsilon-2\epsilon^2}{2\epsilon+2\epsilon^2}$ erh"alt man
+             $$ \pmatrix{k_{j+1} \cr l_{j+1}} = \pmatrix{ \cos\Theta                    &  \gamma\sin\Theta \cr
+                                                          -\frac{1}{\gamma}\sin\Theta   &  \cos\Theta }
+                                                \pmatrix{k_j \cr \l_j} $$
+             Die Potenzen dieser Matrix lassen sich sehr einfach berechnen. Mit vollst"andiger Induktion beweist man leicht, da\3
+             $$ \pmatrix{k_j \cr l_j} = \pmatrix{ \cos(j\Theta)                    &  \gamma\sin(j\Theta) \cr
+                                                  -\frac{1}{\gamma}\sin(j\Theta)   &  \cos{j\Theta} }
+                                                \pmatrix{\epsilon \cr (1+\epsilon)+i} $$
+             gilt.
+             Damit lassen sich folgende geschlossene Formeln f"ur $k_j$ und $l_j$
+             \begin{eqnarray*}
+               k_j & = & \epsilon\cos(j\Theta) + \gamma(1+\epsilon+i)\sin(j\Theta) \\
+               l_j & = & -\frac{\epsilon}{\gamma}\sin(j\Theta)+(1+\epsilon+i)\cos(j\Theta)
+             \end{eqnarray*}
+             ablesen. \hfill $\Box$
+             \begin{lemma}
+               Es existiert eine Zahl $m < \frac{1}{40\epsilon_0}$, so da\3 nach $m$ Iterationen f"ur den Betrag der $k$-Amplituden 
+               $\betrag{k_m} > \frac{\betrag{\epsilon}}{20\epsilon_0}$ gilt.
+             \end{lemma}    
+             \beweis Es werden Ausdr"ucke mit trigonometrischen Funktionen abgesch"atzt, wobei die Tatsache ausgenutzt wird, da\3 $\betrag{\epsilon}$ klein ist. 
+             Aufgrund der Definition gilt $\cos\Theta=1 - 2\epsilon^2$. Mit den folgenden Identit"aten 
+             $$
+               \cos^2\Theta = \left( 1 - 2\epsilon \right)^2 = 1-4\epsilon^2+4\epsilon^4 \\
+             $$
+             $$
+               \sin^2\Theta = 1 - \cos^2\Theta = 1 - 1 + 4\epsilon^2 - 4\epsilon^4 = 4\epsilon^2 - 4\epsilon^4 
+             $$
+             $$
+                 \sin\Theta = \sqrt{4\epsilon^2 - 4\epsilon^4} = 2\epsilon\sqrt{1-\epsilon^2}
+             $$ 
+             kann man folgende Absch"atzungen $\sin\Theta \approx 2\epsilon$ und $\Theta \approx \sin\Theta$ machen, da die Sinus-Funktion f"ur kleine Argumente linear ist.
+             Es gilt $\gamma \approx 1$. F"ur nicht zu grosse $j$ gilt $\sin(j\Theta) \approx j\Theta$ und $\cos(j\Theta) \approx j\Theta$. 
+             Mit diesen Absch"atzungen erh"alt man f"ur die $k$-Amplitude
+             \begin{eqnarray*}
+                      k_j   & =       & \epsilon\cos(j\Theta)+\gamma\left(1+\epsilon+i\right)\sin(j\Theta) \\
+                            & \approx & \epsilon + (1 + \epsilon + i)2j\epsilon
+             \end{eqnarray*}
+             und den Betrag der $k$-Amplitude
+             $$ \betrag{k_j} \approx 2\sqrt{2}\betrag{\epsilon}j, $$
+             indem man alle Summanden mit $\epsilon^3, \epsilon^4$ und $j\epsilon^2$ wegl"a\3t.
+             F"ur kleine $\epsilon$ h"angt also der Betrag der $k$-Amplitude linear von $\betrag{\epsilon}$ ab. 
+             Mit dieser linearen Approximation sieht man, da\3 eine Zahl $m$ existiert, so da\3 $m$ Iterationen f"ur den Betrag der $k$-Amplitude $\betrag{k_m}$
+             $$ \betrag{k_m} > \frac{\betrag{\epsilon}}{20\epsilon_0} $$ gilt.
+             Es mu\3 f"ur $m$ 
+             \begin{eqnarray*}
+               2\sqrt{2}m\betrag{\epsilon} & > & \frac{\betrag{\epsilon}}{20\epsilon_0} \\
+                                        m  & > & \frac{1}{40\sqrt{2} \epsilon_0}
+             \end{eqnarray*} 
+             gelten. Man sieht insbesondere, da\3 die Anzahl der Iterationen kleiner als $m < 1/40\epsilon_0$ gew"ahlt werden kann.
+             Dies ist auch der Grund, warum Grovers Algorithmus nur ${\cal O}(1/\epsilon_0 \Delta^2)$ 
+             Proben braucht, um $\betrag{\epsilon}$ zu bestimmen, wohingegen ein klassischer Algorithmus $\Omega(1/\epsilon_0^2\Delta^2)$
+             ben"otigt. \hfill $\Box$
+             
+             Das folgende Mathematica-Programm zeichet den Betrag der $k$-Amplitude und ihre lineare Approximation.
+             \begin{center}
+             {\footnotesize
+             \begin{verbatim}
+(* Verst"arkungsprozess in 1.(d), PW                          *)
+(* zeichnet den Betrag der k-Amplitude und ihre Approximation *)
+(* in Abh"angigkeit der Anzahl der Iterationen                *)
+
+epsilon = 0.1;
+
+Theta = ArcCos[1 - 2 epsilon^2];
+gamma = Sqrt[(2 epsilon - 2 epsilon^2) / (2 epsilon + 2 epsilon^2)]; 
+
+Plot[ {2 Sqrt[2] Abs[epsilon] j, Abs[ epsilon Cos[j Theta] + gamma ( 1 + epsilon + I) Sin[j Theta]]}, {j,0,50}] 
+             \end{verbatim}
+             }
+             \end{center}           
+             Man sieht mit diesem Programm, da\3 die Approximation sehr gut ist.
+             %%
+             %% 
+             \subsection*{2. Teil: Sch"atzung von $\betrag{\epsilon}$}
+             %%
+             %%
+             Im 2.Teil werden die Messwerte statistisch ausgewertet, um $\betrag{\epsilon}$ zu sch"atzen. Die Grundlage dieser Auswertung ist das 
+             Gesetz der gro\3en Zahlen ben"otigt.
+             \begin{satz}[Gesetz der gro\3en Zahlen]
+               Es sei in einem Bernoulli-Experiment $p$ die Wahrscheinlichkeit eines Ereignisses $A$ und $(1-p)$ die Wahrscheinlichkeit des komplement"aren 
+               Ereignisses $\overline{A}$. Bei $\nu$ Wiederholungen liegt $f$, die relative H"aufigkeit des Ereignisses $A$, zwischen $p-\kappa\sqrt{1/\nu}$ und
+               $p+\kappa\sqrt{1/\nu}$ mit einer Wahrscheinlichkeit von mindestens $(1-2\exp(-2\kappa^2))$. \hfill $\Box$
+             \end{satz}
+             %
+             \begin{lemma}[Genauigkeit von $\epsilon$] Das Experiment im ersten Teil werde $\nu = {\cal O}(1/\Delta^2)$ mal ausgef"uhrt. $f$ sei der Bruchteil der Zust"ande 
+               $\ket{i}$ mit
+               $C(i)=0$, die im Schritt 1.(e) gemessen wurden. Mit einer Wahrscheinlichkeit von mindestens $(1-2\exp(-2\kappa^2))$ liegt die Gr"o\3e 
+               $ \frac{1}{2}(\betrag{k_m }^2(1+\epsilon))$ in dem Intervall von $(f-\kappa\Delta)$ bis $(f+\kappa\Delta)$.
+             \end{lemma}
+             \beweis Die Wahrscheinlichkeit, irgend einen Zustand $\ket{i}$ mit $C(i)=0$ 
+             zu messen, betr"agt $\frac{1}{2}(\betrag{k_m }^2(1+\epsilon))$, da es $(N/2)(1+\epsilon)$ solcher Zust"ande gibt. 
+          
+             Das Gesetz der gro\3en Zahlen besagt, da\3 nach $\nu$ Wiederholungen $f$ in dem Intervall von $\frac{1}{2}(\betrag{k_m }^2(1+\epsilon))-\kappa\Delta$ bis
+             $\frac{1}{2}(\betrag{k_m }^2(1+\epsilon))+\kappa\Delta$ mit einer Wahrscheinlichkeit von mindestens $(1-2\exp(-2\kappa^2))$ liegt. Durch Umformen 
+             sieht man, da\3 $\frac{1}{2}(\betrag{k_m }^2(1+\epsilon))$ zwischen $f-\kappa\Delta$ und $f+\kappa\Delta$ mit einer Wahrscheinlichkeit von mindestens
+             $(1-2\exp(-2\kappa^2))$ liegt. \hfill $\Box$
+             %
+             \begin{lemma} Seien $a,b\in\R$ mit $a<b$ und $\Delta f = f(b)-f(a)$. Es gelte f"ur die Ableitung der Funktion $f'(x)>d$ f"ur alle $x\in (a,b)$ mit
+                $d$ positiv. Dann gilt $b-a<\Delta f / d$.
+             \end{lemma}
+             \beweis Aufgrund des Zwischenwertsatzes gilt $f(b)-f(a)=f'(\xi)(b-a)$ f"ur ein $\xi\in (a,b)$. Damit folgt $b-a=\Delta f / f'(\xi) < \Delta f / d$.
+               \hfill $\Box$
+             %
+             \begin{satz}
+               Der Wert von $\betrag{\epsilon}$ kann mit einem maximal erwarteten Fehler von ${\cal O}(\Delta\epsilon)$ aus dem Sch"atzwert $f$ f"ur
+               $f(\epsilon)=\frac{1}{2}(\betrag{k_m }^2(1+\epsilon))$ gewonnen werden.
+             \end{satz}
+             \beweis Der Sch"atzwert $f$ liegt mit einer Wahrscheinlichkeit von mindestens $(1-\exp(-2\kappa^2))$ in dem Intervall von 
+               $f(\epsilon)-\kappa\Delta$ bis $f(\epsilon)+\kappa\Delta$. Sei also $\betrag{f(a)-f(b)}=2\kappa\Delta$.
+               \begin{enumerate}
+                 \item $\betrag{k_m(\epsilon)}^2 = (\gamma(1 + \epsilon)\sin(m\Theta) + \epsilon\cos(m\Theta))^2 + \gamma^2\sin^2(m\Theta) $
+                 \item Um aus der Sch"atzung $f$ f"ur $f(\epsilon)$ den Wert $\betrag{\epsilon}$ sch"atzen zu k"onnen, mu\3 man die partielle Ableitung der Funktion $f(\epsilon)$
+                   nach $\epsilon$ kennen. F"ur sie gilt
+                   \begin{eqnarray*}
+                     {\partial\over\partial\epsilon}f(\epsilon) & =       & {\partial\over\partial\epsilon}\frac{1}{2}(\betrag{k_m}^2(1+\epsilon)) \\
+                                                                & \approx & \frac{1}{2}{\partial\over\partial\epsilon}(2\sqrt{2}m\betrag{\epsilon})^2 \\
+                                                                & =       & 8m^2\epsilon.
+                   \end{eqnarray*}
+                 \item Aufgrund des vorhergehenden Lemmas gilt $\betrag{b-a} < {\betrag{f(b)-f(a)}}/{\min\betrag{f'(x)}}$ mit $x\in (a,b)$. Damit und mit
+                       $m > {1}/{20\epsilon_0}$ und $\betrag{\epsilon_0 / \epsilon}<10$ erh"alt man 
+                       folgende Absch"atzung
+                       $$ \betrag{b-a} < \frac{2\kappa\Theta}{8m^2\epsilon} = \frac{\kappa\Theta}{4m^2\epsilon_0^2}\left(\frac{\epsilon_0^2}{\epsilon^2}\right)\betrag{\epsilon} <
+                          \frac{\kappa\Theta}{4\left(\frac{1}{20}\right)^2}(10)^2\betrag{\epsilon} = 10000\kappa\Delta\betrag{\epsilon} $$
+                       Der Wert von $\betrag{\epsilon}$ kann also aus der relativen H"aufigkeit der Zust"ande $\ket{i}$ mit $C(i)=0$ gesch"atzt werden. Der Sch"atzwert liegt dabei
+                       mit einer Wahrscheinlichkeit von mindesten $(1-\exp(-2\kappa^2))$ bei einer Abweichung von h"ochstens $10000\kappa\Delta\epsilon_0$ vom 
+                       tats"achlichen Wert von $\betrag{\epsilon}$ vom entfernt. \hfill $\Box$
+               \end{enumerate}
+               Indem man den Schwellwert $\mu$ leicht varriert, kann man das Vorzeichen von $\epsilon$ feststellen. Man wei\3 jetzt, ob der Schwellwert gr"o\3er oder
+               kleiner ist als der Median. Der Schwellwert wird solange ver"andert, bis $\betrag{\epsilon}$ klein genug ist. Dies kann mit dem folgenden
+               Programm erreicht werden, das die Quantensubroutine, die $\betrag{\epsilon}$ bestimmt, aufruft, um den Schwellenwert $\mu$ geeignet zu "andern. F"ur den
+               Startwert mu\3 $\betrag{\epsilon} < \epsilon_0$ gelten.
+\newpage
+\begin{verbatim}
+median(min, max)
+{
+  lower = min;
+  upper = max;
+  while (upper - lower > 1)
+  {
+    mu = (upper + lower) / 2;
+    // liefert epsilon mit Vorzeichen
+    // epsilon(schwellwert, epsilon_0, delta)
+    est = epsilon_est(mu, 0.1, 0.1); 
+    if (est > 0) upper = mu;
+    else         lower = mu;
+  }
+  return mu;
+}
+\end{verbatim}
+
+               \begin{thebibliography}{10}
+                 \bibitem[Ben94]{bernstein} 
+                  Bennett, Charles~H. and Bernstein, Ethan and 
+                  Brassard, Gilles and Vazirani, Umesh, 
+                  {\em Strengths and weaknesses of quantum computing}, LANL preprint quant--ph/9701001
+                 \bibitem[Gro96a]{grosuch}
+                   Lov K. Grover, {\em A fast quantum mechanical algorithm for database search}, 
+                   LANL preprint quant--ph/9605043
+                 \bibitem[Gro96b]{grovermedian}
+                   Lov K. Grover, {\em A fast quantum mechanical algorithm for estimating the median}, 
+                   LANL preprint quant--ph/960702
+                 \bibitem[Boy96]{hoyer}
+                   Boyer, Michel and Brassard, Gilles and H{\o}yer,
+                   Peter and Tapp, Alain,
+                   {\em Tight bounds on quantum searching}, LANL preprint quant--ph/9605034
+                 \bibitem[Dur96]{hoyermin}
+                   D{\"u}rr, Christoph and H{\o}yer, Peter,
+                   {\em A quantum algorithm for finding the minimum}, LANL preprint quant--ph/9607014
+                 \bibitem[Kit96]{kitaev}
+                   A. Yu. Kitaev, {\em Quantum measurements and the Abelian Stabilizer Problem}, LANL preprint quant--ph/9511026
+               \end{thebibliography}
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+

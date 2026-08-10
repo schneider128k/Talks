@@ -47,6 +47,11 @@ Most of the early talks come in two parts, because that is how a German *Prosemi
 *Seminar* worked: a *Vortrag*, the talk itself, and an *Ausarbeitung*, a written account
 of it handed in afterwards.
 
+Where the *Ausarbeitung* went into a printed seminar volume it is split in two, as it was
+at the time: a `_report.tex` that carries the volume's title page and pulls in a
+`_chapter.tex` holding the text itself. The `haupt.sty` and `unilogo.tex` beside them are
+the seminar's own template, kept unchanged so the document still builds.
+
 ## Building
 
 Every talk builds from the sources in its own folder with
@@ -58,8 +63,17 @@ pdflatex <file>.tex
 run twice where the document has a table of contents. A recent MiKTeX or TeX Live is
 enough; anything further that a source needs is noted in its entry in [TALKS.md](TALKS.md).
 
+A few of the oldest sources are left exactly as they were, because bringing them up to a
+modern LaTeX would have changed how they look; the PDF beside those is the one typeset at
+the time, and the entry in [TALKS.md](TALKS.md) says so.
+
 ## Licensing
 
 The talks — sources, figures and compiled PDFs — are under
 [CC BY 4.0](LICENSE-CC-BY-4.0). Talks given jointly with other people are marked as such
 in [TALKS.md](TALKS.md) and are not mine alone to license.
+
+The same goes for the few files that came with a seminar template rather than from me —
+`haupt.sty`, `unilogo.tex` and `logo.eps`, the last two being the university's and the
+institute's marks. They are here only so that the documents still build, and they are not
+my work.

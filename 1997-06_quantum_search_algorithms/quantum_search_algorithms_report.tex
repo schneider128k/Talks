@@ -1,0 +1,65 @@
+\documentclass[twoside]{report}
+\usepackage{german,epsf,haupt}
+\dqwarninglevel{0}
+\usepackage{amsfonts,amssymb}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\let\k\undefined
+
+\newcommand{\includeeps}[2]{
+   \def\epsfsize##1##2{#2##1}
+   \centerline{\epsffile{#1}}}
+
+\begin{document}
+\begin{titlepage}\Large
+\begin{center}
+{\LARGE\bf Seminar} \\[1cm]
+{\huge\bf Quantum Computing\par} 
+\vspace*{1cm}
+\unilogo{50}\\[1cm]
+{\bf Universit"at Karlsruhe (TH)}\\
+{Fakult"at f"ur Informatik}\\
+{\em Institut f"ur Algorithmen und Kognitive Systeme}
+\vfill
+Prof.~Dr.~Th.~Beth\\
+Dipl.~Inform.~M.~Grassl\\
+Dipl.~Inform.~J.~M"uller--Quade
+\vfill\vfill 
+Sommersemester 1996
+\vfill
+\vfill
+\end{center}
+\end{titlepage} 
+ 
+\newpage
+\thispagestyle{empty}
+\ 
+\newpage 
+
+\pagenumbering{roman}
+\tableofcontents
+\cleardoublepage
+\pagenumbering{arabic}
+%%
+%% hier wird die eigentlich Ausarbeitung eingebunden (eigenes File,
+%% mit \input
+\input{quantum_search_algorithms_chapter}
+%%
+%% Bemerkungen zur Ausarbeitung
+%%
+%% - erster Befehl:
+%%
+%%   \Vortrag{Titel}{Autor}
+%%
+%% - oberste Gliederungsstufe ist \section
+%%
+%% - \begin{document} und \end{document} entfallen
+%%
+%% - eigenes Literaturverzeichnis
+%%
+
+\end{document}
+
+

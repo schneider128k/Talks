@@ -1,0 +1,474 @@
+\documentstyle[boldmath,semcolor,semlayer,portrait,rotate,epsf,german,fancybox]{seminar}
+\input{unilogo}
+\input{amssym.def}
+\input{amssym}
+\def\dummy#1{}
+\overlaystrue
+\def\overlay#1{{}}
+
+\slidewidth9.5in
+\slideheight6.7in
+%\def\slidetopmargin{\iflandscape.2in\else0.8in\fi}
+\def\slidetopmargin{\iflandscape.3in\else0.8in\fi}
+\def\slidebottommargin{\iflandscape1.0in\else0.4in\fi}
+\def\slideleftmargin{\iflandscape.2in\else.5in\fi}
+\def\sliderightmargin{\iflandscape1.0in\else.8in\fi}
+
+\slidesmag{4}
+\centerslidesfalse
+\slideframewidth0.5pt
+%\slideframe{none}
+
+%\portraitonly
+%\landscapeonly
+%\def\leftsliderotation#1{\rotate[l]{#1}}
+%\sliderotation{left}
+\rotateheaderstrue
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Makros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\bra#1{\left<#1\right|}
+\def\ket#1{\left|#1\right>}
+\newcommand\scalar[2]{\left<#1|#2\right>} 
+\newcommand{\scalars}[3]{\left<#1|#2|#3\right>}
+\newcommand{\betrag}[1]{\vert #1 \vert}  
+\newcommand{\unten}[1]{\lfloor #1 \rfloor} 
+\newcommand{\oben}[1]{\lceil #1 \rceil} \def\dmin{\mathop{\rm d}_{\rm min}\nolimits}
+\newcommand{\diag}[1]{\mbox{ diag}\left(#1\right)} 
+\def\dH{\mathop{\rm d}_H\nolimits}
+\def\wH{\mathop{\rm wgt}_H\nolimits}
+
+\def\mathsymfont#1{\ifmmode{\mathchoice{%
+    \mbox{\the\textfont0\ignorespaces#1}}{%
+    \mbox{\the\textfont0\ignorespaces#1}}{%
+    \mbox{\the\scriptfont0\ignorespaces#1}}{%
+    \mbox{\the\scriptscriptfont0\ignorespaces#1}}}%
+  \else{{\rm\ignorespaces#1}}\fi}
+\def\C{{\cal C}}
+\def\Cdual{\C^{\perp}}
+\def\Czdual{\C_2^{\perp}}
+\def\Csum{\sum_{\bm{c}\in\C}}
+\def\Cdualsum{\sum_{\bm{c}\in\Cdual}}
+\def\F{\mathsymfont{I\kern-.25em F}}
+\def\ds{\displaystyle}
+\newfont{\bsf}{cmssbx10 scaled 1400}
+\newfont{\lbsf}{cmssbx10 scaled 1800}
+\newfont{\emsf}{cmssi10}
+\newfont{\trm}{cmr10}  % \ten\roman
+\newfont{\twrm}{cmr12} % \twelve\roman
+\newfont{\brm}{cmbx10 scaled 1400} % \bold\roman
+\def\R{\mbox{\trm I\kern-.2em R}}
+%\def\bm#1{\mbox{\boldmath$#1$}}
+\newcommand{\heading}[1]{%
+  \begin{center}
+    \bsf
+    \shadowbox{#1}%
+  \end{center}
+  \vspace{1ex minus 1ex}%
+}
+\newbox{\logobox}
+\setbox\logobox=\hbox{\raise 0.17\baselineskip\hbox{\epsfbox{logo.eps}}}
+\def\logo{\usebox{\logobox}}
+\newpagestyle{MH}{\hss\hbox to \hsize{PhysComp96\hss\thepage}\hss}%
+{\hss\hbox to \hsize{${\cal IAKS}$\ \logo\ UniKA\hfil
+M.~Grassl}\hss}
+
+\newpagestyle{nohead}{}{\hss\hbox to \hsize{\tiny${\cal IAKS}$\ \logo\
+UniKA\hfil \thepage/PhysComp96}\hss}
+
+\newpagestyle{nohead_beth}{}{\hss\hbox to \hsize{\tiny${\cal IAKS}$\ \logo\
+UniKA\hfil}\hss}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\frenchspacing
+\sf
+
+%%\pagestyle{nohead}
+\pagestyle{nohead_beth}
+%%\pagestyle{empty}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Grovers Suchalgorithmus 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}\sf
+\heading{Grovers Suchalgorithmus}
+\fbox{Problemstellung}
+\begin{itemize}
+  \item  Geg.: $C:X_N \to \left\{ 0,1\right\}$, wobei $X_N=\left\{0,1,\ldots ,N-1\right\}$
+  \item  Ges.: ein $i\in X_N$ mit $C(i)=1$
+\end{itemize}
+\vfill
+Die Anzahl der L"osungen $\betrag{\{i\mid C(i)=1\}} = t$ sei bekannt.
+\vfill
+Annahme: $C$ als black-box gegeben.
+\vfill
+{\bf Klassisch} (deterministisch oder probabilistisch) ${\cal O}(N)$ Schritte  \\
+{\bf Quantencomputer} ${\cal O}(\sqrt{N})$ Schritte
+\vfill
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Grovers Suchalgorithmus 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide*}\sf
+\heading{Unit"are Transformationen}
+\begin{center}
+\fbox{die bedingte Phasendrehung $S_C$}
+\end{center}
+   $$ S_C \ket{i} = \left\{ 
+                      \begin{array}{rc}
+                            -\ket{i} & \mbox{ falls $C\left( i\right) = 1$} \\ 
+                             \ket{i} & \mbox{ sonst }
+                      \end{array}
+                   \right.
+  $$
+\begin{center} \fbox{Herstellung der Gleichverteilung} \end{center}
+$$  W\ket{0} = \frac{1}{\sqrt{N}} \sum_{i=0}^{N-1} \ket{i}                 
+             = \frac{1}{\sqrt{N}}\pmatrix{1      & *     & \ldots & *      \cr 
+                                          \vdots & \vdots& \ddots & \vdots \cr
+                                          1      & *     & \ldots & *}
+$$
+\begin{center}\fbox{Diffusionstransformation $D$}\end{center}
+\begin{eqnarray*}
+  D & = & W \mbox{diag}\{1,-1,\ldots,-1\} W^{\dagger} \\
+    & = &  \pmatrix{ -1+\frac{2}{N} & \frac{2}{N}   & \ldots      & \frac{2}{N}   \cr 
+                               \frac{2}{N}   & \ddots        & \ddots      & \vdots        \cr 
+                               \vdots        & \ddots        & \ddots      & \frac{2}{N}   \cr 
+                               \frac{2}{N}   & \ldots        & \frac{2}{N} & -1+\frac{2}{N} \cr}
+\end{eqnarray*}
+\begin{center}\fbox{Grovertransformation $G$}\end{center}
+  $$ G_C = D S_C. $$ 
+\end{slide*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Grovers Suchalgorithmus 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}\sf
+\heading{Grovers Suchalgorithmus}
+  \fbox{Algorithmus}
+  \begin{enumerate}
+    \item Pr"apariere den Zustand $\ket{0}$.
+    \item Stelle Gleichverteilung durch 
+          $ W\ket{0} = \frac{1}{\sqrt{N}}\sum_{i=0}^{N-1} \ket{i} $ her.
+    \item Wende Grovertransformation $G_C$ insgesamt ${\cal O}(N/t)$ mal an.
+    \item Messung des Registers liefert $i_0$.
+    \item Pr"ufe, ob $C(i_0)=1$, falls nicht, dann Neustart.
+  \end{enumerate} 
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Grovers Suchalgorithmus 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}\sf
+\heading{Diffusionstransformation}
+   Die Diffusionstransformation $D$ l"a\3t sich wie folgt zerlegen 
+\begin{eqnarray*}
+   D & = & \pmatrix{ -1+\frac{2}{N} & \frac{2}{N}   & \ldots      & \frac{2}{N}   \cr 
+                      \frac{2}{N}   & \ddots        & \ddots      & \vdots        \cr 
+                      \vdots        & \ddots        & \ddots      & \frac{2}{N}   \cr 
+                      \frac{2}{N}   & \ldots        & \frac{2}{N} & -1+\frac{2}{N} \cr} \\
+        & = & D=-I+2P,
+\end{eqnarray*} 
+wobei $I=\sum_{i=0}^{N-1} \ket{i}\bra{i}$ und $P= \frac{1}{N} \sum_{i,j=0}^{N-1} \ket{i}\bra{j}$.
+\end{slide}
+
+\begin{slide}\sf
+\heading{Inversion am Durchschnittswert}
+   $$P\ket{\Psi} = \left( \frac{1}{N} \sum_{j=0}^{N-1}\scalar{j}{\Psi} \right) \sum_{i=0}^{N-1} \ket{i}$$
+
+   Die Diffusionstransformation $D$ realisiert eine Inversion am Durchschnittswert $\alpha$, denn
+   \begin{eqnarray*} 
+     D\ket{\Psi} & = & \left( -I+2P\right) \ket{\Psi} \\ 
+                 & = & -\ket{\Psi} + 2P\ket{\Psi} . 
+   \end{eqnarray*} 
+   F"ur die $i$-te Komponente dieses Zustands gilt 
+   \begin{eqnarray*} 
+     \scalars{i}{D}{\Psi} & = & -\scalar{i}{\Psi} + 2\alpha \\  
+                          & = & \left( \alpha + \left( \alpha - \scalar{i}{\Psi}\right)\right) . 
+   \end{eqnarray*} 
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Grovers Suchalgorithmus 
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide*}\sf
+\heading{Amplituden}
+\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+\hline
+"Uberlagerung \newline 
+aller $i\in X_N$ \newline
+Hadamardtransf.&
+\begin{picture}(100,20)(0,25)
+\put(0,0){\vector(1,0){90}}
+\put(0,0){\vector(0,1){20}}\thicklines
+\multiput(5,0)(5,0){16}{\line(0,1){10}}
+\end{picture}\\
+\hline&\\[-3.5ex]
+\hline
+Phasendrehung \newline 
+f"ur $C(i)=1$ \newline
+&
+\begin{picture}(100,15)(0,15)
+\put(0,0){\vector(1,0){90}}
+\put(0,0){\vector(0,1){20}}\thicklines
+\multiput(5,0)(5,0){7}{\line(0,1){10}}
+\put(40,0){\line(0,-1){10}}
+\multiput(45,0)(5,0){3}{\line(0,1){10}}
+\put(60,0){\line(0,-1){10}}
+\multiput(65,0)(5,0){4}{\line(0,1){10}}
+\end{picture}\\
+\hline
+Grovertransf. $G_C$\newline Inversion an $\alpha$&
+%%\newline{}&
+\begin{picture}(100,20)(0,20)
+\put(0,5){\vector(1,0){90}}
+\put(0,5){\vector(0,1){20}}\thicklines
+\multiput(5,5)(5,0){7}{\line(0,1){8}}
+\put(40,5){\line(0,1){12}}
+\multiput(45,5)(5,0){3}{\line(0,1){8}}
+\put(60,5){\line(0,1){12}}
+\multiput(65,5)(5,0){4}{\line(0,1){8}}
+\end{picture}\\
+\hline&\\[-3.5ex]
+\hline
+\centerline{$\vdots$}&\centerline{$\vdots$}\\
+\hline&\\[-3.5ex]
+\hline
+nach einigen Iterationen\newline{} &
+\begin{picture}(100,25)(0,10)
+\put(0,5){\vector(1,0){90}}
+\put(0,5){\vector(0,1){20}}\thicklines
+\multiput(5,5)(5,0){7}{\line(0,1){2}}
+\put(40,5){\line(0,1){20}}
+\multiput(45,5)(5,0){3}{\line(0,1){2}}
+\put(60,5){\line(0,1){20}}
+\multiput(65,5)(5,0){4}{\line(0,1){2}}
+\end{picture}\\
+\hline
+\end{tabular}
+
+\bigskip
+Wird ein Fixpunkt erreicht?
+\end{slide*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Grovers Suchalgorithmus
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{slide*}\sf
+\heading{Amplituden}
+   Die geschlossenen Formeln f"ur die Amplituden der L"osungen $k_j$ und
+   der Nicht-L"osungen $l_j$ sind
+   \begin{eqnarray*} 
+      k_{j} & = & \frac{1}{\sqrt{t}}\sin\left(\left( 2j + 1\right)\Theta\right) \\ 
+      l_{j} & = & \frac{1}{\sqrt{N-t}}\cos\left(\left( 2j + 1\right)\Theta\right),  
+   \end{eqnarray*} 
+   wobei der Winkel $\Theta$ gleich $\sin^2\Theta =\frac{t}{N}$ ist. \\
+
+   Erfolgswahrscheinlichkeit am gr"o\3ten, wenn $\betrag{l_{\tilde m}}^2$ minimal.
+   $$ l_{\tilde m} = 0 \iff \tilde m = \left( \pi - 2\Theta \right) / 4\Theta $$ 
+   Da die Anzahl der Iterationen $m$ eine nat"urliche Zahl sein mu\3, wird $m$ folgenderma\3en definiert 
+   $$ m = \unten{\pi / 4\Theta}.$$ 
+   Grovers Algorithmus hat eine Laufzeit von ${\cal O}\left(\sqrt{\frac{N}{t}}\right)$.
+\end{slide*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Median Absch"atzung
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}\sf
+\heading{Medianabsch"atzung}
+\fbox{Problemstellung}
+\begin{itemize}
+  \item Geg.: ein unsortiertes Array $V[i]$ mit $N$ verschiedenen Elementen aus einer total geordneten Menge $({\cal V},\le )$
+  \item Ziel: Finde den Median, das $\oben{N/2}$-gr"o\3te Element in $V$ bzgl. $\le$.
+\end{itemize}
+\end{slide}           
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Median Absch"atzung
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}\sf
+\heading{Medianabsch"atzung}
+   Partitionierung des Arrays $V$ durch einen Schwellenwertindex $\mu\in{\cal V}$ in 
+   $$ A=\{V[i] | V[i]<\mu\}  \mbox{ und in } B=\{V[i] | V[i]\ge\mu\}.$$ 
+
+    Sei $\epsilon$ so definiert, da\3 $\betrag{A}=(N/2)(1+\epsilon)$ und 
+    $\betrag{B}=(N/2)(1-\epsilon)$. 
+ 
+    Dabei gelte $0.1\epsilon_0 < \betrag{\epsilon} < \epsilon_0$ f"ur ein festes $\epsilon_0$, das kleiner als $0.1$ ist.
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Median Absch"atzung
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}\sf
+\heading{Medianabsch"atzung}
+  \fbox{Aufgabe}
+
+  Bestimme $\betrag{\epsilon}$ mit einer Genauigkeit $\Delta$.
+
+  F"ur alle Sch"atzwerte $\widetilde\epsilon$ f"ur $\betrag{\epsilon}$ soll mit hoher
+  Wahrscheinlichkeit $\widetilde{\epsilon}(1-\Delta) < \betrag{\epsilon} < \widetilde{\epsilon}(1+\Delta)$ gelten.
+
+  L"osung dieses Problems durch Sch"atzung der Anzahl der Zust"ande $\ket{i}$ mit $C(i)=0$, wobei
+  $$ C(i) = \cases{ 1 & falls $V[i] \ge\mu$ \cr
+                    0 & falls $V[i] < \mu$ }. $$
+  QC-Algorithmus ben"otigt ${\cal O}(\frac{1}{\epsilon_0 \Delta^2})$ Proben.
+
+  Klassische Algorithmen ben"otigen $\Omega(\frac{1}{\epsilon_0^2 \Delta^2})$ Proben.
+  
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Median Absch"atzung
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}\sf   
+\heading{Algorithmus}
+         \begin{enumerate}
+         \item $\nu={\cal O}(\frac{1}{\Delta^2})$ Messwerte ermitteln.
+         \begin{enumerate}
+           \item Gleichverteilung $ \ket{\Psi_0} = \sum_{i=0}^{N-1} \ket{i} $
+           \item bedingte Phasendrehung $S_{C,\frac{\pi}{2}}$ 
+           \item Schiebetransformation $T$ 
+           \item Wiederhole die folgenden Schritte $m={\cal O}(\frac{1}{\epsilon_0})$ mal.
+             \begin{enumerate}
+               \item bedingte Phasendrehung $S_{\neg C,\pi}$ 
+               \item Diffusionstransformation $D$ 
+               \item bedingte Phasendrehung $S_{C,\pi}$
+               \item Diffusionstransformation $D$ 
+             \end{enumerate}
+           \item Messung des Registers und Speicherung der Messwerte
+         \end{enumerate}
+         \item Sch"atzung von $\betrag{\epsilon}$ durch statistische Auswertung der Messwerte
+         \end{enumerate}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Median Absch"atzung
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}\sf
+\heading{Funktionsweise des Algorithmus}
+\fbox{1. Teil : Messwerte ermitteln}
+  $$ 
+  \begin{array}{rlcc}
+    \mbox{1.(a)} & \mbox{Herstellung der Gleichverteilung }            & k=1         & l=1 \cr
+    \mbox{1.(b)} & \mbox{bedingte Phasendrehung } S_{C,\frac{\pi}{2}}  & k=1         & l=i \cr
+    \mbox{1.(c)} & \mbox{Schiebetransformation } T=-iI+(1+i)P          & k=\epsilon  & l=(1+\epsilon)+i
+  \end{array}
+  $$
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Median Absch"atzung
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}\sf
+\heading{Funktionsweise des Algorithmus}
+\fbox{1.(d) Lineare Verst"arkung der Betr"age der $k$-Amplituden}
+
+Die geschlossenen Formeln f"ur die Amplituden sind
+\begin{eqnarray*}
+  k_j & = & \epsilon\cos(j\Theta) + \gamma(1+\epsilon+i)\sin(j\Theta) \\
+  l_j & = & -\frac{\epsilon}{\gamma}\sin{j\Theta}+(1+\epsilon+i)\cos(j\Theta),
+\end{eqnarray*}
+wobei $\cos(\Theta) = 1 - 2\epsilon^2$ und $\gamma^2 = \frac{2\epsilon-2\epsilon^2}{2\epsilon+2\epsilon^2}$.
+
+Es gilt f"ur den Betrag der $k$-Amplituden
+$$ \betrag{k_j} \approx 2\sqrt{2}\betrag{\epsilon}j, $$
+da $\epsilon$ klein ist.
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Median Absch"atzung
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}\sf
+\heading{Funktionsweise des Algorithmus}
+\fbox{Anzahl der Iterationen}
+
+Man kann ein $m < \frac{1}{40\epsilon_0}$ so w"ahlen, so da\3 
+$\betrag{k_m} > \frac{\betrag{\epsilon}}{20\epsilon_0}$ gilt.
+\vfill
+\fbox{2. Teil: Statistische Auswertung der Messwerte}
+
+Die Wahrscheinlichkeit, einen Zustand $\ket{i}$ mit $C(i)=0$ 
+zu messen, betr"agt $f(\epsilon)=\frac{1}{2}(\betrag{k_m }^2(1+\epsilon))$, 
+da es $(N/2)(1+\epsilon)$ solcher Zust"ande gibt. 
+\vfill
+Der Wert von $\betrag{\epsilon}$ kann mit einem maximal erwarteten Fehler 
+von ${\cal O}(\Delta\epsilon_0)$ aus dem Sch"atzwert $f$ f"ur 
+$f(\epsilon)$ gewonnen werden.
+\vfill
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Median Absch"atzung
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide*}\sf
+\heading{Medianbestimmung}
+Durch Variation des Schwellwerts $\mu$ kann $\epsilon$ bestimmt werden.
+\begin{verbatim}
+median(min, max)
+{
+  lower = min;
+  upper = max;
+  while (upper - lower > 1)
+  {
+    mu = (upper + lower) / 2;
+    // liefert epsilon mit Vorzeichen
+    est = epsilon_est(mu, 0.1, 0.1); 
+    if (est > 0) upper = mu;
+    else         lower = mu;
+  }
+  return mu;
+}
+\end{verbatim}
+\end{slide*}
+
+\end{document}
+
+
