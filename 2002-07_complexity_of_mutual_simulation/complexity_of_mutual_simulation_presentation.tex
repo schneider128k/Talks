@@ -1,0 +1,307 @@
+%% fuer Drucker "bilby":
+%% dvips -O 5mm,1mm
+
+%% fuer Drucker "goofy":
+%% dvips600 -O 0mm,10mm Magdeburg
+
+\documentclass[portrait]{seminar}
+\usepackage{german,colordvi,boldmath,semcolor,semlayer,rotate,epsf,fancybox,mathsym}
+%\input{farbunilogo}
+%\input{unilogo}
+\usepackage{amssymb}
+\def\dummy#1{}
+\overlaystrue
+\def\overlay#1{{}}
+
+\slidewidth9.5in
+\slideheight6.7in
+%\def\slidetopmargin{\iflandscape.2in\else0.8in\fi}
+\def\slidetopmargin{\iflandscape.3in\else0.8in\fi}
+\def\slidebottommargin{\iflandscape1.0in\else0.4in\fi}
+\def\slideleftmargin{\iflandscape.2in\else.5in\fi}
+\def\sliderightmargin{\iflandscape1.0in\else.8in\fi}
+
+\newcommand{\cH}{{\cal H}}
+
+\slidesmag{4}
+\centerslidesfalse
+\slideframewidth0.5pt
+%\slideframe{none}
+
+%\portraitonly
+%\landscapeonly
+%\def\leftsliderotation#1{\rotate[l]{#1}}
+%\sliderotation{left}
+\rotateheaderstrue
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Makros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\bra#1{\left<#1\right|}
+\def\ket#1{\left|#1\right>}
+
+\def\trace{\mathop{\rm tr}\nolimits}
+
+\newcommand{\heading}[1]{%
+  \begin{center}
+    \Large
+    \bfseries
+    \shadowbox{#1}%
+  \end{center}
+  \vspace{1ex minus 1ex}%
+}
+\newbox{\logobox}
+%\setbox\logobox=\hbox{\raise 0.17\baselineskip\hbox{\epsfbox{logo.eps}}}
+
+\def\logo{\usebox{\logobox}}
+\newpagestyle{MH}{\hss\hbox to \hsize{PhysComp96\hss\thepage}\hss}%
+{\hss\hbox to \hsize{${\cal IAKS}$\ \logo\ UniKA\hfil}\hss}
+
+\newpagestyle{nohead}{}{\hss\hbox to \hsize{\tiny IAKS
+\ \logo\ Universit"at Karlsruhe\hfil Prof.~Dr.~Th.~Beth}\hss}
+
+\newpagestyle{nohead_beth}{}{\hss\hbox to \hsize{\tiny${\cal IAKS}$\ \logo\
+UniKA\hfil}\hss}
+
+\newcommand{\tl}{\tilde}
+\newcommand{\onemat}{{\mathbf 1}}
+
+\begin{document}
+
+\begin{slide}
+{$ $}
+\vfill
+\begin{center}
+{\Large \blue Mutual simulation of Hamiltonian dynamics\\ on interacting
+quantum systems}
+
+\vfill Pawel Wocjan, Dominik Janzing, Martin R{\"o}tteler, Thomas Beth
+
+{\small Institut f"ur Algorithmen und Kognitive Systeme}
+
+{\small Universit"at Karlsruhe}
+\end{center}
+\vfill
+\end{slide}
+
+\begin{slide}
+{\large {\bf Control-theoretical model of quantum computers}}
+\vfill
+{\blue Time evolution} defined by the {\blue
+time-dependent Schr\"odinger equation}
+\[
+\frac{d}{dt} U(t) = -i H(t) U(t)\,,\quad U(0)=\onemat
+\]
+$H(t)$ Hamiltonian 
+
+$U(t)$ is the resulting unitary after time $t$
+\vfill
+\[
+H(t) = H_d + \sum_{i=1}^m a_i(t) H_i
+\]
+$H_d$ {\blue drift Hamiltonian} internal to the system
+
+$\sum_{i=1}^m a_i(t) H_i$ {\blue control Hamiltonian} externally
+changeable
+\vfill
+{\red Complexity of a unitary $U$}: minimal time required to implement
+$U$
+\vfill
+\end{slide}
+
+\begin{slide}
+{\large {\bf Fast control limit}}
+\vfill
+strength of the control Hamiltonians arbitrarily large $\Longrightarrow$
+
+{\blue control unitaries in control group $K$} arbitrarily fast
+\vfill
+{\red Complexity of a unitary $U$}: minimal time
+\[
+U=\exp(-i H t_N) V_N \cdots \exp(-i H t_2) V_2 \exp(-i H t_1) V_1
+\]
+\vfill
+express it as the evolution according to the piecewise constant Hamiltonian
+\[
+U = U_N \exp(-i U_N^\dagger H U_N t_N) \cdots \exp(-i U_2^\dagger H U_2 t_2)
+    \exp(-i U_1^\dagger H U_1 t_1)
+\]
+\vfill
+\end{slide}
+
+
+\begin{slide}
+{\large {\bf Average Hamiltonian Theory}}
+\vfill
+{\blue Dyson expansion}
+\[
+U(t)={\cal T} \exp(\int_{\tau=0}^t d\tau H(\tau))=\exp(-i\bar{H}t)
+\]
+\vfill
+{\blue Magnus expansion} $\bar{H}=\bar{H}^{(0)}+\bar{H}^{(1)}+\cdots$
+\begin{eqnarray*}
+{\red\bar{H}^{(0)}} & {\red =} & {\red \frac{1}{t}\int_0^t d\tau
+H(\tau)\,,\quad\quad\quad\quad\ \quad\quad\quad\quad
+\|\bar{H}^{(0)}\|\le 1} \\
+\bar{H}^{(1)} & = & \frac{-i}{2t}\int_0^t
+d\tau' \int_0^t\tau'' [H(\tau'),H(\tau'')]\,,\quad
+\|\bar{H}^{(1)}\|\le t/2
+\end{eqnarray*}
+\vfill
+{\red $\Longrightarrow$ $U(t)$ essentially determined by $\bar{H}^{(0)}$ for
+small $t$}
+\vfill
+\end{slide}
+
+
+\begin{slide}
+{\large {\bf Simulating Hamiltonians (first order simulation)}} 
+
+\vfill
+{\blue $H$ can simulate $\tilde{H}$ with overhead $1$}, written
+$\tilde{H}\le H$, and {\blue $N$ time steps} iff
+\[
+\tilde{H}=\sum_{j=1}^N p_j U_j^\dagger H U_j\,,
+\]
+where $p_1,\ldots,p_N$ are positive real numbers summing to $1$ and
+$U_j\in K$ are control operations, i.e.
+{\red $\tilde{H}$ is a convex sum of unitary conjugates of $H$}
+\vfill
+$H$ can simulate $\tilde{H}$ with overhead {\red $\tau$} iff 
+$\tilde{H} \le {\red \tau} H$ 
+\vfill 
+{\red time-optimal simulation} problem $\longrightarrow$
+{\red convex optimization} problem 
+\vfill
+\end{slide}
+
+\begin{slide}
+{\large {\bf Composite systems}}
+\vfill
+system consisting of {\blue $n$ qudits}  
+$\quad {\cal H}=\C^d\otimes\C^d\otimes\cdots\otimes\C^d$ 
+\vfill
+{\blue pair-interaction Hamiltonian}
+\[
+H = 
+\sum_{k<l} \sum_{\alpha\beta} J_{kl;\alpha\beta} 
+\sigma_\alpha^{(k)}\sigma_\beta^{(l)} +
+\sum_k \sum_{\alpha} r_{k;\alpha} \sigma_\alpha^{(k)}\,,
+\]
+where $B:=\{\sigma_\alpha\mid\alpha=1,\ldots,d^2-1\}$ is a basis of $su(d)$
+
+%{\blue coupling matrix}
+%\[
+%J=\left(
+%\begin{array}{c|c|c|c|c}
+%0      & J_{12} & J_{13} & \cdots & J_{1n} \\ \hline
+%J_{21} & 0      & J_{23} & \cdots & J_{2n} \\ \hline
+%\vdots & \vdots &        &        &        \\ \hline
+%J_{n1} & J_{n2} & J_{n3} &        & 0 
+%\end{array}
+%\right)\in\R^{(d^2-1)\,n\times (d^2-1)\,n}
+%\]
+
+\vfill
+{\blue control operations} are all {\red local} operations in
+\[
+K:=SU(d)\otimes SU(d)\otimes\cdots\otimes SU(d)
+\]
+\vfill
+\end{slide}
+
+\begin{slide}
+{\blue Decoupling/Selective decoupling}
+
+\quad quantum computing requires the ability to perform gates
+
+\quad couplings created by gates can only originate from natural couplings
+
+\quad naturally available Hamiltonians do not couple specific pairs of qubits
+
+\quad {\red $\longrightarrow$ turn off disturbing couplings}
+
+\vfill
+{\blue Time-reversal}
+
+\quad evolution of a single spin seems is phenomenologically a relaxation/
+
+\quad dephasing process
+
+%\quad (described by Bloch equations)
+
+\quad however, it is not always irreversible
+
+\quad {\red $\longrightarrow$ refocusing}\quad simulate $-H$ when $H$ is
+the system Hamiltonian
+
+\vfill 
+{\blue Universal simulation of quantum dynamics}
+
+\quad simulating quantum dynamics on a classical computer is hard
+
+\quad {\red $\longrightarrow$ universal quantum simulator}
+
+\quad\quad\quad use a quantum computer to simulate arbitrary dynamics
+\vfill
+\end{slide}
+
+\begin{slide}
+{\bf Mathematical tools}
+
+{\blue Vector majorization}
+
+let $x=(x_1,x_2,\ldots,x_d)\in\R^d$
+
+define
+$x^\downarrow=(x^\downarrow_1,x^\downarrow_2,\ldots,x^\downarrow_d)\in\R^d$
+as the vector whose components are the same as of $x$, but ordered so that
+\[
+x^\downarrow_1\ge x^\downarrow_2\ge\ldots\ge x^\downarrow_d
+\]
+
+{\blue $x$ majorizes $y$}, written {\blue $x\preceq y$}, if
+\[
+\sum_{j=1}^k x^\downarrow_j \le \sum_{j=1}^k y^\downarrow_j
+\]
+for $k=1,\ldots,d-1$ and 
+\[
+\sum_{j=1}^d x^\downarrow_j = \sum_{j=1}^d y^\downarrow_j
+\]
+\end{slide}
+
+\begin{slide}
+{\bf Mathematical tools} 
+
+{\blue Operator majorization}
+\vfill
+let $A$ and $B$ be two Hermitian matrices of size $d$
+
+we say {\blue $A$ majorizes $B$}, written {\blue $A\preceq B$}, if
+\[
+\lambda(A)\preceq\lambda(B)\,,
+\]
+where $\lambda(A)$ and $\lambda(B)$ are the spectra (the vectors of
+eigenvalues) of $A$ and $B$, respectively.
+\vfill
+{\bf Uhlmann's theorem} 
+
+we have $A\preceq B$ iff
+\[
+A=\sum_{j=1}^N p_j U_j^\dagger B U_j\,,
+\]
+where $\{p_j\}$ is a probability distribution and $\{U_j\}$ is a set
+of unitaries
+\vfill
+\end{slide}
+
+\end{document}
+
+
+
+
+
+
+
+
+

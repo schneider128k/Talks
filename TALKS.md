@@ -9,6 +9,34 @@ publishing is not.
 
 ---
 
+## Promotion — Universität Karlsruhe (TH), doctoral work at the IAKS
+
+- **Complexity of Mutual Simulation of Hamiltonian Dynamics** — *Invited talk*, 12 July 2002  
+  Ludwig-Maximilians-Universität München. Invited, as I remember it, by Robert Raussendorf.  
+  Joint work with Dominik Janzing, Martin Rötteler and Thomas Beth, so not mine alone to
+  license.  
+  Much the same talk as the one in Bad Honnef six months earlier, with a new opening on
+  the mathematics it rests on: vector and operator majorization, and Uhlmann's theorem.  
+  The abstract was written in German, under the title *Simulation hamiltonscher Dynamiken
+  auf wechselwirkenden Quantensystemen*.  
+  [presentation](2002-07_complexity_of_mutual_simulation/complexity_of_mutual_simulation_presentation.pdf) ·
+  [abstract](2002-07_complexity_of_mutual_simulation/complexity_of_mutual_simulation_abstract.pdf) ·
+  [sources](2002-07_complexity_of_mutual_simulation/)
+
+- **Mutual Simulation of Hamiltonian Dynamics on Interacting Quantum Systems** — *Colloquium*, January 2002  
+  Colloquium *Quantum Information Processing* of the Deutsche Forschungsgemeinschaft, at the
+  [Physikzentrum Bad Honnef](https://www.dpg-physik.de/ueber-uns/physikzentrum-bad-honnef).  
+  Joint work with Dominik Janzing, Martin Rötteler and Thomas Beth, so not mine alone to
+  license.  
+  Simulating one Hamiltonian with another on *n* interacting quantum systems: the
+  control-theoretic model and average Hamiltonian theory, decoupling schemes built from
+  orthogonal arrays and error bases, and bounds on the time overhead read off the
+  interaction graph — its chromatic index, and the spectrum of its adjacency matrix.  
+  [presentation](2002-01_mutual_simulation_of_hamiltonians/mutual_simulation_of_hamiltonians_presentation.pdf) ·
+  [sources](2002-01_mutual_simulation_of_hamiltonians/)
+
+---
+
 ## Hauptstudium — Universität Karlsruhe (TH), after the Vordiplom
 
 - **Quantenalgorithmen** — *Seminar*, June 1997  
@@ -18,11 +46,6 @@ publishing is not.
   Grover's search algorithm and the diffusion transformation as an inversion about the
   average, the lower bound for quantum search, and algorithms for finding the minimum
   and estimating the median.  
-  An earlier version of the write-up, 20 pages and dated 28 January 1997, also survives.
-  It carries a section on quantum counting that the final version does not, but only as
-  PostScript — I overwrote the source when I revised it in June.  
-  *(The slides are here exactly as they were — reshaping them for a modern LaTeX would
-  have changed how they look, so the PDF is the one typeset in 1997.)*  
   [presentation](1997-06_quantum_search_algorithms/quantum_search_algorithms_presentation.pdf) ·
   [report](1997-06_quantum_search_algorithms/quantum_search_algorithms_report.pdf) ·
   [sources](1997-06_quantum_search_algorithms/)
@@ -49,10 +72,6 @@ publishing is not.
   Supervisor: Michael Schmid.  
   The fractional Fourier transform, its eigenfunctions, and its realisation in a
   quadratic GRIN medium. My first talk, in my third semester.  
-  *(Begun on a DOS PC under [emTeX](https://ctan.org/pkg/emtex?lang=en), carried across on
-  a floppy, and finished two weeks later on an IAKS
-  [Sun workstation](https://en.wikipedia.org/wiki/Sun_Microsystems) — both machines are
-  still named in the TeX logs.)*  
   [presentation](1996-02_fractal_fourier_transform/fractal_fourier_presentation.pdf) ·
   [report](1996-02_fractal_fourier_transform/fractal_fourier_report.pdf) ·
   [sources](1996-02_fractal_fourier_transform/)
