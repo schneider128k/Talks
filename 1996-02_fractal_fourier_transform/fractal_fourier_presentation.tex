@@ -1,0 +1,132 @@
+\documentclass[11pt]{article}
+\usepackage{german,a4}
+\begin{document}
+\newcommand{\iu}{\int\limits_{-\infty}^{\infty}}
+\newcommand{\sq}{\sqrt{2\pi}x}
+\newcommand{\sqs}{\sqrt{2\pi}s}
+
+\newcommand{\ex}{\exp\left( -i2\pi xs \right)}
+\newcommand{\es}{\exp\left( i2\pi xs \right)}
+
+\newcommand{\h}{2^{1/4}}
+\newcommand{\gx}{\exp\left( - \pi x^2 \right)}
+\newcommand{\gs}{\exp\left( - \pi s^2 \right)}
+\newcommand{\db}{\mbox{d}}
+\newtheorem{satz}{Satz}
+
+\title{Fraktale Fouriertransformation}
+\author{Pawel Wocjan}
+\huge
+\centerline{\bf\Huge Die Fouriertransformation}
+\vfill
+$$ {\cal F}[f(x)] = \iu f(x) \ex dx $$
+\vfill
+\LARGE
+\begin{tabular}{ll}
+$\bullet$ Streckung &
+${\cal F}[f(x)] = \frac{1}{|a|}F\left( \frac{s}{a} \right) $ \\  & \\
+$\bullet$ Linarit"at &
+${\cal F}\left[ af \left( x \right) + bg \left( x \right) \right] = aF\left( s \right) + bG\left( s \right) $ \\  & \\
+$\bullet$ Verschiebung &
+${\cal F}[ f( x-a ) ] = e^{\left( -i2\pi as\right) F\left( s \right)} $ \\ & \\
+$\bullet$ Ableitung &
+${\cal F}\left[ f'\left( x \right) \right] = i2\pi s F\left( s \right) $ \\ & \\
+$\bullet$ Erstes Moment &
+${\cal F}[ xf(x) ] = \frac{F'(s)}{-2 \pi i} $ \\ & \\
+$\bullet$ Zweites Moment &
+${\cal F}[ x^2f(x) ] \frac{F''(s)}{-4 \pi} $
+\end{tabular}
+\vfill
+\huge
+
+\newpage
+\centerline{\bf \Huge Harmonischer Oszillator}
+\vfill
+die zeitunabh"angige Schr"odingergleichung
+$$  \left( -\frac{\hbar^2}{2m}\frac{\partial^2}{\partial x^2}+\frac{m}{2}\omega^2  x^2 \right) \varphi \left( x \right) = E\varphi\left( x \right) $$
+\vfill
+Substitution 
+$ \xi = \frac{x}{\sigma_0} \;, \;\sigma_0 = \sqrt{\hbar / m\omega} $ liefert:
+$$\frac{1}{2}\left(-\frac{\partial^2}{\partial \xi^2} + \xi^2 \right)\Phi\left( \xi \right) =  \epsilon\Phi \left(\xi\right) \: , \: \Phi\left( \xi \right)=\varphi\left(\sigma_0\xi\right) \: $$
+\vfill
+L"osungen nur normierbar, wenn
+$$ \epsilon_n = n + \frac{1}{2} \:, \: n=0, 1,2, \ldots $$
+die zugeh"origen Eigenfunktionen normiert in $\xi$ 
+$$ \Phi\left(\xi\right) = \left(\sqrt{\pi}2^n n!\right)^{-1/2}H_n \left(\xi\right)e^{-\xi^2/2} $$
+\vfill
+die Eigenfunktionen normiert in x
+$$ \varphi_n\left(x\right)=\left(\sigma_0\sqrt{\pi}2^n n!\right)^{-1/2}H_n\left(\frac{x}{\sigma_0}\right)\exp\left( -\frac{x^2}{2\sigma_0^2}\right) $$
+
+\newpage
+\centerline{\bf \Huge Der Hilbertraum $L_2\left(-\infty ,\infty\right)$ }
+\vfill
+$$\{ |\varphi_n\left.\right> =\varphi_n\left(x\right) \}_{n=0 \ldots \infty} $$ 
+\vfill
+\centerline{vollst"andiges und orthonormiertes System des }
+\centerline{Hilbert\-raumes $L_2\left(-\infty ,\infty\right)$} 
+\vfill
+\centerline{Skalarprodukt:}
+\begin{eqnarray*}
+\left<f|g\right> & = & \iu \overline{f\left( x\right)} g\left( x\right) dx \: . \\
+& & \\
+\left<\varphi_n | \varphi_m \right> & = & \delta_{nm} \\
+\sum_{n=-\infty}^{\infty}|\varphi_n\left. \right>\left<\varphi_n|\right. & = & \mbox{id} 
+\end{eqnarray*}
+\vfill
+
+\newpage
+\centerline{\bf \Huge Die Eigenfunktionen der FT}
+\vfill
+$$f''\left( x\right) + 4\pi ^2\left[ \left(2n + 1\right)/2 \pi - x^2\right] f\left( x\right) = 0$$
+\vfill
+\centerline{L"osungen:}
+\begin{eqnarray*}
+  |\Psi_n\left.\right> & = & \Psi_n \left( x \right) \\
+                       & = & \frac{\h} {\sqrt{2^n n!}} H_n \left( \sq \right) \gx \\
+\end{eqnarray*}
+\vfill
+\centerline{Fouriertransformierte der Dgl}
+$$F''\left( s\right) + 4\pi ^2\left[ \left(2n + 1\right)/2 \pi - s^2\right] f\left( s\right) = 0$$
+\vfill
+
+\newpage
+\vfill
+\begin{eqnarray*}
+{\cal F}|\Psi_n\left.\right> & = & \lambda_n \, |\Psi_n\left.\right> \\
+\lambda_n & = & i^{-n}
+\end{eqnarray*}
+$|\Psi_n\left.\right>$ Eigenfunktionen des ${\cal F}$-Operators \\ 
+Die Kernmatrix des ${\cal F}$-Operators: 
+$$ \left< \Psi_m \right. \!| \, {\cal F} \, |\! \left. \Psi_n \right>_{m,n=0}^{\infty} = \mbox{Diag}\left(1,-i,-1,i,\ldots\right)$$
+\vfill
+\begin{eqnarray*}
+  |f\left. \right> & = & \sum_{n=0}^{\infty}a_n |\Psi_n \left. \right> \\ 
+  a_n & = & \left< \right. \Psi_n | f \left. \right> \\
+  {\cal F}|f \left. \right> & = & \sum_{n=0}^{\infty}A_n i^{-n} |\Psi_n \left. \right> 
+\end{eqnarray*}
+\vfill
+{\bf fraktale Fouriertransformation}
+\begin{eqnarray*}
+{\cal F}^a \left[{\Psi}_n \left( x \right)\right] & = & {\lambda}_n^{a} \Psi_n \left( x\right)=i^{-an}\Psi _n\left( x\right) \\
+{\cal F}^{a}| f\left. \right> & = & \sum_{n=0}^{\infty}i^{-an}a_n |\Psi _n \left. \right> 
+\end{eqnarray*}
+\vfill
+
+\newpage
+\centerline{\bf \Huge Fraktale FT in der Optik} 
+\vfill
+\centerline{quadratisches GRIN-Medium} 
+$$ n^2\left( \varrho \right) = \left( 1-\frac{n_2}{n_1} \varrho^2 \right) \; , \; \varrho^2 = x^2 + y^2 $$
+\vfill
+\centerline{Helmholtzgleichung:}
+$$\nabla^2 \Psi + k^2n^2 \Psi = 0 $$ 
+\vfill
+\centerline{L"osungen sind die Eigenmoden:} 
+$$\Psi_{n_x , n_y} \left( x,y \right) = \Psi_{n_x}\left( x \right) \Psi_{n_y}\left( y \right) $$ 
+\vfill
+
+
+
+
+\end{document}
+ 

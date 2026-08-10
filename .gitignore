@@ -1,0 +1,15 @@
+# LaTeX build artifacts. The PDFs themselves are committed — they are what most
+# people will want to look at.
+*.aux
+*.log
+*.toc
+*.out
+*.dvi
+*.nav
+*.snm
+*.vrb
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz

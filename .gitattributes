@@ -1,0 +1,3 @@
+# These sources are recovered originals. Preserve every file byte-for-byte.
+# Disable all end-of-line conversion so they are not rewritten on checkout.
+* -text

@@ -1,0 +1,336 @@
+\documentclass[11pt,twoside]{report}
+\usepackage{german,a4}
+%\textwidth 16cm
+%\evensidemargin 0cm
+%\oddsidemargin 1.5cm
+
+\begin{document}
+\newcommand{\iu}{\int\limits_{-\infty}^{\infty}}
+\newcommand{\sq}{\sqrt{2\pi}x}
+\newcommand{\sqs}{\sqrt{2\pi}s}
+
+\newcommand{\ex}{e^{ -i2\pi xs }}
+\newcommand{\es}{e^{  i2\pi xs }}
+
+\newcommand{\h}{2^{1/4}}
+\newcommand{\gx}{e^{ -\pi x^2 }}
+\newcommand{\gs}{e^{ -\pi s^2 }}
+\newcommand{\db}{\mbox{d}}
+\newtheorem{satz}{Satz}
+
+\title{Fraktale Fouriertransformation}
+\author{Pawel Wocjan}
+\date{Februar 1996}
+\maketitle
+\tableofcontents
+
+\chapter{Fouriertransformation}
+\section{Definition der Fouriertransformation}
+Die Fouriertransformierte $F(s)$ von $f(x)$ ist definiert als
+$$\left({\cal F}f \right) \left( s \right) = F\left( s \right) := \iu f(x)\ex  dx $$
+Wenn man $F(s)$ mit derselben Formel transformiert, erh"alt man 
+$$\left({\cal F}^2 f\right) \left( x \right) = \iu F\left( s \right)\ex ds = f\left( -x \right) $$
+Wenn $f(x)$ eine gerade Funktion ist, d.h. $f(x)=f(-x)$, dann ergibt die wiederholte Transformation $f(x)$, die ursp"ungliche Funktion. Das ist die zyklische Eigenschaft der Fouriertransformation. Da ein Zyklus aus genau zwei Schritten besteht, wird die reziproke Eigenschaft impliziert. Diese Eigenschaften sind jedoch nicht perfekt; wenn $f(x)$ ungerade ist, d.h $f(x)=-f(-x)$, dann ergibt die wiederholte Transformation $f(-w)$. Im allgemeinen ergibt also die Fouriertransformation zweimal hintereinander angewandt die an der $y$-Achse gespiegelte Funktion $f(-x)$.
+Die Formeln, die die Reversibilit"at der Fouriertransformation beschreiben, lauten
+$$ F(s)=\iu f(x)\ex dx$$
+$$ f(x)=\iu F(s)\es ds$$
+
+\newpage
+\section{Wichtige S"atze}
+\vfill
+
+\begin{satz}
+Skalierung im Ortsbereich 
+$ \; {\cal F}\left[ f\left( a x \right) \right] = \frac{1}{|a|} F\left({s \over a}\right) $
+\end{satz}
+{\bf Beweis :}
+\begin{eqnarray*}  
+  \iu f\left( ax \right) \ex dx & = & \frac{1}{|a|} \iu f\left( ax \right) \exp \left( -2\pi \left( ax \right) \left( s/a \right) \right) d \left( ax \right) \\ & = & \frac{1}{|a|} F \left( \frac{s}{a} \right) \\
+\end{eqnarray*}
+\vfill
+
+\begin{satz} Linearit"at
+$ \; {\cal F}\left[ af \left( x \right) + bg \left( x \right) \right] = aF\left( s \right) + bG\left( s \right) $
+\end{satz}
+{\bf Beweis:}
+\begin{eqnarray*}
+  \iu \left( af\left( x\right) + bg\left( x\right) \right)\ex dx & = & 
+  a \iu f\left( x\right) \ex dx + b \iu g\left( x \right) \ex dx \\ & = &
+  aF\left( s \right) + bG \left( s \right)    
+\end{eqnarray*}
+\vfill
+
+\begin{satz}
+Verschiebung im Ortsbereich $\; {\cal F}\left[ f \left( x-a \right) \right] = \exp\left( -i2\pi as\right) F\left( s \right) $
+\end{satz}
+{\bf Beweis :}
+\begin{eqnarray*}
+  \iu f\left( x-a \right) \ex dx & = & 
+  \iu f\left( x-a \right) \exp\left(-i2\pi\left( x-a \right) s\right) \exp\left( -i2\pi as \right) d\left( x-a \right) \\
+  & = & \exp \left( -i2\pi as \right) F\left( s \right)
+\end{eqnarray*}
+\vfill
+
+\begin{satz}
+Modulation $\; 
+{\cal F}\left[ f\left( x \right) \cos \left( \omega x \right) \right] = \frac{1}{2} F\left( s-\omega /2\pi \right) + \frac{1}{2} F\left(s+\omega /2\pi \right) $
+\end{satz}
+{\bf Beweis :}
+\begin{eqnarray*} 
+  \iu f(x)\cos( \omega x )) dx 
+  & = & {1 \over 2} \iu f\left (x \right) e^{ i\omega x } e^{-i2\pi xs} dx +
+        {1 \over 2} \iu f\left( x \right) e^{-i\omega x } e^{-i2\pi xs} dx    \\
+  & = & {1 \over 2} \iu f\left( x \right) e^{-i2\pi (s -\omega / 2\pi) x} dx +  
+        {1 \over 2} \iu f\left( x \right) e^{-i2\pi (s +\omega / 2\pi) x} dx    \\
+  & = & {1 \over 2} F\left( s-\omega / 2\pi \right) + {1 \over 2} F\left( s+\omega / 2\pi \right)
+\end{eqnarray*}  
+ 
+\newpage  
+\begin{satz}
+  Faltung
+\end{satz}
+\begin{eqnarray*}
+\left( f*g \right) & = & \iu f\left( u \right) g \left( x-u \right) du \\ 
+f\left( x-a \right) * g\left( x\right) & = & \left( f*g \right) \left( x-a \right) \\
+{\cal F} \left[ f\left( x\right)*g\left( x \right)\right] & = & F\left( s \right) G\left( s\right) 
+\end{eqnarray*}
+{\bf Beweis :}
+\begin{eqnarray*}
+  \iu \left[ \iu f(x')g(x-x')dx' \right] \ex ds   
+  & = & \iu f\left( x' \right) \left[ \int g\left( x-x'\right) \exp{-2\pi xs} dx \right] dx' \\
+  & = & \iu f\left( x' \right) \exp\left( -2i\pi x's\right) G(s) dx' \\
+  & = & F\left( s \right) G\left( s \right)
+\end{eqnarray*}
+   
+\begin{satz}[ Parseval ]
+$ \iu |f(x)|^{2} dx = \iu |F(s)|^{2}ds $
+\end{satz}
+{\bf Beweis}
+\begin{eqnarray*}
+  \int f\left( x\right) f^{*}\left( x \right) dx 
+  & = & \iu f\left( x \right) f^{*}\left( x \right) \exp\left( -i2\pi xs'\right) dx \\
+  & = & F(s')*F^{*}(-s')ds \\
+  & = & \int F(s)F^{*}(s-s')ds \\
+  & = & \int F(s)F^{*}(s)ds
+\end{eqnarray*}   
+
+\begin{satz}
+Energie 
+$ \iu |f(x)|^{2} dx = \iu |F(s)|^{2}ds $
+\end{satz}
+   
+\begin{satz}
+Ableitung
+$\; {\cal F}\left[ f'\left( x \right) \right] = i2\pi s F\left( s \right) $
+\end{satz}
+{\bf Beweis :}
+\begin{eqnarray*}
+  \iu f'\left( x \right)\ex dx 
+  & = & \iu \lim \frac{f\left( x+\Delta x\right) - f\left( x \right)}{\Delta x}\ex dx \\
+  & = & \iu \lim \frac{f\left( x+\Delta x\right)}{\Delta x}\ex dx + \iu \lim  
+  \frac{f\left( x \right)}{\Delta x}\ex dx \\
+  & = & \lim \frac{e^{i2 \pi \Delta xs}F\left( s \right) - F\left( s \right)}{\Delta x} \\
+  & = & i2\pi s F\left( s \right)   
+\end{eqnarray*}   
+
+\begin{satz}
+Erstes Moment $\; \iu x f \left( x \right) \left( x \right) \ex dx = \frac{F'\left( s \right)}{-2\pi i} $
+\end{satz}
+
+\begin{satz}
+Zweites Moment $\; \iu x f \left( x^2 \right) \left( x \right) \ex dx = \frac{F''\left( s \right)}{-4\pi} $
+\end{satz}
+   
+
+\chapter{Fraktale Fouriertransformation}
+\section{Eigenfuktionen des quantenmechanischen harmonischen Oszillators}
+Eine einfache kontinuierliche Kraft kann man sich als die Federkraft vorstellen, die dem Hookesche Gesetz gehorcht,
+$$F(x)=-k \: , \: k>0 \: .$$
+Diese Kraft ist proportional zu der Abweichung von der Ruhelage $x=0$. Solche Kr"afte hei\3en harmonische Kr"afte. Ein physikalisches System, das sich unter dem Einflu\3 einer harmonischen Kraft bewegt, hei\3 harmonischer Oszillator. Die Proportionalit"atskonstante gibt die Steifheit der Feder an. Die in einer Feder gespeicherte Energie betr"agt
+$$ V(x)={k \over 2}x^2 \: .$$
+Ein klassisches Teilchen der Masse m oszilliert mit der Kreisfrequenz
+$$ \omega = \sqrt{k/m} $$
+um die Ruhelage, so da\3 man $V(x)$ "aquivaltent ausgedr"ucken kann als $V(x)=(m/2)\omega^2 x^2$. Wenn man diesen Ausdruck in die zeitunabh"angige Schr"odingergleichung einstetzt, erh"alt man
+$$ \left( -\frac{\hbar^2}{2m}\frac{\partial^2}{\partial x^2}+\frac{m}{2}\omega^2  x^2 \right) = E\varphi\left( x \right) $$
+Mit Hilfe der dimensionslosen Variablen 
+$$ \xi = \frac{x}{\sigma_0} \: , \sigma_0 = \sqrt{\hbar / m\omega} $$
+vereinfacht sich die obige Gleichung zu
+$$ \frac{1}{2}\left(-\frac{\partial^2}{\partial \xi^2} + \xi^2 \right)\Phi\left( \xi \right) =  \epsilon\Phi \left(\xi\right) \: , \: \Phi\left( \xi \right)=\varphi\left(\sigma_0\xi\right) \: .$$
+Der dimensionslose Eigenwert $\epsilon = E/\hbar\omega$ gibt die Energie des harmonischen Oszillator in Vielfachen des Planckschen Energiequantums $\hbar\omega$ an. Die L"osungen der Schr"odingergleichung des harmonischen Oszillators k"onnen f"ur die Eigenwerte
+$$ \epsilon_n = n + \frac{1}{2} \:, \: n=0, 1,2, \ldots $$
+normiert werden, und die Eigenwerte des harmonischen Oszillators sind 
+$$ E_n = \epsilon_n\hbar\omega = \left( n+\frac{1}{2} \right)\hbar\omega \: .$$
+Die Eigenfuktionen, normiert in $\xi$, k"onnen in der Form
+$$ \Phi\left(\xi\right) = \left(\sqrt{\pi}2^n n!\right)^{-1/2}H_n \left(\xi\right)e^{-\xi^2/2} \: , \: n=0, 1, 2,\ldots$$
+dargestellt werden, wobei $H_n\left(\xi\right)$ Hermitsche Polynome sind. Sie sind gegeben durch
+$$ H_0\left(\xi\right)=1 \; , \; H_1\left(\xi\right) = 2\xi \: ,$$
+und die f"ur h"ohere Wert von $n$ durch die Rekurrenzrelation
+$$ H_n\left(\xi\right)=2\xi H_{n-1}\left(\xi\right) -2\left( n-1\right) H_{n-2}\left(\xi\right) \: , \: n=2, 3, 4,\ldots \: .$$
+F"ur die Ableitung gilt
+$$ {\db H_n \left( \xi \right) \over \db \xi} = 2n H_{n-1} \: .$$
+Die Eigenfunktionen des harmonischen Oszillators, normiert in x, sind
+$$ \varphi_n\left(x\right)=\left(\sigma_0\sqrt{\pi}2^n n!\right)^{-1/2}H_n\left(\frac{x}{\sigma_0}\right)\exp\left( -\frac{x^2}{2\sigma_0^2}\right) \: .$$
+
+\section{Eigenfunktionen der Fouriertransformation}
+Die Funktionen $|\varphi_n\left.\right> =\varphi_n\left(x\right) $ bilden ein vollst"andiges und orthonormiertes System des Hilbertraumes $L_2\left(-\infty ,\infty\right)$ der quadratintegrablen Funktionen, d.h. aller Funktionen, f"ur die das Integral $\iu|f(x)|^2dx$ existiert, mit dem Skalarprodukt
+\begin{eqnarray*}
+\left<f|g\right> & = & \iu \overline{f\left( x\right)} g\left( x\right) dx \: . \\
+\left<\varphi_n | \varphi_m \right> & = & \delta_{nm} \\
+\sum_{n=-\infty}^{\infty}|\varphi_n\left. \right>\left<\varphi_n|\right. & = & \mbox{id} 
+\end{eqnarray*}
+{\bf Behauptung :} Die L"osungen der Differentialgleichung
+$$f''\left( x\right) + 4\pi ^2\left[ \left(2n + 1\right)/2 \pi - x^2\right] f\left( x\right) = 0$$
+sind die Eigenfuktionen des harmonischen Oszillators f"ur $\sigma_0 = 1/\sqrt{2\pi}$. \\
+{\bf Beweis : } 
+\begin{eqnarray*}
+  f''\left( x \right) - 4\pi x^2 f\left( x \right) & = & -2\pi \left( 2n + 1\right)  f\left( x \right) \\
+  {\db^2 \over \db x^2}f\left( x \right) - 4\pi x^2 f\left( x \right) & = & -2\pi \left( 2n + 1 \right) f\left( x \right) 
+\end{eqnarray*}
+Mit $\xi = \sqrt{2\pi}x \: \Longleftrightarrow \: x=\xi/\sqrt{2\pi}$ substituiert, erh"alt man nach Leibniz 
+\begin{eqnarray*}
+  {\db \over \db x} & = & {\db \over \db \xi} \; {\db \xi \over \db x} \\
+                    & = & \sqrt{2\pi} {\db \over \db \xi} \\
+  {\db^2 \over \db x^2} & = & 2\pi {\db^2 \over \db \xi^2} 
+\end{eqnarray*}
+Die Differentialgleichung in $\xi$ lautet
+\begin{eqnarray*}
+  2\pi {\db^2 f \over \db \xi^2} - 2\pi \xi^2 f & = & -2\pi \left( 2n + 1\right) f \; \Longleftrightarrow \\
+ \frac{1}{2} \left( -{\db^2 \over \db \xi^2} +  \xi^2 \right) f & = & \left( n + \frac{1}{2} \right) f 
+\end{eqnarray*}
+Die letzte Gleichung entspricht der Schr"odingergleichung eines harmonischen Oszillators. Die L"osungen der urspr"unglichen Differentialgleichung erh"alt man, indem man $\sigma_0 = 1/\sqrt{2\pi}$ setzt. Sie lauten
+\begin{eqnarray*}
+  |\Psi_n\left.\right> & = & \Psi_n \left( x \right) \\
+                       & = & \frac{\h} {\sqrt{2^n n!}} H_n \left( \sq \right) \gx 
+\end{eqnarray*}
+{\bf Behauptung : } Die Fouriertransformierte der Differentialgleichung lautet
+$$F''\left( s\right) + 4\pi ^2\left[ \left(2n + 1\right)/2 \pi - s^2\right] f\left( s\right) = 0$$
+{\bf Beweis : } Mit Hilfe der S"atze "uber Fouriertransformierte der Ableitung und des zweiten Moments. \\
+Da die Differentialgleichung bei der Fouriertransformation invariant bleibt, ist es interessant nachzupr"ufen, was mit den L"osungen dieser Differentialgleichung bei der Transformation passiert. \\[1cm]
+{\bf Behauptung :} Die Funktionen 
+$ |\Psi_n \left. \right> $ sind Eigenfunktionen der Fouriertransformation, d.h. $ {\cal F}|\Psi_n\left.\right> = \lambda_n \, |\Psi_n\left.\right> $ mit dem Eigenwert $\lambda_n = i^{-n}$. \\
+{\bf Beweis :} durch vollst"andige Induktion nach $n$ 
+\begin{itemize}
+\item Induktionsanfang : 
+\begin{eqnarray*}
+ \Psi_0 (x) & = & 
+ \h \gx\\
+ {\cal F} \left[\Psi_0 (x)\right] & = &
+ \h i^{-0} \gs \\
+ \Psi_1 (x) & = &
+ \frac{\h}{\sqrt{2}} \sqrt{2 \pi}x \gx \\
+ {\cal F}[ \Psi_1 \left( x \right)] & = & 
+ \frac{\h}{\sqrt{2}} \sqrt{2\pi} i^{-1} \left( - \frac{1}{2\pi i} \right) \left( \gs \right)                   
+\end{eqnarray*}
+\item Induktionshypothese : es gelte die Eigenwertgleichung f"ur alle Hermite-Gau\3-Funk\-tio\-nen vom Grad kleiner als $n$.
+\item Induktionsschritt : rekursive Definition der Hermitepolynome verwenden
+\begin{eqnarray*}
+  {\cal F} \left[ \Psi_{n+1} (x) \right]  & = &
+  \iu \frac{\h}{\sqrt{2^{n+1} \left( n+1 \right) ! }} H_{n+1} \left( \sq  \right) \ex dx \\ & = &
+  \iu \frac{\h}{\sqrt{2^{n+1} \left( n+1 \right) ! }} \left( 2\sq \right) H_n\left( \sq \right) \gx \ex  dx \\ & + &
+  \iu \frac{\h}{\sqrt{2^{n+1} \left( n+1 \right) ! }} 2n H_{n-1} \left( \sq \right) \gx \ex dx 
+\end{eqnarray*}
+\end{itemize}
+\vfill
+Die beiden Integrale werden getrennt ausgerechnet. 
+\vfill
+Erstes Integral : 
+\begin{eqnarray*}
+  && \iu \frac{\h}{\sqrt{2^{n+1} \left( n+1 \right) ! }} \left( 2\sq \right) H_n \left( \sq \right) \gx \ex dx \\ & = & 
+  \frac{2 \sqrt{2\pi}}{\sqrt{2}\sqrt{n+1}} \iu \frac{\h}{\sqrt{2^n n!}} x H_n \left( \sq \right) \gx \ex dx \\ & = & 
+  \frac{2 \sqrt{2\pi}}{\sqrt{2}\sqrt{n+1}} \left( -\frac{1}{2\pi i} \right) \frac{\h}{\sqrt{2^n n!}} i^{-n} {\db \over \db s} \left( \sqrt{2\pi} 2n H_{n-1} \left( \sqs \right) \gs \right) \\ & = &
+  \frac{2 \sqrt{2\pi}}{\sqrt{2}\sqrt{n+1}} \left( -\frac{1}{2\pi i} \right) \frac{\h}{\sqrt{2^n n!}} i^{-n}\left( \sqrt{2\pi}2n H_{n-1} \left( \sqs \right) \gs - 2\pi s H_n \left( \sqs \right) \gs \right) 
+\end{eqnarray*}
+\vfill
+Zweites Integral : 
+\begin{eqnarray*}
+  &&\iu \frac{\h}{\sqrt{2^{n+1}\left( n+1 \right) !}} 2n H_{n-1} \left( \sq \right) \gx \ex dx \\ & = &
+  \frac{2n}{\sqrt{2^2 n (n+1)}} i^{-\left( n-1 \right)} \frac{\h}{\sqrt{2^{n-1}\left( n-1 \right) !}} H_{n-1} \left( \sq \right) \es \\ 
+\end{eqnarray*}
+\newpage
+Jetzt werden die beiden Integrale addiert und vereinfacht:
+\begin{eqnarray*}
+  && \frac{2\sqrt{2\pi}}{\sqrt{2}\sqrt{n+1}} \left( -\frac{1}{2\pi i} \right) \frac{\h}{\sqrt{2^n n!}} i^{-n} \left( \sqrt{2\pi} 2n H_{n-1} \left( \sq  \right) \gx - 2\pi x H_n\left( \sq \right) \gx \right) \\ &&{} - i^{-\left( n-1 \right)}\frac{2n \h}{\sqrt{2^{n+1}} \left( n+1 \right) !} H_{n-1} \left( \sq \right) \gx \\ & = &
+  -i^{-\left( n+1\right) } \frac{4n \h}{\sqrt{2^{n+1}\left( n+1 \right) !}} H_{n-1} \left( \sq \right) \gx \\ &&{} + i^{-\left( n+1 \right)} \frac{2n\h}{\sqrt{2^{n+1}\left( n+1 \right) !}} H_{n-1} \left( \sq \right) \gx \\ &&{} + i^{-\left( n+1 \right)} \frac{2\sqrt{2\pi}x \h}{\sqrt{2^{n+1}\left( n+1 \right) !}} H_n \left( \sq \right) \gx \\ & = &
+  i^{-\left( n+1 \right)} \frac{\h}{\sqrt{2^{n+1}\left( n+1 \right) !}} \left( 2\sqrt{2\pi} H_n\left( \sq \right) - 2n H_{n-1} \left( \sq \right) \right) \gx \\ & = &
+   i^{- \left( n+1 \right)} \frac{\h}{\sqrt{2^{n+1}\left( n+1 \right) !}} H_{n+1} \left( \sq \right) \gx \\ & = &
+  i^{- \left( n+1 \right)} \Psi_{n+1} \left(x \right)
+\end{eqnarray*}
+Die $|\Psi_n\left.\right>$ sind also Eigenfunktionen des ${\cal F}$-Operators. Die Kernmatrix des ${\cal F}$-Operators bez"uglich der Basis $|\Psi_n\left.\right>$ ist
+$$ \left< \Psi_m \right. \!| \, {\cal F} \, |\! \left. \Psi_n \right>_{m,n=0}^{\infty} = \mbox{Diag}\left(1,-i,-1,i,\ldots\right)$$
+Die Fouriertransformation ist in $L_2$ abgeschlossen, und jeder Eigenraum ist eindimensional. Die Fouriertransformation ist eine unit"are Transformation.\\
+Da die Hermite-Gau\3-Funktionen $|\Psi_n\left.\right>_{n=0}^{\infty}$ ein vollst"andiges und orthonormiertes System bilden, kann man die Fouriertransformierte einer beliebigen Funktion ausrechnet, indem man sie durch die Eigenfunktionen ausdr"uckt.
+
+\begin{eqnarray*}
+  |f\left. \right> & = & \sum_{n=0}^{\infty}a_n |\Psi_n \left. \right> \\ 
+  a_n & = & \left< \right. \Psi_n | f \left. \right> \\
+  {\cal F}|f \left. \right> & = & \sum_{n=0}^{\infty}A_n i^{-n} |\Psi_n \left. \right> 
+\end{eqnarray*}
+Der Operator der fraktalen Fouriertransformation der Ordnung $a$ kann durch seine Wirkung auf die Eigenfunktionen der Fouriertransformation definiert werden,
+$${\cal F}^a \left[{\Psi}_n \left( x \right)\right] = {\lambda}_n^{a} \Psi_n \left( x\right)=i^{-an}\Psi _n\left( x\right) $$ 
+Dann hat dieser Operator dieselben Eigenfunktionen wie der urspr"ugliche 
+Operator und die Eigenwerte $\lambda_n^{a}$ . Wenn man den Operator als  
+linear definiert, kann man die fraktale Fouriertransformation jeder 
+beliebigen Funktion ausrechnen
+$$ {\cal F}^{a}| f\left. \right>  = \sum_{n=0}^{\infty}i^{-an}a_n |\Psi _n \left. \right> $$
+
+\section{Die fraktale Fouriertransformation in der Optik}
+Die fraktale Fouriertransformation ist aus der Sicht der Optik vom gro\3en 
+Interesse, weil sie die Ausbreitung des Lichtes im quadratischen GRIN-Medium beschreibt. Wenn 
+eine Lichtverteilung der Form $f(x,y)$ auf das eine Ende dieses Mediums der 
+L"ange $aL$ f"allt, sieht man am anderen Ende die $a$-te zweidimensionale 
+fraktale Fouriertransformation. Ein St"uck dieses Mediums kann also f"ur die 
+analoge Berechnung der fraktalen Fouriertransformation verwendet werden. \\
+Ein quadratisches GRIN Medium ist ein Medium, dessen Brechungsindex $n$ durch
+$$ n^2\left( \varrho \right) = \left( 1-\frac{n_2}{n_1} \varrho^2 \right) \; , \; \varrho^2 = x^2 + y^2 $$
+gegeben ist. Es werden nur zeitlich periodische Vorg"ange betrachtet.
+$$ E\left(x,y,z,t\right) = \Psi\left( x,y,z \right) e^{i\omega t} = \Psi\left( x,y,z \right)e^{ikct} $$
+Skalare Wellengleichung im Medium
+\begin{eqnarray*}
+  \nabla^2 E - \frac{1}{v^2}{\partial^2 \over \partial t^2} E & = & 0 \;\; , \;\; v = \frac{c}{n} \\
+  \nabla^2 \Psi + k^2n^2 \Psi & = & 0 \\
+  \nabla^2 \Psi + k^2 \left( 1 - \frac{n_2}{n_1}\varrho^2\right) \Psi & = & 0 \\
+\end{eqnarray*}
+L"osungsansatz $\Psi\left( x,y,z \right) = f\left( x \right) g\left( y \right) \exp \left( i\beta x \right)$
+$$ \frac{1}{f}{\db^2 f\over \db x^2} + \frac{1}{g}{\db^2 g\over \db y^2} + k^2 - k^2\frac{n_2}{n_1}\left( x^2 + y^2 \right) - \beta^2 = 0 $$
+Diese Gleichung besteht aus einem $x$-abh"angigen Teil und aus einem $y$-abh"angigen Teil. Deswegen mu\3 gelten : 
+
+\begin{eqnarray*}
+  \frac{1}{f}{\db^2 f\over \db x^2} + \left( k^2 - \beta^2 - k^2\frac{n_2}{n_1} x^2 \right) & = & C \\
+  \frac{1}{g}{\db^2 g\over \db y^2} - k^2 \frac{n_2}{n_1}y^2 & = & -C \\
+\end{eqnarray*}
+Substitution $\xi = \alpha y \;\; , \;\; \alpha = k^{\frac{1}{2}}\left( \frac{n_2}{n_1} \right) ^{\frac{1}{4}} $ \\
+Leibniz ${\db \over \db y} = {\db \over \db \xi} \, {\db \xi \over \db y} = \alpha {\db \over \db \xi} $
+\begin{eqnarray*}
+  -k\left( \frac{n_2}{n_1} \right)^{1/2} {\db^2 g\over \db \xi^2} + k\left( \frac{n_2}{n_1} \right)^{1/2} \xi^2 g & = & C \\
+  -{\db^2 g \over \db \xi^2} + \xi^2 g & = & \frac{C}{k \left( \frac{n_2}{n_1} \right) ^{1/2}} g \\
+  \frac{1}{2} \left( -{\db^2 \over \db \xi^2} + \xi^2 \right) g & = & \frac{1}{2} \frac{C}{k\left( \frac{n_2}{n_1} \right)^{1/2} }g
+\end{eqnarray*}
+Analogie Schr"odingergleichung $\Longrightarrow$ F"ur die Eigenwerte mu\3 gelten $\frac{C}{\alpha^2} = \frac{C} {k\left( \frac{n_2}{n_1}\right)^{1/2}} = 2n_y + 1$ 
+$$ g_{n_y}\left( \xi \right) = \left( \sqrt{\pi} 2^n n! \right)^{-1/2} H_{n_y}\left( \xi \right) \exp \left( \xi^2 / 2 \right) $$
+
+\begin{eqnarray*}
+  \frac{1}{f} {\db^2 f \over \db x^2} + \left( k^2 - \beta^2 - k^2 \frac{n_2}{n_2} x^2 \right) & = & C \\
+  -{\db^2 f\over \db x^2} + k^2 \frac{n_2}{n_1} x^2 f & = & \left( k^2-\beta^2 - C\right) f \\
+\end{eqnarray*}
+Substitution $\zeta = \alpha x$
+\begin{eqnarray*}
+  -{\db^2 f \over \db \zeta^2} + \zeta^2 f & = & \frac{k^2 - \beta^2 - C}{\alpha^2} f\\
+  -\frac{1}{2}\left( {\db ^2 \over \db \zeta^2 } + \zeta^2 \right) f & = & \frac{1}{2}\frac{k^2 - \beta^2 - C}{\alpha^2}f \\
+\end{eqnarray*}
+F"ur die Eigenwerte mu\3 gelten $\frac{k^2 - \beta^2 - C}{\alpha^2} = 2n_x + 1$
+$$ f_{n_x} \left( \zeta \right) = \left( \sqrt{\pi} 2^n n! \right)^{-1/2} H_{n_x} \left( \zeta \right) \exp\left( -\zeta^2 / 2\right) $$ 
+Berechnung von $\beta$. Es gilt 
+$$ \frac{C}{k\left( \frac{n_2}{n_1}\right)^{1/2}} = 2n_y + 1 \;\;\; \mbox{und} \;\;\;  \frac{k^2-\beta^2 -C}{k\left( \frac{n_2}{n_1}\right)^{1/2}} = 2n_x + 1 \;\;\;.$$
+Mit diesen Gleichungen kann man einfach $\beta$ ausrechen. 
+\begin{eqnarray*}
+  \beta^2 & = & k^2-2k\left( \frac{n_2}{n_1} \right)^{1/2} \left( n_x + n_y + 1\right) \\
+  \beta   & \approx & k-\left( \frac{n_2}{n_1} \right)^{1/2} \left( n_x + n_y + 1\right) \;\;\;\; \mbox{Wurzeln"ahrung}
+\end{eqnarray*}
+Nach einer L"ange $L=\left( \frac{n_1}{n_2} \right)^{1/2} \frac{\pi}{2}$ erh"alt man die Fouriertransfomierte.
+\begin{eqnarray*}
+  \exp\left( i\beta\ L\right) & = & \exp\left( i\beta\left( \left( \frac{n_1}{n_2} \right)^{1/2} \frac{\pi}{2} \right)\right) \\ & = &
+  \exp\left( ik\left( \frac{n_1}{n_2}^{1/2}\right)\frac{\pi}{2} - i\frac{\pi}{2} - i\frac{\pi}{2} \left( n_x + n_y + 1 \right) \right) \\ & = &
+  i^{\left( n_x + n_y \right)} K
+\end{eqnarray*}
+$K$ ist eine konstante Phasenverz"ogerung $\exp\left( ik\left( \frac{n_1}{n_2}^{1/2} \frac{\pi}{2} - i \frac{\pi}{2}\right) \right)$, die unabh"ngig von $n_x$ und $n_y$ ist und kann deswegen vor die Summe gezogen werden. Von diesem Faktor $K$ abgesehen, sieht man, da\3 die Eigenwerte, die mit der Ausbreitung "uber eine Entfernung verbunden sind, den Eigenwerten der zweidimensionalen Fouriertransformation entsprechen. Da in diesem Medium die Wellenausbreitung und Fokusierung "uber das ganze Medium kontinuierlich stattfinden, erh"alt man nach einer L"ange $aL$ die $a$-te fraktale Fouriertransformation.
+\end{document}
