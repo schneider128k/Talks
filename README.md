@@ -10,9 +10,8 @@ It had, but not in any one place. Thirty years of material sat in layers of back
 one machine copied onto the next, a directory carried from a DOS floppy to a Unix
 account to a laptop to a cloud drive, and mostly never looked at again. I went through
 those layers with the help of AI, which read the backups and matched files by their
-contents rather than by their names. That is what made the difference: the 1996 talk is
-in a folder called `Proseminar`, in files called `prosem5.tex` and `profolie.tex`, and
-no search for "talk" or "Vortrag" would ever have found it.
+contents rather than by their names. That is what made the difference. Folder and file
+names from that time tell you very little about what is inside them.
 
 Not everything was in folders. Some documents of that period survived only as
 attachments inside old Unix mailbox files, in backups of mail accounts I stopped using
@@ -23,15 +22,12 @@ This has sentimental value for me, which is the main reason the repository exist
 
 ## Minimal changes
 
-For the old documents, in particular the ones from the 1990s, I tried to change as
-little as possible. The only aim was to make them compile on a modern LaTeX
-distribution. Nothing was rewritten, reformatted or improved.
+The older sources, in particular those from the 1990s, were written for versions of
+LaTeX that no longer exist. In all of them I changed as little as possible, and only
+what was needed to make them compile on a modern distribution.
 
-The 1996 proseminar differs from what I wrote then by two lines. `\documentstyle` became
-`\documentclass` plus `\usepackage`, because LaTeX 2.09 syntax no longer exists, and I
-fixed the date of the write-up so that rebuilding it does not stamp it with today's. The
-page count is the same as in 1996 — 6 and 12 pages. The typos are the ones I made at the
-time, and I left them there.
+Nothing was rewritten, reformatted or improved, and I corrected no mistakes. What is
+here is what I wrote at the time.
 
 ## Talks
 
@@ -70,13 +66,14 @@ of it handed in afterwards.
 
 ## Building
 
+Every talk builds from the sources in its own folder with
+
 ```
-pdflatex fractal_fourier_presentation.tex
-pdflatex fractal_fourier_report.tex && pdflatex fractal_fourier_report.tex
+pdflatex <file>.tex
 ```
 
-The report is run twice for its table of contents. Both need `german.sty` and `a4.sty`,
-which ship with MiKTeX and TeX Live.
+run twice where the document has a table of contents. A recent MiKTeX or TeX Live is
+enough; anything further that a source needs is noted in its entry above.
 
 ## Licensing
 
