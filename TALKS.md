@@ -59,5 +59,5 @@ publishing is not.
 
 ---
 
-The institute no longer exists, and Universität Karlsruhe (TH) is now the Karlsruhe
-Institute of Technology (KIT).
+The IAKS — the Institut für Algorithmen und Kognitive Systeme — no longer exists, and
+Universität Karlsruhe (TH) is now the Karlsruhe Institute of Technology (KIT).
