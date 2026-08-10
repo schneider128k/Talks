@@ -17,6 +17,8 @@ publishing is not.
   Supervisor: Michael Schmid.
   The fractional Fourier transform, its eigenfunctions, and its realisation in a
   quadratic GRIN medium. My first talk, in my third semester.
+  *(Begun on a DOS PC under emTeX, carried across on a floppy, and finished two weeks
+  later on an IAKS Sun workstation — both machines are still named in the TeX logs.)*
   [presentation](1996-02_fractal_fourier_transform/fractal_fourier_presentation.pdf) ·
   [report](1996-02_fractal_fourier_transform/fractal_fourier_report.pdf) ·
   [sources](1996-02_fractal_fourier_transform/)
