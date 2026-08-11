@@ -89,7 +89,7 @@ the time.
 
 Everything here — sources, figures and compiled PDFs — is under
 [CC BY 4.0](LICENSE-CC-BY-4.0). Work made jointly with other people is marked as such
-in [DOCUMENTS.md](DOCUMENTS.md) and is not mine alone to license.
+in [DOCUMENTS.md](DOCUMENTS.md), where the co-authors are named.
 
 The same goes for the few files that came with a seminar template or with the institute's
 shared LaTeX setup rather than from me — `haupt.sty`, `mathsym.sty`, `boldmath.sty`,
@@ -98,5 +98,5 @@ the institute's marks. They are here only so that the documents still build, and
 not my work.
 
 The lecture notes on public key cryptography are a special case: the writing is mine, but
-the course was Dr. Willi Geiselmann's and the mathematics and the choice of material in
-them are his, so they are not mine alone to license either.
+the course was Dr. Willi Geiselmann's, and the mathematics and the choice of material in
+them are his.

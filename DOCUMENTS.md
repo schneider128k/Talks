@@ -14,10 +14,18 @@ publishing is not.
 
 ## Promotion — Universität Karlsruhe (TH), doctoral work at the IAKS
 
+- **Computational Power of Hamiltonians in Quantum Computing** — *Dissertation*, 2004  
+  Fakultät für Informatik, Universität Karlsruhe (TH). Oral examination 17 November 2003.
+  First examiner Prof. Dr. Thomas Beth, second examiner Prof. Dr. Mario Rasetti.  
+  What physical Hamiltonians can compute: how the natural interactions of a quantum system
+  can be steered, decoupled and reversed to simulate other dynamics, and what that costs.
+  205 pages. The slides of the oral examination are there too.  
+  This one has a repository of its own, so the sources are not duplicated here.  
+  [→ github.com/schneider128k/Dissertation](https://github.com/schneider128k/Dissertation)
+
 - **Complexity of Mutual Simulation of Hamiltonian Dynamics** — *Invited talk*, 12 July 2002  
   Ludwig-Maximilians-Universität München. Invited, as I remember it, by Robert Raussendorf.  
-  Joint work with Dominik Janzing, Martin Rötteler and Thomas Beth, so not mine alone to
-  license.  
+  Joint work with Dominik Janzing, Martin Rötteler and Thomas Beth.  
   Much the same talk as the one in Bad Honnef six months earlier, but with new material on
   the mathematics it rests on: vector and operator majorization, and Uhlmann's theorem.
   Those two slides are the earliest record I have of my working with majorization, which
@@ -32,8 +40,7 @@ publishing is not.
 - **Mutual Simulation of Hamiltonian Dynamics on Interacting Quantum Systems** — *Colloquium*, January 2002  
   Colloquium *Quantum Information Processing* of the Deutsche Forschungsgemeinschaft, at the
   [Physikzentrum Bad Honnef](https://www.dpg-physik.de/ueber-uns/physikzentrum-bad-honnef).  
-  Joint work with Dominik Janzing, Martin Rötteler and Thomas Beth, so not mine alone to
-  license.  
+  Joint work with Dominik Janzing, Martin Rötteler and Thomas Beth.  
   Simulating one Hamiltonian with another on *n* interacting quantum systems: the
   control-theoretic model and average Hamiltonian theory, decoupling schemes built from
   orthogonal arrays and error bases, and bounds on the time overhead read off the
@@ -43,8 +50,7 @@ publishing is not.
 
 - **Universal Simulation of Multiparticle Hamiltonians: Efficient Schemes and Complexity Bounds** — *Poster*, October 2001  
   Project meeting in Turin, under the European project Q-ACTA (IST-1999-10596).  
-  Joint work with Martin Rötteler, Dominik Janzing and Thomas Beth, so not mine alone to
-  license.  
+  Joint work with Martin Rötteler, Dominik Janzing and Thomas Beth.  
   The Karlsruhe Hamiltonian-simulation work on a single A1 sheet: decoupling and time
   reversal in quantum networks, schemes built from orthogonal arrays and error bases, and
   bounds on the simulation overhead taken from the spectrum and the chromatic index of the
@@ -56,8 +62,8 @@ publishing is not.
 - **Performances of Binary Block Codes Used on Classical-Quantum Channels** — *Poster*, July 2000  
   QCMC 5, the Fifth International Conference on Quantum Communication, Measurement and
   Computing, Capri, 3–8 July 2000.  
-  Joint work with Dejan E. Lazić and Thomas Beth, so not mine alone to license. The seven
-  sheets carry no title page, so the authorship is recorded only here.  
+  Joint work with Dejan E. Lazić and Thomas Beth. The seven sheets carry no title page, so
+  the authorship is recorded only here.  
   Lower bounds on the error exponent of binary block codes used on classical-quantum
   channels: rescaled binomial multiplicity enumerators, Holevo's suboptimal decision rule,
   and the expurgated and cutoff rate bounds. The accompanying paper is in the conference
@@ -82,6 +88,18 @@ publishing is not.
 ---
 
 ## Hauptstudium — Universität Karlsruhe (TH), after the Vordiplom
+
+- **The Brill-Noether Algorithm** — *Diplomarbeit*, 1999  
+  Fakultät für Informatik, Universität Karlsruhe (TH), written during a stay at the PolKA
+  project, LORIA / INRIA Nancy. Supervised by Prof. Jacques Calmet and Dr. Paul Zimmermann,
+  with Dr. Gaétan Haché on the algebraic-geometry side.  
+  Computing a basis of the Riemann-Roch space of a divisor on a plane algebraic curve, by
+  desingularization through blow-ups, adjoint divisors and interpolating forms — then
+  applied to geometric Goppa codes, and extended to reducible curves to give a method for
+  the absolute factorization of bivariate polynomials. 95 pages, in English.  
+  This one has a repository of its own, with the thesis and the original 1999 MuPAD
+  implementation, so the sources are not duplicated here.  
+  [→ github.com/schneider128k/Diplomarbeit](https://github.com/schneider128k/Diplomarbeit)
 
 - **Public Key Kryptographie** — *Lecture notes*, Wintersemester 1996/97  
   Vorlesung by Dr. Willi Geiselmann at the Institut für Algorithmen und Kognitive Systeme
