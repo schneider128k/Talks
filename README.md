@@ -2,8 +2,8 @@
 
 What I have published, the talks and posters I have given, and the notes and coursework I wrote as
 a student in Karlsruhe — kept as three lists, in reverse chronological order, with the LaTeX sources
-wherever I still have them. It runs from 1996 to the present, through the university years and the
-industrial ones that followed.
+behind them. It runs from 1996 to the present, through the university years and the industrial ones
+that followed.
 
 ## How this is organised
 
@@ -15,7 +15,7 @@ where there is one, at the published version.
 
 The three theses each have a dedicated repository of their own, linked in place. The Studienarbeit
 and the Diplomarbeit go further than the thesis text: alongside the original implementation, where
-it survives, each holds a modern Python reimplementation of the algorithm — finished for the
+there is one, each holds a modern Python reimplementation of the algorithm — finished for the
 diffractive beam shaper, still in progress for Brill-Noether. I intend to carry that work further.
 
 **[→ TALKS.md](TALKS.md)** — talks and posters, with the occasion, the date, the people the work
@@ -99,5 +99,5 @@ The lecture notes on public key cryptography are a special case: the writing is 
 course was Dr. Willi Geiselmann's, and the mathematics and the choice of material in them are his.
 
 There is no code in this repository, so there is no software licence here. The code sits in the
-thesis repositories instead — the original implementations, where they survive, and the modern
-Python reimplementations — and each of those carries its own licence for it.
+thesis repositories instead — the original implementations and the modern Python reimplementations —
+and each of those carries its own licence for it.
