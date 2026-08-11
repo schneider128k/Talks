@@ -1,7 +1,7 @@
 # Talks and posters
 
 Newest first. Each entry gives the occasion and date, names the people the work was done with,
-and links to whatever survives — the slides, the poster, and the sources they were built from.
+and links to the slides or the poster and the sources they were built from.
 
 Entries are being added one at a time. The recovery itself is finished; the publishing is not,
 and the talks I gave after 2020 are not yet reconstructed.
