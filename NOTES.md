@@ -86,3 +86,24 @@ handed in afterwards.
   [report](documents/1996-02_fractal_fourier_transform/fractal_fourier_report.pdf) ·
   [sources](documents/1996-02_fractal_fourier_transform/)
 
+---
+
+## How the old material survived
+
+This concerns the Karlsruhe years, and mostly the oldest part of them. Nothing from 2000 onwards had
+to be recovered — those papers were published and are on the arXiv.
+
+The early work was written on a PC and carried on floppy disks over to the Sun workstations at the
+institute, where my university account lived. When I left Karlsruhe I burned that account onto a
+CD-ROM, and then moved continents. The disc was copied onto one machine after another for the next
+twenty years, mostly unread, and that is the only reason any of it still exists. The oldest thing
+here is from February 1996, my third semester. I did not expect that anything from then had survived.
+
+It had, but not in one place. Putting it back together turned out to be a genuinely enjoyable piece
+of digital forensics and archaeology. The same file existed in a dozen copies under a dozen names, so
+things had to be matched by their contents rather than by their names — filenames on those machines
+were limited to eight characters, and after that much copying the contents are the more reliable
+guide. Much of the history had to be read off the artifacts rather than the documents: when a build
+was last run, which version of LaTeX a source expected, what a compiler had complained about at the
+time.
+
