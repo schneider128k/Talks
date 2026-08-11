@@ -76,8 +76,3 @@ and the talks I gave after 2020 are not yet reconstructed.
   [presentation](documents/2002-07_complexity_of_mutual_simulation/complexity_of_mutual_simulation_presentation.pdf) ·
   [abstract](documents/2002-07_complexity_of_mutual_simulation/complexity_of_mutual_simulation_abstract.pdf) ·
   [sources](documents/2002-07_complexity_of_mutual_simulation/)
-
----
-
-The IAKS — the Institut für Algorithmen und Kognitive Systeme — no longer exists, and
-Universität Karlsruhe (TH) is now the Karlsruhe Institute of Technology (KIT).

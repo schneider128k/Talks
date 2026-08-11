@@ -27,7 +27,7 @@ given by other people, where the mathematics is theirs and the writing is mine.
 Entries in TALKS.md and NOTES.md are being added one at a time, and the talks I gave after 2020
 are not yet reconstructed. The recovery itself is finished; the publishing is not.
 
-## How an entry is arranged
+## Folder layout
 
 Everything with sources lives under `documents/`, one folder per entry, named
 `YYYY-MM_short-title`, holding the LaTeX sources and the PDF built from them:

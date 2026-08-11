@@ -342,10 +342,11 @@ original implementation, where it survives, and a modern Python reimplementation
 
 ---
 
-## Unpublished papers
+## Unpublished manuscripts
 
-Two papers grew out of the Studienarbeit and the Diplomarbeit and were never published. Both were
-recovered from the old backups in 2026, together with the theses they came from.
+Two papers grew out of the Studienarbeit and the Diplomarbeit and were never published. Neither was
+put on the arXiv either. Both were recovered from the old backups in 2026, together with the theses
+they came from.
 
 1. M. Schmid, P. Wocjan, and Th. Beth, *Beam shaping with finite-element methods*, 2001. The
    Studienarbeit's method written up for an optics audience. It belongs with the
