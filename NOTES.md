@@ -69,7 +69,7 @@ handed in afterwards.
   Quantum theory when the state of the system is only incompletely known: the density
   operator, mixed states as against linear superpositions, populations and coherences,
   polarised photons as a worked example, and the dynamics of a mixture.  
-  I gave this one at the blackboard — no slides were made, and what survives is the
+  I gave this one at the blackboard — no slides were made, and what I have is the
   Ausarbeitung as it went into the seminar volume.  
   [report](documents/1996-06_density_operators/density_operators_report.pdf) ·
   [sources](documents/1996-06_density_operators/)

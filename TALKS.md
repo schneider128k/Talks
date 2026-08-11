@@ -53,7 +53,7 @@ and the talks I gave after 2020 are not yet reconstructed.
   reversal in quantum networks, schemes built from orthogonal arrays and error bases, and
   bounds on the simulation overhead taken from the spectrum and the chromatic index of the
   interaction graph.  
-  What survives is the PostScript it was printed from.  
+  What I have is the PostScript it was printed from.  
   [poster](documents/2001-10_multiparticle_hamiltonians/multiparticle_hamiltonians_poster.pdf) ·
   [sources](documents/2001-10_multiparticle_hamiltonians/)
 
@@ -62,7 +62,7 @@ and the talks I gave after 2020 are not yet reconstructed.
   Quantum Information: Theory, Experiment and Perspectives, Gdańsk, 10–18 July 2001.  
   Joint work with Dominik Janzing and Thomas Beth.  
   An earlier state of the poster above, listed here under the title of the paper it was built
-  around. The October version is the one that survives.  
+  around. The October version is the one I have.  
   [poster](documents/2001-10_multiparticle_hamiltonians/multiparticle_hamiltonians_poster.pdf)
 
 - **Performances of Binary Block Codes Used on Classical-Quantum Channels** — *Poster*, July 2000  
