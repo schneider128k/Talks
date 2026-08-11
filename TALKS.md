@@ -54,9 +54,10 @@ and the talks I gave after 2020 are not yet reconstructed.
   [sources](documents/2003-04_mutual_simulation_caltech/)
 
 - **Computational Power of Hamiltonians in Quantum Computing** — *Professorenrunde*, February 2003  
-  Universität Karlsruhe (TH), Fakultät für Informatik. The Professorenrunde was the presentation
-  to the faculty's professors that had to be given before the oral doctoral examination; the
-  examination itself followed on 17 November 2003, under this same title.  
+  Universität Karlsruhe (TH), Fakultät für Informatik. Before the doctoral procedure was formally
+  opened I wrote to the professors of the faculty, offering to discuss the results of the thesis;
+  these are the slides I prepared for that round. The examination itself followed on
+  17 November 2003, under this same title.  
   The Karlsruhe Hamiltonian-simulation work put to a general audience: average Hamiltonian
   theory and the fast control limit, simulation as a convex sum of local conjugates, decoupling
   by error bases and orthogonal arrays, and the bounds on the time overhead read off the
