@@ -1,8 +1,9 @@
-# Academic record
+# Research record
 
-A record of my academic work: what I published, the talks and posters I gave, and the notes and
+A record of my research: the papers I published, the talks and posters I gave, and the notes and
 coursework I wrote as a student in Karlsruhe — with the LaTeX sources for those of them that
-survive.
+survive. It runs from 1996 to the present, through the university years and the industrial ones
+that followed.
 
 ## How this is organised
 
