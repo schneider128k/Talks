@@ -116,10 +116,17 @@ Michael Schmid and Thomas Beth, and one written out of the Diplomarbeit, with Ga
 Neither was ever published, and I am glad they are not lost.
 
 Thomas Beth, who supervised the Proseminar, the Studienarbeit and the dissertation and was a
-co-author on much of the early work here, died in 2005. There are obituaries by
-[Andy Clark for the IACR](https://www.iacr.org/misc/beth.html), and by Gerd Leuchs, Wolfgang Mathis
-and Wolfgang Schleich in
-[*Physik Journal* **4** (2005), Nr. 11](https://pro-physik.de/zeitschriften/download/16138).
+co-author on much of the early work here, died in 2005. Three obituaries, the first of them written
+by three of my colleagues at the IAKS:
+
+- Markus Grassl, Andreas Klappenecker and Martin Rötteler, *In Memoriam: Thomas Beth*, Quantum
+  Information Processing **5** (2006), 1–4 —
+  [doi](https://doi.org/10.1007/s11128-005-0006-x)
+- Gerd Leuchs, Wolfgang Mathis and Wolfgang Schleich, *Nachruf auf Thomas Beth*, *Physik Journal*
+  **4** (2005), Nr. 11 —
+  [pdf](https://pro-physik.de/zeitschriften/download/16138)
+- Andy Clark for the IACR —
+  [iacr.org](https://www.iacr.org/misc/beth.html)
 
 The IAKS — the Institut für Algorithmen und Kognitive Systeme — no longer exists, and Universität
 Karlsruhe (TH) is now the Karlsruhe Institute of Technology (KIT).
