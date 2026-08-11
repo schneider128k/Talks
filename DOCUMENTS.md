@@ -48,6 +48,14 @@ publishing is not.
   [presentation](2002-01_mutual_simulation_of_hamiltonians/mutual_simulation_of_hamiltonians_presentation.pdf) ·
   [sources](2002-01_mutual_simulation_of_hamiltonians/)
 
+- **Simulating Hamiltonians in Quantum Networks: Efficient Schemes and Complexity Bounds** — *Poster*, January 2002  
+  QIP 2002, the Fifth Workshop on Quantum Information Processing, IBM T.J. Watson Research
+  Center, Yorktown Heights, 14–17 January 2002.  
+  Joint work with Martin Rötteler, Dominik Janzing and Thomas Beth.  
+  The same poster as the Turin one below, listed here under the title of the paper it was
+  built around.  
+  [poster](2001-10_multiparticle_hamiltonians/multiparticle_hamiltonians_poster.pdf)
+
 - **Universal Simulation of Multiparticle Hamiltonians: Efficient Schemes and Complexity Bounds** — *Poster*, October 2001  
   Project meeting in Turin, under the European project Q-ACTA (IST-1999-10596).  
   Joint work with Martin Rötteler, Dominik Janzing and Thomas Beth.  
@@ -58,6 +66,14 @@ publishing is not.
   What survives is the PostScript it was printed from.  
   [poster](2001-10_multiparticle_hamiltonians/multiparticle_hamiltonians_poster.pdf) ·
   [sources](2001-10_multiparticle_hamiltonians/)
+
+- **Simulating Arbitrary Pair-Interactions by a Given Hamiltonian: Graph-Theoretical Bounds
+  on the Time Complexity** — *Poster*, July 2001  
+  Quantum Information: Theory, Experiment and Perspectives, Gdańsk, 10–18 July 2001.  
+  Joint work with Dominik Janzing and Thomas Beth.  
+  An earlier state of the poster above, listed here under the title of the paper it was built
+  around. The October version is the one that survives.  
+  [poster](2001-10_multiparticle_hamiltonians/multiparticle_hamiltonians_poster.pdf)
 
 - **Performances of Binary Block Codes Used on Classical-Quantum Channels** — *Poster*, July 2000  
   QCMC 5, the Fifth International Conference on Quantum Communication, Measurement and
@@ -170,23 +186,6 @@ publishing is not.
   [presentation](1996-02_fractal_fourier_transform/fractal_fourier_presentation.pdf) ·
   [report](1996-02_fractal_fourier_transform/fractal_fourier_report.pdf) ·
   [sources](1996-02_fractal_fourier_transform/)
-
----
-
-## Posters that do not survive
-
-Two more posters are recorded in my CV, and no file for either of them has been found.
-
-- **Simulating Hamiltonians in Quantum Networks: Efficient Schemes and Complexity Bounds** —
-  *Poster*, January 2002  
-  QIP 2002, the Fifth Workshop on Quantum Information Processing, IBM T.J. Watson Research
-  Center, Yorktown Heights, 14–17 January 2002.  
-  With Martin Rötteler, Dominik Janzing and Thomas Beth.
-
-- **Simulating Arbitrary Pair-Interactions by a Given Hamiltonian: Graph-Theoretical Bounds
-  on the Time Complexity** — *Poster*, July 2001  
-  Quantum Information: Theory, Experiment and Perspectives, Gdańsk, 10–18 July 2001.  
-  With Dominik Janzing and Thomas Beth.
 
 ---
 
