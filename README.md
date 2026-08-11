@@ -115,5 +115,11 @@ Two papers I had almost forgotten came back with it: one written out of the Stud
 Michael Schmid and Thomas Beth, and one written out of the Diplomarbeit, with Gaétan Haché.
 Neither was ever published, and I am glad they are not lost.
 
+Thomas Beth, who supervised the Proseminar, the Studienarbeit and the dissertation and was a
+co-author on much of the early work here, died in 2005. There are obituaries by
+[Andy Clark for the IACR](https://www.iacr.org/misc/beth.html), and by Gerd Leuchs, Wolfgang Mathis
+and Wolfgang Schleich in
+[*Physik Journal* **4** (2005), Nr. 11](https://pro-physik.de/zeitschriften/download/16138).
+
 The IAKS — the Institut für Algorithmen und Kognitive Systeme — no longer exists, and Universität
 Karlsruhe (TH) is now the Karlsruhe Institute of Technology (KIT).
