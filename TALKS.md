@@ -61,17 +61,11 @@ and the talks I gave after 2020 are not yet reconstructed.
   theory and the fast control limit, simulation as a convex sum of local conjugates, decoupling
   by error bases and orthogonal arrays, and the bounds on the time overhead read off the
   interaction graph — with time reversal and the separability problem as the applications.  
-  I finished the deck on the evening of 18 February, and the last thing I did to it was to
-  replace the opening technical slide with a plain German overview of the field — quantum
-  complexity theory, quantum cryptography, quantum communication — which is the one slide in
-  the talk that is not in English.  
   [presentation](documents/2003-02_computational_power_karlsruhe/computational_power_karlsruhe_presentation.pdf) ·
   [sources](documents/2003-02_computational_power_karlsruhe/)
 
 - **Complexity of Mutual Simulation of Hamiltonian Dynamics** — *Invited talk*, 12 July 2002  
-  Ludwig-Maximilians-Universität München, at the invitation of Robert Raussendorf, who asked me
-  on 14 June 2002 to speak in their seminar on Friday 5 July and moved it to the 12th a week
-  later. The seminar drew people from Immanuel Bloch's experimental group as well.  
+  Ludwig-Maximilians-Universität München, at the invitation of Robert Raussendorf.  
   Joint work with Dominik Janzing, Martin Rötteler and Thomas Beth.  
   Much the same talk as the one in Bad Honnef six months earlier, but with new material on
   the mathematics it rests on: vector and operator majorization, and Uhlmann's theorem.
