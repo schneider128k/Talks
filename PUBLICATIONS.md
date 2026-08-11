@@ -320,6 +320,9 @@ The three theses are the exception. Each has a repository of its own, linked in 
 
 ## Theses
 
+Each has a dedicated repository. The Studienarbeit and the Diplomarbeit repositories also hold the
+original implementation, where it survives, and a modern Python reimplementation of the algorithm.
+
 1. **Entwurf diffraktiver Strahlformer mit der Methode der finiten Elemente** — *Studienarbeit*,
    Sommersemester 1997. Fakultät für Informatik, Universität Karlsruhe (TH). Supervised by
    Prof. Dr. Thomas Beth and Dipl.-Inform. Michael Schmid.

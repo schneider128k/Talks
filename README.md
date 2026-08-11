@@ -10,8 +10,12 @@ Three lists, each in chronological order, oldest first.
 
 **[→ PUBLICATIONS.md](PUBLICATIONS.md)** — papers and theses. Almost everything is on the arXiv,
 so this is a list of links rather than a store of sources: each entry points at the preprint and,
-where there is one, at the published version. The three theses each have a repository of their
-own, linked in place.
+where there is one, at the published version.
+
+The three theses each have a dedicated repository of their own, linked in place. The Studienarbeit
+and the Diplomarbeit go further than the thesis text: alongside the original implementation, where
+it survives, each holds a modern Python reimplementation of the algorithm — finished for the
+diffractive beam shaper, still in progress for Brill-Noether. I intend to carry that work further.
 
 **[→ TALKS.md](TALKS.md)** — talks and posters, with the occasion, the date, the people the work
 was done with, and links to the slides or the poster and to the sources.
@@ -106,7 +110,7 @@ contents rather than by their names, which is what made the difference: filename
 machines were limited to eight characters, and after so much copying the contents are the more
 reliable guide.
 
-Two things I had not expected to find at all: a paper written out of the Studienarbeit, with
+Two papers I had almost forgotten came back with it: one written out of the Studienarbeit, with
 Michael Schmid and Thomas Beth, and one written out of the Diplomarbeit, with Gaétan Haché.
 Neither was ever published, and I am glad they are not lost.
 
