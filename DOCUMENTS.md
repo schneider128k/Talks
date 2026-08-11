@@ -1,10 +1,13 @@
-# List of talks
+# List of documents
 
-In reverse chronological order, grouped by the stage of my career at which they were
-given. Each entry links to the presentation and, where one exists, to the written
-version handed in with it.
+Talks, posters and lecture notes, in reverse chronological order and grouped by the stage
+of my career at which they were made. Each entry links to whatever survives of it — the
+presentation, the written version handed in with it, or both.
 
-Talks are being added here one at a time. The recovery itself is finished; the
+A few entries are longer pieces of written work that have a repository of their own. Those
+are listed here for the record, with a link, and their sources are not duplicated.
+
+Documents are being added here one at a time. The recovery itself is finished; the
 publishing is not.
 
 ---
@@ -99,6 +102,19 @@ publishing is not.
   It is marked *Vorabversion* on the title page, and it still is one.  
   [lecture notes](1997-10_public_key_cryptography/public_key_cryptography_lecture_notes.pdf) ·
   [sources](1997-10_public_key_cryptography/)
+
+- **Entwurf diffraktiver Strahlformer mit der Methode der finiten Elemente** — *Studienarbeit*, Sommersemester 1997  
+  Institut für Algorithmen und Kognitive Systeme (IAKS), Fakultät für Informatik,
+  Universität Karlsruhe (TH). Supervised by Prof. Dr. Thomas Beth and
+  Dipl.-Inform. Michael Schmid.  
+  Designing a diffractive phase element that reshapes a laser beam into a chosen intensity
+  pattern: finite element meshes used to compute the energy-redistributing geometric
+  transformation, and the method of stationary phase to recover the phase function from it.
+  The implementation was written in C++ and went into DigiOpt, the diffractive optics
+  design system built at the IAKS. Neither that code nor DigiOpt survives.  
+  This one has a repository of its own, with the thesis and a Python re-implementation of
+  the method made almost thirty years later, so the sources are not duplicated here.  
+  [→ github.com/schneider128k/Studienarbeit](https://github.com/schneider128k/Studienarbeit)
 
 - **Quantenalgorithmen** — *Seminar*, June 1997  
   Seminar *Quantum Computing* at the Institut für Algorithmen und Kognitive Systeme
