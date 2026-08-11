@@ -1,6 +1,6 @@
 # Lecture notes, seminars and proseminars
 
-Oldest first. Coursework from Karlsruhe, and two sets of lecture notes written up from courses
+Newest first. Coursework from Karlsruhe, and two sets of lecture notes written up from courses
 given by other people.
 
 Most of the early entries come in two parts, because that is how a German *Proseminar* or
@@ -9,33 +9,36 @@ handed in afterwards.
 
 ---
 
-## Grundstudium — Universität Karlsruhe (TH), until the Vordiplom in 1996
+## Promotion — Universität Karlsruhe (TH), doctoral work at the IAKS
 
-- **Fraktale Fouriertransformation** — *Proseminar*, February 1996  
+- **Zusammenfassung der Übung zu Entropie** — *Lecture notes*, 9 August 2000  
   Institut für Algorithmen und Kognitive Systeme (IAKS), Fakultät für Informatik,
-  Prof. Dr. Thomas Beth, Universität Karlsruhe (TH).  
-  Supervisor: Michael Schmid.  
-  The fractional Fourier transform, its eigenfunctions, and its realisation in a
-  quadratic GRIN medium. My first talk, in my third semester.  
-  [presentation](documents/1996-02_fractal_fourier_transform/fractal_fourier_presentation.pdf) ·
-  [report](documents/1996-02_fractal_fourier_transform/fractal_fourier_report.pdf) ·
-  [sources](documents/1996-02_fractal_fourier_transform/)
+  Universität Karlsruhe (TH).  
+  I prepared these notes on the entropy function, which was covered in the Vorlesung.
+  Parts of that Vorlesung were relevant to the poster and the publication for the Capri
+  conference.  
+  Stirling's approximation, binomial and multinomial coefficients, composition classes and
+  the binary and *q*-ary entropy functions, and entropy read both as uncertainty and as a
+  measure of information.  
+  The source carries no date of its own, so it is left exactly as it was and the PDF beside
+  it is the one typeset at the time.  
+  [notes](documents/2000-08_entropy_function_notes/entropy_function_notes.pdf) ·
+  [sources](documents/2000-08_entropy_function_notes/)
 
-- **Quantentheorie** — *Seminar*, Sommersemester 1996  
+## Hauptstudium — Universität Karlsruhe (TH), after the Vordiplom
+
+- **Quantenalgorithmen** — *Seminar*, June 1997  
   Seminar *Quantum Computing* at the Institut für Algorithmen und Kognitive Systeme
   (IAKS), Fakultät für Informatik, Universität Karlsruhe (TH), run by
   Prof. Dr. Thomas Beth with Markus Grassl and Jörn Müller-Quade.  
-  Quantum theory when the state of the system is only incompletely known: the density
-  operator, mixed states as against linear superpositions, populations and coherences,
-  polarised photons as a worked example, and the dynamics of a mixture.  
-  I gave this one at the blackboard — no slides were made, and what survives is the
-  Ausarbeitung as it went into the seminar volume.  
-  [report](documents/1996-06_density_operators/density_operators_report.pdf) ·
-  [sources](documents/1996-06_density_operators/)
+  Grover's search algorithm and the diffusion transformation as an inversion about the
+  average, the lower bound for quantum search, and algorithms for finding the minimum
+  and estimating the median.  
+  [presentation](documents/1997-06_quantum_search_algorithms/quantum_search_algorithms_presentation.pdf) ·
+  [report](documents/1997-06_quantum_search_algorithms/quantum_search_algorithms_report.pdf) ·
+  [sources](documents/1997-06_quantum_search_algorithms/)
 
 ---
-
-## Hauptstudium — Universität Karlsruhe (TH), after the Vordiplom
 
 - **Public Key Kryptographie** — *Lecture notes*, Wintersemester 1996/97  
   Vorlesung by Dr. Willi Geiselmann at the Institut für Algorithmen und Kognitive Systeme
@@ -57,31 +60,29 @@ handed in afterwards.
   [lecture notes](documents/1997-10_public_key_cryptography/public_key_cryptography_lecture_notes.pdf) ·
   [sources](documents/1997-10_public_key_cryptography/)
 
-- **Quantenalgorithmen** — *Seminar*, June 1997  
+## Grundstudium — Universität Karlsruhe (TH), until the Vordiplom in 1996
+
+- **Quantentheorie** — *Seminar*, Sommersemester 1996  
   Seminar *Quantum Computing* at the Institut für Algorithmen und Kognitive Systeme
   (IAKS), Fakultät für Informatik, Universität Karlsruhe (TH), run by
   Prof. Dr. Thomas Beth with Markus Grassl and Jörn Müller-Quade.  
-  Grover's search algorithm and the diffusion transformation as an inversion about the
-  average, the lower bound for quantum search, and algorithms for finding the minimum
-  and estimating the median.  
-  [presentation](documents/1997-06_quantum_search_algorithms/quantum_search_algorithms_presentation.pdf) ·
-  [report](documents/1997-06_quantum_search_algorithms/quantum_search_algorithms_report.pdf) ·
-  [sources](documents/1997-06_quantum_search_algorithms/)
+  Quantum theory when the state of the system is only incompletely known: the density
+  operator, mixed states as against linear superpositions, populations and coherences,
+  polarised photons as a worked example, and the dynamics of a mixture.  
+  I gave this one at the blackboard — no slides were made, and what survives is the
+  Ausarbeitung as it went into the seminar volume.  
+  [report](documents/1996-06_density_operators/density_operators_report.pdf) ·
+  [sources](documents/1996-06_density_operators/)
 
 ---
 
-## Promotion — Universität Karlsruhe (TH), doctoral work at the IAKS
-
-- **Zusammenfassung der Übung zu Entropie** — *Lecture notes*, 9 August 2000  
+- **Fraktale Fouriertransformation** — *Proseminar*, February 1996  
   Institut für Algorithmen und Kognitive Systeme (IAKS), Fakultät für Informatik,
-  Universität Karlsruhe (TH).  
-  I prepared these notes on the entropy function, which was covered in the Vorlesung.
-  Parts of that Vorlesung were relevant to the poster and the publication for the Capri
-  conference.  
-  Stirling's approximation, binomial and multinomial coefficients, composition classes and
-  the binary and *q*-ary entropy functions, and entropy read both as uncertainty and as a
-  measure of information.  
-  The source carries no date of its own, so it is left exactly as it was and the PDF beside
-  it is the one typeset at the time.  
-  [notes](documents/2000-08_entropy_function_notes/entropy_function_notes.pdf) ·
-  [sources](documents/2000-08_entropy_function_notes/)
+  Prof. Dr. Thomas Beth, Universität Karlsruhe (TH).  
+  Supervisor: Michael Schmid.  
+  The fractional Fourier transform, its eigenfunctions, and its realisation in a
+  quadratic GRIN medium. My first talk, in my third semester.  
+  [presentation](documents/1996-02_fractal_fourier_transform/fractal_fourier_presentation.pdf) ·
+  [report](documents/1996-02_fractal_fourier_transform/fractal_fourier_report.pdf) ·
+  [sources](documents/1996-02_fractal_fourier_transform/)
+

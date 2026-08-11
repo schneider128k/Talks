@@ -1,13 +1,13 @@
 # Research record
 
 What I have published, the talks and posters I have given, and the notes and coursework I wrote as
-a student in Karlsruhe — kept as three lists, in chronological order, with the LaTeX sources
+a student in Karlsruhe — kept as three lists, in reverse chronological order, with the LaTeX sources
 wherever I still have them. It runs from 1996 to the present, through the university years and the
 industrial ones that followed.
 
 ## How this is organised
 
-Three lists, each in chronological order, oldest first.
+Three lists, each in reverse chronological order, newest first.
 
 **[→ PUBLICATIONS.md](PUBLICATIONS.md)** — papers and theses. Almost everything is on the arXiv,
 so this is a list of links rather than a store of sources: each entry points at the preprint and,
@@ -137,8 +137,13 @@ of the field in Germany, then optical and diffractive computing, and then quantu
 his course on quantum computing as an undergraduate, held shortly after Shor published his factoring
 algorithm. I had always wanted to do doctoral research; that course is what made it this subject.
 
-He shaped my scientific education — what I think is worth asking, and the habit of turning a problem
-over and over until it looks different. I owe him a great deal, and I am grateful for it.
+Through the years of my dissertation he collaborated with Mario Rasetti in Turin, and I went to
+several of the summer schools Rasetti organised at the Institute for Scientific Interchange. They
+were thoroughly enjoyable, and much of what I learned at them became the foundation of my later
+research. I am grateful to Prof. Rasetti for serving as the second examiner of my dissertation.
+
+Thomas Beth shaped my scientific education — what I think is worth asking, and the habit of turning
+a problem over and over until it looks different. I owe him a great deal, and I am grateful for it.
 
 He died in 2005, at fifty-five, far too young. Three obituaries, the first of them written by three
 of my colleagues at the IAKS:
