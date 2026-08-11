@@ -1,0 +1,19 @@
+We address the problem of simulating pair-interaction Hamiltonians in
+n node quantum networks where the subsystems are qudits. We show that
+any pair-interaction can be used to simulate any other by applying
+sequences of appropriate local control sequences. Conditions on time
+optimal simulation are formulated in terms of spectral majorization of
+and ranks of matrices characterizing the coupling
+parameters. Efficient schemes for decoupling and time reversal can be
+constructed from orthogonal arrays. For general simulation tasks upper
+bounds can be obtained from properties of the underlying interaction
+graphs that characterize the coupling topologies between the
+subsystems.
+
+As an application we discuss methods that could help to implement
+adiabatic quantum computing by physically reasonable Hamiltonians like
+short-range interactions. We construct a nearest-neighbor Hamiltonian
+whose ground states encode the solutions to the NP-complete problem
+INDEPENDENT SET in cubic planar graphs. This Hamiltonian can be easily
+simulated by Ising interactions between adjacent particles on a 2D
+rectangular lattice. We describe the required pulse sequences.

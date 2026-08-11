@@ -10,6 +10,37 @@ and the talks I gave after 2020 are not yet reconstructed.
 
 ## Promotion — Universität Karlsruhe (TH), doctoral work at the IAKS
 
+- **Estimating mixing properties of local Hamiltonian dynamics and continuous quantum random
+  walks is PSPACE-hard** — *Invited talk*, 3 February 2004  
+  Universität Innsbruck, at the invitation of Prof. Dr. Hans Briegel.  
+  The results of the dissertation, turned around to give hardness rather than efficiency: a
+  hypothetical apparatus measuring arbitrary 4-local observables on *n* qubits would solve
+  PSPACE problems probabilistically, and estimating the entropy of the time-average of
+  computational basis states under 4-local Hamiltonians and quantum random walks is
+  PSPACE-hard.  
+  I gave the same talk twice more the following month, on a trip through England: at the
+  University of Bristol on 17 March 2004, at Richard Jozsa's invitation, under the title
+  *Measuring 4-local n-qubit observables could probabilistically solve PSPACE*; and at
+  Imperial College London, arranged with Martin Plenio for the same trip.  
+  One figure the slides call for, `schaltkreis_1bit_neu.eps`, is not in the archive, so the
+  sources no longer build complete. The PDF here is made from the DVI file of the time, and
+  has the space where that one drawing belongs.  
+  [presentation](documents/2004-02_mixing_properties_pspace/mixing_properties_pspace_presentation.pdf) ·
+  [abstract](documents/2004-02_mixing_properties_pspace/mixing_properties_pspace_abstract.pdf) ·
+  [sources](documents/2004-02_mixing_properties_pspace/)
+
+- **Mutual simulation of Hamiltonian dynamics on interacting quantum systems** — *Seminar*, 1 April 2003  
+  Institute for Quantum Information (IQI), California Institute of Technology, Pasadena, at
+  the invitation of Prof. John Preskill. I stayed three weeks.  
+  Joint work with Dominik Janzing, Martin Rötteler and Thomas Beth.  
+  The Karlsruhe Hamiltonian-simulation work in its settled form: the control-theoretic model,
+  simulation as a convex sum of local conjugates, decoupling schemes, and the bounds read off
+  the interaction graph — with the harder direction added, that determining the ground-state
+  energy for cubic planar interaction graphs is NP-complete.  
+  [presentation](documents/2003-04_mutual_simulation_caltech/mutual_simulation_caltech_presentation.pdf) ·
+  [abstract](documents/2003-04_mutual_simulation_caltech/mutual_simulation_caltech_abstract.txt) ·
+  [sources](documents/2003-04_mutual_simulation_caltech/)
+
 - **Complexity of Mutual Simulation of Hamiltonian Dynamics** — *Invited talk*, 12 July 2002  
   Ludwig-Maximilians-Universität München. Invited, as I remember it, by Robert Raussendorf.  
   Joint work with Dominik Janzing, Martin Rötteler and Thomas Beth.  

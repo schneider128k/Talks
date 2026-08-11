@@ -1,0 +1,643 @@
+\documentclass[portrait]{seminar}
+\usepackage{colordvi,boldmath,semcolor,semlayer,rotate,epsf,fancybox,mathsym}
+
+\slidewidth9.5in
+\slideheight6.7in
+%\def\slidetopmargin{\iflandscape.2in\else0.8in\fi}
+\def\slidetopmargin{\iflandscape.3in\else0.8in\fi}
+\def\slidebottommargin{\iflandscape1.0in\else0.4in\fi}
+\def\slideleftmargin{\iflandscape.2in\else.5in\fi}
+\def\sliderightmargin{\iflandscape1.0in\else.8in\fi}
+
+\newcommand{\ket}[1]{|#1\rangle}
+\newcommand{\bra}[1]{\langle #1|}
+\newcommand{\scalar}[2]{\langle #1|#2\rangle}
+
+\newcommand{\cH}{{\cal H}}
+
+\slidesmag{4}
+\centerslidesfalse
+\slideframewidth0.5pt
+%\slideframe{none}
+
+%\portraitonly
+%\landscapeonly
+%\def\leftsliderotation#1{\rotate[l]{#1}}
+%\sliderotation{left}
+\rotateheaderstrue
+
+
+\newcommand{\onemat}{{\bf 1}}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{slide}
+{$ $}
+\vfill
+\begin{center}
+{\large \blue Estimating mixing properties of local Hamiltonian
+dynamics and continuous quantum random walks is PSPACE-hard}
+
+\vfill {\large \blue Measuring local observables could probabilistically
+solve PSPACE}
+
+\vfill Pawel Wocjan
+
+{\small Institut f\"ur Algorithmen und Kognitive Systeme}
+
+{\small Universit\"at Karlsruhe}
+\end{center}
+\vfill
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+{\large {\bf Observable, Hamiltonian, spectral resolution}}
+
+\vspace{0.25cm}
+finite dimensional Hilbert space ${\cal{H}}$
+
+\vspace{0.25cm}
+{\blue {\bf observable}}\, /\, {\blue {\bf Hamiltonian}}\, :
+\, Hermitian operator $A$ on ${\cal{H}}$
+
+{\blue {\bf continuous quantum random walk}}\, : $A$ is an adjacency
+matrix
+
+\vspace{0.25cm}
+spectral resolution of $A$:
+
+\begin{itemize}
+\item different eigenvalues of $A$: $(\lambda)$ 
+\item orthogonal projections onto the corresponding eigenspaces of $A$:
+$(P_{\lambda})$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+{\large {\bf Mixing properties of Hamiltonian dynamics and continuous
+quantum random walks}}
+
+\vspace{0.5cm} 
+{\blue {\bf Time-average of a state $\rho$ on $\cH$}}\,:
+\[
+\bar{\rho}:=\lim_{T\rightarrow\infty} 
+\frac{1}{T} \int_{t=0}^T e^{-i A t}\,\rho\, e^{i A t}\, {\rm d}t
+\]
+
+{\blue {\bf von-Neumann entropy $S(\bar{\rho})$ of the time-average}}
+\[
+S(\bar{\rho}):= {\rm tr} (\bar{\rho}\log_2\bar{\rho})
+\]
+
+motivation for considering $S(\bar{\rho})$:
+\begin{itemize}
+\item quantifies ``how much and how uniformly'' the orbit $\rho_t:=e^{-i
+A t}\,\rho\, e^{i A t}$ fills out the state space
+
+\item quantifies ``how far'' a pure state $\rho:=\ket{\Phi}\bra{\Psi}$
+is from all eigenvectors
+\end{itemize}
+\end{slide}
+
+\begin{slide}
+{\large {\bf Measurement of observables}}
+
+\vspace{0.5cm} 
+{\blue {\bf Postulate: Measurement of $A$ with accuracy $\Delta$}}\,:
+
+for all states $\rho$ on $\cH$ the probability to obtain an outcome in
+the interval
+\[
+[\lambda-\Delta,\lambda+\Delta]
+\]
+is a least 
+\[
+(3/4)\, {\rm tr}(\rho P_{\lambda})
+\]
+\end{slide}
+
+\begin{slide}
+{\large {\bf Local operators}}
+
+\vspace{0.5cm}
+$\cH$ tensor product space of $n$ Hilbert spaces
+\[
+\cH:=\cH_1\otimes\cH_2\otimes\cdots\otimes\cH_n
+\]
+
+\vspace{0.5cm}
+{\blue {\bf $A$ is $k$-local}}\,:
+
+$A$ sum of operators acting on at most $k$ tensor components
+non-trivially
+
+\vspace{0.5cm}
+example for $2$-local Hamiltonians:
+
+Ising interactions, coupling topology specified by a graph $G=(V,E)$
+\[
+\sum_{(k,l)\in E} \sigma_z^{(k)}\sigma_z^{(l)}
+\]
+$\sigma_z^{(k)}=\onemat\otimes\cdots\otimes\onemat\otimes
+\underbrace{\quad\sigma_z\quad}_{\mbox{$k$th qubit}}
+\otimes\onemat\otimes\cdots\otimes\onemat$
+\end{slide}
+
+\begin{slide}
+{\bf we want to prove}
+
+\vfill
+
+\begin{center}
+{\large \blue Estimating mixing properties of local Hamiltonian
+dynamics and continuous quantum random walks is PSPACE-hard}
+
+\vfill
+
+{\large \blue Measuring local observables could probabilistically
+solve PSPACE}
+
+\vfill
+\end{center}
+
+Outline of the proof:
+\begin{itemize}
+\item recall definition of PSPACE (based on irreversible Turing machines)
+\item transform irreversible TMs to reversible TM
+\item construct quantum circuit that simulate the computational steps
+of the reversible TMs
+\item encode the sequence of gates of these quantum circuits in local
+operators
+
+$\longrightarrow$ desired observables, Hamiltonians, adjacency
+matrices
+\end{itemize}
+\vfill
+\end{slide}
+
+\begin{slide}
+{\bf {\large Definition of PSPACE}}
+
+class of all languages recognizable by {\blue polynomial space bounded} DTMs
+
+Deterministic Turing Machine:
+\begin{itemize}
+\item head (internal states $Q$) 
+
+tape divided into cells (contain symbols of the alphabet $\Sigma$)
+\item local transition function $Q\times \Sigma \rightarrow Q \times
+\Sigma \times \{-1,0,+1\}$
+
+\begin{picture}(75,40)
+\thicklines
+\put( 0, 0){\framebox(15,12){}}
+\put(15, 0){\framebox(15,12){}}
+\put(30, 0){\framebox(15,12){$a$}}
+\put(45, 0){\framebox(15,12){}}
+\put(60, 0){\framebox(15,12){}}
+\put(30,20){\makebox(15,15){$p$}}
+\put(37.5,27.5){\oval(15,15)}
+{\red \put(13,-2){\dashbox{0.5}(49,39){}}}
+\end{picture}
+$\quad{\Large \Longrightarrow}\quad$
+\begin{picture}(100,35)
+\thicklines
+\put( 0, 0){\framebox(15,12){}}
+\put(15, 0){\framebox(15,12){}}
+\put(30, 0){\framebox(15,12){$b$}}
+\put(45, 0){\framebox(15,12){}}
+\put(60, 0){\framebox(15,12){}}
+\put(45,20){\makebox(15,15){$q$}}
+\put(52.5,27.5){\oval(15,15)}
+\end{picture}
+\item input: $x_1\, x_2\,\ldots x_l$ \hspace{2.15cm}
+output: symbol in current cell when\\
+${}$\hspace{6.25cm} RTM goes into a final state $q_f$
+
+\begin{picture}(140,40)
+\thicklines
+\put( 0, 0){\framebox(15,12){$x_1$}}
+\put(15, 0){\framebox(15,12){$x_2$}}
+%
+\put(37, 0){\makebox(15,12){$\cdots$}}
+%
+\put(60, 0){\framebox(15,12){$x_l$}}
+\put(0,20){\makebox(15,15){$q_i$}}
+\put(7.5,27.5){\oval(15,15)}
+\put(75, 0){\framebox(15,12){$\#$}}
+\put(90, 0){\framebox(15,12){$\#$}}
+\put(110, 0){\makebox(15,12){$\cdots$}}
+%
+{\blue 
+\put(-2,-2){\dashbox{0.5}(140,39){}}
+}
+\put(60,39){\makebox(15,15){{\small {\blue $poly(l)$}}}}
+\end{picture}
+\quad\quad
+\begin{picture}(75,40)
+\thicklines
+\put(-2, 0){\makebox(15,12){$\cdots$}}
+\put(15, 0){\framebox(15,12){}}
+\put(30, 0){\framebox(15,12){$y$}}
+\put(45, 0){\framebox(15,12){}}
+\put(62, 0){\makebox(15,12){$\cdots$}}
+\put(30,20){\makebox(15,15){$q_f$}}
+\put(37.5,27.5){\oval(15,15)}
+%{\red \put(13,-2){\dashbox{0.5}(49,39){}}}
+\end{picture}
+
+\end{itemize}
+\end{slide}
+
+\begin{slide}
+{\bf {\large Quantified Boolean Formula Problem}}
+
+\vspace{0.25cm}
+is a {\blue PSPACE-complete} problem
+
+\vspace{0.25cm}
+quantified Boolean formula:
+\[
+Q_1 v_1\, Q_2 v_2 \cdots Q_n v_n\, B(v_1,v_2,\ldots,v_n)
+\]
+\quad $Q_i$: quantifiers (either $\forall$ or $\exists$)
+
+\quad $B(v_1,v_2,\ldots,v_n)$: Boolean formula (without quantifiers)
+
+\hspace{3.15cm} in the variables $v_1,v_2,\ldots,v_n$
+
+\vspace{0.25cm}
+{\bf quantified Boolean formula problem:}
+
+determine if a quantified formula is true
+
+\vspace{0.25cm} 
+it can be solved within space $O(l^2)$ ($l$ input length) by an
+irreversible TM
+\end{slide}
+
+\begin{slide}
+{\bf {\large Reversible Turing machines}}
+
+{\footnotesize Lange et al., ``Reversible space equals deterministic space'',
+J.~Comp.~\& Syst.~Sci., 2000.}
+
+{\blue irreversible TMs can be simulated space-efficiently by reversible TMs}
+
+explicit construction of the RTM
+
+\vspace{0.25cm}
+each transition is
+\begin{itemize}
+\item either {\red moving} $p\rightarrow (q,\pm 1)$
+
+\begin{picture}(75,35)
+\thicklines
+\put( 0, 0){\framebox(15,12){}}
+\put(15, 0){\framebox(15,12){}}
+\put(30, 0){\framebox(15,12){}}
+\put(45, 0){\framebox(15,12){}}
+\put(60, 0){\framebox(15,12){}}
+\put(30,20){\makebox(15,12){$p$}}
+\put(37.5,27.5){\oval(15,15)}
+\end{picture}
+$\quad{\Large \Longrightarrow}\quad$
+\begin{picture}(100,35)
+\thicklines
+\put( 0, 0){\framebox(15,12){}}
+\put(15, 0){\framebox(15,12){}}
+\put(30, 0){\framebox(15,12){}}
+\put(45, 0){\framebox(15,12){}}
+\put(60, 0){\framebox(15,12){}}
+\put(45,20){\makebox(15,15){$q$}}
+\put(52.5,27.5){\oval(15,15)}
+\end{picture}
+\item or {\red read-and-write} $(p,a)\rightarrow (q,b)$
+
+\begin{picture}(75,35)
+\thicklines
+\put( 0, 0){\framebox(15,12){}}
+\put(15, 0){\framebox(15,12){}}
+\put(30, 0){\framebox(15,12){$a$}}
+\put(45, 0){\framebox(15,12){}}
+\put(60, 0){\framebox(15,12){}}
+\put(30,20){\makebox(15,12){$p$}}
+\put(37.5,27.5){\oval(15,15)}
+\end{picture}
+$\quad{\Large \Longrightarrow}\quad$
+\begin{picture}(75,35)
+\thicklines
+\put( 0, 0){\framebox(15,12){}}
+\put(15, 0){\framebox(15,12){}}
+\put(30, 0){\framebox(15,12){$b$}}
+\put(45, 0){\framebox(15,12){}}
+\put(60, 0){\framebox(15,12){}}
+\put(30,20){\makebox(15,12){$q$}}
+\put(37.5,27.5){\oval(15,15)}
+\end{picture}
+\end{itemize}
+\end{slide}
+
+\begin{slide}
+{\bf {\large Quantum circuit simulating the RTM\quad (first idea)}}
+
+registers: \texttt{head}\,,\,\,\texttt{tape\_index}\,,\,\,
+\texttt{ACC}\,\,,\,\,\texttt{cell[i]}\,
+$i=0,\ldots,N$
+\vfill
+\begin{itemize}
+\item $U_{\rm moving}$ implements $p\rightarrow (q,\pm1)$
+\[
+\ket{p}_{\rm head}\otimes\ket{i}_{\rm tape\_index}
+\rightarrow
+\ket{q}_{\rm head}\otimes\ket{i\pm 1}_{\rm tape\_index}
+\]
+\vfill
+\item
+$U_{\rm r\&w}$ implements $(p,a)\rightarrow (q,b)$
+\begin{itemize}
+\item swap \texttt{ACC} and \texttt{cell[i]} (current cell) 
+\[
+\prod_{i=0}^{N-1} 
+\Lambda_i\big(
+{\rm swap}({\rm ACC},{\rm cell[i]})\big)
+\quad\quad
+\mbox{{\small $\Lambda_i$ applies swap iff \texttt{tape\_index}=i}}
+\]
+\item apply $W_{\rm r\&w}$
+\[
+\ket{p}_{\rm head}\otimes\ket{a}_{\rm ACC} \rightarrow
+\ket{q}_{\rm head}\otimes\ket{b}_{\rm ACC}
+\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad{}
+\]
+\item swap \texttt{ACC} and \texttt{cell[i]}
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+\begin{slide}
+\begin{picture}(50,230)
+\thicklines
+\put(  0,200){\framebox(50,20){{\rm tape\_index}}}
+\put(  0,160){\framebox(50,20){{\rm head}}}
+\put(  0,120){\framebox(50,20){{\rm ACC}}}
+\put(  0, 80){\framebox(50,20){{\rm cell 0}}}
+\put(  0, 40){\makebox(50,20){$\vdots$}} %
+\put(  0,  0){\framebox(50,20){{\rm cell N-1}}}
+%
+\put( 70,155){\framebox(50,70){$U_{\rm moving}$}}
+%
+\put(150,210){\circle*{5}}
+\put(150,210){\line(0,-1){100}}
+%
+\put(140,130){\line(1,-2){20}}
+\put(140,90){\line(1,2){20}}
+%
+\put(200,210){\circle*{5}}
+\put(200,210){\line(0,-1){140}}
+%
+\put(190,130){\line(1,-6){20}}
+\put(190, 10){\line(1, 6){20}}
+%
+% quantum wires
+%
+\put( 60,210){\line(1,0){10}}  % tape index
+\put(120,210){\line(1,0){180}}
+\put( 60,170){\line(1,0){10}}  % head
+\put(120,170){\line(1,0){120}}
+\put(290,170){\line(1,0){10}}
+\put( 60,130){\line(1,0){80}}  % ACC
+\put(210,130){\line(1,0){30}}
+\put(290,130){\line(1,0){10}}
+\put( 60, 90){\line(1,0){80}}  % cell 0
+\put(210, 90){\line(1,0){90}}
+\put( 60, 10){\line(1,0){130}} % cell N-1
+\put(210, 10){\line(1,0){90}}
+%
+% dashed lines
+\multiput(160,130)(5,0){6}{\line(1,0){2.5}}
+\multiput(160, 90)(5,0){10}{\line(1,0){2.5}}
+%
+% W_r&w
+%
+\put(240,110){\framebox(50,70){$W_{{\rm r\&w}}$}}
+\end{picture}
+\end{slide}
+
+\begin{slide}
+{\bf {\large Disadvantages of the quantum circuit}}
+\begin{itemize}
+\item not known exactly: how many times $U$ should be applied 
+
+desired: running time $r_l$ depends only on input length $l$
+\item $U$ produces garbage (e.g.\ does not reset ancillas)
+
+desired: 
+\[
+{\blue 
+V^{r_l}\ket{x}\otimes\ket{{\red y}}\otimes\ket{00\ldots 0}=
+\ket{x}\otimes\ket{{\red f(x)\oplus y}}\otimes\ket{00\ldots 0}
+}
+\]
+\hspace{1.5cm}$f(x)$ solution to the instance $x$
+\end{itemize}
+
+\vspace{0.25cm}
+$\Longrightarrow$ second idea: augment $U$ and $U^\dagger$ with some
+control logic
+
+\medskip
+\centerline{\epsfxsize0.8\textwidth\epsfbox{operationmode.eps}}
+
+\end{slide}
+
+\begin{slide*}
+{\bf Final quantum circuit}
+
+\bigskip
+\centerline{\epsfxsize1.0\textwidth\epsfbox{schaltkreis_1bit_neu.eps}}
+\end{slide*}
+
+\begin{slide}
+{\bf {\large Characterization of PSPACE with quantum circuits}}
+
+$L$ arbitrary language in PSPACE 
+
+\hspace{2cm}{\Large $\Downarrow$}
+
+family $(V_l)_{l\in\N}$ of quantum circuits such that
+
+\quad $V_l$ decides for all input $x$ of length $l$ if $x\in L$:
+\[
+V_l^{r_l} (\ket{x} \otimes \ket{y} \otimes \ket{00\dots 0}) =
+\ket{x} \otimes \ket{y \oplus f(x)\, {\rm mod}\, 2^{c_l}} 
+\otimes \ket{00\dots 0}\,,
+\]
+
+\quad properties of $V_l$:
+
+\quad\quad $V_l$ permutes only computational basis states
+
+\quad\quad powers of $V_l$ produce orthogonal states (until recurrence)
+\begin{eqnarray*}
+f(x)=0 &
+\ket{\Psi_x}\,,V_l\ket{\Psi_x}\,,\ldots,
+V_l^{r_l-1}\ket{\Psi_x}\,,V_l^{r_l}\ket{\Psi_x}=\ket{\Psi_x} \\
+f(x)=1 & 
+{}\,\,\,\,\,\,\,\,\,\,\,\ket{\Psi_x}\,,V_l\ket{\Psi_x}\,,\ldots,
+V_l^{{\red 2^{c_l}} r_l-1}\ket{\Psi_x}\,,V_l^{{\red 2^{c_l}} r_l}\ket{\Psi_x}=\ket{\Psi_x}
+\end{eqnarray*}
+\quad\quad{\red {\large $\Longrightarrow$ orbit length depends on $x\in L$}}
+\end{slide}
+
+\begin{slide}
+{\bf {\large Local Hamiltonians/observables encoding the circuits}}
+
+\vspace{0.25cm}
+$T_k$: elementary quantum gates (Toffoli gates) of $V$ ($k=0,\ldots,s-1$)
+
+\texttt{clock}: quantum register on $s$ qubits
+\[
+{\green \rightarrow}
+\ket{1000\ldots 0}\,
+{\red \mapsto}\,
+\ket{0100\ldots0}\,
+{\blue \mapsto}\,
+\ket{0010\ldots 0}\,
+\mapsto\,
+\ldots\,\mapsto\,
+\ket{000\ldots 01}\,
+{\green \vdash}
+\]
+
+forward-time operator
+\begin{eqnarray*}
+F & = &
+T_0\quad \otimes 
+{\red \ket{1}_{2}\bra{0}_{1} \otimes \ket{0}_{1}\bra{1}_{0}}
+\, +\, 
+T_1 \otimes 
+{\blue \ket{1}_{3}\bra{0}_{2} \otimes \ket{0}_{2}\bra{1}_{1}}
+\, + \,\cdots\,+ \\
+& &
+T_{s-1} \otimes 
+{\green \ket{1}_{1}\bra{0}_{0} \otimes \ket{0}_{s}\bra{1}_{s-1}}
+\end{eqnarray*}
+
+{\bf local Hamiltonian/observable}
+\[
+A:=F+F^\dagger
+\]
+
+\end{slide}
+
+\begin{slide}
+{\bf {\large Orbit properties}}
+
+\begin{itemize}
+\item $F$ acts as a cyclic shift on ${\cal
+O}:=\big<F^j\ket{\Psi_x}\,\,|\,\, j\in\N\big>$
+\item dimension of ${\cal O}$ is $d:=2^{{\red c \, f(x)}}\, r\, s $\quad
+{\red depends on the solution}
+
+$\Longrightarrow$ \quad eigenvalues and eigenvectors of $F$ restricted to
+${\cal O}$ are
+\[
+e^{2\pi k/d}\quad\quad\ket{k}\quad\quad\mbox{ for } k=0,\ldots d-1
+\]
+$\Longrightarrow$ \quad $\ket{\Psi_x}$ uniform superposition of all
+eigenvectors $\ket{k}$
+\[
+\ket{\Psi_x}:=\frac{1}{\sqrt{d}}\sum_{k=0}^{d-1}\ket{k}
+\]
+\item $F$ and $F^{\dagger}$ commute on ${\cal O}$ 
+
+$\Longrightarrow$ \quad eigenvalues and eigenvectors of $A$ restricted
+to ${\cal O}$ are
+\[
+2\cos(2\pi k/d)\quad\quad \ket{k}\quad\quad\mbox{ for } k=0,\ldots d-1
+\]
+\quad\quad $2$\quad EVs with multiplicity $1$ ($\equiv$ real EVs of $F$)
+
+\quad $d-2$ EVs with multiplicity $2$ ($\equiv$ complex EVs of $F$)
+\end{itemize}
+\end{slide}
+
+\begin{slide}
+{\large {\bf Entropy of time-average}}
+
+initial state:
+\[
+\ket{\Psi_x}\bra{\Psi_x}=\frac{1}{d}
+\sum_{k,l} \ket{k}\bra{l}
+\]
+averaging over time destroys coherence between eigenspaces
+\[
+\bar{\rho}:=\frac{1}{d}\sum_{k,l}
+[\cos(2\pi k/d)=\cos(2\pi l/d)]\, \ket{k}\bra{l}=
+{\tiny \left(
+\begin{array}{ccccccc}
+1 &   &   &   &        &   &   \\
+  & 1 &   &   &        &   &   \\
+  &   & 1 & 1 &        &   &   \\
+  &   & 1 & 1 &        &   &   \\
+  &   &   &   & \ddots &   &   \\
+  &   &   &   &        & 1 & 1 \\
+  &   &   &   &        & 1 & 1 \\
+\end{array}
+\right)}
+\]
+\quad\quad entropy $S(\bar{\rho})=\log_2 d - (d-2)/d$
+
+\vspace{0.25cm}
+$d$ depends on whether $x$ is a ``yes'' or ``no'' instance
+
+{\red $\Longrightarrow$ difference in entropy between ``yes'' and
+``no'' instance at least $c/2$ bits}
+
+\quad\quad $c$ size of the output register
+\end{slide}
+
+\begin{slide}
+{\large {\bf Measurement of $A$}}
+
+output register consists of one qubit
+
+\vspace{0.25cm}
+prepare $\ket{\Psi_x}$
+
+perfect measurement of $A$ yields the results
+\begin{itemize}
+\item $2\cos(2\pi k / (2 r s))$,\quad $k=0,\ldots 2 rs -1$, if $x$
+``yes'' instance
+\item $2\cos(2\pi k / (\,\,r s))$,\quad $k=0,\ldots \,\,\, rs -1$, if $x$
+``no'' instance
+\end{itemize}
+with equal probability
+
+{\red $\Longrightarrow$ we can distinguish between both cases after few
+samples}
+
+\vspace{0.25cm}
+imperfect measurement
+
+{\red accuracy in the order $1/(rs)$ is sufficient to distinguish between
+both cases}
+\end{slide}
+
+\end{document}
+

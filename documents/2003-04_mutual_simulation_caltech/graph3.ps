@@ -1,0 +1,248 @@
+%!PS-Adobe-2.0
+%%Creator: LEDA GraphWin
+%%CreationDate: Fri Jan 24 16:32:08 2003
+%%Pages:  1
+%%BoundingBox:  53.75 49.5091 541.779 425.534
+%%EndComments
+0.3 0.3 scale
+/LEDA_dict 100 dict def
+LEDA_dict begin
+%%
+%% COLORS
+%%
+%% FONTS
+/font_dict 2 dict def
+/set_font {
+  font_dict
+  begin
+    /font_size exch def /font_name exch def
+    font_name cvn findfont font_size scalefont setfont
+  end
+} def
+%%
+%% POLYGONS
+/polygon_dict 1 dict def
+/poly_line {
+  polygon_dict
+  begin
+    /points exch def
+    points 2 mul dup 2 sub roll
+    moveto
+    points 1 sub
+    dup { dup 2 mul 1 add -2 roll lineto 1 sub} repeat
+    pop
+  end
+} def
+/polygon { newpath poly_line closepath } def
+%%
+%% Round Rectangles
+/rrect {
+  5 dict
+  begin
+   newpath
+   /r exch def /y1 exch def /x1 exch def /y0 exch def /x0 exch def
+   x0 r add y0 moveto
+   x1 y0 x1 y1 r arct
+   x1 y1 x0 y1 r arct
+   x0 y1 x0 y0 r arct
+   x0 y0 x1 y0 r arct
+   closepath
+  end
+} def
+%%
+%% ELLIPSES
+/ellipse_dict 4 dict def
+/ellipse {
+  ellipse_dict
+  begin
+    newpath
+    /yrad exch def /xrad exch def /ypos exch def /xpos exch def
+    matrix currentmatrix
+    xpos ypos translate
+    xrad yrad scale
+    0 0 1 0 360 arc
+    setmatrix
+    closepath
+  end
+} def
+%%
+%% hatching
+/hatch1_dict 4 dict def
+/hatch1_rect {
+ hatch1_dict
+ begin
+  0.25 units setlinewidth
+  /ymax exch def /xmax exch def /ymin exch def /xmin exch def
+  xmin ymax ymin sub sub 3 units xmax 
+  { ymin moveto ymax ymin sub dup rlineto stroke } for
+ end
+} def
+%
+/hatch2_dict 4 dict def
+/hatch2_rect {
+ hatch2_dict
+ begin
+  0.25 units setlinewidth
+  /ymax exch def /xmax exch def /ymin exch def /xmin exch def
+  xmax ymax ymin sub add -3 units xmin 
+  { ymin moveto ymin ymax sub ymax ymin sub rlineto stroke } for
+ end
+} def
+%%
+%% TEXT
+/draw_text {
+  3 dict begin
+    /label exch def /ypos exch def /xpos exch def
+    xpos ypos moveto
+    label show
+  end
+} def
+%%
+/draw_ctext {
+  8 dict begin
+   /sz exch def /label exch def /ypos exch def /xpos exch def
+   xpos ypos moveto
+   label stringwidth pop -2 div sz -0.32 mul rmoveto
+   label show
+  end
+} def
+%%
+%% PIXMAPS
+/draw_pixmap {
+ 10 dict begin
+   /ly exch def /lx exch def /h exch def /w exch def /y exch def /x exch def
+   /pix w 3 mul string def
+   x y translate
+   lx ly scale
+   w h 8 [w 0 0  0 h sub  0 h]
+   {currentfile pix readhexstring pop}
+   false 3 colorimage
+ end
+} def
+%%
+%% LINESTYLES
+/units  { f_scale div } def
+/solid  { [ ] } def
+/dashed { [ 3 units 2 units] } def
+/dotted { [ 0.5 units 2 units ] } def
+/dashed_dotted { [ 3 units 2 units 0.5 units 2 units ] } def
+/set_line_style { 0 setdash } def
+%%
+%% INIT
+1 1 scale
+1 setlinewidth
+(Helvetica) 12.0 set_font
+%%EndProlog
+%%
+%%BeginProgram
+133.956854 50.122465 translate
+/f_scale 1.097558  def
+1.097558 1.097558 scale
+(Times-Roman) 16.000000 set_font
+-54.855331 323.819931 () draw_text
+(Times-Roman) 11.797150 set_font
+0.907473 setlinewidth
+56.799932 265.121620 64.915936 299.402593 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+74.711551 212.327211 120.067449 205.794389 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+74.215781 217.544908 170.829619 250.909392 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+53.473435 218.295086 -18.077345 248.953414 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+170.220231 254.519503 65.362299 254.316897 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+184.707504 265.146414 195.637196 299.626086 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+123.319931 196.235300 95.046459 167.183400 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+142.204742 204.241065 200.089458 204.411535 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+96.332540 152.733026 141.684050 120.257174 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+160.472460 119.151136 211.055640 147.037864 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+139.632164 112.988803 13.770192 104.017597 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+209.687517 152.975209 98.398173 158.644391 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+218.783428 163.350663 213.230072 193.502837 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+208.315028 304.149711 330.786472 224.196589 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+187.873519 310.245606 78.818691 310.383874 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+329.039067 216.941354 222.278333 205.617746 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+332.501383 209.990789 172.549117 39.035141 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+-6.215845 96.535746 -32.718969 76.585864 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+154.785893 35.439719 12.834963 98.698011 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+154.015515 32.974451 -30.675185 67.831689 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+56.219580 310.398200 -5.160790 310.398200 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+-18.756606 299.334419 -26.042728 264.228544 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+-7.609160 303.374206 45.521992 261.211189 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+-29.108376 242.238854 -40.802904 80.991356 2 poly_line stroke
+0.000000 0.000000 -6.064633 -3.501417 -4.001620 0.000000 -6.064633 3.501417 4 polygon fill
+(Times-Roman) 13.612100 set_font
+0.544484 setlinewidth
+54.236830 254.295400 11.125490 11.125490 ellipse stroke
+(Times-Roman) 13.612100 set_font
+54.236830 254.295400 (0) 13.612100 draw_ctext
+63.699700 213.913300 11.125490 11.125490 ellipse stroke
+(Times-Roman) 13.612100 set_font
+63.699700 213.913300 (1) 13.612100 draw_ctext
+181.345700 254.541000 11.125490 11.125490 ellipse stroke
+(Times-Roman) 13.612100 set_font
+181.345700 254.541000 (2) 13.612100 draw_ctext
+131.079300 204.208300 11.125490 11.125490 ellipse stroke
+(Times-Roman) 13.612100 set_font
+131.079300 204.208300 (3) 13.612100 draw_ctext
+87.287090 159.210400 11.125490 11.125490 ellipse stroke
+(Times-Roman) 13.612100 set_font
+87.287090 159.210400 (4) 13.612100 draw_ctext
+150.729500 113.779800 11.125490 11.125490 ellipse stroke
+(Times-Roman) 13.612100 set_font
+150.729500 113.779800 (5) 13.612100 draw_ctext
+220.798600 152.409200 11.125490 11.125490 ellipse stroke
+(Times-Roman) 13.612100 set_font
+220.798600 152.409200 (6) 13.612100 draw_ctext
+211.214900 204.444300 11.125490 11.125490 ellipse stroke
+(Times-Roman) 13.612100 set_font
+211.214900 204.444300 (7) 13.612100 draw_ctext
+198.999000 310.231500 11.125490 11.125490 ellipse stroke
+(Times-Roman) 13.612100 set_font
+198.999000 310.231500 (8) 13.612100 draw_ctext
+340.102500 218.114800 11.125490 11.125490 ellipse stroke
+(Times-Roman) 13.612100 set_font
+340.102500 218.114800 (9) 13.612100 draw_ctext
+2.672856 103.226600 11.125490 11.125490 ellipse stroke
+(Times-Roman) 13.612100 set_font
+2.672856 103.226600 (10) 13.612100 draw_ctext
+-41.607670 69.895010 11.125490 11.125490 ellipse stroke
+(Times-Roman) 13.612100 set_font
+-41.607670 69.895010 (11) 13.612100 draw_ctext
+164.948000 30.911130 11.125490 11.125490 ellipse stroke
+(Times-Roman) 13.612100 set_font
+164.948000 30.911130 (12) 13.612100 draw_ctext
+67.519140 310.398200 11.299560 11.299560 ellipse stroke
+(Times-Roman) 13.612100 set_font
+67.519140 310.398200 (13) 13.612100 draw_ctext
+-16.460350 310.398200 11.299560 11.299560 ellipse stroke
+(Times-Roman) 13.612100 set_font
+-16.460350 310.398200 (14) 13.612100 draw_ctext
+-28.303610 253.335200 11.125490 11.125490 ellipse stroke
+(Times-Roman) 13.612100 set_font
+-28.303610 253.335200 (15) 13.612100 draw_ctext
+
+%%EndProgram
+
+showpage
+end %% LEDA_dict
+%%EOF

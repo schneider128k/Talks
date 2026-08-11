@@ -9,14 +9,12 @@ handed in afterwards.
 
 ---
 
-## Promotion — Universität Karlsruhe (TH), doctoral work at the IAKS
-
 - **Zusammenfassung der Übung zu Entropie** — *Lecture notes*, 9 August 2000  
   Institut für Algorithmen und Kognitive Systeme (IAKS), Fakultät für Informatik,
   Universität Karlsruhe (TH).  
-  I prepared these notes on the entropy function, which was covered in the Vorlesung.
-  Parts of that Vorlesung were relevant to the poster and the publication for the Capri
-  conference.  
+  I prepared these notes on the entropy function for the Übung to Dr. Dejan E. Lazić's
+  Vorlesung *Signale, Codes und Chiffren*. Parts of that Vorlesung were relevant to the
+  poster and the publication for the Capri conference, which was joint work with him.  
   Stirling's approximation, binomial and multinomial coefficients, composition classes and
   the binary and *q*-ary entropy functions, and entropy read both as uncertainty and as a
   measure of information.  
@@ -24,8 +22,6 @@ handed in afterwards.
   it is the one typeset at the time.  
   [notes](documents/2000-08_entropy_function_notes/entropy_function_notes.pdf) ·
   [sources](documents/2000-08_entropy_function_notes/)
-
-## Hauptstudium — Universität Karlsruhe (TH), after the Vordiplom
 
 - **Quantenalgorithmen** — *Seminar*, June 1997  
   Seminar *Quantum Computing* at the Institut für Algorithmen und Kognitive Systeme
@@ -37,8 +33,6 @@ handed in afterwards.
   [presentation](documents/1997-06_quantum_search_algorithms/quantum_search_algorithms_presentation.pdf) ·
   [report](documents/1997-06_quantum_search_algorithms/quantum_search_algorithms_report.pdf) ·
   [sources](documents/1997-06_quantum_search_algorithms/)
-
----
 
 - **Public Key Kryptographie** — *Lecture notes*, Wintersemester 1996/97  
   Vorlesung by Dr. Willi Geiselmann at the Institut für Algorithmen und Kognitive Systeme
@@ -60,8 +54,6 @@ handed in afterwards.
   [lecture notes](documents/1997-10_public_key_cryptography/public_key_cryptography_lecture_notes.pdf) ·
   [sources](documents/1997-10_public_key_cryptography/)
 
-## Grundstudium — Universität Karlsruhe (TH), until the Vordiplom in 1996
-
 - **Quantentheorie** — *Seminar*, Sommersemester 1996  
   Seminar *Quantum Computing* at the Institut für Algorithmen und Kognitive Systeme
   (IAKS), Fakultät für Informatik, Universität Karlsruhe (TH), run by
@@ -73,8 +65,6 @@ handed in afterwards.
   Ausarbeitung as it went into the seminar volume.  
   [report](documents/1996-06_density_operators/density_operators_report.pdf) ·
   [sources](documents/1996-06_density_operators/)
-
----
 
 - **Fraktale Fouriertransformation** — *Proseminar*, February 1996  
   Institut für Algorithmen und Kognitive Systeme (IAKS), Fakultät für Informatik,
