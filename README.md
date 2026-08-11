@@ -129,10 +129,16 @@ Neither was ever published, and I am glad they are not lost.
 
 ## Thomas Beth
 
-Thomas Beth supervised my Proseminar, my Studienarbeit and my dissertation, and he was a co-author
-on much of the early work here. More than that, he shaped my scientific education — what I think is
-worth asking, and the habit of turning a problem over and over until it looks different. I owe him a
-great deal, and I am grateful for it.
+Thomas Beth was my *Doktorvater*. He supervised my dissertation, and before it my Proseminar and my
+Studienarbeit, and he was a co-author on much of the early work here.
+
+His interests were unusually wide: design theory and cryptography, where he was one of the founders
+of the field in Germany, then optical and diffractive computing, and then quantum computing. I took
+his course on quantum computing as an undergraduate, held shortly after Shor published his factoring
+algorithm. I had always wanted to do doctoral research; that course is what made it this subject.
+
+He shaped my scientific education — what I think is worth asking, and the habit of turning a problem
+over and over until it looks different. I owe him a great deal, and I am grateful for it.
 
 He died in 2005, at fifty-five, far too young. Three obituaries, the first of them written by three
 of my colleagues at the IAKS:
