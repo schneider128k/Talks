@@ -1,0 +1,360 @@
+\chapter{Public Key Algorithmen}
+  Das Konzept der Public-Key-Kryptographie basiert auf der 
+  Tatsache, da\3 es m"oglich ist zwei Schl"ussel 
+  (einen "offentlichen $E$ zum Verschl"usseln und einen geheimen
+  $D$ zum Entschl"usseln) zu benutzen, wobei es aber praktisch 
+  unm"oglich ist, den geheimen Schl"ussel aus dem "offentlichen 
+  zu berechnen. Viele der vorgeschlagenen Public-Key-Algorithmen 
+  stellten sich als unsicher heraus und viele der sicheren Algorithmen sind nicht praktisch 
+  einsetzbar, da sie entweder zu gro\3e Schl"ussel ben"otigen oder das Chiffrat
+  viel zu gro\3 wird im Vergleich zu der Nachricht. Von den sicheren und praktisch 
+  einsetzbaren Algorithmen eignen sich nur einige f"ur eine Schl"usselvergabe. 
+  Einige der Algorithmen sind nur zur Verschl"usselung und andere nur zur digitalen 
+  Signatur geeignet. Es gibt nur zwei Klassen von Algorithmen, die sich sowohl f"ur 
+  Verschl"usselung als auch f"ur digitale Signatur eignen und auch "uber l"angere
+  Zeit h"aufig eingesetzt werden. 
+
+  Die eine Klasse basiert auf dem Faktorisierungsproblem; 
+  das RSA-Verfahren ist der bekannteste Vertreter. Die andere Klasse basiert 
+  auf dem diskreten Logarithmusproblem in Gruppen; hier ist das Verfahren von 
+  ElGamal das bekannteste Verfahren. Diese Public-Key-Algorithmen sind 
+  langsam im Vergleich zu symmetrischen Verschl"usselungsalgorithmen. 
+  Daher werden in heutigen Systemen sowohl Public-Key-Komponenten, als auch 
+  symmetrische Komponenten eingesetzt; man spricht von Hybridkryptosystemen.
+%% ************** Knapsack
+  \section{Knapsack}
+     Die Sicherheit der Knapsack-Algorithmen beruht auf der Tatsache, 
+     da\3 das allgemeine Knapsackproblem ein NP-vollst"andiges Problem ist. 
+     Obwohl sich der urspr"ungliche Algorihtmus sp"ater als unsicher 
+     heraustellte, lohnt es sich denoch, ihn zu untersuchen, um zu sehen, 
+     wie ein NP-vollst"andiges Problem f"ur die Entwicklung eines 
+     Public-Key-Algorithmus verwendet werden kann.
+     \begin{definition}[Das Knapsackproblem] Es seien beliebige Gewichte 
+       $a_1, \ldots ,a_n\in \N$ und eine beliebige Summe $s \in \N$ gegeben. 
+       Es wird eine Teilmenge von $\{ a_1, \ldots ,a_n \}$ gesucht, so da\3 
+       sich die in ihr enthaltenen Elemente zu $s$ addieren. Anders formuliert 
+       lautet das Problen: Finde ein 
+       $(x_1,\ldots ,x_n) \in \{0,1\}^n$ mit $\sum_{i=1}^{n}x_i a_i = s$.
+     \end{definition}
+     Obwohl das allgemeine Knapsackproblem NP-vollst"andig ist, gibt es 
+     spezielle Knaps"acke, die einfach zu l"osen sind. Ein superincreasing 
+     Knapsack ist ein Beispiel daf"ur.
+     \begin{definition}[Der superincreasing Knapsack]
+        Es seien $b_1,\ldots, b_n\in \N$ und $s\in \N$ ein Knapsack, 
+        wobei f"ur alle $i$ gilt $\sum_{j=1}^{i-1}b_j < b_i$.
+     \end{definition}
+     Wegen dieser speziellen Struktur l"a\3t sich der Knapsack 
+     $(b_1,\ldots ,b_n)$ mit einem Greedy-Algorithmus von oben her l"osen.
+
+     Das n"achste Beispiel zeigt einen sehr einfachen superincreasing Knapsack.
+     \begin{beispiel}[Ein einfaches Knapsackproblem]
+        Es seien $a_i = 2^{i-1}$ f"ur $i=1,\ldots , n$. Damit ist es sehr einfach,
+        das Knapsackproblem zu l"osen. Der L"osungsvektor $(x_1,\ldots ,x_n)$ 
+        entspricht der r"uckw"arts gelesenen Bin"ardarstellung von $s$.
+     \end{beispiel}
+     Das Knapsackproblem kann wie folgt in einem Public-Key-Algorithmus verwendet werden:
+     \begin{itemize}
+       \item "offentlicher Schl"ussel: $(a_1,\ldots,a_n) \in \N^n$;
+       \item geheimer Schl"ussel: Ein Algorithmus, der den Knapsack 
+             $(a_1,\ldots,a_n)$ in einen einfach l"osbaren Knapsack transformiert;
+       \item Verschl"usselung: $(x_1, \ldots ,x_n ) \mapsto s=\sum_{i=1}^{n} x_i a_i$;
+       \item Entschl"usselung: L"ose das Knapsackproblem $(a_1,\ldots,a_n)$ f"ur die Summe $s$.
+     \end{itemize}
+     Merkle und Hellman stellten 1976 ein Verfahren vor, das die oben 
+     beschriebene Methode benutzt. Sie verwendeten einen superincreasing 
+     Knapsack und verschleierten ihn mit einer oder mehreren modularen 
+     Multiplikationen.
+     \subsection*{Verfahren:}
+     \begin{itemize}
+        \item W"ahle einen superincreasing Knapsack $(b_1,\ldots ,b_n)$ und 
+          verschleiere ihn durch eine lineare Trasformation in einen anderen 
+          Knapsack. W"ahle dazu $W,M\in \N$ mit $M > \sum_{i=1}^n b_i$ und 
+          $\ggt(M,W)=1$. Berechne 
+          \begin{equation} a_i := W b_i \pmod M \label{verschleiern} \end{equation}
+          und ver"offentliche das Tupel $(a_1,\ldots,a_n)$ als "offentlichen 
+          Schl"ussel. Eine bin"are Nachricht $(x_1,\ldots ,x_n)$ wird verschl"usselt zu 
+          $s:=\sum_{i=1}^n x_i a_i$.
+        \item Entschl"usselt wird durch Zur"uckf"uhrung auf das urspr"ungliche 
+          Problem. Berechne $s' := W^{-1} s \pmod M$ 
+          ($W^{-1}$ existiert, da $\ggt(W,M)=1$) und l"ose das 
+          Knapsackproblem $(b_1,\ldots,b_n)$ f"ur die Summe $s'$.
+     \end{itemize}   
+     \subsection*{Angriff auf das Knapsackverfahren:}
+     Das Knapsackverfahren weist folgende Schwachstellen auf:
+     \begin{itemize}
+        \item Es ist linear, d.h. es gilt 
+          $\sum_{i=1}^n (x_i + y_i)a_i = \sum_{i=1}^n x_i a_i + \sum_{i=1}^n y_i a_i$ und 
+        \item Wenn einige $a_i$ ungerade sind, so ist ein Bit Information 
+          "uber den Klartext direkt zu sehen (s gerade oder ungerade).
+     \end{itemize}
+     Ein echter Angriff basiert auf der Beobachtung, da"s aufgrund der 
+     Formel~\ref{verschleiern} Zahlen $k_1, \ldots ,k_n \in \Z$ mit
+     \begin{equation} 
+       a_i U - k_i M = b_i \label{beobachtung} 
+     \end{equation}
+     existieren, wobei $U \equiv W^{-1} \pmod M$. Dividiert man beide Seiten der 
+     Formel~\ref{beobachtung} durch $a_i M$, so erh"alt man
+     \begin{equation} 
+       \frac{U}{M} - \frac{k_i}{a_i} = \frac{b_i}{a_i M}. \label{formel} 
+     \end{equation}
+     Weiterhin gilt $b_i \le 2^{i-n} M$, da die Zweierpotenzen den 
+     kleinsten superincreasing Knapsack bilden. Substrahiert man 
+     Gleichung~\ref{formel} f"ur $i:=1$ von der
+     allgemeinen Gleichung~\ref{formel}, so ergibt sich
+     $$ -\frac{k_i}{a_i}+\frac{k_1}{a_1}  =  \frac{b_i}{a_i M} - \frac{b_1}{a_1 M} $$
+     Multipliziert man diese Gleichung mit $a_1 a_i$, so erh"alt man
+     \begin{equation} 
+       -a_1 k_i + a_i k_1 = \frac{a_1 b_i}{M} - \frac{a_i b_1}{M}. 
+     \end{equation}
+     Es gilt 
+     \begin{eqnarray}
+       |a_i k_1 - a_1 k_i| & \le & \max \left\{ \frac{a_1 b_i}{M}, \frac{a_i b_1}{M}\right\} \\
+                           & \le & 2^{i-n} M.
+     \end{eqnarray}
+      F"ur sehr kleine $i$ lassen sich damit Ungleichungen in $\Z$ angeben. 
+      Dabei ist $a_i$ sehr gro\3, $2^{i-n}$ sehr klein. Es reichen nur wenige 
+      Ungleichungen, um die $k_i$ eindeutig festzulegen. Mit dem Algorithmus 
+      von Lenstra zum linearen Programmieren lassen sich solche Ungleichungen 
+      in polynomialer Zeit l"osen. Im Algorithmus "`Faktorisieren von 
+      ganzzahligen Polynomen"' von Lenstra ist ein Teilalgorithmus 
+      "`Finden von fast orthogonalen Basen in ganzzahligen Gittern"' enthalten. 
+      Dieser Algorithmus wurde 1983 implementiert und konnte auch zum Brechen 
+      des Knapsackverfahrens ausgenutzt werden. Eine zweite g"unstige Eigenschaft, 
+      die das Verfahren vollst"andig zusammen brechen l"a\3t,ist es, da\3 nicht 
+      die urspr"unglichen $U$, $M$ gefunden werden m"ussen. Wenn ein 
+      $\frac{u}{m} \approx \frac{U}{M}$ verwendet wird, so entsteht ein 
+      "aquivalenter Knapsack, der dieselbe L"osung $(x_1,\ldots, x_n)$ besitzt.
+%% ************** RSA (Rivest, Shamir, Adleman)
+  \section{RSA-Verfahren}
+     Das RSA-Verfahren (benannt nach den Entdeckern Rivest, Shamir, Adleman) ist
+     das bekannteste Public-Key-Verfahren. Die Sicherheit von RSA beruht auf der 
+     enormen Schwierigkeit, gro"se Zahlen zu faktorisieren. 
+     \subsection*{Verfahren:}
+     \begin{enumerate}
+       \item W"ahle zwei gro"se Primzahlen $p$ und $q$ (70-200 Dezimalstellen oder mehr).
+       \item Berechne das Produkt $n = p\cdot q$.
+       \item W"ahle einen "offentlichen Schl"ussel $e$ mit $\ggt(e,(p-1)(q-1))=1$.
+       \item Berechne den geheimen Schl"ussel $d$ mit 
+         $e\cdot d \equiv 1 \pmod{(p-1)(q-1)}$ und 
+         ver"offentliche das Tupel $(n,e)$ als 
+         "offentlichen Schl"ussel.
+     \end{enumerate}
+     Mit Hilfe des Chinesische Restsatzes sieht man, da"s 
+     $m^{ed} \equiv m \mod{n}$ f"ur alle $m\in\Z_n$ gilt.
+     \begin{itemize}
+       \item Verschl"usseln: \\
+         Es sind der Modulus $n$ und der Schl"ussel $e$ "offentlich bekannt. 
+         Zur Verschl"usselung wird eine Nachricht $m$ in $m_1,\ldots ,m_l$ 
+         zerlegt mit $m_i < n$, und es werden die 
+         Chiffrate $c_i \equiv m_i^e \pmod{n}$ berechnet.
+       \item Entschl"usseln: \\
+         Berechne $m_i \equiv c_i^d \equiv (m_i^e)^d \equiv m_i^{ed} \equiv m_i^1$ 
+         f"ur $i=1,\ldots,l$ und setze daraus die Nachricht $m$ zusammen.
+     \end{itemize}
+     Das RSA-Verfahren kann auch zum Signieren verwendet werden, 
+     indem man mit dem geheimen Schl"ussel $d$ verschl"usselt.
+     Die Signatur kann durch Entschl"usseln mit dem "offentlichen
+     Schl"ussel "uberpr"uft werden.
+
+     Das RSA-Verfahren ist in Hardware etwa um einen Faktor 1000 und in 
+     Software etwa 100 mal langsamer als symmetrische Blockchiffren. 
+     Zur Beschleunigung w"ahlt man 
+     geeignete einfache Exponenten (es wurden zum Beispiel $e=3, 17$ und 
+     $2^{16}+1$ in verschiedenen Standards vorgeschlagen). 
+     Es sind durch diese Einschr"ankung bisher keine gr"o"seren Probleme 
+     mit der Sicherheit bekannt.
+     \subsection*{Primzahlerzeugung:}
+     Die Sicherheit des RSA-Verfahrens h"angt in ganz entscheidender Weise 
+     davon ab, da\3 die verwendeten Primzahlen geheim bleiben. 
+     Deshalb m"ussen beim Erzeugen der Primzahlen nicht vorhersehbare 
+     Zahlen generiert werden; sie d"urfen beispielsweise nicht mit einem 
+     Zufallsgenerator mit einem anderen Personen bekanntem Anfangszustand
+     erzeugt werden.
+
+     Alle Verfahren, gro\3e Primzahlen zu erzeugen, w"ahlen sich zun"achst eine gro\3e 
+     Zufallszahl und testen diese auf Primalit"at. Bei den Primzahltests unterscheidet 
+     man zwischen zwei Klassen von Algorithmen:
+     \begin{itemize}
+       \item Probabilistische Primzahltests (relativ schnell und einfach),
+       \item Deterministische Primzahltests (recht langsam und aufwendig).
+     \end{itemize}
+     Die wichtigsten Vertreter der probabilistischen Primzahltests werden
+     im n"achten Kapitel vorgestellt.
+
+     \subsubsection*{Angriff auf Protokollebene:}
+     Eve belauscht die von Bob an Alice geschickte Nachricht und kennt 
+     dadurch das Chiffrat $c \equiv m^e \pmod n$, wobei $e$ der 
+     "offentliche und $d$ der geheime Schl"ussel von Alice sind. 
+     Eve w"ahlt sich ein $r$ zuf"allig mit $\ggt(r,n)=1$ und 
+     berechnet $x \equiv r^e \mod n$ und $y \equiv x c \mod n$. 
+     Eve schafft es weiterhin irgendwie, da\3 Alice die Nachricht 
+     $y$ signiert (beispielsweise als Zeitstempelsignatur). Damit 
+     kennt Eve $y^d$. Sie berechnet 
+     $$r^{-1}y^d \equiv r^{-1}x^d c^d \equiv r^{-1}(r^e)^d c^d \equiv r^{-1} r m \equiv m \pmod{n}$$
+     und erh"alt damit die Nachricht $m$. Alice f"uhrt eine blinde Signatur aus.
+
+     \subsubsection*{Angriff aufgrund eines gemeinsamen Modulus:}
+       Jeder Teilnehmer erh"alt von der Zentrale sein Schl"usselpaar 
+       $(e_i, d_i)$, wobei f"ur alle Teilnehmer der Modulus $n$ gleich ist.
+       Dadurch entsteht das folgende Problem: eine Nachricht $m$ soll an 
+       zwei Personen geschickt werden. Es werden die beiden Chiffrate $m^{e_1}$ 
+       und $m^{e_2}$ berechnent und and die entsprechenden Personen 
+       geschickt. Es gelte dabei $\ggt(e_1,e_2)=1$ f"ur die geheimen 
+       Schl"ussel der Personen. Wenn Eve die beiden Chiffrat $m^{e_1}$ 
+       und $m^{e_2}$ belauscht, kann sie 
+       $$ r e_1 + s e_2 = 1 $$
+       und damit auch 
+       $$ (m^{e_1})^r (m^{e_2})^s = m^{r e_1 + s e_2} = m^1$$ 
+       berechnen. Deswegen mu\3 f"ur jeden Teilnehmer ein eigenes 
+       Paar von Primzahlen $p$ und $q$ gew"ahlt werden.
+%% Diffie Hellman
+\section{Diffie-Hellman-Verfahren}
+  Das Verfahren von Diffie und Hellman erlaubt es, Alice und Bob ein gemeinsames
+  Geheimnis "uber eine unsichere Leitung auszutauschen. Das Protokoll kann mit einer
+  beliebigen endlichen zyklischen Gruppe realisiert werden. Die Gruppe $G$ und ihr
+  Erzeuger $\alpha$ sind "offentlich bekannt.
+  \begin{enumerate}
+    \item Alice w"ahlt eine Zufallszahl $a$, berechnet $\alpha^a$ in $G$ und sendet
+      $\alpha^a$ an Bob.
+    \item Bob w"ahlt eine Zufallszahl $b$, berechnet $\alpha^b$ in $G$ und sendet
+      $\alpha^b$ an Alice.
+    \item Alice empf"angt $\alpha^b$ und berechnet $(\alpha^b)^a$.
+    \item Bob empf"angt $\alpha^a$ und berechnet $(\alpha^b)^a$.
+  \end{enumerate}
+  Alice und Bob haben jetzt ein gemeinsames Gruppenelement $\alpha^{ab}$, das nur ihnen
+  bekannt ist. Eve kennt durch Abh"oren nur die Gruppenelemente $\alpha^a$ und 
+  $\alpha^b$. Es wird allgemein angenommen, da"s die Gruppenelemente $\alpha^a$ und
+  $\alpha^b$ nicht ausreichen, um $\alpha^{ab}$ auszurechnen, wenn es praktisch
+  unm"oglich ist, den diskreten Logarithmus von Gruppenelementen zu bestimmen.
+  
+  Das {\em Diffie-Hellman-Problem} ist es, einen effizienten Algorthmus zu finden,
+  der $\alpha^{ab}$ aus $\alpha^a$ und $\alpha^b$ berechnet. Es ist klar, da"s die
+  L"osung des diskreten Logarithmusproblem erlaubt, das Diffie-Hellman-Problem zu
+  l"osen. Die Umkehrung ist nicht bekannt.
+
+%% ************ ElGamal
+  \section{ElGamal-Verfahren}
+     Die Sicherheit des Verfahrens von ElGamal
+     beruht auf der Schwierigkeit, den diskreten Logarithmus 
+     in endlichen zyklischen Gruppen zu bestimmen.
+     Es kann sowohl zum Chiffrieren als auch zum Signieren 
+     von Nachrichten verwendet werden. 
+
+     Sei $\alpha$ ein Erzeuger der Gruppe $G$. Die Gruppe $G$ und der
+     Erzeuger seien "offentlich bekannt. Die Nachrichten werden durch
+     Gruppenelemente dargestellt. Alice will Bob eine Nachricht $m$ senden.
+     Bob w"ahlt eine Zufallszahl $x$ (sein geheimer Schl"ussel), berechnet
+     $y=\alpha^x$ und ver"offentlicht das Gruppenelelement $y$
+     (sein "offentlicher Schl"ussel). F"ur den Nachrichtenaustausch
+     wird folgendes Protokol verwendet:
+     \begin{enumerate}
+       \item Alice w"ahlt eine Zufallszahl $k$ und berechnet $a=\alpha^k$.
+       \item Alice holt sich Bobs "offentlichen Schl"ussel $y$ und
+         berechnet $b=m y^k$.
+       \item Alice sendet das Tupel $(a, b)$ an Bob.
+     \end{enumerate}
+     Bob kann die Nachricht $m$ berechnen, da er seinen geheimen Schl"ussel
+     $x$ kennt und $a$ von Alice erh"alt.
+
+     Typischerweise werden die Gruppen $\F_{2^m}^*$, $\F_p^*$ ($p$ Primzahl) oder
+     die Gruppe $E(\F)$ der Punkte auf einer elliptischen Kurve "uber einem endlichen
+     K"orper benutzt, da sie sich besonders einfach implementieren lassen. Die Gruppe 
+     $E(\F)$ ist entweder eine zyklische Gruppe oder
+     das direkte Produkt zweier zyklischer Gruppen. Normalerweise ist die eine Komponente des
+     direkten Produkts eine kleine zyklische Gruppe und die andere eine gro"se,
+     die dann zum Verschl"usseln benutzt wird.
+     
+     Ein Signaturverfahren l"a"st sich nur mit Primk"orper realisieren. Betrachten
+     wir den Fall $G=\F_p^*$ genauer. Bob w"ahlt eine Primzahl $p$, ein primitives 
+     Element $g$ und eine Zufallszahl $x$. Er berechnet $y \equiv g^x \pmod{p}$. 
+     Sein "offentlicher Schl"ussel ist das Tupel $(y,g,p)$. Sein geheimer Schl"ussel 
+     ist der diskrete Logarithmus von $y$ zur Basis $g$, die Zufallszahl $x$.
+    
+     \subsubsection*{Chiffrierverfahren: }
+       Alice verschl"usselt, eine Nachricht $m$, indem sie $k$ zuf"allig mit $\ggt(p-1,k)=1$ 
+       w"ahlt und $a \equiv g^k \pmod{p}$ und $b \equiv y^k m$ berechnet. Das Chiffrat
+       ist das Tupel (a,b). Bob kann das Chiffrat $(a,b)$ entschl"usselt, indem er
+       $$ m \equiv b (y^k)^{-1} \equiv b (g^{xk})^{-1} \equiv b ((g^k)^x)^{-1} \equiv b (a^x)^{-1} \pmod{p}$$
+       mit seinem geheimen Schl"ussel $x$ ausrechnet.
+     
+     \subsubsection*{\bf Signaturverfahren:}
+       Bob will eine Nachricht $m$ signieren. Die Idee bei der Signatur 
+       ist es, die Nachricht $m$ als
+       $$ m \equiv a x \pmod{p-1}$$
+       auszudr"ucken. Die Signatur $a$ kann dann durch
+       $$ g^{m} \equiv g^{a x} \equiv y^{a} \pmod{p}$$
+       "uberpr"uft werden. Der geheime Schl"ussel $x$ kann aber aus der Signatur $a$
+       $$ x \equiv m a^{-1} \pmod{p-1} $$
+       berechnet werden. Deswegen wird eine lineare Verschiebung benutzt. Dazu 
+       w"ahlt Bob $k$ zuf"allig mit $\ggt(k,p-1)=1$ und berechnet 
+       $a \equiv g^k \pmod{p}$. Bob berechnet au"serdem noch ein $b$, so da"s
+       $$ m \equiv x a + k b \pmod{(p-1)} $$
+       gilt. Die Signatur ist dann das Tupel $(a,b)$. Andere Teilnehmer k"onnen 
+       Bobs Signatur "uberpr"ufen, indem sie
+       $$ g^m \equiv g^{x a + k b} \equiv g^{x a} g^{k b} \equiv y^a a^b \pmod{p} $$
+       nachrechnen. Die Signatur funktioniert nur bei Primk"orper,
+       weil sonst Probleme mit dem Datentyp auftreten w"urden. Man m"u"st mit einem 
+       Gruppenelement potenzieren. Bei Primk"orper werden die Gruppenelmente 
+       als nat"urliche Zahlen aufgefa"st. In den anderen F"alle ist dies nicht
+       m"oglich.
+
+       Es ist wichtig, da"s jedesmal $k$ verschieden gew"ahlt wird. Falls 
+       $a=g^{k} \pmod{p}$ zweimal gleich ist, kann das Linearegleichungssystem
+       \begin{eqnarray*}
+         m_1 & = & x a + k b_1 \\
+         m_2 & = & x a + k b_2 
+       \end{eqnarray*}
+       aufgestellt und der geheime Schl"ussel $x$ bestimmt werden.
+     
+%% ******** McElice-Kryptosystem    
+   \section{McElice-Kryptosysstem}
+     Das McElice-Kryptosystem benutzt fehlerkorrigierende Goppa Codes, die einfach zu 
+     decodieren sind, und transformiert sie auf einen "`allgemeinen"' linearen Code. 
+     Die Decodierung von allgemeinen linearen Codes ist ein NP-vollst"andiges Problem. 
+     Das McElice-System ist folgenderma\3en aufgebaut:
+     \begin{itemize}
+       \item Geheimer Schl"ussel
+         \begin{itemize}
+           \item $G'$ ist eine $k\times n$-Matrix, die Generator-Matrix eines Goppa-Codes, 
+                 der maximal $t$ Fehler korrigieren kann;
+           \item $P$ eine $n\times n$-Permutationsmatrix;
+           \item $S$ eine invertierbare $k\times k$-Matrix.
+         \end{itemize}
+       \item "Offentlicher Schl"ussel
+         \begin{itemize}
+           \item $G=S G' P$ eine $k\times n$-Matrix;
+           \item die Nachricht ist ein Vektor der L"ange $k$ "uber $\{0,1\}$;
+           \item verschl"usselt wird durch $c = mG + z$, wobei $z$ ein zuf"alliger Vektor vom Gewicht ein
+             wenig kleiner als $t$ ist.
+         \end{itemize}
+       \item Entschl"usseln
+          \begin{itemize}
+            \item $c' = c P^{-1}$;
+            \item man decodiert $m'$, so da\3 $m'G'=c'$;
+            \item es gilt dann $m = m'S^{-1}$.
+          \end{itemize}
+      \end{itemize}
+      Der Vorschlag von McEliece war
+      \begin{itemize}
+         \item $n = 1024$,
+         \item $t \approx 50$ Fehler,
+         \item maximal m"ogliches $k$, f"ur das ein Goppa-Code existiert, ist  $k=524$.
+      \end{itemize}
+      \subsubsection*{Bewertung}
+      \begin{itemize}
+        \item Der Schl"ussel hat etwa $2^{19}$ bit L"ange.
+        \item Die Nachrichtenl"ange wird verdoppelt; der Rechenaufwand ist aber wegen der 
+              einfachen Verschl"usselung 
+              und Entschl"usselung sehr gering (deutlich schneller als RSA).
+        \item Praktisch wird das Verfahren wegen der Schl"usselgr"o\3e kaum eingesetzt.
+      \end{itemize}
+      \subsubsection*{Angriffe}
+      Direktes Decodieren braucht ungef"ahr $2^{500}$ Schritte. Dieser Aufwand l"a\3t 
+      sich erheblich reduzieren, wenn man $k$ Spalten der Matrix (mit der Hoffnung, da\3 
+      dort kein Fehler dazuaddiert wurde) ausw"ahlt und das lineare Gleichungssystem $mM_k=c_k$ 
+      l"ost. Falls kein Fehler in diesen Spalten aufgetreten ist, kann man $m$ 
+      durch Matrixinversion zur"uckgewinnen. Es m"ussen allerdings viele Matrizen getestet 
+      werden, bis bei 524 Spalten keiner der 50 Fehler enthalten ist. Der Aufwand 
+      betr"agt etwa $2^{81}$ Schritte.
+
+ 

@@ -1,6 +1,8 @@
 # Talks
 
 Slides and write-ups of talks I have given, with the LaTeX sources they were made from.
+One entry is not a talk but a set of lecture notes I wrote up for someone else's course,
+and it says so.
 
 I was able to reconstruct all of my presentations, going back to my time as an
 undergraduate student in Karlsruhe. The oldest one here is from February 1996, in my
@@ -81,6 +83,11 @@ The talks — sources, figures and compiled PDFs — are under
 in [TALKS.md](TALKS.md) and are not mine alone to license.
 
 The same goes for the few files that came with a seminar template or with the institute's
-shared LaTeX setup rather than from me — `haupt.sty`, `mathsym.sty`, `boldmath.sty`, and
-`unilogo.tex` and `logo.eps`, the last two being the university's and the institute's
-marks. They are here only so that the documents still build, and they are not my work.
+shared LaTeX setup rather than from me — `haupt.sty`, `mathsym.sty`, `boldmath.sty`,
+`diplom.sty`, and `unilogo.tex` and `logo.eps`, the last two being the university's and
+the institute's marks. They are here only so that the documents still build, and they are
+not my work.
+
+The lecture notes on public key cryptography are a special case: the writing is mine, but
+the course was Dr. Willi Geiselmann's and the mathematics and the choice of material in
+them are his, so they are not mine alone to license either.

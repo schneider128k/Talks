@@ -1,0 +1,183 @@
+\chapter*{Einf"uhrung, Terminologie}
+\addcontentsline{toc}{chapter}{\numberline{}{Einf"uhrung, Terminologie}}
+
+\section*{Terminologie}
+\addcontentsline{toc}{section}{\numberline{}{Terminologie}}
+
+Das kleinst m"ogliche Modell in der Kryptographie hat folgende Form:
+
+\begin{itemize}
+ \item Sender Alice, Empf"anger Bob;
+ \item Nachricht oder Klartext $m$, Chiffrat $c$;
+ \item Verschl"usselung $E$ (encryption), Entschl"usselung $D$ (decryption).
+\end{itemize}
+
+Alice will Bob eine Nachricht $m$ schicken. Alice will erreichen,
+da\3 ihre Nachricht sicher "ubertragen wird, d.h. ein Unbefugter
+darf die Nachricht nicht lesen oder ver"andern k"onnen. 
+Um dies zu erreichen, mu\3 die Nachricht von
+Alice verschl"usselt werden, so da\3 sie nur von Bob
+entschl"usselt werden kann.
+
+\begin{center}
+  \begin{tabular}{ccc}
+              &   \shortstack{verschl"usselt\\ $E$ encryption}  &               \\
+    Klartext  &   $\longrightarrow$                             & Chiffrat      \\
+    (message) &                                                 & (ciphertext)  \\
+    $m$       &   $\longleftarrow$                              & $c$           \\
+              &   \shortstack{entschl"usselt\\ $D$ decryption}  & 
+  \end{tabular}
+\end{center}
+
+Mathematisch kann der Sachverhalt wie folgt beschrieben
+werden. Die Funktion $E$ ist eine injektive Funktion von der
+Menge der Klartexte in die Menge der Chiffrate, $D$ ist eine
+surjektive Funktion in der entgegengesetzten Richtung.
+
+\begin{eqnarray*}
+  E(m) & = & c \\
+  D(c) & = & m \\
+  D(E(m)) & = & m \\
+  E(D(c)) & = & c 
+\end{eqnarray*}
+
+
+\section*{Aufgaben der Kryptographie}
+\addcontentsline{toc}{section}{\numberline{}{Aufgaben der Kryptographie}}
+
+{\em Kryptographie} oder auch {\em Kryptologie} (aus dem Griechischen
+kryp\'os "`versteckt"' und l\'ogos "`Wort"') ist die Wissenschaft, die
+sich mit der sicheren (geheimen) Kommunikation befa\3t. Die
+Vertraulichkeit ist nur eine der Aufgaben, die die Kryptographie heute
+erf"ullen mu\3. "Ublicherweise werden die folgenden vier Eigenschaften
+betrachtet:
+\begin{itemize}
+  \item{\bf Vertraulichkeit:} \\Geheimhaltung der Nachricht.
+  \item{\bf Integrit"at:}  \\ Empf"anger kann verifizieren, da\3 die Nachricht nicht ver"andert wurde.
+  \item{\bf Verbindlichkeit:} \\ Unabstreitbarkeit, Sender kann die Herkunft nicht ableugnen.
+  \item{\bf Authentizit"at:} \\ eindeutige Herkunft, Nachricht ist wirklich vom Sender.
+\end{itemize}
+
+
+%% *************** Algorithmen und Schl"ussel
+\section*{Algorithmen und Schl"ussel}
+\addcontentsline{toc}{section}{\numberline{}{Algorithmen und Schl"ussel}}
+
+Ein {\em kryptographischer Algorithmus} ist die Realisierung einer
+mathematischen Funktion, die zur Ver- und Entschl"usselnung benutzt
+wird. (Im allgemeinen gibt es zwei verschiedene Funktionen zur Ver-
+und Entschl"usselung.)
+
+
+\subsection*{Algorithmen ohne Schl"ussel}
+\addcontentsline{toc}{subsection}{\numberline{}{Algorithmen ohne Schl"ussel}}
+
+\begin{itemize}
+  \item Sicherheit beruht auf der Geheimhaltung des Algorithmus.
+  \item Der Algorithmus kann schlecht auf G"ute "uberpr"uft werden, 
+        falls kein kompetentes Mitglied in der Gruppe vorhanden ist, 
+        das den Algorithmus benutzt.
+  \item Personen in mehreren Gruppen ben"otigen mehrere Algorithmen.
+  \item Nach einem erfolgreichen Angriff oder nachdem ein Mitglied die Gruppe
+        verlassen hat, mu\3 der Algorithmus vollst"andig ge"andert werden.
+\end{itemize}
+
+
+\subsection*{Algoritmen mit Schl"ussel}
+\addcontentsline{toc}{subsection}{\numberline{}{Algorithmen mit Schl"ussel}}
+
+Es wird ein Algorithmus verwendet, der von Kryptographen gepr"uft oder
+standardisiert werden kann. Die Sicherheit wird durch die Wahl eines
+geheimen Schl"ussels erreicht.  Es gibt zwei Klassen von Algorithmen
+mit Schl"ussel.
+\begin{enumerate}
+  \item{\bf Symmetrische Algorithmen}\\
+    Die Schl"ussel zur Ver- und Entschl"usselung sind einfach auseinander berechenbar, 
+    meistens sind sie identisch. Sender und Empf"anger einigen sich vor dem Senden 
+    von Nachrichten auf den (die) Schl"ussel.
+  \begin{itemize}
+    \item {\bf  Stromchiffren:} Nachrichten werden bit- bzw. byteweise verarbeitet. 
+          Das Chiffrat eines Zeichens h"angt von den vorigen Zeichen bzw. von der Stelle im
+          Text ab.
+    \item {\bf Blockchiffren:} Nachrichten  werden blockweise (64 bit, 128 bit) verarbeitet. 
+          Ein Klartextblock wird unabh"angig von der Stelle seines Auftretens auf ein
+          Chiffrat abgebildet.
+  \end{itemize}
+ \item{\bf Asymmetrische Algorithmen} (oder Public-Key-Algorithmen) \\
+  Es werden unterschiedliche Schl"ussel verwendet. Der Schl"ussel zur Entschl"usselung 
+  l"a\3t sich nicht mit vertretbarem Aufwand aus dem Schl"ussel zum
+  Verschl"usseln berechnen. Der Schl"ussel zum Verschl"usseln hei\3t 
+  {\em "offentlicher Schl"ussel}, der andere {\em geheimer Schl"ussel}.
+\end{enumerate}
+
+
+%% ************** Kryptoanalyse
+\section*{Kryptoanalyse}
+\addcontentsline{toc}{section}{\numberline{}{Kryptoanalyse}}
+
+Das Ziel der {\em Kryptoanalyse} ist es, aus einem Chiffrat $c$ die zugeh"orige Nachricht $m$ 
+ohne Kenntnis des geheimen Schl"ussels zu gewinnen oder den geheimen
+Schl"ussel zu finden. Die Grundannahme ist dabei, 
+da"s der Algorithmus bekannt ist. Es gibt vier Typen von Angriffen:
+\begin{enumerate}
+  \item{\bf Ciphertext-Only} \\
+   \begin{tabular}{rl}
+     Geg:  & Einige Chiffrate, die mit demselben Schl"ussel und Algorithmus \\
+           & verschl"usselt wurden. \\
+     Ziel: & Klartexte und/oder Schl"ussel zu finden.
+   \end{tabular}
+  \item{\bf Known-plaintext} \\
+   \begin{tabular}{rl}
+     Geg:  & Paare von Klartext und Chiffrat. \\
+     Ziel: & Finden des Schl"ussels (um sp"ater unbekannte Klartexte zu finden).\\
+   \end{tabular}
+  \item{\bf Chosen-plaintext} \\
+   \begin{tabular}{rl}
+     Geg:  & Klartexte k"onnen frei gew"ahlt werden, deren Chiffrate dann berechnet\\
+           & werden. \\
+     Ziel: & Schl"ussel zu finden.
+   \end{tabular}
+  \item{\bf Chosen-ciphertext} \\
+   \begin{tabular}{rl}
+     Geg:  & Chiffrate k"onnen frei gew"ahlt werden, die dann entschl"usselt werden\\ 
+           & (bei Public-Keyverfahren sinnvoll). \\
+     Ziel: & Schl"ussel (geheimen Schl"ussel bei PK) zu finden.
+   \end{tabular}
+\end{enumerate} 
+Alle Kryptosysteme k"onnen durch einen Known-plaintext-Angriff gebrochen werden, 
+indem man alle m"oglichen Schl"ussel ausprobiert. Diese Art, den Schl"ussel aus einem
+Klartext-Chiffrat-Paar zu gewinnen, hei\3t {\em Brute-force-Angriff}. Oft ist dieser 
+Angriff wegen der Redundanz in der Nachricht (Sprache, bekannter Anfang, Anrede, usw. ) auch
+m"oglich, wenn nur Chiffrate gegeben sind. Die Kryptographie sucht Algorithmen, die mit den zur 
+Verf"ugung stehenden Mitteln (heutige oder zuk"unftige) nicht gebrochen werden k"onnen.
+
+\section*{Sicherheit von Algorithemen}
+\addcontentsline{toc}{section}{\numberline{}{Sicherheit von Algorithemen}}
+
+Es gibt vier Kategorien, die das Versagen eines kryptographischen Algorithmus beschreiben.
+\begin{enumerate}
+\item{\bf Vollst"andiger Zusammenbruch} \\ 
+  Der (geheime) Schl"ussel wurde gefunden.
+\item{\bf Globale Entschl"usselung} (global deduction) \\
+ Es wurde ein anderer Algorithmus zum Entschl"usseln gefunden, ohne den Schl"ussel zu kennen.
+\item{\bf Lokale Entschl"usselung} \\
+  Es wurden von einigen Chiffraten die Klartexte gefunden.
+\item{\bf Informationsgewinn} \\
+  Teile oder Information "uber den Klartext und/oder den Schl"ussel wurden gefunden.
+\end{enumerate}
+
+
+\section*{Aufwand von Angriffen}
+\addcontentsline{toc}{section}{\numberline{}{Aufwand von Angriffen}}
+
+Der Aufwand der Angriffe kann auf drei verschiedene Weisen gemessen werden:
+\begin{enumerate}
+  \item{\bf Rechenkapazit"at:} \\
+    Zeit bzw. Anzahl der Rechenschritte.
+  \item{\bf Speicherkomplexit"at:} \\
+    ben"otigter Speicher.
+  \item{\bf Datenkomplexit"at:} \\
+    ben"otigte Anzahl an Chiffraten bzw. Chiffrat-Klartext-Paaren.
+\end{enumerate}    
+  
+  

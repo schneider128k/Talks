@@ -1,0 +1,112 @@
+%\documentstyle[12pt,german,mathsym,twoside,diplom]{report}
+\documentclass[12pt,twoside]{report}
+
+\UseLegacyTextSymbols
+\usepackage{latexsym}
+\usepackage{german,mathsym,diplom}
+\usepackage{epsf}
+
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{satz}[theorem]{Satz}
+%%\newtheorem{definition}[theorem]{Definition}
+\newtheorem{korollar}[theorem]{Korollar}
+
+%\newtheorem{beisp}[theorem]{Beispiel}
+%\def\beispiel{\@ifnextchar [{\@beisp}{\begin{@beispiel}\em}}
+%\def\endbeispiel{\end{@beispiel}}
+%\def\@beisp[#1]{\begin{@beispiel}[#1]\em}
+%\newtheorem{@beispiel}[theorem]{Beispiel}
+\newtheorem{beispiel}[theorem]{Beispiel}
+
+\newtheorem{bem}[theorem]{Bemerkung}
+\newtheorem{kor}[theorem]{Korollar}
+\newtheorem{lemma}[theorem]{Lemma}
+
+\newcommand{\ggt}{\mbox{ggT}}
+\newcommand{\kgv}{\mbox{kgV}}
+\newcommand{\mod}[1]{\mbox{ mod $#1$}}
+\newcommand{\euler}[1]{\Phi\left( #1 \right)}
+\newcommand{\beweis}{{\bf Beweis: }}
+\newcommand{\kong}[1]{\mbox{\shortstack{$\equiv$ \\ $#1$}}}
+\newcommand{\leg}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\glatt}[2]{\Psi\left( #1,#2 \right)}
+\newcommand{\unten}[1]{\lfloor #1 \rfloor} 
+\newcommand{\oben}[1]{\lceil #1 \rceil} 
+\newcommand{\dlog}[2]{\log_{#1} #2}
+\newcommand{\koerper}[1]{\F_{#1}}
+\newcommand{\ring}[1]{\Z_{#1}}
+\newcommand{\EXP}{\mbox{exp}}
+\newcommand{\LOG}{\mbox{log}}
+\newcommand{\betrag}[1]{\mid #1 \mid}
+\newcommand{\grad}{\mbox{grad}}
+\newcommand{\Oklasse}[1]{\mbox{{\cal O}}(#1)}
+\newcommand{\includeeps}[2]{
+   \def\epsfsize##1##2{#2##1}
+   \centerline{\epsffile{#1}}
+}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\einheit}[1]{\Z_{#1}^*}
+\title{Public Key Kryptographie}
+
+\author{W. Geiselmann}
+
+%\includeonly{authen}
+
+\begin{document}
+\input{titel}
+\setcounter{page}{0}
+\tableofcontents
+
+\include{einfu}
+\include{prot}
+\include{pubkey}
+\include{grundlagen}
+\include{dislog}
+\include{authen}
+
+\begin{thebibliography}{99}
+\bibitem{copper}D. Coppersmith, A.\,M. Odlyzko, R. Schroeppel;
+{\em Discrete Logarithms in $GF(p)$};
+Algorithmica, 1986; S. 1--15.
+
+\bibitem{denning}D. Denning;
+{\em Cryptography and Data Security};
+Addison  Wesley, London, 1983.
+
+\bibitem{odlyzko}A.\,M. Odlyzko;
+{\em Discrete logarithms in finite fields and their cryptographic 
+     significance};
+S. 224--314.
+
+\bibitem{frank}
+F. Schaefer-Lorinser;
+{\em Algorithmische Zahlentheorie};
+Vorlesungsskript, Universit"at Karlsruhe.
+
+\bibitem{schneier}
+B. Schneier;
+{\em Applied Cryptography};
+2. Ausgabe, Wiley, 1996.
+
+\bibitem{seberry}
+J. Seberry, J. Pieprzyk;
+{\em Cryptography};
+Prentice Hall, New York, 1989.
+
+\bibitem{simmons}
+G.\,J. Simmons (Ed.);
+{\em Contemporary Cryptology};
+IEEE Press, 1992.
+
+\bibitem{stinson}
+D.\,R. STinson;
+{\em Cryptography, Theory and Practice};
+CRC Press, Boca Taton, Florida, 1995.
+
+\end{thebibliography}
+
+\end{document}
+
+
+
+

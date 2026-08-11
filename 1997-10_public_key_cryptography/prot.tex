@@ -1,0 +1,739 @@
+\chapter{Protokolle}
+
+\section{Einf"uhrung}
+
+Ein Protokoll besteht aus einer Reihe von Schritten, die nacheinander
+ausgef"uhrt werden. Es sind mindestens zwei Teilnehmer am Protokoll
+beteiligt. Durch das Protokoll soll ein gewisser Zweck erf"ullt
+werden. Weiterhin m"ussen noch folgende Bedingungen erf"ullt sein:
+
+\begin{itemize}
+  \item Das Protokoll ist jedem Teilnehmer bekannt.
+  \item Jeder Teilnehmer ist mit dem Protokoll einverstanden. 
+  \item Der Ablauf des Protokolls mu\3 eindeutig sein.
+  \item Das Protokoll mu\3 vollst"andig sein (es ist in allen 
+        F"allen genau bestimmt, was zu tun ist).
+\end{itemize}
+
+Das Ziel eines kryptographischen Protokolls ist es, Abh"oren und
+Betr"ugen zu verhindern. Au\3erdem darf kein Teilnehmer mehr erfahren
+k"onnen als das, was im Protokoll vorgesehen ist.
+
+\begin{beispiel} Informale Protokolle aus dem t"aglichen Leben:
+  \begin{itemize}
+    \item Telefonische Bestellung von G"utern;
+    \item Bezahlen mit Kreditkarte;
+    \item B"urgerentscheid;
+    \item Kartenspiele.
+  \end{itemize}
+\end{beispiel}
+
+Diese Protokolle funktionieren meistens, da man die Teilnehmer kennt,
+sieht oder h"ort. Computer brauchen im Gegensatz zu Menschen formale
+Protokolle.
+
+%% ************* Protokol mit Notar
+\section{Protokoll mit Notar}
+
+Ein {\em Notar} ist eine vertrauensw"urdige Instanz, die keinen der
+Teilnehmer bevorzugt. Mit Hilfe einer solchen Instanz lassen sich recht einfach
+Protokolle angeben.
+
+\begin{beispiel}[Verkauf eines Autos mit Hilfe eines Notars] 
+Der Verkauf kann wie folgt abgewickelt werden:
+  \begin{enumerate}
+    \item Alice will Bob ein Auto verkaufen.
+    \item Bob will mit einem Scheck bezahlen.
+    \item Alice gibt den KFZ-Schein dem Notar.
+    \item Bob gibt den Scheck an Alice, die ihn dann bei der Bank einl"ost.
+    \item Falls der Scheck gedeckt war, gibt der Notar den KFZ-Schein an Bob.
+    \item Falls aber der Scheck nicht gedeckt war, mu\3 Alice dies dem Notar 
+          beweisen und erh"alt daraufhin den KFZ-Schein vom Notar zur"uck.
+  \end{enumerate}
+Eine zweite L"osung w"are ein von der Bank zertifizierter Scheck. In
+diesem Fall k"onnte man ohne Notar auskommen.
+\end{beispiel}
+
+Das obige Beispiel l"a\3t sich auf Rechnernetzwerke "ubertragen. Ein
+wesentlicher Nachteil ist es, da\3 bei jeder Transaktion der Notar involviert
+ist. Dieser Engpa\3 kann durch den Einsatz mehrerer Notare behoben
+werden, was aber die Kosten steigert. Eine andere M"oglichkeit, diesen
+Engpa\3 zu beheben, ist es, das Protokoll wie folgt in zwei Teile zu
+zerlegen:
+\begin{itemize}
+  \item{\bf Normalfall}
+    \begin{itemize}
+      \item Alice und Bob handeln einen Vertrag aus,
+      \item Alice unterschreibt,
+      \item Bob unterschreibt.
+    \end{itemize}
+  \item{{\bf Ausnahmefall} (Vertrag wird nicht eingehalten)}
+    \begin{itemize}
+      \item Alice und Bob erscheinen vor Gericht,
+      \item Alice und Bob erl"autern den Fall,
+      \item Richter f"allt eine Entscheidung.
+    \end{itemize}
+\end{itemize}
+Dieses Protokoll verhindert nicht einen Betrug, hat aber einen {\em
+Abschreckungseffekt}. Das Beste, was man manchmal auch erreichen kann,
+ist ein {\em abgesichertes Protokoll}. Dieses Protokoll garantiert,
+da\3 keiner der Teilnehmer betr"ugen kann. Sobald sich ein Partner
+nicht an das Protokoll h"alt (betr"ugen will), bemerkt das der andere
+Teilnehmer und bricht ab.
+
+%% *************** Typen von Angriffen gegen Protokolle
+\section{Typen von Angriffen gegen Protokolle}
+
+\begin{itemize}
+  \item{\bf passiver Angriff:} \\
+    Ein Unbeteiligter h"ort die Nachrichten ab und versucht daraus 
+    Information zu gewinnen.
+  \item{\bf aktiver Angriff:} \\
+    Ein Unbeteiligter "andert die Nachrichten (f"angt beispielsweise 
+    Nachrichten ab und schickt andere).
+  \item{\bf passiver Betrug:} \\
+    Ein Teilnehmer des Protokolls versucht zus"atzliche Informationen 
+    zu gewinnen (bei\-spielsweise w"ahlt er bei einer vom Protokoll 
+    verlangten Wahl von Zufallszahlen geschickt und nicht zuf"allig).
+  \item{\bf aktiver Betrug:} \\
+    Ein Teilnehmer h"alt sich nicht an das Protokoll (er gibt 
+    beispielsweise einen falschen Namen an).
+\end{itemize}
+
+%% ************** Eine erste Public-Key-Idee
+\section{Eine erste Public-Key-Idee (Merkles Puzzle)}
+
+Merkles Puzzel basiert auf der Idee, R"atsel zu erzeugen, die f"ur den Sender 
+Alice und
+den Empf"anger Bob in vertretbarer Zeit zu l"osen sind, nicht aber
+f"ur einen Abh"orer Eve. Damit soll das Ziel erreicht werden, da\3 vor
+der Kommunikation kein gemeinsamer Schl"ussel zwischen Alice und Bob
+ausgetauscht werden mu\3. 
+
+{\bf Vorgehensweise:} 
+\begin{enumerate}
+  \item Bob erzeugt $2^{20} (\approx 10^6)$ Nachrichten der Form {\bf
+    "`R"atselnr.: $x_i$, Schl"ussel: $y_i$"'}, wobei $x_i$ und
+    $y_i$ jeweils paarweise verschiedene Zufallszahlen sind. Die $y_i$
+    haben eine L"ange von mindestens 40 bit. Bob verschl"usselt diese 
+    Nachrichten mit einem symmetrischen Verfahren, wobei er verschiedene 
+    Schl"ussel der L"ange 20 bit benutzt, und schickt alles an Alice.
+  \item Alice w"ahlt eine der verschl"usselten Nachrichten zuf"allig
+    aus und entschl"usselt sie durch einen Brute-force-Angriff
+    (Aufwand ungef"ahr $10^6$ Schritte).  Alice erh"alt nach der
+    Entschl"usselung die beiden Zufallszahlen $x_0$ und $y_0$.
+  \item Alice verschl"usselt die Nachricht $m$ mit dem Schl"ussel
+    $y_0$ und schickt das Chiffrat zusammen mit $x_0$ im Klartext an
+    Bob.
+  \item Bob w"ahlt das zu $x_0$ geh"orende $y_0$ aus seiner Datenbank
+    und entschl"usselt das Chiffrat von Alice mit dem Schl"ussel $y_0$.
+\end{enumerate}
+
+{\bf Aufwandsbetrachtung: } \\
+\begin{tabular}{rcl}
+  Bob          & $\approx$ & $2^{20}$ Schritte (Erzeugung der R"atsel) \\
+  Senden       & $\approx$ & $2^{20}$ R"atsel von Bob und Chiffrat von Alice\\
+  Alice        & $\approx$ & $2^{20}$ Schritte (Brute-force-Angriff) und 
+                 Verschl"usselung des Klartextes\\
+  Eve          & $\approx$ & $2^{40}$ Schritte (Brute-force-Angriff)
+\end{tabular} 
+
+Der Abh"orer Eve mu\3 im schlimmsten Fall $2^{20}$ R"atsel mit
+Brute-force entschl"usseln bis er $x_0$ gefunden hat und damit auch
+$y_0$. Dazu braucht er aber ungef"ahr $2^{40}$ Schritte, da jedes
+R"atsel mit einem 20 bit langen Schl"ussel verschl"usselt wurde.
+Es ist f"ur Eve ung"unstiger, das Chiffrat von Alice direkt mit einem
+Brute-force-Angriff zu entschl"usseln, da er dazu mehr als
+$2^{40}$ Schritte br"auchte, weil die Schl"ussel $y_i$ eine L"ange von mehr als
+40 bit haben.
+
+Wenn Alice und Bob 10000 Operationen pro Sekunde ausf"uhren k"onnen, dann
+ben"otigen sie jeweils ungef"ahr eine Minute. Eve mu\3 aber bei
+vergleichbarer Rechenleistung etwa ein Jahr investieren. Man sieht
+also, da\3 der Aufwand f"ur den Abh"orer Eve unvergleichbar schneller
+w"achst, wenn die Anzahl der R"atsel und die L"ange der Schl"ussel erh"oht
+wird.
+
+%************* Einwegfunktionen
+\section{Einwegfunktionen}
+
+Einwegfunktionen bilden einen zentralen Baustein der Public-Key-Protokolle. 
+
+\begin{definition}[Einwegfunktion]
+Eine {\em Einwegfunktion} ist eine injektive Funktion $f$, die einfach zu
+berechnen ist, deren Umkehrfunktion $f^{-1}$ dagegen sehr schwierig zu
+berechnen ist.
+\end{definition}
+
+Eine mathematisch exakte Definition w"are: Die Funktion $f$ ist in
+polynomialer Zeit zu berechnen, die Umkehrfunktion $f^{-1}$ aber
+nicht. Funktionen, die diese Eigenschaft erf"ullen, sind bisher
+nicht bekannt.
+
+\begin{definition}[Einwegfunktion mit Fallt"ur] 
+Eine {\em Einwegfunktion mit Fallt"ur} ist eine Einwegfunktion $f$,
+deren Umkehrfunktion $f^{-1}$ einfach zu berechnen ist, falls man eine
+zus"atzliche Information besitzt.
+\end{definition}
+
+%************* Hashfunktionen  
+\section{Hashfunktionen}
+
+\begin{definition}[Hashfunktion]
+Eine {\em Hashfunktion} ist eine Funktion $H$, die eine beliebig lange Eingabe 
+auf eine Ausgabe fester L"ange (normalerweise k"urzer) abbildet. 
+\end{definition}
+
+\begin{beispiel} 
+Das XOR aller Eingabebytes ist eine Hashfunktion.
+\end{beispiel}
+
+\begin{definition}[kryptographische Hashfunktion]
+  Eine {\em kryptographische Hashfunktion} ist eine Hashfunktion, die
+  zus"atzlich noch folgende Bedingungen erf"ullt:
+  \begin{itemize}
+    \item sie ist einfach zu berechnen,
+    \item es ist schwierig zu einer vorgegebenen Ausgabe (Hashwert)
+      ein Urbild (eine der h"ochstwahrscheinlich unendlich vielen
+      Nachrichten mit diesem Hashwert) zu finden, und 
+    \item es ist schwierig zwei Nachrichten mit demselben Hashwert 
+      (Kollision) zu finden.
+  \end{itemize}
+\end{definition}
+
+%% ************************ Hybrid-Kryptosysteme   
+\section{Hybrid-Kryptosystem}
+
+Public-Key-Kryptosysteme sind etwa einen Faktor 1000 langsamer als
+Blockchiffren bei gleichen Sicherheitsanforderungen. Bei den symmetrischen 
+Verfahren mu\3 aber vor der Kommunikation ein geheimer Schl"ussel sicher
+ausgetauscht werden. Daher wird in den meisten praktisch eingesetzten
+Systemen zun"achst ein geheimer Sitzungsschl"ussel $K$ mit einem
+Public-Key-Verfahren "ubermittelt. Danach wird ein schnelleres
+symmetrisches Verfahren verwendet, das dann den Sitzungsschl"ussel $K$
+benutzt. Diese Systeme hei\3en {\em Hybridsysteme}, da zwei
+kryptographische Verfahren eingesetzt werden.
+\begin{enumerate}
+  \item Bob schickt Alice seinen "offentlichen Schl"ussel $B$.
+  \item Alice w"ahlt einen Sitzungsschl"ussel $K$, verschl"usselt ihn
+         mit $B$ und schickt $E_B(K)$ an Bob.
+  \item Bob entschl"usselt $D_{B'}(E_B(K))=K$ mit seinem geheimen
+        Schl"ussel $B'$. Jetzt haben beide den gemeinsamen
+        Sitzungsschl"ussel $K$, der nur ihnen bekannt ist.
+  \item Ab jetzt l"auft die Kommunikation mit einem schnellen
+        symmetrischen Verfahren, das den Sitzungsschl"ussel $K$
+        verwendet.
+\end{enumerate}
+
+%% ********************* Digitale Signatur
+\section{Digitale Signatur}
+
+Eine digitale Signatur soll "ahnlich wie eine handschriftliche Unterschrift 
+folgende Eigenschaften erf"ullen:
+\begin{itemize}
+  \item authentisch, d.h. einer Person eindeutig zugeordnet;
+  \item nicht kopierbar, d.h. Teile des Dokuments oder das Dokument sind
+    nach der Unterschrift nicht "anderbar;
+  \item unabstreitbar;
+  \item kurz im Vergleich zum Dokument.
+\end{itemize}
+Es ist schwierig, elektronisch alle Kritertien gleichzeitig zu realisieren.
+
+
+\subsection{Signatur mit Hilfe eines Notars und eines symmetrischen Kryptosystems} 
+
+"Ubung: Geben Sie unter Verwendung eines symmetrischen Kryptosystems
+und eines Notars ein Signaturverfahren an. Wie werden die folgenden
+Aufgaben gel"ost:
+
+\begin{itemize}
+   \item Wie "ubermittelt Alice an Bob eine signierte Nachricht?
+   \item Wie kann Bob Celia nachweisen, da\3 das Dokument von Alice signiert wurde?
+\end{itemize}
+Welche Kriterien werden von Ihrem Verfahren erf"ullt?
+
+
+\subsection{Signatur mit Public-Key-Verfahren}
+
+Public-Key-Verfahren k"onnen auch zur Authentifizierung verwendet
+werden, indem man den geheimen Schl"ussel zur Verschl"usselung benutzt.
+\begin{enumerate}
+  \item Alice verschl"usselt die Nachricht $m$ mit ihrem geheimen
+        Schl"ussel $A'$. Sie f"ugt dem Chiffrat $c=D_{A'}(m)$ 
+        ihren Namen hinzu und schickt dies an Bob.
+  \item Bob entschl"usselt $c$ mit Alices "offentlichen Schl"ussel 
+        $A$ und erh"alt die Nachricht $m=E_A(c)$.
+\end{enumerate}
+Diese Signatur ist kopierbar. Diese Tatsache st"ort nicht bei der 
+Unterschrift von Vertr"agen. Werden damit aber Schecks unterschrieben, so 
+k"onnen diese mehrfach eingel"ost werden. Es m"ussen Zeitstempel, laufende 
+Nummern, etc. eingef"ugt und von der einl"osenden Bank gespeichert werden, um
+dieses Problem zu beheben. Diese Unterschrift ist authentisch und
+unabstreitbar. Ihre L"ange h"angt von der L"ange der Nachricht $m$ ab.
+Sie ist also nicht kurz.
+
+\subsection{Signatur mit Hashfunktionen}
+
+Bei der Signatur mit Public-Key-Verfahren mu\3 die ganze Nachricht $m$
+verschl"usselt werden. Dies ist oft mit hohem Rechenaufwand verbunden,
+wenn die Nachricht $m$ gro\3 ist. Dieses Problem l"a\3t sich mit Hilfe
+einer Hashfunktion beheben.
+\begin{enumerate}
+  \item Alice berechnet den Hashwert $h=H(m)$ der Nachricht $m$.
+  \item Alice verschl"usselt $h$ mit ihrem geheimen Schl"ussel $A'$ 
+        und erh"alt ihre Unterschrift $D_{A'}(h)$ der Nachricht $m$.
+  \item Alice schickt ihre Nachricht $m$ mit ihrer Unterschrift $D_{A'}(h)$ 
+        an Bob.
+  \item Bob berechnet den Hashwert der empfangenen Nachricht und
+        vergleicht ihn mit $E_{A}(D_{A'}(h))$, wobei $A$ der
+        "offentliche Schl"ussel von Alice ist.
+\end{enumerate}
+
+{\bf Vorteil:} Deutlich geringerer Rechenaufwand und Trennung von
+Nachricht und kurzer Unterschrift. \\
+{\bf Nachteil:} Es ist nicht so sicher. Die Sicherheit h"angt von der
+Wirksamkeit der Angriffe gegen Hashfunktionen ab.
+
+\subsection{Angriffe gegen Hashfunktionen}
+
+Es soll zu einer Nachricht $m$ eine weitere Nachricht $m'$ gefunden werden, 
+so da\3 $H(m)=H(m')$ (Kollision) gilt. Dies kann verwendet werden, um dem
+Empf"anger eine falsche Nachricht zuzuspielen, ohne da\3 er dies bemerken kann.
+\begin{itemize}
+\item{\bf Brute-force-Angriff} \\
+   Die Nachricht $m$ und der Hashwert $H(m)$ seien bekannt. Es werden
+   solange verschiedene Nachrichten $m'$ ausprobiert, bis $H(m)=H(m')$
+   gilt. Durch Ab"andern der Nachricht $m$ an $n$ Stellen (durch
+   F"ullworte, Umstellungen) ergeben sich $2^n$ verschiedene Texte
+   $m'$. Hat der Hashwert $k$ bit L"ange, so m"ussen etwa $2^k$
+   Nachrichten $m'$ ausprobiert werden, bis $H(m)=H(m')$ auftritt.
+\item{\bf Meet-in-middle-Angriff} \\
+   Man kann Hashfunktionen normalerweise derart modifizieren, da\3 sie
+   eine Nachricht von hinten, also vom bekannten Hashwert $H(m)$ der
+   Nachricht, r"uckhashen.  Diese Tatsache kann ausgenutzt werden,
+   um eine Kollision schneller als mit dem Brute-force-Angriff zu
+   finden. Dazu wird die Nachricht $m$ in zwei Teile $m_1$ und $m_2$
+   geteilt. Im ersten Teil werden "Anderungen an $k/2$ Stellen
+   vorgenommen. Es enstehen dadurch $2^{k/2}$ verschiedene Nachrichten
+   $m'_1$ mit Vorw"artshashwerten $H(m'_1)$. Diese Nachrichten werden nach
+   dem Hashwert sortiert.
+
+   Mit Hilfe des bekannten Hashwerts $H(m)$ wird solange der  
+   R"uckwerts\-hashwert $H_{r"uck}(m'_2,H(m))$ vom entsprechend ver"anderten 
+   zweiten Teil $m'_2$ der Nachricht $m$ berechnet, bis eine "Ubereinstimmung
+   des R"uckw"artshashwerts $H_{r"uck}(m'_2,H(m))$ mit einem der
+   Vorw"artshashwerte $H(m'_1)$ auftritt. Sie kann effizient
+   mit Bin"arsuche festgestellt werden.  Aufgrund des 
+   Geburtstagsparadoxon sind verh"altnism"a\3ig wenige Ver"anderungen 
+   an $m_2$ notwending. Eine Kollisionsnachricht 
+   $m'$ ergibt sich durch Hintereinanderschreiben von $m_1'$ und $m_2'$.
+\end{itemize}
+
+{\bf Vergleich des Aufwands f"ur k=64}
+
+\begin{itemize}
+   \item Brute-force-Angriff \\
+     \begin{tabular}{rcl}
+       Zeitaufwand     & $\approx$ & $2^{64}$ Schritte ($2^{64}$ $m'$ hashen) \\
+       Speicheraufwand & $\approx$ & nur eine Nachricht
+     \end{tabular} 
+   \item Meet-in-middle-Angriff \\
+     \begin{tabular}{rcl}
+       vorw"arts hashen      & $\approx$ & $2^{32}$ Schritte ($2^{32}$ $m'_1$ hashen)          \\
+       Sortieren der Tabelle & $\approx$ & $32 \times 2^{32}$ Schritte                         \\
+       Speicheraufwand       & $\approx$ & $2^{32} \times 8$ byte $=$ 32 GByte f"ur $H(m'_1)$
+    \end{tabular}
+\end{itemize}
+{\bf L"osung des Meet-in-the-middle Problems:} Will man $k$ bit
+Sicherheit, so mu\3 der Hashwert $2k$ bit lang sein.
+
+
+%% *************** Schl"usselaustausch
+\section{Protokolle f"ur Schl"usselaustauch} 
+
+Es werden Protokolle ben"otigt, die den sicheren Austausch eines
+gemeinsamen Sitzungs\-schl"ussels $K$ zwischen zwei Teilnehmern
+koordinieren, um ihnen sp"ater den Einsatz eines schnellen
+symmetrischen Verfahrens zu erm"oglichen.
+
+\subsection{Protokoll mit einem symmetrischen Verfahren und einer Schl"usselzentrale (SZ)}\label{SZmitSymmSchl}
+  Die Schl"ussel von Alice und Bob sind der SZ bekannt. 
+  \begin{enumerate}
+     \item Alice teilt der SZ mit, da\3 sie mit Bob kommunizieren 
+           will.
+     \item Die SZ erzeugt einen Sitzungsschl"ussel $K$, berechnet 
+           $E_A(K)$ und $E_B(K)$ und schickt dies an Alice.
+     \item Alice berechnet $D_A(E_A(K))=K$.
+     \item Alice schickt $E_B(K)$ an Bob.
+     \item Bob berechnet $D_B(E_B(K))=K$.
+     \item Alice und Bob besitzen jetzt einen gemeinsamen 
+           Sitzungschl"ussel $K$, der nur ihnen und der SZ bekannt ist.
+  \end{enumerate}
+{\bf Problem:} Die SZ kennt die Schl"ussel aller Teilnehmer und alle
+Sitzungsschl"ussel und kann somit alle Nachricht abh"oren.
+
+\subsection{Protokoll mit Public-Key und einer Schl"usselzentrale}\label{SZmitPK}
+Die "offentlichen Schl"ussel von Alice und Bob sind in einer Datenbank
+der Schl"usselzentrale gespeichert.
+\begin{enumerate}
+   \item Alice holt Bobs "offentlichen Schl"ussel $B$ aus der Datenbank.
+   \item Alice erzeugt einen zuf"alligen Sitzungsschl"ussel $K$,
+         berechnet $E_B(K)$ und schickt dies mit ihrem Namen versehen
+         an Bob.
+   \item Bob entschl"usselt $D_{B'}(E_B(K))=K$ mit seinem geheimen 
+         Schl"ussel $B'$.
+   \item Alice und Bob haben jetzt einen gemeinsamen Sitzungsschl"ussel $K$.
+\end{enumerate}
+{\bf Vorteil:} Die SZ kennt nur die "offentlichen der Teilnehmer. Ihr sind die
+Sitzungschl"ussel nicht bekannt.
+
+Dieses Protokoll bietet noch keine Sicherheit, da sich ein aktiver Angreifer
+in einem Man-in-the-middle Angriff zwischen die SZ und die Teilnehmer
+schalten kann. Er kann dann den Teilnehmer falsche Schl"ussel schicken,
+ohne da"s es von ihnen bemerkt wird.
+
+\subsection{Man-in-the-middle Angriff}
+Ein passiver Angreifer Eve kann nur das Public-Key-Verfahren oder das
+symmetrische Verfahren angreifen. Eve sollte keine Chance haben, diese
+Verfahren zu brechen.  Ein aktiver Angreifer Mallory kann aber die
+Leitung unterbrechen und die Kommunikation, die "uber sie l"auft,
+kontrollieren.
+\begin{enumerate}
+  \item Alice schickt ihren "offentlichen Schl"ussel $A$ an
+        Bob. Mallory f"angt $A$ ab und schickt seinen "offentlichen
+        Schl"ussel $M$ an Bob mit Absender Alice.
+  \item Bob schickt seinen "offentlichen Schl"ussel $B$ an
+        Alice. Mallory f"angt $B$ ab und schickt seinen "offentlichen
+        Schl"ussel $M$ an Alice mit Absender Bob.
+  \item Alice verschl"usselt die Nachricht $m$ und schickt das Chiffrat
+        $c=(E_M(m))$ an Bob.
+  \item Mallory entschl"usselt $D_{M'}(c)=m$, liest die Nachricht
+        und leitet $E_B(m)$ weiter an Bob.
+  \item Der R"uckweg verl"auft analog.
+\end{enumerate}
+Die von Alice und Bob ausgetauschten Nachrichten k"onnen von Mallory
+nicht nur gelesen, sondern auch in beliebiger Weise manipuliert
+werden. Alice und Bob haben keine M"oglichkeit festzustellen, ob
+ihre Nachrichten abgeh"ort oder manipuliert wurden.
+
+\subsection{Interlock-Protokoll}
+Die besten Public-Key-Verfahren sind also wertlos, wenn die Teilnehmer
+falsche Schl"ussel von einem Angreifer Mallory bei einem
+Man-in-the-middle-Angriff bekommen. Dieser Schwachpunkt kann
+teilweise durch das folgende Protokoll behoben werden.
+\begin{enumerate}
+  \item Alice schickt Bob ihren "offentlichen Schl"ussel $A$.
+  \item Bob schickt Alice seinen "offentlichen Schl"ussel $B$.
+  \item Alice berechnet $E_B(m_A)=e_1 e_2$ und schickt die erste
+        H"alfte $e_1$ an Bob.
+  \item Bob berechnet $E_A(m_B)=f_1 f_2$ und schickt die erste H"alfte
+        $f_1$ an Alice.
+  \item Alice schickt die zweite H"alfte $e_2$ an Bob.
+  \item Bob berechnet $D_{B'}(e_1 e_2)=m_A$. Bob beantwortet {\em sofort}
+        die Frage von Alice und schickt die zweite H"alfte $f_2$.
+  \item Alice beantwortet Bobs Frage $D_{A'}(f_1 f_2)$.
+\end{enumerate}
+Ein aktiver Angreifer Mallory kann bis zum 3-ten Schritt alles wie
+bisher machen. Dann mu\3 aber Mallory eine neue Nachricht erfinden,
+sie verschl"usseln und die erste H"alfte an Bob schicken. Im 4-ten
+Schritt mu\3 Mallory nochmals eine neue Nachricht erfinden, sie
+verschl"usseln und die erste H"alfte an Alice schicken.  Im 5-ten
+Schritt wei\3 Mallory Alices Frage, mu\3 aber die zweite H"alfte der
+erfundenen Nachricht an Bob schicken. Im 6-ten Schritt erwartet Alice
+eine Antwort von Bob, die jetzt aber Mallory beantworten
+mu\3. Mallory wei\3 entweder die Antwort oder mu\3 raten. Der 7-ten
+Schritt verl"auft analog. Durch das Interlock-Protokoll wird der
+Man-in-the-midde Angriff Mallory erschwert, jedoch nicht unm"oglich
+gemacht.
+
+Das Protokoll versagt, wenn  Mallory die beiden Teilnehmer kennt oder wenn
+Alice und Bob sich nicht direkt kennen und daher keine geeigneten Fragen
+stellen k"onnen, d.h. kein gemeinsames Geheimnis besitzen. Das ist vor
+allem dann der Fall, wenn Alice und Bob keine Menschen, sondern
+Computer sind, die Fragen nur automatisch erzeugen k"onnen.
+
+%% ******************* Schl"usselaustausch mit Signaturen
+\subsection{Schl"usselaustausch mit Signaturen}
+Das Interlockprotokoll erschwert einen Man-in-the-middle Angriff,
+macht ihn aber nicht unm"oglich. Das Protokoll~\ref{SZmitPK} 
+kann mit Hilfe der digitalen Signatur so erweitert werden, da"s
+ein Man-in-the-middle Angriff f"ur einen Au"senstehenden Mallory
+umm"oglich wird.
+
+Die Schl"usselzentrale unterschreibt die "offentlichen Schl"ussel
+von Alice und Bob, wobei sie pers"onlich anwesend sein m"ussen. Diese
+von der Schl"usselzentrale signierten Schl"ussel sind in einer
+Datenbank zug"anglich. Jeder Teilnehmer kennt den "offentlichen
+Schl"ussel der SZ und kann damit ihre Unterschrift pr"ufen. Mallory
+kann keinen Man-in-the-middle Angriff durchf"uhren, da Alice
+und Bob die Authentizit"at der Schl"ussel "uberpr"ufen k"onnen. 
+Mallory kann jetzt nur noch zuh"oren oder die Leitung
+st"oren. Die SZ kann nicht wie bei der Vergabe von
+Sitzungsschl"usseln im Protokoll~\ref{SZmitSymmSchl} alle Nachrichten
+abh"oren, ist also nicht mehr der gro\3e Schwachpunkt im System.
+
+Die Schl"usselzentrale kann jetzt nur noch als einzige Instanz einen
+Man-in-the-middle Angriff durchf"uhren.
+
+Mit Hilfe einer SZ lassen sich auch sehr einfach Nachrichten
+verschicken. Der "offentliche Schl"ussel von Bob wird von der SZ
+geliefert. Alice erzeugt Sitzungsschl"ussel $K$, verschl"usselt
+Nachricht $m$ mit symmetrischen Verfahren und schickt
+$(E_B(K),E_K(m))$ an Bob. Hier ist wieder wichtig, da\3 der "offentliche
+Schl"ussel $B$ signiert ist.
+
+\section{Zero Knowledge Protokolle}
+
+Bei einem Zero-knowledge Protokoll weist ein Beweiser $B$ einem
+Verifizierer $V$ nach, die L"osung eines bestimmten Problems $P$ zu
+kennen. Bei diesem Nachweis wird keine Information "uber die Struktur
+der L"osung preisgegeben. Genauer ist gefordert, da\3 bei polynomial
+vielen Abl"aufen des Protokolls nicht mehr Information preisgegeben
+wird, als die, die der Verifizierer selbst mit polynomialen Aufwand h"atte
+bekommen k"onnen.
+
+Die Zero Knowledge Protokolle k"onnen f"ur Authetifikationsverfahren
+benutzt werden.
+
+\begin{beispiel} 
+Der Keller hat eine Geheimt"ur. $B$ will $V$ beweisen, da\3 er die
+Geheimt"ur "offnen kann, ohne aber $V$ das Geheiminis, wie sie
+ge"offnet wird, zu verraten.
+  \begin{figure}[htb]
+  \centerline{\includeeps{keller.eps}{1.5}}
+  \caption{Keller mit Geheimt"ur}
+  \end{figure}
+  \begin{enumerate}
+    \item $V$ steht bei $e$.
+    \item $B$ geht entweder zu $g$ oder $h$ im Keller.
+    \item $V$ geht zu $f$ und ruft $B$ zu, er solle links bzw. 
+          rechts herauskommen.
+    \item $B$ "offnet bei Bedarf die Geheimt"ur und kommt am 
+          gew"unschten Ort heraus.
+    \item Diese Prozedur wird n-mal wiederholt. Danach ist die
+          Wahrscheinlichkeit, da\3 $B$ in Wirklichkeit die Geheimt"ur
+          gar nicht "offnen kann und jedesmal nur Gl"uck hatte, nur
+          $1/2^n$.
+  \end{enumerate}
+\end{beispiel}
+
+\begin{definition}[Perfekt zero-knowledge]
+Ein Protokoll hei"st {\em perfekt zero-knowledge}, wenn es einen
+Simulator gibt, der mit polynomialen Aufwand das Protokoll so
+simuliert, da\3 es identisch zur richtigen Protokollausf"uhrung
+ist. Der Simulator kennt dabei das Geheiminis nicht.
+\end{definition}
+
+Die abstrakte Definition wird weiter unten eingehender erl"autert. Es
+l"a\3t sich auch eine etwas schw"achere Definition erstellen, die die
+absolute Sicherheit durch {\em nicht berechenbar mit heutigen Mitteln}
+ersetzt:
+
+\begin{definition}[Berechenbar zero-knowledge]
+Ein Protokoll ist {\em berechenbar zero-knowledge}, wenn es einen
+Simulator gibt, der mit polynomialen Aufwand das Protokoll so
+simuliert, da\3 es mit heutigen Mitteln nicht von einer richtigen
+Protokollausf"uhrug zu unterscheiden ist.
+\end{definition}
+
+Berechenbar zero-knowledge bietet zwar nicht den unbedingten Schutz von
+perfekt zero-knowledge, da durch neue Algorithmen oder schnellere Computer die
+Unterscheidung doch m"oglich werden kann. Es ist in vielen F"allen
+das einzige, was "uber ein Protokoll bewiesen werden kann.
+
+Der Simulator ist das zentrale Instrument, mit dem die Zero-knowledge
+Eigenschaft definiert und bewiesen wird. Die Aufgabe dieses Simulators
+ist es, in Interaktionen mit einem echten Verifizierer die Rolle
+des Beweisers zu "ubernehemen. Dabei steht dem Simulator das Geheimnis
+des Beweisers nicht zur Verf"ugung. Gefordert ist nun, da\3 er es in
+einem nicht vernachl"a\3igbaren (polynomial gro\3en) Teil der
+Protokollausf"uhrungen schafft, die erwarteten Antworten zu geben und
+das Protokoll damit korrekt ablaufen zu lassen. Der Simulator stellt
+einerseits keinen erfolgreichen Angriff auf das Protokoll dar, da er
+bei konkreten Implementierungen nur in einem Teil der F"alle die
+richtigen Antworten geben kann. Andererseits sind die Antworten, in
+denen der Simulator korrekte Antworten geben konnte, nicht von den
+Antworten des Beweisers unterscheidbar. Daher kann sich ein
+Verifizierer mit Hilfe des Simulators beliebig (polynomial) viele
+Ausf"uhrungen des Protokolls beschaffen, ohne mit dem Beweiser
+interagieren zu m"ussen. Der Verifizierer erh"alt daher durch den
+Ablauf des Protokolls mit dem Beweiser keine Informationen, die er
+nicht auch mit dem Simulator h"atte erhalten k"onnen. Deswegen kann
+der Beweiser sicher sein, da\3 er keine Information "uber sein
+Geheimnis preisgibt, wenn er das Protokoll polynomial oft ausf"uhrt.
+
+\begin{beispiel}
+Der Keller mit Geheimt"ur ist perfekt zero-knowledge. Was w"urde
+passieren, wenn der Eingang keinen Knick machen w"urde?
+\end{beispiel}
+
+Ein Beispiel f"ur einen Zero-knowledge Beweis wird am folgenden
+Protokoll, mit dem ein Beweiser nachweist, die L"osung des
+Rubik W"urfels aus einer bestimmen Stellung zu kennen, gezeigt.
+
+\begin{beispiel}[Rubik W"urfel]
+$B$ will $V$ beweisen, da\3 er den W"urfel aus einer bestimmten
+Stellung $P$ l"osen kann. Es wird davon ausgegangen, da\3 es 
+schwierig ist, eine allgemeine L"osung des W"urfel zu finden.
+\begin{enumerate}
+  \item B transformiert den W"urfel in eine andere Stellung $P'$ mit 
+        Hilfe einer Transformation $\tau$.
+  \item V entscheidet sich, ob er die L"osung aus der Stellung $P'$ 
+        heraus oder die Transformation $\tau : P \leftrightarrow P'$ 
+        sehen will.
+  \item B f"uhrt das Verlangte vor.
+\end{enumerate}
+Ist der Beweiser echt, so kann er auf jede der beiden m"oglichen
+Fragen des Verifiziers eine korrekte Antwort geben. Ist er jedoch ein
+Betr"uger, so kann er auf die Aufgabe "`L"ose den W"urfel aus der
+Stellung $P'$"' nicht l"osen, da er daf"ur eine allgemeine L"osung des
+Rubik W"urfels kennen m"u\3te, was aber nach der Grundannahme des
+Protokolls schwierig ist. Die Aufgabe "`Zeige die Transformation 
+$\tau : P \leftrightarrow P'$"' kann er trivialerweise l"osen.
+
+Um zu ermitteln, ob das Protokoll zero-Knowledge ist, mu\3 ein
+Simulator angegeben werden. 
+
+Der Simulator hat zwei Rubik W"urfel, die sich im Anfangszustand bzw. im 
+Zustand $P$ befinden. Er r"at zuerst die Herausforderung des
+Verifiziers. Nun kann er das Problem $P'$ so konstruieren, da\3 er die
+Antwort kennt, falls sich der Verifizierer f"ur die Herausforderung
+entscheidet, die er vorher geraten hat. Nachdem der Simulator nun das
+Problem~$P'$ pr"asentiert hat, fordert der Verifizierer den Simulator
+eine der L"osungen anzugegen. Stimmt die Herausforderung mit der
+geratenen "uberein, so gibt der Simulator die korrekte
+Antwort. Stimmen die Herausforderungen nicht "uberein, so gibt der
+Simulator auf, und fordert zu einem neuen Protokolldurchlauf auf.
+
+Dieses Protokoll ist zwar perfekt zero-knowledge, {\em aber} der 
+Verifizier kann aus dem Weg die L"osung erraten.
+\end{beispiel}
+
+Aus diesem Beispiel l"a\3t sich die typische Strukur eines
+kryptographisch nutzbaren Zero-knowledge Protokolls ableiten.
+
+{\bf Typische Struktur eines zero-knowledge Protokolls:}
+
+Der Beweiser $B$ will dem Verifizierer $V$ beweisen, die L"osung eines
+Problems $P$ aus einer Problemklasse ${\cal P}$ zu kennen:
+\begin{enumerate}
+  \item B bestimmt ein zu $P$ "aquivalentes Problen $P'\in {\cal P}$
+        mit Hilfe einer Transformation $\tau : P \mapsto P'$ und
+        sendet $P'$ als Referenzwert an V.
+  \item V kann sich f"ur eine Herausforderung (challenge) $r$
+        entscheiden. Im Regelfall ist dies die Frage, ob er die
+        L"osung des Problems $P'$ oder die Transformation $\tau : P
+        \mapsto P'$ sehen will.
+  \item B sendet die zum Referenzwert $P'$ und der Herausforderung $r$
+        passende Antwort.
+\end{enumerate}
+
+Kennt der Beweiser die Herausforderung $r$ bevor er seinen
+Referenzwert $P'$ offenlegen mu\3, so braucht er die L"osung gar nicht
+zu kennen, da er sich zuerst die Antwort w"ahlen kann und dann einen zur
+Herausforderung passende Referenzwert w"ahlen kann. Daraus ergibt sich
+
+{\bf die Strukur eines Simulators:}
+\begin{enumerate}
+  \item W"ahle die Herausforderung $r'$ zuf"allig und gleichverteilt.
+  \item Berechne einen zu $r'$ passenden Referenzwert und eine 
+        dazugeh"orige Antwort.
+  \item Der Verifizierer stellt die Herausforderung $r$.
+  \item Falls $r \neq r'$ gehe zu Schritt 1.
+  \item Gebe den Protokollablauf mit Referenzwert, Herausforderung und 
+        Antwort aus.
+  \item Weiter mit Schritt 1.
+\end{enumerate}
+Eine M"oglichkeit f"ur die Realisierung von Zero-Knowledge Protokollen
+ist relativ offensichtlich. Diese M"oglichkeit basiert auf einem
+Beweiser, der behauptet eine L"osung einer Klasse von Problemen zu
+besitzen. Der Beweis kann dann einfach angetreten werden, indem der
+Verifizierer ein Problem aus dieser Klasse benennt und der Beweiser
+eine L"osung f"ur dieses Problem vorlegt.
+\begin{beispiel}[Faktorisieren] 
+Der Beweiser behauptet, effizient gro\3e Zahlen faktorisieren zu k"onnen.
+  \begin{enumerate}
+    \item V gibt eine gro\3e Zahl an.
+    \item B faktorisiert sie und V "uberpr"uft das Ergebnis.
+  \end{enumerate}
+Der Simulator S w"ahlt sich einige Primzahlen und berechnet das Produkt
+$r'$. Falls der Verifizierer V eine Zahl $r$ w"ahlt mit $r=r'$, so
+kann S ihre Faktorisierung angeben. Das Problem ist es, da"s
+die Wahrscheinlichkeit f"ur $r=r'$ unendlich klein ist, da V jede
+der unendlich vielen Zahlen w"ahlen kann. Gefordert ist aber, da"s der
+Simulator in einem nicht vernachl"a"sigbaren Teil der 
+Protokollausf"uhrungen die erwarteten Antworten geben kann.
+\end{beispiel}
+
+\begin{beispiel}[Kenntnis von Quadratwurzeln]
+Es sei $n$ ein \"offentlich bekannter, ge\-n\"u\-gend gro"ser Modulus. 
+Die Faktorisierung
+sei nicht "offentlich bekannt. Das Berechnen von Wurzeln modulo $n$
+ist "aquivalent zu der Faktorisierung von $n$ und damit schwierig. Es
+sei $y_B$ ein "offentlich bekannter Wert. Der Beweiser $B$ behauptet, ein
+$x_B$ mit $x_B^2 \equiv y_B \bmod n$ zu kennen.  Das folgende
+Protokoll kann von ihnen benutzt werden, um diese Behauptung zu
+"uberpr"ufen.
+\begin{enumerate}
+   \item B w"ahlt x zuf"allig und legt $y \equiv x^2 \bmod n$ offen.
+   \item V w"ahlt sich $r \in \{ 0,1 \}$ und teilt es $B$ mit.
+   \item B berechnet  $z \equiv x_B^r x \bmod n$.
+   \item V "uberpr"uft ob $z^2 \equiv y_B^r y \bmod n$.
+\end{enumerate}
+Durch die Multipikation mit $x$ wird das urspr"ungliche Problem auf
+ein neues Problem, die Quadratwurzel aus $y_B y$ zu ziehen,
+transformiert. Falls V diese Quadratwurzel sehen will, kann B sie
+berechnen. Falls aber V die Transformation sehen will, so liefert V
+einfach die Zahl x. Die Transformation ist hier auch durch
+Wurzelziehen zu berechen und deshalb genauso schwierig wie das
+urspr"ungliche Problem.
+
+Um einen Simulator zu konstruieren, halten wir uns an die oben 
+beschriebene typische Struktur eines Simulators. Der Simulator w"ahlt 
+zuf"allig und gleichverteilt die Herausforderung $r'\in\left\{0,1\right\}$. 
+Falls der Verifizierer die andere Herausforderung $r\neq r'$ w"ahlt, gibt der 
+Simulator auf. Sonst kann er die richtigen Antworten geben:
+
+Simulator S: $r'=0$
+\begin{enumerate}
+  \item S w"ahlt $x$ zuf"allig und legt $y\equiv x^2$ offen.
+  \item V entscheidet sich f"ur $r=0$.
+  \item S berechnet $z:=x_B^0 x \equiv x$.
+  \item V "uberpr"uft, ob $z^2\equiv y_B^0 y$.
+\end{enumerate}
+Simulator S: $r'=1$
+\begin{enumerate}
+  \item S w"ahlt $x$ zuf"allig und legt $y\equiv y_B^{-1} x^2$ offen.
+  \item V entscheidet sich f"ur $r=1$.
+  \item S berechnet $z:=x$.
+  \item V "uberpr"uft, ob $z^2\equiv y_B^1 y$.
+\end{enumerate}
+
+In der H"alfte der F"alle liefert der Simulator richtige Antworten, d.h.
+das Protokoll ist ein Zero-knowledge-Protokoll. Es ist sogar perfekt
+zero knowledge, da der Simulator nur quadratische Reste ver"offentlicht.
+\end{beispiel}
+\begin{beispiel}[Graphenisomorphie]
+Der Beweiser kennt einen Isomorphismus $\phi$ zwischen den Graphen
+$G_1$ und $G_2$ und will dies dem Verifizierer beweisen. Dazu eignet
+sich folgendes Protokoll:
+\begin{enumerate}
+  \item B transformiert den Graphen $G_1$ durch eine zuf"allige 
+        Permutation $\tau$ und erh"alt einen neuen Graphen $H=\tau(G_1)$.
+  \item V w"ahlt, ob er $G_1 \mapsto H$ oder $G_2 \mapsto H$ sehen will.
+  \item B gibt den geforderten Isomorphismus an, da er die beiden Isomorphismen
+        \begin{eqnarray*}
+          \tau                  & : & G_1 \longrightarrow H \\
+          \tau \circ \phi^{-1}  & : & G_2 \longrightarrow H 
+        \end{eqnarray*}
+        kennt.
+\end{enumerate}
+Das Protokoll ist perfekt zero-knowledge.
+\end{beispiel}
+
+
+
+
+   
+  
+

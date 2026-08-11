@@ -62,9 +62,43 @@ publishing is not.
   [poster](2000-07_binary_block_codes/binary_block_codes_poster.pdf) ·
   [sources](2000-07_binary_block_codes/)
 
+- **Zusammenfassung der Übung zu Entropie** — *Lecture notes*, 9 August 2000  
+  Institut für Algorithmen und Kognitive Systeme (IAKS), Fakultät für Informatik,
+  Universität Karlsruhe (TH).  
+  I prepared these notes on the entropy function, which was covered in the Vorlesung.
+  Parts of that Vorlesung were relevant to the poster and the publication for the Capri
+  conference.  
+  Stirling's approximation, binomial and multinomial coefficients, composition classes and
+  the binary and *q*-ary entropy functions, and entropy read both as uncertainty and as a
+  measure of information.  
+  The source carries no date of its own, so it is left exactly as it was and the PDF beside
+  it is the one typeset at the time.  
+  [notes](2000-08_entropy_function_notes/entropy_function_notes.pdf) ·
+  [sources](2000-08_entropy_function_notes/)
+
 ---
 
 ## Hauptstudium — Universität Karlsruhe (TH), after the Vordiplom
+
+- **Public Key Kryptographie** — *Lecture notes*, Wintersemester 1996/97  
+  Vorlesung by Dr. Willi Geiselmann at the Institut für Algorithmen und Kognitive Systeme
+  (IAKS), Fakultät für Informatik, Universität Karlsruhe (TH).  
+  The course was given entirely at the blackboard, and I was engaged as a
+  *Hilfswissenschaftler* to turn it into a written Skript. That was substantial work
+  rather than transcription: a blackboard lecture leaves most of its reasoning implicit,
+  so the proofs had to be reconstructed and written out in full, the algorithms stated
+  precisely, the examples worked through, and the whole set in a consistent notation and
+  organised into the structure it has here. The mathematics and the choice of material are
+  Dr. Geiselmann's; the exposition is mine.  
+  Eighty pages: protocols, one-way and hash functions, digital signatures, key exchange
+  and zero-knowledge; knapsack, RSA, Diffie-Hellman, ElGamal and McEliece; then the number
+  theory underneath — quadratic residues, the Solovay-Strassen and Rabin-Miller primality
+  tests, Pollard's *p*−1, factoring with elliptic curves, Dixon's algorithm and the
+  quadratic sieve; the discrete logarithm by baby-step giant-step, index calculus and
+  Coppersmith; and finally authentication, Kerberos and digital cash.  
+  It is marked *Vorabversion* on the title page, and it still is one.  
+  [lecture notes](1997-10_public_key_cryptography/public_key_cryptography_lecture_notes.pdf) ·
+  [sources](1997-10_public_key_cryptography/)
 
 - **Quantenalgorithmen** — *Seminar*, June 1997  
   Seminar *Quantum Computing* at the Institut für Algorithmen und Kognitive Systeme

@@ -1,0 +1,1558 @@
+\chapter{Mathematische Grundlagen}
+
+Dieses Kapitel ist stark an das Skript von
+Schaefer-Lorinser~\cite{frank} angelehnt. Hier werden f"ur das
+Verst"andnis der Public Key Kryptographie unbedingt notwendigen
+Teile aus~\cite{frank} behandelt. F"ur ein besseres Verst"andnis
+der Primtests und Faktorisierungsalgorithmen ist die Lekt"ure des
+ausf"uhrlichen und weitergehenden Skripts w"armstens empfohlen.
+
+\section{Primzahlen}
+
+In diesem Kapitel werden wir uns mit ein paar grundlegenden
+Eigenschaften der Primzahlen besch"aftigen, insbesondere werden wir
+ein paar S"atze kennenlernen, die die Verteilung der Primzahlen in den
+nat"urlichen Zahlen beschreiben. Beginnen wir jedoch mit der
+Definition von Primzahlen:
+
+\begin{definition}[Primzahl]
+Jede nat"urliche Zahl $n > 1$, die innerhalb der nat"urlichen Zahlen
+nur durch sich selbst und durch 1 teilbar ist, hei\3t {\em Primzahl}.
+\end{definition}
+
+Die Primzahlen bilden die fundamentalen Atome der Arithmetik auf den
+nat"urlichen Zahlen, da sich jede nat"urliche Zahl in eindeutiger
+Weise als Produkt der Primzahlen darstellen l"a\3t. Dies wird auch als
+der {\em Hauptsatz der Arithmetik} bezeichnet.
+
+Um auf eine effiziente Weise eine Liste der Primzahlen kleiner einer
+vorgegebenen Zahl $n$ zu erstellen, ist das auf den griechischen
+Mathematiker Eratosthenes (276-196 v.Chr.) zur"uckgehendes Verfahren
+{\em "`Sieb des Eratosthenes"'} geeignet.
+
+Schon aus der Antike ist der von Euklid ca. 325 v.Chr. in seinen
+Elementen notierte Satz bekannt:
+
+%%
+%% Satz von Euklid
+%%
+\begin{satz}[von Euklid]
+Es gibt unendlich viele Primzahlen.
+\end{satz}
+
+W"ahrend uns dieser Satz also zeigt, da\3 in der Folge der
+nat"urlichen Zahlen immer wieder eine Primzahl vorkommt, zeigt der
+n"achste Satz, da\3 auch beliebig gro\3e L"ucken auftauchen k"onnen,
+das hei\3t Abschnitte der nat"urlichen Zahlen, die keine Primzahl
+enthalten.
+
+\begin{satz}
+Zu jedem $k \in \N$ gibt es in den nat"urlichen Zahlen einen Abschnitt
+der L"ange $k$, der keine Primzahl enth"alt.
+\end{satz}
+
+\beweis "Ubung \hfill $\Box$
+
+Das hei\3t also, die Primzahlen treten in gewisser Weise
+unregelm"a\3ig auf. Es gibt keine geschlossene Formel, die beschreibt,
+welche nat"urlichen Zahlen Primzahlen sind. Dennoch kann eine recht
+pr"azise Aussage "uber die asymptotische Verteilung der Primzahlen
+gemacht werden, wie der folgende von Tschebyscheff bewiesene Satz
+zeigt. Wir definieren zun"achst:
+
+\begin{definition}
+Es bezeichne f"ur reelle Zahlen $x\in\R$ die Funktion $\pi(x)$ die
+Anzahl der Primzahlen, die nicht gr"o\3er als $x$ sind.
+\end{definition}
+%%
+%% Satz von Tschebyscheff
+%%
+\begin{satz}[Tschebyscheff] 
+Es gibt $a,b \in \R_{>0}$, so da\3 f"ur $x\ge 2$ gilt
+\begin{equation}
+  a\frac{x}{\ln x} < \pi(x) < b\frac{x}{\ln x}.
+\end{equation}
+\end{satz}
+
+\beweis "Ubung \hfill $\Box$
+
+Betrachten wir einen Restklassenring $\ring{n}$ modulo einer nat"urlichen
+Zahl $n$, dann ist unmittelbar klar, da\3 dieser Ring nicht die
+K"orperaxiome erf"ullt, falls $n$ keine Primzahl ist. Denn unter
+dieser Voraussetzung ist jeder echte Teiler von $n$ nicht
+invertierbar. Die teilerfremden Zahlen $a$ mit $1 \le a \le n$, f"ur
+die $\ggt(a,n)=1$ gilt, sind in diesem Restklassenring $\ring{n}$
+invertierbar. Sie bilden die Einheitengruppe $\einheit{n}$, und die
+Anzahl der Elemente dieser Gruppe wird durch die sogenannte Eulersche
+$\Phi$-Funktion angegeben.
+
+%%
+%% Eulersche Phi-Funktion
+%%
+\begin{definition}[Eulersche $\Phi$-Funktion] 
+  Die Funktion $\Phi(n)$ bezeichnet die Anzahl der nat"urlichen Zahlen 
+  kleiner $n$, die relativ prim zu $n$ sind
+  und wird die Eulersche $\Phi$-Funktion genannt:
+  $$ \#\einheit{n} = \euler{n} = \#\{ m \mid 1 \le m < n, \ggt
+(m,n)=1\} $$
+\end{definition}   
+
+Wie kann diese Funktion explizit berechnet werden? Betrachten wir
+zun"achst den einfachen Fall, da\3 $n$ eine Primzahlpotenz $p^e$ ist.
+
+%%
+%% Phi-Funktion f"ur Primpotenz
+%%
+\begin{bem}[Primzahlpotenz $p^e$]
+  Es sei $p$ eine Primzahl und $e \ge 1$. Dann gilt
+  $$ \euler{p^e} = p^e - p^{e-1}. $$
+\end{bem} 
+\beweis
+F"ur alle Produkte $s p$ mit $s = 1, \ldots ,p^{e-1}$ gilt $\ggt(s p,
+p^e) \ne 1$. Damit sind die $p^e - p^{e-1}$ restlichen Zahlen teilerfremd
+zu $p^e$. \hfill $\Box$
+
+Es gilt ferner, da\3 die Eulersche $\Phi$-Funktion f"ur teilerfremde
+Zahlen multiplikativ ist:
+
+%%
+%% Bem. Multipikativit"at der Phi-Funktion
+%%
+\begin{bem}[Multiplikativit"at der Eulerschen $\Phi$-Funktion]
+  Es seien $m, n \ge 1$ zwei nat"urliche Zahlen mit $\ggt(m,n)=1$. 
+  Dann gilt
+  $$ \euler{m \cdot n} = \euler{m} \cdot \euler{n} .$$
+\end{bem}
+
+\beweis
+Da $m, n$ teilerfremd gilt $\ggt(m \cdot n ,s)=1$ genau dann, wenn
+$\ggt (m,s)$ und $\ggt(n,s)=1$. Aufgrund der Isomorphie nach dem
+Chinesischem Restesatz
+$$ \ring{mn} \cong \ring{m} \times \ring{n} $$
+ergibt sich die Multiplikativit"at
+$$ \euler{m \cdot n} = \euler{m} \cdot \euler{n}$$
+unmittelbar, da
+$$ \einheit{mn} \cong \einheit{m} \times \einheit{n}. $$
+\hfill $\Box$
+
+Aus diesen Bemerkungen folgt unmittelbar das Korollar, das die
+$\Phi$-Funktion f"ur alle nat"urlichen Zahlen bestimmt.
+
+%%
+%% Kor. Phi-Funktion f"ur beliebige Zahlen
+%%
+\begin{kor}[Eulersche $\Phi$-Funktion f"ur beliebige Zahlen]
+  Jede nat"urliche Zahl $n$ l"a\3t sich eindeutig als $n =
+  \prod_{i=1}^{r} p_i^{e_i}$ in seine Primfaktoren zerlegen. Damit
+  gilt
+  $$ \euler{p_1^{e_1} \cdots p_n^{e_r}} = \prod_{i=1}^r \left(
+  p_i^{e_i} - p_i^{e_i-1} \right). $$
+\end{kor}
+
+Der folgende Satz geht auf Fermat (1601-1665) zur"uck und wird oft 
+als {\em der kleine Satz von Fermat} bezeichnet.
+
+%%
+%% Satz kleiner Fermat
+%%
+\begin{satz}[der kleine Satz von Fermat] \label{fermat}
+  Es sei $p$ prim, dann gilt f"ur alle $b\in\einheit{p}$
+  $$ b^{p-1} \equiv 1 \pmod{p} .$$
+\end{satz}
+
+Das folgende weitergehende Resultat geht auf Euler (1707-1783)
+zur"uck. Es stellt eine Verallgemeinerung des kleinen Fermats dar, da
+es auch die F"alle, in denen $p$ keine Primzahl ist, erfa\3t.
+
+%%
+%% Satz von Euler
+%%
+\begin{satz} 
+Es seien $n,b\in\N$ mit $\ggt(b,n)=1$, das hei"st $b$ ist eine Einheit
+in dem Ring $\ring{n}$. Dann gilt
+$$ b^{\euler{n}} \equiv 1 \pmod{n} .$$
+\end{satz}
+
+Da f"ur $n$ prim gilt: $\euler{n} = n-1$, ist Satz~\ref{fermat} ein
+Spezialfall davon.
+%%
+%% *********** Quadratische Reste
+%%
+
+\section{Quadratische Reste}
+
+Wir wollen im folgenden die Frage untersuchen, wann sich eine Einheit $a$
+des Restklassenrings $\ring{n}$ als Quadrat einer anderen Einheit $x$
+darstellen l"a"st.
+
+\begin{definition}[Quadratische Reste]
+  Es seien $a,n \in \N$ mit $\ggt(a,n)=1$. Alle Elemente $a$, f"ur die
+  ein $x$ existiert mit
+  $$ x^2 \equiv a \pmod{n} $$ hei"sen {\em quadratische Reste} modulo
+  $n$, die "ubrigen Einheiten hei"sen {\em quadratische Nicht-Reste}.
+\end{definition}
+
+F"ur den Fall, da\3 es sich bei dem Modulus $n$ um eine Primzahl
+handelt, definieren wir das {\em Legendre Symbol}:
+
+%%
+%% Def. Legendre Symbol
+%%
+\begin{definition}[Legendre Symbol]
+Es sei $p$ eine Primzahl und $a\in\N$. Dann hei\3t das durch 
+\begin{equation}
+  \leg{a}{p} := \left\{ 
+                  \begin{array}{rl}
+                        1, & \mbox{falls $a$ ein quadratischer Rest ist} \\
+                       -1, & \mbox{falls $a$ kein quadratische Rest ist}
+                  \end{array}
+                \right.
+\end{equation}
+definierte Symbol $\leg{a}{p}$ das Legendre Symbol von $a$ nach $p$.
+\end{definition}
+
+Der folgende Satz gibt uns schon zwei wichtige Regeln f"ur
+quadratische Reste bzw. quadratische Nicht-Reste.
+
+%%
+%% Satz
+%%
+\begin{satz} \label{wannQR}
+Das Produkt von zwei quadratischen Resten ist wieder ein quadratischer
+Rest, und das Produkt von einem quadratischen Rest und einem
+quadratischen Nicht-Rest ist ein quadratischer Nicht-Rest.
+\end{satz}
+
+\beweis 
+Der erste Teil des Beweises ist direkt einzusehen. Denn f"ur zwei
+quadratische Reste $a$ und $b$ exisitieren $x$ und $y$ mit $x^2 \equiv
+a \pmod{n}$ und $y^2 \equiv b \pmod{n}$. Daraus folgt aber $(x\cdot
+y)^2 \equiv a\cdot b \pmod{n}$.
+
+Den zweiten Fall beweisen wir durch einen Widerspruch. Angenommen, das
+Produkt von einem Quadratischen Rest $x^2$ und einem Quadratischen Nicht-Rest 
+$z$ w"are ein Quadratischer Rest
+$y^2$. Daraus w"urde
+$$ x^2 \cdot z \equiv y^2 \pmod{n}$$
+folgen. Da $x$ als Einheit invertierbar ist, w"are dann $z$ wegen
+$$ z \equiv (x^{-1} \cdot y)^2 \pmod{n}$$
+ein Quadratischer Rest, was der Voraussetzung widerspricht. \hfill $\Box$
+
+F"ur den Fall eines Produkts von zwei quadratischen Nicht-Resten gibt
+es keine allgemeine Regel. F"ur den Fall aber, da\3 der Modulus $n$
+eine Primzahl ist, ergibt dies immer einen quadratischen Rest.
+
+%%
+%% Satz Mulitplikativ
+%%
+\begin{satz} \label{legmultiplikativ}
+  Im Falle von quadratischen Resten modulo einer Primzahl $p$ gilt:
+  \begin{equation}
+    \leg{a}{p} \leg{b}{p} = \leg{ab}{p}. \label{legendreMult}
+  \end{equation}
+  Ferner ist f"ur $p\ne 2$ die H"alfte der Elemente der Einheitengruppe 
+  $\einheit{p}$ Quadratische Reste und die andere H"alfte Quadratische 
+  Nicht-Reste.
+\end{satz}
+
+\beweis 
+F"ur $p=2$ ist die Behauptung offensichtlich. Sei nun $p\ne 2$.  Die
+Einheitengruppe $\einheit{p}$ ist eine zyklische Gruppe der Ordnung
+$p-1$. Es gibt also einen Erzeuger $g$ der Ordung $p-1$ und
+$$ g,g^2,\ldots,g^{p-1} $$ 
+ist bereits die ganze $\einheit{p}$. Zu jedem Element
+$a\in\einheit{p}$ existiert ein Index $i$ mit
+$$ g^i \equiv a \pmod{p}. $$ Der Erzeuger $g$ ist kein Quadratischer
+Rest, da sonst ein $x$ mit $x^2 \equiv g \pmod{p}$ existieren
+w"urde. Nach dem Satz~\ref{fermat} w"urde f"ur dieses $x$
+$$ x^{p-1} \equiv 1 \pmod{p} $$ gelten und somit $g^{(p-1)/2} \equiv 1
+\pmod{p}$. Das ist aber ein Widerspruch dazu, da\3 $g$ die ganze
+Einheitengruppe $\einheit{p}$ erzeugt.  Offensichtlich sind alle
+geraden Potenzen von $g$ Quadratische Reste
+$$ g^2,g^4,g^6,\ldots ,g^{p-1}$$
+und da $g$ ein Quadratischer Nicht-Rest ist, sind nach Satz~\ref{wannQR}
+alle ungeraden Potenzen von $g$ Quadratische Nicht-Reste
+$$ g,g^3,g^5, \ldots ,g^{p-2}.$$ 
+Damit ist die Formel~\ref{legendreMult} bewiesen, da das
+Produkt von zwei ungeraden Potenzen eine gerade Potenz ergibt. 
+\hfill $\Box$
+
+Auf Euler geht das folgende Ergebnis zur"uck, das uns ein
+Kriterium liefert, f"ur ein gegebenes Element $a\in\einheit{p}$ direkt
+zu entscheiden, ob es ein quadratischer Rest oder nicht.
+%%
+%% ********* Euler Kriterium
+%%
+\begin{satz}[Euler Kriterium] 
+Es sei $a\in\N$ mit $\ggt(a,p)=1$, wobei $p$ eine ungerade Primzahl
+ist. Dann gilt
+$$ \leg{a}{p} \equiv a^{\frac{p-1}{2}} \pmod{p}. \label{eulerkrit} $$
+\end{satz}
+
+\beweis 
+Es sei $g$ ein Erzeuger der Einheitengruppe $\einheit{p}$. Wir
+bestimmen zun"achst ein $s\in\left\{0,\ldots,p-2\right\}$ mit 
+$$ g^s \equiv -1 \pmod{p} $$. 
+F"ur ein solches $s$ gilt 
+$$ g^{2s} \equiv (g^s)^2 \equiv (-1)^2 \equiv 1 \pmod{p}. $$ 
+Dies kann nur gelten, wenn $2s$ ein Vielfaches
+der Gruppenordnung $\#\einheit{p} = p-1$ ist, da $p-1$ der kleinste
+Exponent $e$ ist, f"ur den $g^e \equiv 1 \pmod{p}$ gilt. Also kann $s$
+nur einen der Werte
+$$ 0,{p-1 \over 2}, p-1,\ldots $$
+annehmen. Es gilt wegen Satz~\ref{fermat}
+$$ g^0 \equiv g^{p-1} \equiv 1 \pmod{p}. $$
+Also mu\3 $s={p-1 \over 2}$ sein und somit 
+$$ g^{(p-1)/2} \equiv -1 \pmod{p}. $$ 
+Da $g$ ein Erzeuger der Einheitengruppe $\einheit{p}$ ist, kann jedes Element
+$a\in\einheit{p}$ als $a \equiv g^i \pmod{p}$ dargestellt
+werden. Damit gilt
+$$ a^{(p-1)/2} \equiv (g^i)^{(p-1)/2} \equiv
+\left(g^{(p-1)/2}\right)^i \equiv (-1)^i \pmod{p}. $$ Das hei\3t aber,
+da\3 $a^{(p-1)/2} \equiv 1 \pmod{p}$ genau dann gilt, wenn $i$ ein
+gerader Exponent ist, und $a^{(p-1)/2} \equiv -1 \pmod{p}$ genau dann,
+wenn $i$ ein ungerader Exponent ist. Dies ist aber das Kriterium f"ur Quadratische
+Reste aus Satz~\ref{legmultiplikativ}. \hfill $\Box$
+
+\begin{kor} \label{modulo}
+Es sei $p$ eine ungerade Primzahl und es gelte
+$\ggt(a,p)=\ggt(b,p)=1.$ Aus $a \equiv b \pmod{p}$ folgt, da\3
+$\leg{a}{p} = \leg{b}{p}$.
+\end{kor}
+
+\beweis 
+Es ist $a \equiv b \pmod{p}$ gleichbedeutend damit, da\3 ein $l\in \Z$
+existiert mit $b=a+l\cdot p$. Da modulo $p$ gerechnet wird, gilt:
+\begin{eqnarray*}
+  \leg{b}{p} & \equiv & \leg{a+l\cdot p}{p} \\
+             & \equiv & (a+l\cdot p)^{(p-1)/2} \\
+             & \equiv & \sum_{i=0}^{p-1} {p-1 \choose 2i} a^{(p-1)/2-i}(lp)^i \\
+             & \equiv & a^{(p-1)/2} \pmod{p}.
+\end{eqnarray*}
+\rule{0pt}{0pt}\hfill $\Box$
+                     
+Ein sehr interessantes Ergebnis der Zahlentheorie, das wir ohne Beweis
+angeben, ist {\em das quadratische Reziprozit"atsgesetz}, das von
+Gau\3 bewiesen wurde. Es stellt eine Relation zwischen dem
+Legendresymbol von zwei Primzahlen $\leg{p}{q}$ und der "`Umkehrung"'
+$\leg{q}{p}$ dar.
+
+%%
+%% Quadratisches Reziprozit"atsgesetz
+%%
+\begin{satz}[Quadratisches Reziprozit"atsgesetz] 
+Seien $p$ und $q$ zwei ungerade Primzahlen. Dann gilt:
+  \begin{equation}
+    \leg{p}{q} = \leg{q}{p} (-1)^{{1 \over 2}(p-1){1 \over 2}(q-1)} .
+  \end{equation}
+\end{satz}
+
+Mit Hilfe des quadratischen Reziprozit"atssatzes und des
+Korollars~\ref{modulo} l"a\3t sich effizient entscheiden, ob eine
+gegebene Zahl $a$ modulo einer Primzahl $p$ ein Quadratischer Rest ist.
+
+%%
+%% Beispiel
+%%
+\begin{beispiel} Ist 19 ein Quadratischer Rest modulo 61? Es gilt
+$$\leg{19}{61}=\leg{61}{19}(-1)^{30 \cdot 9}=\leg{61}{19}=\leg{4}{19} = 1, $$
+da $4 \equiv 2^2 \pmod{19}$.
+\end{beispiel}
+
+%%
+%% ***************** Jacobi Symbol
+%%
+Beim Legendre-Symbol sind Quadratische Reste modulo einer Primzahl $p$
+zugelassen. Im folgenden wird eine Verallgemeinerung des
+Legendre-Symbols, das Jacobi-Symbol, das auch f"ur zusammengesetzte
+Zahlen definiert ist, eingef"uhrt.
+
+%%
+%% Def.
+%%
+\begin{definition}[Jacobi-Symbol]
+  Es seien $a,n\in\N$ mit $n$ ungerade und $\ggt(a,n)=1$. Die
+  Primfaktorzerlegung von $n$ sei gegeben durch $n=\prod_{i=1}^{r}
+  p_i^{e_i}$. Dann ist das Jacobi-Symbol definiert durch
+  $$\leg{a}{n} := \prod_{i=1}^{r} \leg{a}{p_i}^{e_i} .$$
+\end{definition}
+
+Das Jacobi-Symbol ist so definiert, da\3 es den gleichen Rechenregeln
+wie das Legendre-Symbol gen"ugt. Es ist aber zu beachten, da\3 das
+Jacobi-Symbol $\leg{a}{n}$ {\em nicht} angibt, ob $a$ ein
+quadratischer Rest modulo $n$ ist.
+
+Es ist leicht einzusehen, da\3 f"ur ein $a$, das ein Quadratischer
+Rest modulo einer zusammengesetzten Zahl $n=\prod_{i=1}^{r}p_i^{e_i}$
+ist, das Jacobi-Sybmol $\leg{a}{n}$ den Wert 1 annimmt. Da $a$ ein
+Quadratischer Rest modulo $n$ ist, existiert ein $x\in\N$ mit $x^2
+\equiv a \pmod{n}$. Betrachten wir diese Gleichung modulo $p_i$ f"ur
+$i=1,\ldots,r$, so erhalten wir $ x^2 \equiv a \pmod{p_i}$. Es ist
+also $a$ auch Quadratischer Rest modulo aller Primfaktoren $p_i$ 
+f"ur $i=1,\ldots,r$ und damit ist das Jacobi-Symbol $\leg{a}{n}$ 
+gleich 1.
+
+Die Umkehrung dieser Aussage gilt nicht, wie das folgende Beispiel zeigt.
+
+\begin{beispiel}
+  Das Jacobi-Symbol kann auch f"ur Quadratische Nicht-Reste den Wert 1 annehmen:
+  $$ \leg{2}{15} = \leg{2}{3}\leg{2}{5} = (-1)(-1)=1, $$
+  obwohl 2 kein Quadratischer Rest modulo 15 ist.
+\end{beispiel}    
+
+%%
+%% ************** Primtest
+%%
+\section{Primtests}
+
+Die Primzahltests weisen eine ganze Reihe von Methoden und Parallelen
+zu den Faktorisierungsalgorithmen auf
+
+\subsection{Pseudoprimzahlen}
+
+Betrachten wir zun"achst einen einfachen Satz, der ein Kriterium
+liefert, mit dem sich entscheiden l"a\3t, ob eine Zahl $n$ prim oder
+zusammengesetzt ist.
+
+%%
+%% Satz Prim-Kriterium
+%%
+\begin{satz}
+   Eine Zahl $n$ ist prim genau dann, wenn
+   \begin{equation} 
+     a^{n-1} \equiv 1 \pmod{n}, \label{primkrit} 
+   \end{equation}
+   f"ur alle $a\in\N$ mit $2 \le a < n$.
+\end{satz}
+
+\beweis 
+Die Hinrichtung gilt aufgrund des Satzes~\ref{fermat}.
+
+F"ur die R"uckrichtung nehmen wir an, die
+Fermat-Bedingung~\ref{primkrit} sei erf"ullt und $n$ sei
+zusammengesetzt. Dann hat $n$ einen nichttrivialen Teiler $r$ mit $1 <
+r < n$ und $n=r\cdot s$, und es gilt
+$$ r^{n-1} \equiv 1 \pmod{n}. $$
+Es existiert also ein $l\in\Z$ mit
+$$ 1=r^{n-1}+l\cdot n = r^{n-1}+l\cdot s\cdot r = r^{n-1} + (l\cdot s) \cdot r. $$
+Betrachten wir diese Gleichung modulo $r$, so ergibt sich 
+$$ 0 \equiv 1 \pmod{r}. $$ 
+Das ist ein Widerspruch. \hfill $\Box$
+
+Mit Hilfe dieses Satzes k"onnen wir bereits einen einfachen Primtest realisieren.
+Haben wir eine Zahl $n$ gegeben, von der wir entscheiden m"ochte, ob sie prim
+oder zusammengesetzt ist, so w"ahlen wir eine Basis $a$ mit
+$2\le a < n$ und testen die Fermat-Bedingung~\ref{primkrit}.
+Erf"ullt die Zahl $n$ die Bedingung nicht, so ist $n$ sicher
+eine zusammengesetzte Zahl. Andernfalls w"ahlen wir eine neue Basis
+und f"uhren den Test erneut durch.
+
+Dies w"urde, falls $n$ eine Primzahl ist, einen extrem aufwendigen
+Primtest ergeben. Wir k"onnen aber nach einer gr"o\3eren Anzahl von
+Durchl"aufen des Primtests schon mit einer gewissen Wahrscheinlichkeit
+schlie\3en, da\3 die Zahl $n$ prim ist.
+
+\begin{definition}
+  Eine zusammengesetzte Zahl $n$ hei\3t {\em Pseudoprimzahl zur Basis $a$}, falls
+  $$ a^{n-1} \equiv 1 \pmod{n} $$
+  erf"ullt ist.
+\end{definition}
+
+\begin{beispiel}  
+  Die Zahl $341=11\cdot 31$ ist eine Pseudoprimzahl zur Basis 2, denn
+  $$ 2^{341-1} \equiv 1 \pmod{341}. $$
+\end{beispiel}
+
+\begin{satz}
+  Es sei $n\in\N$ eine Pseudoprimzahl zur Basis $a_1$ und zur Basis
+  $a_2$ mit $a_1, a_2\in\einheit{n}$. Dann ist $n$ auch eine
+  Pseudoprimzahl zur Basis $a_1 \cdot a_2$ und zur Basis $a_1 \cdot
+  a_2^{-1}$.
+
+  Falls ein $a\in \einheit{n}$ existiert, das die Bedingung
+  $$ a^{n-1} \equiv 1 \pmod{n} $$ nicht erf"ullt, so wird sie auch von
+  mindestens der H"alfte der Elemente aus $\einheit{n}$ nicht
+  erf"ullt.
+\end{satz}
+
+\beweis 
+Der erste Teil ist durch direktes Nachrechnen zu beweisen. Es gilt
+$$(a_1\cdot a_2)^{n-1} \equiv a_1^{n-1} \cdot a_2^{n-1} \equiv 1
+\pmod{n},$$ und damit ist $n$ eine Pseudoprimzahl zur Basis $a_1
+a_2$. Weiterhin gilt
+$$(a_1 \cdot a_2^{-1}) \equiv a_1^{n-1} \cdot (a_2^{n-1})^{-1} \equiv
+1 \cdot 1^{-1} \equiv 1 \pmod{n},$$ und damit ist $n$ eine
+Pseudoprimzahl zur Basis $a_1 a_2^{-1}$.
+
+Es sei $B:=\{a_1,\ldots, a_l\}$ die Menge aller $a\in\einheit{n}$ mit
+$a^{n-1} \equiv 1 \pmod{n}$.  Die zusammengesetzte Zahl $n$ ist also
+eine Pseudoprimzahl zur Basis $a_i\in B$ f"ur $i=1,\ldots, l$. Wir
+w"ahlen $b\in\einheit{n}\setminus B$ beliebig aus. Wenn $n$ eine
+Pseudoprimzahl zur Basis $b \cdot a_i$ w"are, dann w"are nach dem
+ersten Teil $n$ auch eine Pseudoprimzahl zur Basis $(b \cdot a_i)
+a_i^{-1} \equiv b \pmod{n}$. Dies kann aufgrund der Wahl von $b$ aber
+nicht sein, und damit sind alle Elemente aus $\{ b \cdot a_1, \ldots,
+b \cdot a_n\}$ Basen, zu denen $n$ keine Pseudoprimzahl ist. Damit
+sieht man, da\3 mindestens die H"alfte der Elemente aus $\einheit{n}$
+Basen sind, zu denen $n$ keine Pseudoprimzahl ist. \hfill $\Box$
+
+Falls also zu einer zusammengesetzten Zahl $n$ "uberhaupt eine Zahl
+$a\in\einheit{n}$ existiert, so da\3 $n$ keine Pseudoprimzahl zur
+Basis $a$ ist, so finden wir mit einer Wahrscheinlichkeit gr"o\3er als
+$1/2$ eine solche Basis. Eine solche Basis $a$ wird auch {\em Zeuge}
+f"ur $n$ genannt, weil die Angabe von $a$ gen"ugt, um zu beweisen,
+da\3 $n$ eine zusammengesetzte Zahl ist.
+
+W"ahlen wir nun $k$ verschiedene Kandidaten f"ur die Basis $a$ auf
+zuf"allige Weise, so ist $a$ f"ur eine zusammengesetzte Zahl $n$ nur mit
+Wahrscheinlichkeit kleiner als $1/2^{k}$ unter diesen Elementen kein
+Zeuge. Diese Aussage gilt wieder nur unter der Voraussetzung, da\3 es
+f"ur $n$ "uberhaupt einen Zeugen gibt.
+
+Es gibt Zahlen, f"ur die das nicht erf"ullt ist. Sie werden {\em
+Carmichael-Zahlen} genannt. Wenn $n$ eine Carmichael-Zahl ist, dann
+gilt
+$$ a^{n-1} \equiv 1 \pmod{n}$$ f"ur alle $a\in\einheit{n}$.
+
+Die Zahl $561=3\cdot 11\cdot 17$ ist beispielsweise eine Carmichael-Zahl.
+
+\begin{satz}
+  Es seien $m,n\in\Z$ ungerade. F"ur das Jacobi-Symbol gelten folgende
+  Rechenregeln: \\
+  (i)   $$ \leg{-1}{m} = (-1)^{(m-1)/2}, $$
+  (ii)  $$ \leg{2}{m} = (-1)^{(m^2-1)/8}, $$
+  (iii) F"ur $m,n$ teilerfremd gilt:
+  $$ \leg{m}{n} = \leg{n}{m} (-1)^{\frac{m-1}{2}\frac{n-1}{2}}. $$
+\end{satz}
+
+
+%% ******** Primzahltests
+\subsection{Probabilistischer Primtest nach Solovay, Strassen}
+
+Im vorigen Abschnitt haben wir aus dem kleinen Fermat eine Art
+heuristischen Primtest abgeleitet, indem wir f"ur die auf Primalit"at
+zu testende Zahl $n$ "uberpr"uften, ob sie die Eigenschaft~\ref{primkrit}, die der
+kleine Fermat f"ur alle Primzahlen liefert, erf"ullt. Dieser einfache
+Primtest versagt mit sehr hoher Wahrscheinlichkeit bei den
+Carmichael-Zahlen. Wir w"ahlen in dem Primtest eine Zufallszahl $a$ mit
+$1 < a < n$. Ist $\ggt(a,n)\neq 1$, so hat man einen Nullteiler
+gefunden, und wei\3 sofort, da\3 die Zahl $n$ zusammengesetzt ist. Wie
+man aber leicht aus der Berechnungsvorschrift f"ur die Eulersche
+$\Phi$-Funktion sieht, ist die Menge der Nullteiler im Vergleich zu
+der Menge der Einheiten sehr klein. Ist $n$ eine Carmichael-Zahl, so
+ist $n$ eine Pseudoprimzahl zu allen Einheiten aus $einheit{n}$.
+
+Die Grundidee des folgenden Primtests ist es, einen analogen Test
+bez"uglich des Euler-Kriteriums vorzunehmen.
+
+%%
+%% Def.
+%%
+\begin{definition}
+  Analog zur Definition von Pseudoprimzahlen nennen wir
+  zusammengesetzte Zahlen $n$, f"ur die
+  $$ \leg{a}{n} \equiv a^{(n-1)/2} \pmod{n} $$ gilt, {\em
+  Euler-Pseudoprimzahlen} zur Basis $a$.
+\end{definition}
+
+Das folgende einfache Lemma zeigt schon, da\3 dieser Primtest den auf
+dem kleinen Fermat basierenden Primtest umfa\3t.
+
+%%
+%% Lemma
+%%
+\begin{lemma}
+  Wenn $n$ eine Euler-Pseudoprimzahl zur Basis $a$ ist, dann ist $n$
+  auch eine Pseudoprimzahl zur Basis $a$.
+\end{lemma}
+
+\beweis 
+Quadrieren der Gleichung im Satz~\ref{eulerkrit} liefert die
+Behauptung. \hfill $\Box$
+
+Der auf dieser "Uberlegung basierende Primtest wurde 1974 von Solovay
+und Strassen vorgeschlagen. Man nennt Algorithmen dieser Art
+probabilistisch, da es zusammengesetzte Zahlen gibt, f"ur die der Test
+behauptet, die Zahl $n$ sei mit einer gewissen Wahrscheinlichkeit
+prim. Durch Wiederholen des Primtests kann die
+Irrtumswahrscheinlichkeit exponentiell verringert werden. In der
+Praxis treten Zahlen, f"ur die sich der Test auch nach mehrmaligem
+Anwenden irrt, "au\3erst selten auf.
+
+Der Primzahltest nach Solovay und Strassen war das erste
+probabilistische Verfahren "uberhaupt. Heute werden in vielen
+Bereichen der Algorithmentechnik probabilistische Methoden eingesetzt.
+
+\subsection*{Algorithmus:}
+  \begin{enumerate}
+    \item Bestimme eine zuf"allig gew"ahlte Zahl $a$ mit $1 < a < n$.
+    \item Teste, ob $\leg{a}{n} \equiv a^{(n-1)/2} \pmod{n}$ gilt.
+    \item Falls ja, dann ist $n$ wahrscheinlich prim, sonst ist $n$
+          mit Sicherheit zusammengesetzt.
+  \end{enumerate}
+
+Das Jacobi-Symbol kann hierbei offensichtlich nicht "uber die
+Definiton berechnet werden, da dies die Primfaktorzerlegung von $n$
+voraussetzt. Es l"a"st sich effizient mit den Rechenregeln ausrechnen.
+
+Der gro\3e Vorteil dieses Primtests liegt nun darin, da\3 es f"ur
+Euler-Pseudoprimzahlen nichts "Aquivalentes zu den Carmichael-Zahlen
+gibt. Ferner l"a\3t sich zeigen, da\3 die Irrtumswahrscheinlichkeit
+dieses Test kleiner als $1/2$ ist.
+
+\begin{satz}[Solovay, Strassen 1974] 
+Es sei $P:=\left\{a \mid \ a\in\einheit{n},\leg{a}{n}\equiv
+a^{(n-1)/2}\right\}$.
+  \begin{itemize}
+    \item Falls $n$ prim ist, so gilt $\#P=n-1$.
+    \item Falls $n$ nicht prim ist, so gilt $\#P \le {1 \over 2}(n-1)$.
+  \end{itemize}
+\end{satz}
+\beweis 
+Falls $n$ eine Primzahl ist, so liefert das Euler-Kriterium die
+Richtigkeit der Behauptung. Es sei nun $n$ eine zusammengesetzte Zahl
+mit der Primfaktorzerlegung $n=\prod_{i=1}^{r} p_i^{e_i}$. Wir
+definieren zur Vereinfachung zwei Abbildungen
+
+\begin{equation}
+  \epsilon : \left\{ \begin{array}{ccc}
+                      \einheit{n} & \rightarrow & \einheit{n} \\
+                      a           & \mapsto         & \leg{a}{n}
+                    \end{array} \right.
+\end{equation}
+und 
+\begin{equation}
+  \delta   : \left\{ \begin{array}{ccc}
+                      \einheit{n} & \rightarrow & \einheit{n} \\
+                      a           & \mapsto         & a^{(n-1)/2}
+                    \end{array} \right. .
+\end{equation}
+
+Es ist also zu zeigen, da\3 $\#\{a\in\einheit{n} \mid \epsilon(a) =
+\delta(a)\} \le {1 \over 2}(n-1)$ erf"ullt ist. Wir machen hierzu eine
+Fallunterscheidung.
+
+\begin{enumerate}
+%% 1. Fall
+\item Es gibt ein $j$ mit $e_j > 1$ ($n$ ist nicht quadratfrei).
+
+      Angenommen es sei $\epsilon(a)=\delta(a)$ f"ur alle 
+      $a\in\einheit{n}$. Dann gilt 
+      \begin{equation}
+        a^{n-1} \equiv \left(a^{(n-1)/2}\right)^2 \equiv \delta(a)^2
+        \equiv \epsilon(a)^2 \equiv \leg{a}{n}^2 \equiv 1 \pmod{n}
+        \label{gleich}
+      \end{equation}
+      f"ur alle $a\in\einheit{n}$. Es gilt ferner 
+      \begin{eqnarray*}
+        \#\einheit{n} & = & \euler{n} \\
+                      & = & \euler{p_1^{e_1}} \cdots \euler{p_r^{e_r}} \\
+                      & = & p_1^{(e_1-1)}(p_1-1) \cdots p_r^{(e_r-1)}(p_r-1).
+      \end{eqnarray*}
+
+      Daraus folgt $p_j \mid \#\einheit{n}$, da $e_j > 1$. Also gibt
+      es ein Element $a\in\einheit{n}$ der Ordnung $p_j$, d.h. $p_j$
+      ist der kleinste Exponent, f"ur den $a^{p_j} \equiv 1 \pmod{n}$
+      gilt. Da $p_j$ kein Teiler von $n-1$ ist, gilt $a^{n-1}
+      \not\equiv 1 \pmod{n}$.  Dies ist aber ein Widerspruch zu
+      Gleichung~\ref{gleich}. Es ist also $\epsilon \neq \delta$ und
+      damit ist die Menge
+      $\{a\in\einheit{n}\mid\epsilon(a)=\delta(a)\}$ eine echte
+      Untergruppe (sie ist multiplikativ und enth"alt das neutrale
+      Element) von $\einheit{n}$.  Damit gilt f"ur die
+      Untergruppenordung
+      $$\#\{a\in\einheit{n}\mid\epsilon(a)=\delta(a)\} \le {1 \over 2}\euler{n} $$
+      und somit die Behauptung, da $\euler{n} \le n-1$ immer erf"ullt ist.
+%% 2. Fall
+\item Es gilt $e_i=1$ f"ur alle $i=1,\ldots, r$ ($\ring{n}$ ist isomorph 
+      zu dem direkten Produkt der Primk"orper $\ring{p_1},\ldots ,\ring{p_r}$).
+
+      Angenommen, es sei $\epsilon(a)=\delta(a)$ f"ur alle
+      $a\in\einheit{n}$. W"ahle $a_1$ mit $\leg{a_1}{p_1}=-1$ und
+      $a_i$ mit $\leg{a_i}{p_i}=1$ f"ur
+      $i=2,\ldots,r$. Nach dem Chinesischem Restesatz existiert ein
+      $a\in\Z$ mit $a\equiv a_i \pmod{p_i}$ f"ur $i=1,\ldots,r$. Es
+      gilt nach Definition des Jacobi-Symbols und
+      Korollar~\ref{modulo}
+      $$ \epsilon(a) = \leg{a}{n} = \prod_{i=1}^{r} \leg{a}{p_i} = 
+         \prod_{i=1}^r \leg{a_i}{p_i} = -1 \cdot 1^{r-1} = -1 $$
+      und nach der Annahme ist $\delta(a)=-1$. Betrachten wir den 
+      durch den Chinesischen Restesatz gegebenen Isomorphismus
+      $$ \phi :  \ring{n} \longrightarrow \ring{p_1} \times \ldots 
+         \times \ring{p_r}.$$
+
+      Da $\phi$ insbesondere ein Homomorphismus ist und aus $x \equiv
+      -1 \pmod{n}$ f"ur alle Primteiler $p_i$ von die Gleichungen $x
+      \equiv -1 \pmod{p_i}$ folgen, gilt speziell
+
+      \begin{equation} 
+         -1 = \delta(a) = a^{(n-1)/2} \mapsto 
+         \left(a_1^{(n-1)/2},\ldots,a_r^{(n-1)/2}\right) = (-1,\ldots,-1). 
+         \label{minuseins} 
+      \end{equation}
+
+      Nach dem Chinesischen Restesatz existiert ein $b\in\Z$ mit
+      $b\equiv 1 \pmod{p_1}$ und $b\equiv a_i \pmod{p_i}$ f"ur
+      $i=2,\ldots,r$. Damit gilt
+      $$ \delta(b) = b^{(n-1)/2} \mapsto \left( 1^{(n-1)/2},
+         a_2^{(n-1)/2},\ldots,a_r^{(n-1)/2)} \right) =
+         (1,-1,\ldots, -1). $$
+
+      Es kann also $b^{(n-1)/2} \equiv \pm 1$ auf keinen Fall gelten,
+      da $b^{(n-1)/2}$ durch den Isomorphismus $\phi$ auf
+      $(1,-1,\ldots,-1)$ abgebildet wird und da aufgrund der
+      Eigenschaft des neutralen Elements und der
+      Formel~\ref{minuseins} gilt
+
+      \begin{eqnarray*}
+         1 & \mapsto & \phi(1)  = (1,1,\ldots,1) \\
+        -1 & \mapsto & \phi(-1) = (-1,-1,\ldots,-1).
+      \end{eqnarray*}
+
+      Das Jacobi-Symbol $\leg{b}{n}$ kann nur die Werte $1$ oder $-1$ annehmen. 
+      Es gilt aber $\leg{b}{n}=\epsilon(b)\neq \pm 1$. Also ist auch 
+      $\epsilon \neq \delta$ in diesem Fall gezeigt. Mit
+      dem gleichen Untergruppenkriterium wie in ersten Fall folgt die
+      Behauptung. \hfill $\Box$
+\end{enumerate}
+
+
+%% ************* Rabin und Miller
+\subsection{Probabilistischer Primtest nach Rabin und Miller}
+
+Der folgende Primtest wurde von Rabin aufbauend auf den
+Ideen von Miller entwickelt. Er liefert eine Verbesserung des
+Primtests von Solovay und Strassen, da die Menge der F"alle, in
+denen er sich irrt, eine echte Untermenge der F"alle ist, in denen sich
+der Primtest von Solovay und Strassen irrt.
+
+Der Algorithmus geht von folgender grunds"atzlicher "Uberlegung aus:
+Nehmen wir an, wir h"atten eine Pseudoprimzahl $n$ zur Basis $a$, also
+mit
+$$ a^{n-1} \equiv 1 \pmod{n}, $$ 
+gegeben. Betrachten wir Quadratwurzeln aus $a^{n-1}$, so w"urde f"ur eine 
+Primzahl $n$ gelten, da\3 die Quadratwurzel $\pm 1$ sind, da in einem K"orper 
+zwei L"osungen f"ur $X^2 \equiv 1 \pmod{n}$ existieren. Das hei\3t, f"ur 
+eine Primzahl $n$ w"urde die Folge
+$$ a^{(n-1)/2}, a^{(n-1)/2^2},\ldots,a^{(n-1)/2^k} $$ 
+f"ur $n-1 = 2^k m$ mit $m$ ungerade aus entweder beliebig vielen 1en, gefolgt von
+einer $-1$ und dann beliebigen Zahlen aus $\einheit{n}$ oder lauter
+1en bestehen. Diese Beobachtung wird in dem Miller-Rabin-Test
+ausgenutzt. Zur Berechnung geht man hier nat"urlich von
+$a^{(n-1)/2^k}$ aus und quadriert.
+
+\subsection*{Algorithmus}
+
+\begin{enumerate}
+  \item Schreibe $n-1 = 2^k \cdot m$ mit $m$ ungerade.
+  \item W"ahle eine Zufallszahl $a$ mit $1<a<n$ und $\ggt(a,n)=1$.
+  \item Initialisiere $i:=0$ und $b:=a^m$.
+  \item Falls $(i=0$ und $b=1)$, dann ist $n$ wahrscheinlich prim. Stop
+  \item Falls $b=-1$, dann ist $n$ wahrscheinlich prim. Stop
+  \item Falls $(i>0$ und $b=1)$, dann ist $n$ sicher zusammengesetzt. Stop \\
+        Sonst $b:=b^2$ und $i:=i+1$
+  \item Falls $i=k+1$, dann ist $n$ sicher zusammengesetzt. Stop \\ 
+        Sonst gehe zu Schritt 5.
+\end{enumerate}
+
+Der folgende Satz liefert eine Absch"atzung der
+Fehlerwahrscheinlichkeit dieses Algorithmus.
+
+%%
+%% Satz Rabin
+%%
+\begin{satz}[Rabin]
+  Es sei $n\in\N$ ungerade und mit $n-1=2^k \cdot m$, wobei $m$
+  ungerade ist. Zu $a\in\N$ mit $0<a<n$ definieren wir eine Folge
+  $a_0,\ldots,a_k$ mit
+  $a_i := a^{2^i \cdot m}$ f"ur $0\le i\le k$.
+  Es sei 
+    $$ P:=\left\{a\in\einheit{n} \mid (a_0 \equiv 1 \pmod{n}) \mbox{
+       oder } (\exists i<k : a_i \equiv -1 \pmod{n}\right\}. $$
+  \begin{itemize}
+    \item Falls $n$ prim, so gilt $\#P = n-1$.
+    \item Falls $n$ nicht prim, so gilt $\#P \le \frac{1}{4}(n-1)$.
+  \end{itemize}
+\end{satz}  
+
+\beweis 
+siehe \cite{frank} \hfill $\Box$
+
+Der Algorithmus erkennt die Primzahlen mit einer Wahrscheinlichkeit
+gr"o\3er als 3/4. Durch $t$-faches Wiederholen des Algorithmus kann
+die Fehlerwahrscheinlichkeit auf $1/4^t$ gesenkt werden.
+
+Der n"achste Satz zeigt, da\3 der Algorithmus von Rabin auch wirklich
+eine Verbesserung des Algorithmus von Solovay und Strassen darstellt.
+\begin{satz} 
+  Es sei 
+  $$ P':=\left\{a\in\einheit{n} \mid \leg{a}{n}\equiv a^{(n-1)/2}\right\}$$
+  und
+  $$ P:=\left\{a\in\einheit{n} \mid (a_0 \equiv 1 \pmod{n}) \mbox{ oder } 
+     (\exists i<k : a_i \equiv -1 \pmod{n}\right\}, $$
+  wobei $0<a<n$, $n$ ungerade und zusammengesetzt mit $n-1 = 2^k \cdot m$ und 
+  $(a_i)_i$ eine 
+  Folge mit $a_0,\ldots, a_k$. Dann gilt f"ur zusammengesetzte
+  Zahlen $n$: $P \subset P'$. 
+\end{satz}
+
+\beweis 
+siehe \cite{frank} \hfill $\Box$
+
+\section{Faktorisierungsalgorithmen mit Gruppen}
+
+Den beiden in diesem Abschnitt vorgestellten Algorithmen liegt eine
+gemeinsame Idee zugrunde. Der chinesische Restesatz besagt, da\3 f"ur
+zusammengesetztes $n$ der Restklassenring $\ring{n}$ isomorph ist zu einem 
+direkten Produkt von kleineren Restklassenringen.  Wir definieren eine 
+algebraische Struktur, die von dem Restklassenring $\ring{n}$ abh"angt. Wenn wir
+in dieser Struktur rechnen, so rechnen wir implizit auch in der algebraischen
+Struktur, die gewisserma\3en von den kleineren Komponenten des
+direkten Produkts abh"angt, und erh"alten aufgrund des kleinen Fermats
+Information "uber eine der kleinere Strukturen und k"onnen dadurch einen
+Faktor von $n$ abspalten. Im Falle der $p-1$-Methode ist die
+algebraische Struktur $\ring{n}$ selbst und bei der Faktorisierung mit
+elliptischen Kurven eine elliptische Kurve $E(\ring{n})$ "uber dem
+Restklassenring $\ring{n}$.
+
+\subsection{Pollard $p-1$-Methode}
+
+Der Aufwand dieses Algorithmus h"angt im wesentlichen von der Gr"o\3e
+des zu findenden Faktors ab. Nehmen wir also an, die Zahl $n$, die
+faktorisiert werden soll, enth"alt einen Primfaktor $p$, der die
+Eigenschaft besitzt, da\3 $p-1$ in kleine Faktoren zerf"allt. Konkret
+sollen alle Faktoren von $p-1$ kleiner als eine Schranke $k$ sein, und
+es soll dar"uberhinaus gelten, da\3 $k!$ durch $(p-1)$ teilbar ist.
+
+Da die Exponentiation modulo $n$ effizient berechnet werden kann, kann
+die Berechnung von
+$$ m:\equiv 2^{k!} \pmod{n} $$ f"ur nicht zu gro\3e $k$ und $n$
+durchgef"uhrt werden. Der kleine Fermat liefert wegen $p-1 \mid k!$,
+da\3
+$$ m \equiv 2^{k!} \equiv 2^{k! \pmod{p-1}} \equiv 2^0 \equiv 1
+\pmod{p} $$ gilt. Damit teilt $p$ also $m-1$. Falls $k$ nicht zu gro\3
+angesetzt ist, teilt $n$ mit einer hohen Wahrscheinlichkeit $m-1$
+nicht, so da\3 der gr"o\3te gemeinsame Teiler
+$$ g:=\ggt(m-1,n) $$
+den nicht trivialen Teiler $p$ von $n$ liefert.
+
+Bei der praktischen Anwendung dieser Vorgehensweise, wei\3 man
+nat"urlich nicht, in welcher Gr"o\3enordung der richtige Parameter $k$
+gew"ahlt werden sollte. Damit nicht alle Primfaktoren von $n$ erfa\3t
+werden, ist es wichtig von Zeit zu Zeit $\ggt(m-1,n)$ zu
+berechnen. Falls der ggT gleich $1$ ist, so erh"oht man $k$ und
+rechnet weiter.
+
+Sollte der ggT schon $n$ sein, so sind alle Primfaktoren von $n$ schon
+erreicht worden, so da\3 man entweder mit kleinerem $k$ oder mit einer
+anderen Basis als 2 einen neuen Versuch macht.
+
+Der Algorithmus f"uhrt nicht zum Erfolg, falls die Primfaktoren $p_i$ 
+von $n$ eine "ahnliche Zerlegung f"ur $p_i-1$ haben. Dann gilt
+$(p_i-1)\mid k!$. In diesem Fall wird ganz $n$ abgespalten.
+
+\subsubsection{Verfeinerung des Algorithmus}
+
+Anstatt $k!$ als Exponent zu verweden, ist es g"unstiger eine etwas
+andere Wahl zu treffen, denn f"ur sehr kleine Primzahlen $q$ taucht
+$q$ in $k!$ mit einem sehr hohem Exponenten auf. Es ist aber
+unwahrscheinlich, da\3 dies f"ur die Bedingung $p-1\mid k!$ ben"otigt
+wird. In der Praxis kann man beispielsweise so vorgehen, da\3 man bis
+zu einer gewissen Schranke $B_1$, alle Primzahlen und Primpotenzen
+kleiner $B_1$ betrachtet. An Stelle von $k!$ w"ahlt man dann das Produkt
+dieser Primzahlen und Primpotenzen. Das Produkt sei $l$.
+
+Man w"ahlt eine weitere Schranke $B_2 > B_1$ und testet
+zus"atzlich zu 
+$$ \ggt(2^l-1,n) $$
+auch noch
+$$ \ggt(2^{l \cdot q_i}-1,n) $$
+f"ur alle Primzahlen $q_i$ mit $B_1 < q_i < B_2$, um
+die Primfaktoren zu trennen.
+
+\subsubsection{Laufzeitbetrachtungen}
+
+Die Laufzeit dieses Algorithmus h"angt nicht nur von der Gr"o\3e der
+zu faktorisierenden Zahl $n$ ab, sondern wird auch stark von der
+Zerlegung von $p-1$ f"ur alle Primfaktoren $p$ beeinflu\3t. Die
+Primfaktorzerlegung von $n$ ist im voraus nicht bekannt. Daher kann
+man die Laufzeit des Algorithmus nur mit einer
+Wahrscheinlichkeitsbetrachung absch"atzen. Es sei $p$ der kleinste
+Primfaktor von $n$. Die Laufzeit h"angt dann nur von der gr"o\3ten
+Primpotenz von $p-1$ ab, sofern $p$, wie im allgemeinen zu erwarten
+ist, als erster Faktor gefunden wird.
+
+Betrachten wir $p-1$ als zuf"allig gew"ahlte nat"urliche Zahl, dann
+hat der gr"o\3te Primfaktor im Mittel eine Gr"o\3enordung von
+$(p-1)^{0.63}$. Falls also die gr"o\3te Primpotenz kleiner der
+vorgegeben Schranke $B$ ist, so f"uhrt der Algorithmus zum Erfolg,
+wenn die Primfaktoren weit genug auseinander liegen.
+
+%%
+%% ************** Faktorisierung mit elliptischen Kurven
+%%
+\subsection{Faktorisierung mit elliptischen Kurven}
+
+Der Ansatz, mit elliptischen Kurven zu faktorisieren, geht auf
+H.W. Lenstra zur"uck. Dieser Ansatz stellt in gewisser Hinsicht eine
+Verallgemeinerung der $p-1$-Methode von Pollard dar. Der Aufwand beim
+Faktorisieren mit elliptischen Kurven ist im wesentlichen auch von der
+Gr"o\3enordnung des gesuchten Primfaktors abh"angig.
+
+
+\subsubsection{Elliptische Kurven "uber K"orpern}
+
+Es sei $\K$ ein K"orper. Im Hinblick auf die betrachteten Anwendungen
+gen"ugt es K"orper $\K$ der Charakteristik $\mbox{char}(\K)\neq 2,3$
+zu betrachten. Dann lassen sich alle elliptischen Kurven beschreiben
+durch die Gleichungen der Form
+\begin{equation} 
+  y^2 = x^3 + Ax + B, 
+\end{equation}
+wobei $A,B\in\K$ mit $4A^3 + 27B^2 \neq 0$. Diese Nebenbedingung
+sichert, da\3 das Polynom $x^3 + Ax + B$ keine doppelten Nullstellen
+enth"alt.
+
+F"ur $\K=\R$ lassen sich die elliptischen Kurven geometrisch
+veranschaulichen. Interessant werden die
+elliptischen Kurven $E(\R)$ dadurch, da\3 man auf ihnen in einem
+abstrakten Sinne addieren kann. Zu je zwei Punkten $P_1$ und $P_2$ der
+Kurve findet man durch eine geometrische Konstruktion stets einen
+dritten, der ebenfalls auf der Kurve liegt und $P_1 + P_2$ genannt
+wird. Die so definierte Addition folgt den "ublichen Rechenregeln: Sie
+ist assozitativ, kommutativ, es existiert ein neutrales Element, und zu
+jedem Punkt existiert ein Inverses. Eine elliptische Kurve bildet also
+eine kommutative Gruppe bez"uglich dieser Addition.
+
+Das Inverse $-P$ eines Kurvenpunktes $P$ ist dessen Spiegelbild an der
+$x$-Achse. Die Summe zweier Punkte $P_1$ und $P_2$ findet man im
+allgemeinen, indem man die Gerade durch die Punkte $P_1$ und $P_2$
+zieht. Sie schneidet die Kurve in genau einem dritten Punkt
+$Q$. Dessen Spiegelbild $-Q$ bez"uglich der $x$-Achse ist die gesuchte
+Summe $P_1 + P_2$.
+
+In dem Sonderfall $P_1=P_2$ tritt an die Stelle der Geraden durch
+$P_1$ und $P_2$ die Tangente an die Kurve im Punkt $P_1=P_2$. Wenn
+schlie\3lich $P_1=-P_2$ ist, trifft die Gerade durch $P_1$ und $P_2$
+keinen weiteren Punkt der Kurve. Man stellt sich ersatzweise vor,
+da\3 die Gerade die Kurve im Unendlichen schneidet.  Darum f"ugt man
+noch einen weiteren Punkt hinzu, den man sich im Unendlichen denkt.
+Man nennt ihn ${\cal O}$ und setzt $P_1-P_1={\cal O}$. Der Punkt ${\cal
+O}$ ist das neutrale Element der additiven Gruppe $E(\R)$.
+
+Die geometrische Defintion der Punktaddition kann in Formeln umgesetzt
+werden. Wenn $P_1=(x_1,x_2)$ und $P_2=(x_2,y_2)$ Punkte der
+elliptischen Kurve sind, dann gilt
+\begin{equation} -P_1 = (x_1,-y_1) , 
+\end{equation}
+\begin{equation} P_1 + P_2 = 
+                    \left\{ 
+                       \begin{array}{cl}
+                         {\cal O} & \mbox{ falls } P_1 = -P_2 \\
+                         P_2      & \mbox{ falls } P_1 = {\cal O} \\
+                         P_1      & \mbox{ falls } P_2 = {\cal O}
+                       \end{array}
+                    \right.
+\end{equation}
+
+In den anderen F"allen ist die Summe $P_3 = P_1 + P_2 = (x_3, y_3)$
+definiert durch
+\begin{equation}
+\begin{array}{ccc}
+  x_3 & = & \lambda^2 - x_1 - x_2                     \\
+      &   &                                           \\
+    y_3 & = & \lambda\left( x_1 - x_3\right) - y_1
+\end{array}
+\end{equation}
+wobei 
+$$ \lambda = \frac{y_1 - y_2}{x_1 - x_2} $$
+falls $P_1\neq P_2$, und
+$$ \lambda = \frac{3 x_1^2 + A}{2y_1}$$
+falls $P_1 = P_2$.
+
+Diese Formeln k"onnen nun eine Art Eigenleben gewinnen. Man darf sie
+anwenden, ohne sich unter $x$ und $y$ Koordinaten von Punkten in der
+Ebene vorstellen zu m"ussen. Es kann ein beliebiger
+endlicher K"orper $\F$ verwendet werden. Geraden und Tangenten haben dann 
+nicht mehr viel mit geometrischer Anschauung zu tun.
+
+Betrachten wir nun n"aher die elliptischen Kurven "uber Primk"orpern
+$\F_p$. Offensichtlich ist $E(\F_p)$ endlich. Man schreibt
+"ublicherweise die Anzahl der Elemente in der Form
+$$ \# E(\F_p) = p+1-t, $$ wobei $t$ als die Spur bezeichnet wird. F"ur
+die Spur gilt die sogenannte Hasse-Schranke
+$$ -2\sqrt{p} < t < 2\sqrt{p}. $$ 
+Die Gruppe $E(\F_p)$ ist entweder eine zyklische Gruppe oder das
+Produkt zweier zyklischer Gruppen.
+
+
+%%
+%% ************* "uber Ringen
+%%
+
+\subsubsection{Elliptische Kurven "uber Ringen}
+
+Die Definition einer elliptischen Kurve "uber einem Restklassenring
+ist ganz analog zur Definition der elliptischen Kurven "uber einem
+K"orper.
+
+\begin{definition}
+  Eine elliptische Kurve "uber dem Restklassenring $\ring{n}$ ist definiert
+  als die Menge der Paare $(x,y)\in\ring{n} \times \ring{n}$, die die
+  Weierstrass-Gleichung
+  $$ y^2 = x^3 + Ax + B $$
+  mit $A$,$B\in\ring{n}$ und $4A^3 + 27B^2 \neq 0$ erf"ullen zusammen
+  mit einem Punkt im Unendlichen ${\cal O}$. Sie wird mit
+  $E(\ring{n})$ bezeichnet. Wir setzen dabei voraus, da\3 6 eine
+  Einheit im Ring $\ring{n}$ ist.
+\end{definition}
+
+Auf dieser Punktmenge wird analog zur Addition auf elliptischen Kurven
+"uber K"orpern eine Operation definiert. Eine direkte Verwendung der
+oben definierten Additionsformeln ist nicht m"oglich, da die dort
+auftretenden inversen Elemente nicht notwendigerweise existieren, da
+$\ring{n}$ nicht nullteilerfrei ist, falls $n$ nicht prim ist.
+
+Es sei zur Vereinfachung $n$ als quadratfrei vorausgesetzt, also $n=p_1
+\cdot\ldots\cdot p_r$ f"ur paarweise verschiedene Primzahlen $p_i$
+f"ur $i=1,\ldots,r$.  Dann existieren die Abbildungen
+$$ h_i : E(\ring{n}) \longrightarrow E(\ring{p_i}), $$
+die komponentenweise mittels der Projektionen
+$$ \pi_i : \ring{n} \longrightarrow \ring{p_i} $$ 
+f"ur $i = 1,\ldots,l$ definiert sind. Durch Zusammensetzen dieser
+Abbildungen $h_i$ erh"alt man eine Abbilung
+$$ h : E(\ring{n}) \longrightarrow E(\ring{p_1}) \times 
+   \ldots \times E(\ring{p_l}), $$
+die den gesamten Zielraum aussch"opft, bis auf alle Tupel, in denen das
+neutrale Element einer der Kurven $E(\Z_{p_i})$ vorkommt und die nicht
+das Nulltupel sind. Dabei
+definieren wir die Abbildung $h$ so, da\3 das neutrale Element ${\cal
+O}$ auf das Tupel bestehend aus den neutralen Elementen der Kurven
+$E(\ring{p_1})$ bis $E(\ring{p_r})$ abgebildet wird. Der Chinesische
+Restesatz liefert, da\3 allen Elementen im Wertebereich dieser
+Funktion ein Urbild in eindeutiger Weise zugeordnet werden kann. F"ur
+diese F"alle ist damit auch eine Operation auf $E(\ring{n})$ eindeutig
+definiert, in dem man die zu verkn"upfenden Elemente zun"achst mittels
+$h$ nach $E(\ring{p_1}) \times \ldots \times E(\ring{p_r})$ abbildet,
+dort koordinatenweise addiert und gegebenfalls dem so erhaltenen Tupel
+wieder sein Urbild unter $h$ zuordnet.
+
+Die so definierte Operation kann auch durch Rechnen modulo $n$ direkt
+in $\ring{n}$ ausgef"uhrt werden. Da diese Verkn"upfung, falls sie
+definert ist, der Addition auf elliptischen Kurven "uber K"orpern
+entspricht, bezeichnet man sie als {\em Pseudoadditon}. Die mit dieser
+Operation versehene Kurve $E(\ring{n})$ bildet offensichtlich keine
+Gruppe, da die Operation nicht total definiert ist. Es gilt f"ur jeden
+Punkt $P\in E(\ring{n})$
+$$ N_n \cdot P = {\cal O} \mbox{ mit } N_n := \kgv(\# E(\ring{p_1}),\ldots,\# E(\ring{p_r})). $$
+
+
+\subsubsection{Algorithmus}
+
+"Ahnlich wie bei den Primtests f"uhrt man beim Faktorisieren mit
+elliptischen Kurven eine Berechnung aus, die gelingen w"urde, falls
+$n$ eine Primzahl w"are.  Weil $n$ aber zusammengesetzt ist, kann die
+Rechnung scheitern. Im Verlauf der Berechnung mu\3 man inverse Elemente
+berechnen, indem man den gr"o\3ten gemeinsamen Teiler von $n$ mit
+anderen Zahlen ausrechet. Die Rechnung kann nur dann fortgesetzt
+werden, wenn der gr"o\3te gemeinsame Teiler gleich $1$ ist, also die
+Zahlen teilerfremd sind. Falls der gr"o"ste gemeinsame Teiler dann auch
+noch ungleich $n$ ist, hat man einen echten Teiler von $n$ gefunden.
+
+Die Idee bei diesem Faktorisierungsalgorithmus ist es die Gruppe
+$\einheit{n}$, die bei der $p-1$-Methode von Pollard verwendet wird,
+durch die allgemeinere Gruppe der rationalen Punkte "uber den
+elliptischen Kurven zu ersetzen. Auch hier ist der Algorithmus
+erfolgreich, falls $\# E(\F_p)$ in kleine Primfaktoren zerf"allt. Der
+wesentliche Vorteil liegt jedoch darin, da\3 zu einem vorgegeben $n$
+verschiedene Gruppen mit verschiedener Ordungung aus dem Intervall
+$$ \left[ p+1-2\sqrt{p},p+1+2\sqrt{p} \right] $$
+zur Verf"ugung stehen. 
+
+F"ur den Algorithmus kann man konkret wie folgt vorgehen. Zu einer
+Schranke $b$ w"ahlt man "ahnlich wie bei der $p-1$-Methode von Pollard
+einen Multiplikator $k:=b!$ oder einen "ahnlichen Multiplikator, der
+nur aus Faktoren kleiner $b$ besteht. Dann w"ahlt man sich eine
+elliptische Kurve $E(\ring{n})$ und einen Punkt $P$ auf der Kurve. In
+der Praxis kann man dabei so vorgehen, da\3 man zun"achst nur den
+Kurvenparameter $A$ vorgibt, dann einen Punkt $P$ zuf"allig w"ahlt und
+dann den Kurvenparameter $B$ so bestimmt, da\3 der Punkt $P$ auf der
+Kurve liegt. Dann berechnet man $k\cdot P$ auf der Kurve. Diese
+Addition kann sehr effizient berechnet werden, da es nicht n"otig ist
+$k$ mal $P$ zu addieren. Man kann "ahnlich wie bei "`square and
+multiply"' vorgehen.  Die Addition f"uhrt man wie in der
+definierten Pseudoaddition durch. Bei der Berechnung m"ussen Inverse
+in $\ring{n}$ bestimmt werden, die in $\ring{n}$ nicht immer
+existieren m"ussen. Ein Nullteiler hat einen nichttrivalen Teiler mit $n$. 
+In diesem Fall liefert die Berechnung des gr"o\3ten gemeinsamen Teilers einen
+Teiler von $n$.
+
+Der Zufall spielt bei diesem Algorithmus wirklich mit, da es sehr viele
+elliptische Kurven zur Auswahl gibt, an denen man die Berechnungen
+durchf"uhren kann.  Lenstra konnte zeigen, da\3 es f"ur jedes
+zusammengesetzte $n$ Kurven gibt, die einen Teiler liefern. Falls man
+keinen nichttrivialen Teiler findet, kann man ein neues $k$ bestimmen
+oder eine neue elliptische Kurve w"ahlen.
+
+Der Aufwand dieses Faktorisierungsalgorithmus l"a\3t sich unter
+gewissen bisher unbewiesenen heuristischen Annahmen wie folgt
+absch"atzen. Es sei $p$ der kleinste Faktor der zu faktorisierenden
+Zahl $n$. Es sei ferner $g$ eine beliebige nat"urliche Zahl. Dann
+findet der Algorithmus mit Wahrscheinlichkeit $ \ge 1-e^{-g}$ den
+Faktor $p$ und hat einen asymptotischen Aufwand von
+$$ g \cdot \exp\left({\sqrt{(2+o(1))(\log p\log\log p)}} \left(\log n\right)^2\right) $$
+f"ur $p\rightarrow \infty $.
+
+Der Algorithmus eignet sich in hervorragender Weise zur
+Parallelisierung. Man w"ahlt f"ur jeden zur Verf"ugung stehenden
+Prozessor eine elliptische Kurve und rechnet auf allen Kurven solange
+parallel, bis ein Faktor gefunden wurde. Dabei ist nur minimale
+Vorbereitung und Nachbereitung auf jedem der Prozessoren notwendig.
+
+%%
+%% Faktorisierung mit quadratischen Kongruenzen
+%%
+\section{Faktorisierung mit quadratischen Kongruenzen}
+
+Der Aufwand der Faktorisierungsalgorithmen mit Gruppen h"angt von der
+Gr"o\3e der Primfaktoren der zu faktorisierenden Zahl $n$ ab.  F"ur
+die Suche nach gr"o\3eren Teilern benutzt man andere Algorithmen, die
+auf einer anderen Grundidee basieren. Die Laufzeit dieser Algorithmen
+h"angt nur von $n$ ab.  Wir werden hier zwei Vertreter dieser
+Algorithmenklasse kennenlernen.
+
+Man will eine zusammengesetzte Zahl $n$ faktorisieren, indem man eine
+quadratische Kongrunenz der Art
+\begin{equation}
+  x^2 \equiv y^2 \pmod{n} 
+\end{equation}
+aufstellt. Diese Kongruenz ist gleichbedeutend mit der Aussage, da\3
+$n$ die Differenz $x^2 - y^2$ teilt. Nach der dritten binomischen
+Formel ist
+$$ x^2 - y^2 = (x-y)(x+y). $$ Wenn $n$ nicht selbst Teiler von $x-y$
+oder $x+y$ ist, so mu\3 ein echter Teiler von $n$ in $x-y$ und ein
+anderer echter Teiler in $x+y$ enthalten sein.  Durch die Berechnung
+von $\ggt(x+y,n)$ kann dann ein nicht trivialer Faktor gefunden
+werden.
+
+Die Tatsache, da\3 sich "uber solche Kongruenzen ein Faktor finden
+l"a\3t, ist schon l"anger bekannt. Sie l"a\3t sich praktisch aber nur
+nutzen, wenn man geeignete Verfahren kennt, solche Kongruenzen zu
+finden. Dies wurde f"ur nicht triviale F"alle erst durch die
+Verwendung von leistungsf"ahigen Computern m"oglich.
+
+Zun"achst werden wir den relativ einfachen Algorithmus von Dixon
+betrachten, an dem sich eine ganze Reihe von grundlegenden Ideen
+besonders gut erkl"aren lassen.  Er nimmt sofern eine Sonderstellung
+ein, als da\3 f"ur diesen Algorithmus der subexponentielle Aufwand mit
+mathematischer Strenge bewiesen werden kann, w"ahrend f"ur die
+meisten anderen Varianten der Aufwand immer unter Verwendung
+unbewiesener, lediglich auf heuristische Annahmen gest"utzte
+Vermutungen abgesch"atzt wird.
+
+%%
+%% Grundlagen der Laufzeitanalyse
+%%
+
+\subsection{Grundlagen der Laufzeitanalyse}
+
+Bevor wir uns den eigentlichen Algorithmen zuwenden, f"uhren wir
+einige Definitionen ein und stellen einige S"atze vor, die uns die
+Absch"atzung der Laufzeit der Faktorisierungsalgorithmen erleichtern
+werden.
+
+Wir benutzen im folgenden die Abk"urzung
+\begin{equation} 
+  L(n) := \exp\left(\sqrt{\log n\log\log n}\right). 
+\end{equation}
+Ferner benutzen wir die Abk"urzung $L^{\alpha}$ f"ur die Funktionenklasse
+\begin{equation} L(n)^{\alpha + o(1)}. \end{equation}
+
+\begin{lemma} F"ur diese Funktionenklasse gelten die folgenden Rechenregeln:
+  \begin{itemize}
+    \item $2 L^{\alpha} = L^{\alpha}$;
+    \item $L^{\alpha} + L^{\beta} = L^{\max\{\alpha,\beta\}}$.
+  \end{itemize}
+\end{lemma}
+
+\beweis 
+"Ubung \hfill $\Box$
+
+\begin{lemma} 
+F"ur die Funktion $\pi(x)$, die die Anzahl der Primzahlen kleiner $x\in\R$ angibt, gilt
+  \begin{equation}
+    \pi(L^{\alpha}) = L^{\alpha} 
+  \end{equation}
+\end{lemma}
+
+\beweis 
+"Ubung \hfill $\Box$
+
+Eine wichtige Formel, die bei der Laufzeitanalyse ben"otigt wird, ist
+die Absch"atzung der Anzahl der nat"urlichen Zahlen, die nur
+Primfaktoren kleiner einer vorgegebenen Schranke haben. Solche Zahlen
+werden als {\em glatt} (engl. {\em smooth}) bzw. {\em $b$-glatt} bezeichnet,
+wobei $b$ die Schranke f"ur die Gr"o\3e der Primfaktoren ist. Dieser
+Begriff wurde von R.Rivest eingef"uhrt.
+
+\begin{definition}
+  Die Funktion $\glatt{x}{y}$ gibt die Anzahl der Elemente $n<x$ an,
+  die glatt bez"uglich der Schranke $y$ sind:
+  \begin{equation}
+    \glatt{x}{y} := \#\{ n\in\N \mid n < x \mbox{ und } 
+     (( p \mid n, p \mbox{ prim } ) \Rightarrow p < y )\}.
+  \end{equation}
+\end{definition} 
+
+\begin{satz}
+  F"ur eine beliebige Konstante $\epsilon$ sei $D:=\{(x,y) \mid x>10
+  \mbox{ und } y \ge (\log x)^{1+\epsilon}\}$. Dann gilt f"ur alle
+  Paare $(x,y)\in D$
+  $$ \glatt{x}{y} = x \cdot u^{-u+o(u)} $$
+  wobei $u:=\frac{\log x}{\log y}$.
+\end{satz}
+
+\begin{lemma} \label{spezialfall}
+  F"ur den f"ur die Laufzeitanalyse wichtigen Spezialfall 
+  $\glatt{n}{L^{\alpha}}$ gilt
+  \begin{equation}
+    \glatt{n}{L^{\alpha}} = n \cdot L^{-\frac{1}{2\alpha}}.
+  \end{equation}
+\end{lemma}
+
+%%
+%% Dixon Algorithmus
+%%
+
+\subsection{Dixons Algorithmus}
+
+Der Algorithmus von Dixon ist f"ur praktische Zwecke nicht brauchbar,
+aber verschiedene Grundideen k"onnen anhand dieses Algorithmus
+besonders einfach erkl"art werden.  Au\3erdem handelt es sich um den
+historisch ersten Algorithmus, f"ur den eine subexponentielle Laufzeit
+exakt nachgewiesen werden konnte.
+
+\subsubsection{Beschreibung des Algorithmus}
+
+Es sei $n$ eine zusammengesetzte Zahl, die nicht durch Primzahlen
+$p<L(n)$ teilbar ist. Zu $m\in\Z$ bezeichne $Q(m)$ den kleinsten
+nicht-negativen Rest von $m^2 \pmod{n}$. Es sei $a$ eine Konstante $0
+< a < 1$, die wir sp"ater optimal festlegen werden. Um eine
+quadratische Kongruenz modulo $n$ aufzustellen, ben"otigen wir den
+folgenden Teilalgorithmus:
+
+%% ****** Teilalgorithmus
+\begin{enumerate}  
+  \item W"ahle $m\in\{1,\ldots,n\}$ zuf"allig aus und berechne $Q(m)$.
+
+  \item Teste, ob $Q(m)$ nur Faktoren $p\le L^a$ besitzt. Falls dies
+        der Fall ist, so faktorisiere $Q(m)$ vollst"andig und trage
+        $m$, $Q(m)$ und das Tupel $(e_1,\ldots, e_r)$, wobei
+        $Q(m)=\prod_{i=1}^{r} p_i^{e_i}$ und $p_1,\ldots,p_r$ die
+        Primzahlen kleiner $L^a$ sind, in einer Tabelle ein.
+\end{enumerate}
+
+Dieser Teilalgorithmus wird so oft ausgef"uhrt, bis $\pi(L^a)+1$
+Quadrate $Q(m)$, die $L^a$-glatt sind, gefunden wurden. Zu jedem
+Eintrag haben wir einen Vektor
+$$ v(m) \in\koerper{2}^{\pi(L^a)}, $$
+dessen $i$-te Komponente eine 0 oder eine 1 ist, je nachdem, ob die
+Primzahl $p_i$ in gerader oder in ungerader Potenz in $Q(m)$
+auftritt.
+
+Da wir $\pi(L^a)+1$ viele Vektoren der L"ange $\pi(L^a)$ haben,
+existiert eine lineare Abh"angigkeit unter diesen Vektoren. Wir
+rechnen "uber dem Skalark"orper $\koerper{2}$, das hei\3t uns
+interessiert nur, ob der Exponent gerade oder ungerade ist. Nach
+Umnummerierung k"onnen wir die lineare Abh"angigkeit als
+$$ v(m_1)+v(m_2)+\ldots +v(m_k) = {\bf 0} .$$
+ausdr"ucken. Es ist also das Produkt $Q(m_1) \cdot Q(m_2) \cdot \ldots
+\cdot Q(m_k)$ ein Quadrat modulo $n$ und es
+existiert folglich ein $x\in\Z$ mit
+$$ Q(m_1) \cdot Q(m_2) \cdot \ldots \cdot Q(m_k) \equiv x^2 \pmod{n}. $$
+
+Dieses $x$ kann sehr einfach mit Hilfe der im 2-ten Schritt
+gespeicherten Tupel berechnet werden.  Ferner l"a\3t sich $y\equiv m_1
+\cdot m_2 \cdot \ldots \cdot m_k \pmod{n}$ berechnen und es gilt
+hierf"ur:
+$$ y^2 \equiv m_1^2 \cdot m_2^2 \cdot \ldots \cdot m_k^2 \equiv Q(m_1) 
+   \cdot Q(m_2) \cdot \ldots \cdot Q(m_k) \equiv x^2 \pmod{n} $$
+Wir haben also eine quadratische Kongruenz modulo $n$
+aufgestellt. Durch Berechnen von $\ggt(x+y,n)$ erhalten wir mit
+Wahrscheinlichkeit gr"o\3er $1/2$ einen nichttrivialen Faktor von $n$.
+Falls $x \neq \pm y \pmod{n}$ liefert die Berechnung von $\ggt(x+y,n)$
+sicher einen nichttrivialen Faktor von n. Das folgende Lemma besagt
+genauer:
+
+\begin{lemma} 
+  Es seien $x,y\in\ring{n}$ mit $x^2 \equiv y^2 \pmod{n}$
+  gegeben. Dann folgt daraus mit Wahrscheinlichkeit $1-1/2^{t-1}$,
+  da\3 $x \ne \pm y \pmod{n}$, wobei $t$ die Anzahl der Faktoren von
+  $n$ ist.
+\end{lemma}
+
+\beweis 
+"Ubung \hfill $\Box$
+
+\begin{bem}
+  Man sieht also, da\3 bei dem RSA-Verfahren die Verwendung von mehr
+  als zwei Primzahlen keine Sicherheitsvorteile bringt.
+\end{bem}
+
+Um die Erfolgswahrscheinlichkeit bei diesem Algorithmus zu erh"ohen,
+berechnet man anstatt $\pi(L^a)+1$ beispielsweise $\pi(L^a)+10$ solche
+Eintr"age und erh"alt damit 10 verschiedene lineare Abh"angigkeiten,
+von denen dann eine mit sehr hoher Wahrscheinlichkeit zu der gesuchten
+Zerlegung von $n$ f"uhrt.
+
+%%
+%% Laufzeitanalyse
+%%
+
+\subsection{Laufzeitanalyse}
+
+Wir f"uhren jetzt eine grobe Laufzeitanalyse durch, bei der auch der
+Parameter $a$ optimal bestimmt wird.
+
+In dem Teilalgorithmus m"ussen wir f"ur $\pi(L^a)=L^a$ viele
+Primzahlen testen, ob sie $Q(m)$ teilen. Wir definieren $b:=b(n)$
+indirekt dadurch, da\3 wir sagen, wir ben"otigen $L^b$ Durchl"aufe des
+Teilalgorithmus, bis wir $\pi(L^a)+1$ viele geeignete Eintr"age
+gefunden haben.  Dies ergibt einen Aufwand von $L^{a+b}$ Schritten,
+bis wir gen"ugend viele gute $Q(m)$ gefunden haben.  Die
+Gau\3elimination ben"otigt naiv implementiert $L^{3a}$ Schritte. Die
+restlichen Berechnung der Werte $x$, $y$ und $\ggt(x+y,n)$ ben"otigt
+nur $L^a$ viele Schritte.  Also kann die gesamte Laufzeit des
+Algorithmus durch
+$$ L^{\max\{ a+b,3a\}} $$
+abgesch"atzt werden.
+
+Wir m"ussen zur Bestimmung der Laufzeit die Funktion oder Konstante
+$b$ ermitteln und $a$ optimal w"ahlen. Wir benutzen die heuristische
+Annahme, da\3 bei einer zuf"alligen Wahl von $m$ auch das modulo $n$
+reduzierte Quadrat $Q(m)$ zuf"allig verteilt ist. Damit betr"agt die
+Wahrscheinlichkeit, da\3 $Q(m)$ in Faktoren $p < L^a$ zerf"allt,
+$$ \frac{\glatt{n}{L^a}}{n}, $$
+da $\glatt{n}{L^a}$ die Anzahl der $L^a$-glatten Zahlen kleiner $n$
+angibt und $\frac{1}{n}$ unter der heuristischen Annahme die
+Wahrscheinlichkeit jeder der m"oglichen Zahlen ist. Mit
+Lemma~\ref{spezialfall} sehen wir, da\3
+$$ \frac{\glatt{n}{L^a}}{n} = L^{-\frac{1}{2a}} $$
+gilt. Um also $\pi(L^a) + 1 = L^a$ viele $L^a$-glatte $Q(m)$ 
+zu finden, m"ussen wir
+$$ L^a \cdot \left( L^{-\frac{1}{2a}} \right)^{-1} = L^{a+\frac{1}{2a}} $$
+viele Werte f"ur $m$ untersuchen. Also gilt f"ur die Anzahl $b$ der
+notwendigen Durchl"aufe des Teilalgorithmus
+$$ b = a + \frac{1}{2a} , $$
+und somit betr"agt der Aufwand
+$$ L^{a+b} = L^{2a+\frac{1}{2a}}. $$
+Die Funktion $2a + \frac{1}{2a}$ hat ihr Minimum bei $a=1/2$. Dies
+ergibt eine Laufzeit f"ur den gesamten Algorithmus von
+$$ L^{\max\{ a+b, 3a \}} = L^{\max\{ 2a + \frac{1}{2a}, 3a\}} = 
+   L^{\max\{ 2, 1.5\}} = L^2, $$
+das hei\3t es werden $L(n)^{2+o(1)}$ viele Schritte und ein
+Speicheraufwand von $L(n)^{1+o(1)}$ f"ur die $L^a \times L^a$-Matrix
+ben"otigt.
+
+\begin{satz}
+  Der Faktorisierungsalgorthmus von Dixon ben"otigt asymptotisch eine
+  Laufzeit von $L(n)^{2+o(1)}$ vielen Schritten und einen
+  Speicherplatzbedarf von $L(n)^{1+o(1)}$ bit.
+\end{satz}
+
+Unser Beweis dieses Satzes ist nicht mathmatisch exakt durchgef"uhrt
+worden, da wir eine heuristische Annahme benutzt haben. Diese Annahme
+betrifft die Wahrscheinlichkeit, mit der ein $Q(m)$ f"ur ein zuf"allig
+gew"ahltes $m$ in Primfaktoren $p < L^a$ zerf"allt. Die $Q(m)$ sind nicht 
+zuf"allig gleichverteilt, was wir angenommen haben.
+Es l"a\3t sich jedoch zeigen, da\3 innerhalb einer Abweichung, 
+die in $L(n)^{o(1)}$ abgefangen werden kann, dies auch f"ur die 
+Quadrate $Q(m)$ zutrifft.
+
+%%
+%% Quadratischer Siebalgorithmus
+%%
+
+\subsection{Quadratischer Siebalgorithmus}
+
+Ein weiterer wichtiger Ansatz, wie eine Kongruenz der Art
+$$ x^2 \equiv y^2 \pmod{n} $$ 
+aufgestellt werden kann, geht auf Pomerance zur"uck und verwendet ein
+"ahnliches Verfahren, wie es beim Sieb des Eratosthenes eingesetzt
+wird. Da mit Hilfe eines solchen Sieb-Verfahrens eine Quadratzahl
+gefunden werden soll, spricht man von einem {\em quadratischen Sieb}.
+
+In dem quadratischen Siebalgorithmus gehen wir von einem quadratischen
+Polynom
+\begin{equation} 
+   f(x) = (x + \unten{\sqrt{n}})^2 - n \label{quadpolynom} 
+\end{equation}
+aus. F"ur dieses quadratische Polynom mit ganzzahligen Koeffizienten
+gilt f"ur beliebige $x\in\Z$
+$$ \left(x+\unten{\sqrt{n}}\right)^2 \equiv f(x) \pmod{n}. $$
+
+In dem quadratischen Siebalgorithmus betrachten wir statt $Q(m)$ die
+Werte $f(m)$, die in einer vorgegebenen Menge von $B$ Primzahlen
+faktorisieren. Finden wir $m_1,\ldots,m_k \in\N$, so da\3
+$$ f(m_1)\cdot \ldots \cdot f(m_k) $$
+ein Quadrat ist, so erhalten wir mit
+$$ x^2 := f(m_1)\cdot\ldots\cdot f(m_k) $$
+und 
+$$ y:=(m_1 + \unten{\sqrt{n}}) \cdot\ldots\cdot (m_k + \unten{\sqrt{n}}) $$
+eine quadratische Kongruenz
+$$ x^2 \equiv y^2 \pmod{n}, $$
+mit der wir einen Faktor von $n$ bestimmen k"onnen. Die Zahl $x$ kann
+wie beim Dixon-Algorithmus bestimmt werden, indem man die
+gespeicherte Faktorisierung der $f(m_i)$ f"ur $i=1,\ldots,k$
+benutzt.
+
+Wir haben hierbei nur eine gewisse Wahrscheinlichkeit, da\3 diese so
+gewonnene Gleichung wirklich zu einer L"osung f"uhrt, aber da wir mit
+geringf"ugigem Aufwand mehrere solche Gleichungen aufstellen k"onnen,
+l"a\3t sich die Wahrscheinlichkeit einen Faktor zu finden, leicht
+erh"ohen. Damit haben wir also das Problem, $n$ zu faktorisieren, auf
+das Problem, $k$ Zahlen $m_1$,\ldots,$m_k$ zu finden, f"ur die
+$f(m_1)\cdot\ldots\cdot f(m_k)$ ein Quadrat modulo $n$ ist, reduziert.
+
+Wie gro\3 sollte nun $B$ gew"ahlt werden? Eine geeignete Wahl f"ur $B$ 
+ist sehr wichtig f"ur den Algorithmus. Wenn wir $B$ klein
+w"ahlen, dann m"ussen wir weniger $m_i$ testen, f"ur die $f(m_i)$ in
+kleine Primfaktoren zerf"allt, und das lineare Gleichungsystem kleiner.
+Andererseits wird durch diese Wahl das Finden einer Linearkombination des 
+Nullvektors schwieriger. Ein geeignetes $B$ stellt also einen Kompromis zwischen
+diesen gegenl"aufigen Aspekten dar.
+
+Heuristische "Uberlegungen legen nahe, da\3 $B$ in der Gr"o\3enordunung von
+$$ \exp \left(\frac{1}{2}\sqrt{\log n \log\log n} \right) $$
+gew"ahlt werden sollte.
+
+Nehmen wir nun an, da\3 wir $B+10$ ganze Zahlen $m_1,\ldots,m_{B+10}$
+finden k"onnen, f"ur die
+$$ f(m_i) = \prod_{j=1}^{B} p_j^{\alpha_{ji}} $$
+"uber der Faktorbasis $\{ p_1,\ldots p_B\}$ f"ur $1 \le i \le B+10$ 
+faktorisieren. Die Exponenten $a_{ji}$ sind dabei nat"urliche Zahlen.
+
+F"ur jedes $i=1,\ldots, B+10$ betrachten wir wie beim Dixon-Algorithmus
+den Vektor
+$$ v(m_i) = (\alpha_{1i},\ldots,\alpha_{B i}) \in\koerper{2}^{B} $$
+Die Koeffizienten $\alpha_{ji}$ geben an, ob der Exponenten von $p_j$
+in $f(m_i)$ gerade oder ungerade ist. Wir haben also $B+10$
+Vektoren der L"ange $B$, unter denen wir eine Linearkombination
+des Nullvektors suchen. Es existieren bis zu 10 verschiedene L"osungen, 
+f"ur die gilt
+$$ f(m_{i_1})\cdot\ldots\cdot f(m_{i_k}) = 
+   \prod_{j=1}^B p_j^{\alpha_{j,i_1} + \ldots + \alpha_{j,i_k}} $$
+und da
+$$ \alpha_{j,i_1} + \ldots + \alpha_{j,i_k} \equiv 0 \pmod{2} $$
+gilt, sind alle Exponenten gerade und somit ist
+$$ f(m_{i_1}) \cdot\ldots\cdot f(m_{i_k}) $$
+ein Quadrat. Damit liefert dieses Vorgehen also 10 potentielle
+L"osungen, mit der eine quadratische Kongruenz aufgestellt werden
+kann.
+
+Die Methode in der jetztigen Form eignet sich noch nicht zur
+Faktorisierung gro\3er Zahlen. Je kleiner die $f(m)$ sind, um so
+gr"o\3er ist die Wahrscheinlichkeit, da\3 $f(m)$ "uber einer
+vorgegebenen Faktorbasis $\{ p_1,\ldots,p_B\}$ zerf"allt. Daher
+sollten wir m"oglichst kleine Werte f"ur $m$ nehmen, um geeignete
+$f(m)$ zu finden.
+
+Aber selbst f"ur $m$ aus dem Intervall $1\le m \le n^{\epsilon}$ mit
+$\epsilon > 0$ und klein, liegen die Werte von $f(m)$ wegen
+$$ f(m) = \left( m + \unten{\sqrt{n}}\right)^2 - n = 
+   2m\unten{\sqrt{n}} + m^2 + \left( \unten{\sqrt{n}}^2 - n \right) 
+   \approx 2m\unten{\sqrt{n}} + m^2 $$
+in der Gr"o\3enordung $C\unten{\sqrt{n}}$ f"ur eine Konstante $C$, 
+wenn $\epsilon < 1/4$ gilt.
+
+Mit einem geeigneten Siebproze\3 k"onnen wir auf wesentlich
+effektivere Weise geeignete Werte f"ur $m$ bestimmen. Wir
+konzentrieren uns dabei nicht auf einzelne Werte f"ur $m$, sondern
+betrachten gleich eine ganze Reihe von Werten.
+
+Dazu ben"otigen wir jedoch noch einige Vor"uberlegungen. Zun"achst ist
+klar, da\3 f"ur einen Primfaktor $p$ von $f(m_0)$ gilt, da\3 $p$ auch
+Primfaktor von $ f(m_0 + k \cdot p) $ f"ur alle $k\in\Z$ ist. Um die
+Menge der Werte f"ur $m$ zu bestimmen, f"ur die $p$ ein Faktor von
+$f(m)$ ist, gen"ugt es folglich, die quadratischen Kongruenzen
+$$ f(m) \equiv 0 \pmod{p} $$
+f"ur $m\in\{0,\ldots, p-1\}$ zu l"osen.
+
+Aus der speziellen Form des quadratischen Polynoms~\ref{quadpolynom}
+sieht man, da\3 f"ur $p>2$, das nicht selbst Primfaktor von $n$ ist,
+die Kongruenz
+\begin{equation} 
+   f(m) = (m + \unten{\sqrt{n}})^2 - n \equiv 0 \pmod{p} \label{siebkongruenz} 
+\end{equation}
+genau dann zwei verschiedene L"osungen besitzt, falls $n$ ein Quadrat
+modulo $p$ ist, d.h. das Legendresymbol $\leg{n}{p}=1$. Falls $n$ kein
+Quadrat modulo $p$ ist, d.h. das Legendresymbol $\leg{n}{p}=-1$,
+existiert keine L"osung.  In diesem Fall ist $p$ kein Teiler von
+$f(x)$ f"ur alle $x\in\N$. Wir bezeichnen daher mit
+$p_1,\ldots,p_B$ nicht wie bei dem Dixon-Algorithmus die ersten $B$
+Primzahlen, sondern die ersten $B$ Primzahlen $p$ mit $\leg{n}{p}=1$
+inklusive 2. Diese Menge ist unsere {\em Faktorbasis}.
+
+Die quadratische Siebprozedur funktioniert nun wie folgt. Zu jeder
+Primzahl aus der Faktorbasis werden die beiden L"osungen 
+\begin{eqnarray*}
+  a_p & \equiv & n^{(p-1)/2} - \unten{\sqrt{n}} \pmod{p} \mbox{ und} \\
+  b_p & \equiv & -n^{(p-1)/2} - \unten{\sqrt{n}} \pmod{p} 
+\end{eqnarray*} 
+Kongruenz~\ref{siebkongruenz} berechnet.  Wir betrachten nun nicht nur
+einzelne zuf"allig gew"ahlte Werte f"ur $m$, sondern wir untersuchen
+ein Intervall von $T$ vielen aufeinander folgenden $m$-Werten.
+
+Zur Vorbereitung berechnen wir zun"acht f"ur jedes $m$ den Wert
+$\unten{\log_2 f(m)}$, also einfach die Anzahl bits, die f"ur die
+Bin"ardarstellung von $f(m)$ ben"otigt werden. Dieser Wert ist f"ur
+viele aufeinanderfolgende $m$-Werte gleich und daher effizient zu
+berechnen. Die $m$-Werte werden zusammen mit $\unten{\log_2 f(m)}$ in
+einer Tabelle gespeichert.
+
+Danach wird beim Sieben f"ur jede Primzahl $p$ aus der Faktorbasis der
+Wert $\unten{\log_2 p}$ von dem Wert $\unten{\log_2 f(m)}$ abgezogen,
+falls
+$$ m \equiv a_p \pmod{p} \mbox{ oder } m \equiv b_p \pmod{p} $$
+gilt.
+
+F"ur ein $f(m)$, das h"ohere Potenzen einer Primzahl $p$ aus der
+Faktorbasis enth"alt, werden noch zus"atzliche Tests ben"otigt. Das
+hei\3t f"ur Primzahlen $p$ mit $p^k<C$ mu\3 f"ur $i<k$
+$$ f(m) \equiv 0 \pmod{p^i} $$
+getestet und gegebenfalls mehrfach $\unten{\log_2 p}$ abgezogen werden. 
+
+Am Ende des Siebens wurde also von jedem Eintrag $\unten{\log_2 f(m)}$
+f"ur jeden Primteiler $p$ von $f(m)$ der Wert $\unten{\log_2 p}$
+entspechend oft abgezogen.  Falls also $f(m)$ "uber der Faktorbasis
+zerf"allt, ist dieser Eintrag innerhalb der Rechenungenaugigkeit f"ur
+die Rundung etwa gleich Null.
+
+Mit diesem Sieb-Verfahren kann also aus einem Intervall von $T$ vielen
+aufeinanderfolgenden Werten f"ur $m$ eine Liste von Werten $f(m)$
+erstellt werden, die mit hoher Wahrscheinlichkeit "uber der
+Faktorbasis zerfallen. Diese Werte werden dann noch einmal im
+Einzelnen betrachtet, da w"ahrend des Siebverfahren die Faktoren nicht
+protokolliert wurden. Aber jeder dieser Werte ergibt mit hoher 
+Wahrscheinlichkeit einen Vektor "uber $\F_2$, so da"s
+auf die oben skizzierte Art und Weise "uber die lineare
+Abh"angigkeit ein Faktor von $n$ gefunden werden kann.
+
+Eine auf heuristische Annahmen gest"utzte Laufzeitanalyse ergibt f"ur
+diesen Algorithmus einen Aufwand von
+$$ L(n)^{1+o(1)} = \exp\left( (1+o(1))\sqrt{\log n\log\log n} \right) .$$
+
+
+   
+   
+      
+
+      
+      
+    
+    
+
+    
+
+    
+

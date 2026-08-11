@@ -1,0 +1,389 @@
+\typeout{Style `Diplom`}
+\setlength{\parskip}{5pt plus 2pt minus 1pt}
+\setlength{\topsep}{0pt}
+\setlength{\partopsep}{5pt plus 2pt minus 1pt}
+\setlength{\parindent}{0pt}
+
+%This is documentsubstyle DINA4 for DIN A4 pagesize. GMD Z1.BN  19.01.87
+% Must preserve "(\textheight - \topskip) divides \baselineskip".
+% \topskip always appears to be 10pt.  (from texhax86(issue#12))
+ 
+\if@twocolumn               % Die Seite wird maximal ausgenutzt
+  \topmargin -5.4mm
+  \oddsidemargin 0mm
+  \evensidemargin 0mm
+  \textwidth 160mm
+\ifcase \@ptsize
+    % mods for 10 pt (\baselineskip=12pt)
+    \textheight 658 pt  % = 230.9 mm
+\or % mods for 11 pt (\baselineskip=13.6pt)
+    \textheight 662.801 pt % = 232.6mm (!Rundungsfehler!)
+\or % mods for 12 pt  (\baselineskip=14.5pt)
+    \textheight 662.5 pt % = 232.5mm
+\fi
+ 
+% \textheight 232mm
+ \else
+  \topmargin 0mm
+%  \oddsidemargin -3mm
+%  \evensidemargin -7.8mm
+%  \textwidth 170mm
+  \oddsidemargin 6.6mm     
+  \evensidemargin -6.4mm   
+  \textwidth 160mm
+\ifcase \@ptsize
+    % mods for 10 pt (\baselineskip=12pt)
+    \textheight 634 pt  % = 222.5 mm
+\or % mods for 11 pt (\baselineskip=13.6pt)
+    \textheight 635.601 pt % = 223 mm  (!Rundungsfehler!)
+\or % mods for 12 pt  (\baselineskip=14.5pt)
+    \textheight 633.5 pt % = 222.8mm
+\fi
+ 
+% \textheight 222mm
+\fi
+ 
+\marginparwidth 0mm
+\marginparsep 0mm
+\marginparpush 0pt
+\columnwidth\textwidth
+
+
+\setcounter{topnumber}{4}
+\setcounter{bottomnumber}{4}
+\setcounter{totalnumber}{4}
+\def\topfraction{0.9}
+\def\bottomfraction{0.9}
+\def\intextfraction{0.5}
+\def\textfraction{0.1}
+\frenchspacing
+
+\def\@normalsize{\@setsize\normalsize{14.5pt}\xiipt\@xiipt
+\abovedisplayskip 12pt plus3pt minus7pt\belowdisplayskip \abovedisplayskip
+\abovedisplayshortskip \z@ plus3pt\belowdisplayshortskip 6.5pt plus3.5pt
+minus3pt\let\@listi\@listI}
+\def\small{\@setsize\small{13.6pt}\xipt\@xipt
+\abovedisplayskip 11pt plus3pt minus6pt\belowdisplayskip \abovedisplayskip
+\abovedisplayshortskip \z@ plus3pt\belowdisplayshortskip 6.5pt plus3.5pt
+minus3pt
+\def\@listi{\leftmargin\leftmargini \parsep 4.5pt plus 2pt minus 1pt
+ \itemsep \parsep
+ \topsep 9pt plus 3pt minus 5pt}}
+\def\footnotesize{\@setsize\footnotesize{12pt}\xpt\@xpt
+\abovedisplayskip 10pt plus2pt minus5pt\belowdisplayskip \abovedisplayskip
+\abovedisplayshortskip \z@ plus3pt\belowdisplayshortskip 6pt plus3pt minus3pt
+\def\@listi{\leftmargin\leftmargini \topsep 6pt plus 2pt minus 2pt\parsep 3pt
+plus 2pt minus 1pt
+\itemsep \parsep}}
+
+\def\@listI{\leftmargin\leftmargini \parsep 5pt plus 2.5pt minus 1pt%
+%\topsep 10pt plus 4pt minus 6pt
+\topsep\parsep
+\itemsep 5pt plus 2.5pt minus 1pt}
+\let\@listi\@listI
+\@listi
+\def\@listii{\leftmargin\leftmarginii
+ \labelwidth\leftmarginii\advance\labelwidth-\labelsep
+% \topsep 5pt plus 2.5pt minus 1pt
+ \parsep 2.5pt plus 1pt minus 1pt
+\topsep\parsep
+ \itemsep \parsep}
+\def\@listiii{\leftmargin\leftmarginiii
+ \labelwidth\leftmarginiii\advance\labelwidth-\labelsep
+% \topsep 2.5pt plus 1pt minus 1pt
+ \parsep \z@ \partopsep 1pt plus 0pt minus 1pt
+\topsep\parsep
+ \itemsep \topsep}
+
+\def\appendix{\par
+ \setcounter{chapter}{0}
+ \setcounter{section}{0}
+% \addtocontents{toc}{\protect\contentsline{part}{\appendixname}{}}
+ \def\@chapapp{\appendixname}
+ \def\thechapter{\Alph{chapter}}\par}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Headings unterstrichen und mit Smallcaps
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\ps@headings{\let\@mkboth\markboth
+\def\@oddfoot{}\def\@evenfoot{}\def\@evenhead{%
+\rlap{\hbox to \hsize{\rm \thepage\hfil \sc
+\leftmark}}\raise-4pt\hbox to \hsize{\hrulefill}}
+\def\@oddhead{\rlap{\hbox to \hsize{\hbox{}\sc \rightmark \hfil
+\rm\thepage}}\raise-4pt\hbox to \hsize{\hrulefill}}
+\def\chaptermark##1{\markboth {{\ifnum \c@secnumdepth
+>\m@ne
+ \@chapapp\ \thechapter \quad \fi ##1}}{}}\def\sectionmark##1{\markright
+{{\ifnum \c@secnumdepth >\z@
+ \thesection \quad \fi ##1}}}}
+
+\def\tableofcontents{\@restonecolfalse\if@twocolumn\@restonecoltrue\onecolumn
+ \fi\chapter*{\SSerif\contentsname
+ \@mkboth{{\contentsname}}{{\contentsname}}}
+ \@starttoc{toc}\if@restonecol\twocolumn\fi}
+\def\listoffigures{\@restonecolfalse\if@twocolumn\@restonecoltrue\onecolumn
+ \fi\chapter*{\SSerif\listfigurename\@mkboth
+ {{\listfigurename}}{{\listfigurename}}}\@starttoc
+ {lof}\if@restonecol
+ \twocolumn\fi}
+\def\listoftables{\@restonecolfalse\if@twocolumn\@restonecoltrue\onecolumn
+ \fi\chapter*{\SSerif\listtablename\@mkboth
+ {{\listtablename}}{{\listtablename}}}\@starttoc
+ {lot}\if@restonecol
+ \twocolumn\fi}
+
+
+\def\thebibliography#1{\chapter*{\SSerif\bibname\@mkboth
+ {{\bibname}}{{\bibname}}}\list
+ {[\arabic{enumi}]}{\settowidth\labelwidth{[#1]}\leftmargin\labelwidth
+ \advance\leftmargin\labelsep
+ \usecounter{enumi}}
+ \def\newblock{\hskip .11em plus .33em minus .07em}
+ \sloppy\clubpenalty4000\widowpenalty4000
+ \sfcode`\.=1000\relax}
+\def\theindex{\@restonecoltrue\if@twocolumn\@restonecolfalse\fi
+\columnseprule \z@
+\columnsep 35pt\twocolumn[\@makeschapterhead{\indexname}]
+ \@mkboth{{\indexname}}{{\indexname}}\thispagestyle
+ {plain}\parindent\z@
+ \parskip\z@ plus .3pt\relax\let\item\@idxitem}
+
+\pagestyle{headings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Aenderung der Kapitelueberschriften
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newfont{\SSerif}{cmssbx10 scaled\magstep5}
+\newfont{\SSerif}{cmb10 scaled\magstep5}
+\def\@makechapterhead#1{ \vspace*{20pt} { \parindent 0pt \raggedright
+ \ifnum \c@secnumdepth >\m@ne 
+ \huge\bf \@chapapp{} \thechapter \par
+ \vskip 10pt \fi 
+ \rule{\textwidth}{0.5mm}
+ \SSerif #1 \\
+ \rule[1ex]{\textwidth}{0.5mm}\\
+ \nobreak \vskip 20pt} }
+
+
+
+\newbox\downbox
+\setbox\downbox\hbox{\raisebox{0pt}[12pt][12pt]{\unitlength12pt\begin{picture}(0.5,0)\put(0.25,1){\vector(0,-1){2}}\end{picture}}}
+\def\down{\protect\copy\downbox}
+
+\def\equation{$$ % $$ BRACE MATCHING HACK
+\def\refstepcounter##1{\stepcounter{##1}\let\@tempa\protect
+\def\protect{\noexpand\protect\noexpand}%
+\edef\@currentlabel{(\csname p@##1\endcsname\csname the##1\endcsname)}%
+\let\protect\@tempa}%
+\refstepcounter{equation}}
+
+\def\eqnarray{\stepcounter{equation}\def\@currentlabel{(\theequation)}
+\global\@eqnswtrue
+\global\@eqcnt\z@\tabskip\@centering\let\\=\@eqncr
+$$% $$ BRACE MATCHING HACK
+\halign to \displaywidth\bgroup\@eqnsel\hskip\@centering
+  $\displaystyle\tabskip\z@{##}$&\global\@eqcnt\@ne 
+  \hskip 2\arraycolsep \hfil${##}$\hfil
+  &\global\@eqcnt\tw@ \hskip 2\arraycolsep $\displaystyle\tabskip\z@{##}$\hfil 
+   \tabskip\@centering&\llap{##}\tabskip\z@\cr}
+
+
+
+%% Andere Zitierung
+
+%%alte Version%\def\@lbibitem[#1]#2#3{\item[\@biblabel{#1}]\if@filesw 
+%%alte Version%	     { \def\protect##1{\string ##1\space}\immediate
+%%alte Version%	       \write\@auxout{\string\bibcite{#2}{#1}{#3}}}\fi\ignorespaces}
+
+%\def\@lbibitem[#1]#2#3{\item[\@biblabel{#1}\hfill]\if@filesw 
+%      { \def\protect##1{\string ##1\space}\immediate
+%        \write\@auxout{\string\bibcite{#2}{#1}{#3}}}\fi\ignorespaces}
+
+%\def\@bibitem#1#2{\item\if@filesw \immediate\write\@auxout
+%       {\string\bibcite{#1}{\the\c@enumi}{#2}}\fi\ignorespaces}
+
+%\def\bibcite#1#2#3{\global\@namedef{b@#1}{#2}\global\@namedef{bn@#1}{#3}}
+
+% ergibt den Namen plus das Siegel
+%\def\cite{\@ifnextchar [{\@tempswatrue\@citex}{\@tempswafalse\@citex[]}}
+
+%\def\@citex[#1]#2{\if@filesw\immediate\write\@auxout{\string\citation{#2}}\fi
+%  \def\@citea{}\@for\@citeb:=#2\do
+%    {\@citea\def\@citea{,\penalty\@m\ }\@ifundefined
+%       {b@\@citeb}{{\bf ?}\@warning
+%       {Citation `\@citeb' on page \thepage \space undefined}}%
+%{\csname bn@\@citeb\endcsname\,%
+%[\hbox{\csname b@\@citeb\endcsname\if@tempswa , #1\fi}]}}}
+
+% ergibt nur den Namen
+%\def\namecite{\@ifnextchar [{%
+%  \@tempswatrue\@namecitex}{\@tempswafalse\@namecitex[]}}
+
+%\def\@namecitex[#1]#2{\if@filesw\immediate%
+%   \write\@auxout{\string\citation{#1}}\fi
+%  \def\@citea{}\@for\@citeb:=#2\do
+%    {\@citea\def\@citea{,\penalty\@m\ }\@ifundefined
+%       {b@\@citeb}{{\bf ?}\@warning
+%       {Citation `\@citeb' on page \thepage \space undefined}}%
+%{\csname bn@\@citeb\endcsname}}}
+
+
+
+% ergibt nur das Siegel
+
+%\def\numcite{\@ifnextchar [{%
+%  \@tempswatrue\@numcitex}{\@tempswafalse\@numcitex[]}}
+
+%\def\@numcitex[#1]#2{\if@filesw\immediate%
+%   \write\@auxout{\string\citation{#2}}\fi
+%  \def\@citea{}[\@for\@citeb:=#2\do
+%    {\@citea\def\@citea{,\penalty\@m\ }\@ifundefined
+%       {b@\@citeb}{{\bf ?}\@warning
+%       {Citation `\@citeb' on page \thepage \space undefined}}%
+%{\hbox{\csname b@\@citeb\endcsname\if@tempswa , #1\fi}}}]}
+
+\def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
+ \refstepcounter{chapter}
+ \typeout{\@chapapp\space\thechapter.}
+ \addcontentsline{toc}{chapter}{\protect
+ \numberline{\thechapter}#1}\else
+ \addcontentsline{toc}{chapter}{#1}\fi
+ \chaptermark{#1}
+ \addtocontents{loa}{\protect\addvspace{10pt}}
+ \addtocontents{lod}{\protect\addvspace{10pt}}
+ \addtocontents{lof}{\protect\addvspace{10pt}}
+\addtocontents{lot}{\protect\addvspace{10pt}} \if@twocolumn
+\@topnewpage[\@makechapterhead{#2}]
+ \else \@makechapterhead{#2}
+ \@afterheading \fi}
+
+
+
+\def\definitionsname{Verzeichnis der Definitionen}
+
+\def\listofdefinitions
+{\@restonecolfalse\if@twocolumn\@restonecoltrue\onecolumn
+ \fi\chapter*{\SSerif\definitionsname
+ \@mkboth{{\definitionsname}}{{\definitionsname}}}
+ \@starttoc{lod}\if@restonecol\twocolumn\fi}
+\let\l@lod\l@figure
+
+\def\definition{\@ifnextchar [{\@defi}{\begin{@definition}\em}}
+\def\enddefinition{\end{@definition}}
+
+\def\@defi[#1]{\begin{@definition}[#1]
+\addcontentsline{lod}{lod}{\protect\numberline{\the@definition}{#1}}\em}
+
+\newtheorem{@definition}{Definition}[chapter]
+
+\def\algorithmsname{Verzeichnis der Algorithmen}
+
+\def\listofalgorithms
+{\@restonecolfalse\if@twocolumn\@restonecoltrue\onecolumn
+ \fi\chapter*{\SSerif\algorithmsname
+ \@mkboth{{\algorithmsname}}{{\algorithmsname}}}
+ \@starttoc{loa}\if@restonecol\twocolumn\fi}
+\let\l@loa\l@figure
+
+\def\algorithmus{\topsep0pt\@ifnextchar [{\@alg}{\begin{@algorithm}}}
+\def\endalgorithmus{\end{@algorithm}}
+
+\def\@alg[#1]{\begin{@algorithm}[#1]
+\addcontentsline{loa}{loa}{\protect\numberline{\the@algorithm}{#1}}}
+
+\newtheorem{@algorithm}{Algorithmus}[chapter]
+
+\newenvironment{programm}[1]{%
+\parsep0pt
+\def\pindent##1{\addtolength{\@totalleftmargin}{#1}%
+\addtolength{\linewidth}{-#1}%
+\par%\vspace*{-\parsep}
+\parshape 1 \@totalleftmargin \linewidth
+##1
+\addtolength{\@totalleftmargin}{-#1}%
+\addtolength{\linewidth}{#1}%
+\par%\vspace*{-\parsep}
+\parshape 1 \@totalleftmargin \linewidth
+}
+}{}
+
+
+\newcounter{saveeqno}
+\newenvironment{subeqnumbers}%
+  {\refstepcounter{equation}%
+% Gleichungsnummer erhoehen
+   \setcounter{saveeqno}{\value{equation}}%
+% aktuelle Gleichungsnummer speichern
+   \setcounter{equation}{0}%
+% Kleinbuchstabenzaehlung beginnt mit 'a'
+   \def\theequation{\thechapter.\arabic{saveeqno}\alph{equation}}%
+% Gleichungsnummer besteht aus Zahl mit angehaengtem Kleinbuchstaben
+   \def\label##1{
+   \immediate\write1{\string\newlabel{##1}%
+   {{(\thechapter.\arabic{saveeqno}\alph{equation})}{\thepage}}}}
+% Definition von \label anpassen
+% sofort ins aux-File schreiben
+   \def\mainlabel##1{
+   \immediate\write1{\string\newlabel{##1}%
+   {{(\thechapter.\arabic{saveeqno})}{\thepage}}}}}{%
+\setcounter{equation}{\value{saveeqno}}}
+
+\def\GFnull{\sl 0}
+\def\GFeins{\sl 1}
+\def\GFbox{\fbox{\sl 1}}
+
+\begingroup
+\catcode`\ =\active
+\catcode`0=\active
+\catcode`1=\active
+\catcode`2\active
+\gdef\GFmat{\let &\let0\GFnull\let1\GFeins\let2\GFbox}
+\endgroup
+
+\newenvironment{GFmatrix}[1]{%
+\catcode`\ =\active
+\catcode`0=\active
+\catcode`1=\active
+\catcode`2=\active
+\GFmat\left(\begin{array}{#1}%)(
+}{\end{array}\right)}
+
+\begingroup
+\catcode`\ =\active
+\catcode`@=\active
+\gdef\bsp{\let \s\let@\nosmile}
+\endgroup
+
+
+%\newenvironment{gnupicture}[2]{%
+%\unitlength#1pt\def\epsfsize##1##2{#1##1}%
+\newenvironment{gnupicture}[1]{%
+\unitlength.55bp%
+\begin{picture}(375,252)(-40,0)%%Bounding Box 50 50 410 302
+\put(0,0){\makebox(0,0)[lb]{\epsfbox{#1}}}}{\end{picture}}
+
+\def\lupe{\@setsize\lupe{6pt}\vpt\@vpt}
+
+\def\diagramm#1#2{\unitlength0.55bp
+%\def\epsfsize##1##2{0.55##1}%
+\hskip0.5cm\begin{picture}(380,272)(-10,-10)%%Bounding Box 50 50 410 302
+\tiny
+\put(0,10){\epsfbox{gnuplot/#1/#2.eps}}
+\put(23,235){\makebox(0,0)[r]{$\csname #1\endcsname$}}
+\put(25,225){\vector(0,1){20}}
+\put(340,3){\makebox(0,0)[t]{\rule{0pt}{6pt}$p$}}
+\put(330,5){\vector(1,0){20}}
+\end{picture}
+\begin{picture}(375,272)(-10,-10)%%Bounding Box 50 50 410 302
+\tiny
+\put(0,10){\epsfbox{gnuplot/#1/#2.SNR.eps}}
+\put(23,235){\makebox(0,0)[r]{$\csname #1\endcsname$}}
+\put(25,225){\vector(0,1){20}}
+\put(330,3){\makebox(0,0)[t]{\rule{0pt}{6pt}$SNR\,[{\rm dB}]$}}
+\put(320,5){\vector(1,0){20}}
+\end{picture}\par
+}
+
+
+\def\notation#1{\ialign{$##\hfil$&\quad##\hfil\crcr#1\crcr}}

@@ -1,0 +1,444 @@
+\chapter{Authentifikation}
+
+Wenn sich Alice in einen Hostrechner einloggt, wie kann er
+Rechner wissen, da\3 es wirklich Alice ist? Wie kann er
+erkennen, da"s Eve versucht sich als Alice auszugeben?
+"Ublicherweise wird dieses Problem mit Hilfe eines Passworts
+gel"ost. Alice gibt ihr Passwort ein und der Rechner "uberpr"uft, ob es
+korrekt ist. Alice und der Rechner haben ein gemeinsames Geheimnis, das
+der er jedesmal von Alice verlangt, wenn sie sich einloggen will.
+
+%%
+%% Authentifikation mit Einwegfunktionen
+%%
+
+\section{Authentifikation mit Einwegfunktionen}
+
+Roger Needham und Mike Guy bemerkten, da\3 der Host gar nicht die
+Passw"orter zu kennen braucht. Der Host mu\3 nur die richtigen
+Passw"orter von den falschen unterscheiden k"onnen. Dies kann einfach
+mit Einwegfunktionen realisiert werden. Der Host speichert nur die
+Werte $f(Passwort)$, wobei $f$ eine Einwegfunktion ist.
+\begin{enumerate}
+  \item Alice sendet ihr Passwort dem Host.
+  \item Der Host wendet eine Einwegfunktion auf das Passwort an.
+  \item Der Host vergleicht das Ergebnis mit dem zuvor gespeicherten Wert.
+\end{enumerate}
+Da jetzt der Host nicht die Passw"orter speichert, sondern nur die
+Werte der mit einer Einwegfunktion verschl"usselten Passw"orter, ist
+diese Liste f"ur einen Angreifer nicht direkt verwendbar, da er daraus die
+Passw"orter nicht mehr so leicht rekonstruieren kann.
+
+Diese Authentifikation ist nicht sonderlich sicher, da ein {\em
+W"orterbuchangriff} unternommen werden kann.  Eine Datei, die mit
+einer Einwegfunktion verschl"usselten Passw"orter enth"alt, stellt
+immer noch einen Schwachpunkt dar. Mallory erstellt eine Liste der am
+h"aufigsten benutzten Passw"orter, verschl"usselt jedes Passwort mit
+der Einwegfunktion und speichert die Ergebnisse. Mallory schafft es die
+Datei mit den verschl"usselten Passw"ortern, die sich auf dem
+Hostrechner befindet, zu stehlen und sucht nach "Ubereinstimmungen in
+den beiden Dateien. Dieser Angriff ist erstaunlich erfolgreich, was
+nicht an dem Verfahren mit der Einwegfunktion liegt, sondern ist den
+unachtsamen Benutzern anzulasten, da sie einfach erratbare Passw"orter
+w"ahlen.
+
+%%
+%% Authentifikation mit Public Key
+%%
+
+\section{Authentifikation mit Hilfe von Public Key}
+
+Die Protokolle zur Authentifikation mit Hilfe von Passw"ortern haben
+eine weitere enorme Sicherheitsl"ucke. Wenn Alice das Passwort zu
+ihrem Host sendet, kann Eve ihr Passwort lesen, wenn sie Zugang zu dem
+Kommunikationsweg oder dem Prozessorspeicher des Hosts hat.
+
+Mit Hilfe der Public-Key Kryptographie kann dieses Problem behoben
+werden. Der Host hat eine Datei mit den "offentlichen Schl"usseln
+aller Benutzer und alle Benutzer haben ihren "offentlichen
+Schl"ussel. Ein einfaches Protokoll kann wie folgt aussehen:
+\begin{enumerate}
+  \item Der Host sendet Alice eine Zufallszahl $r$.
+  \item Alice verschl"usselt $r$ mit ihrem geheimen Schl"ussel und
+        schickt das Chiffrat an den Host.
+  \item Der Host entschl"usselt das Chiffrat mit dem "offentlichen
+        Sch"ussel von Alice und vergleicht es mit $r$.
+\end{enumerate}
+Ein Angreifer kann sich jetzt nicht dem Host gegen"uber als Alice
+identifizieren, da er keinen Zugang zu Alices geheimen Schl"ussel
+hat. Alice sendet niemals ihren geheimen Schl"ussel "uber den
+Kommunikationsweg zu dem Host. Eve, die die Interaktion zwischen Alice
+und dem Host abh"ort, kann keine Information gewinnen, die es ihr
+erm"oglichen w"urde, Alices geheimen Schl"ussel zu berechnen oder sich
+als Alice auszugeben, ohne da\3 es der Host bemerkt. Weder der Host
+noch der Kommunikationsweg m"ussen sicher sein.
+
+Es ist f"ur Alice nicht geschickt, eine beliebige Zufallszahl $r$, die
+sie zugeschickt bekommt, zu verschl"usseln. Eve k"onnte dadurch
+die an Alice geschickten Nachrichten entschl"usseln. Ein verbessertes 
+Protokoll sieht wie folgt aus:
+\begin{enumerate}
+  \item Alice berechnet etwas, wobei sie eine eigene Zufallszahl und
+        ihren geheimen Schl"ussel verwendet, und schickt das Ergebnis
+        an den Host.
+  \item Der Host sendet Alice eine andere Zufallszahl.
+  \item Alice verwendet eine vorgegebene Funktion, um einen
+        Funktionswert, der von den beiden Zufallszahlen und ihrem
+        geheimen Schl"ussel abh"angt, zu berechnen und schickt das
+        Ergebnis an den Host.
+  \item Der Host "uberpr"uft dies.
+\end{enumerate}
+Falls Alice genauso wenig dem Host vertraut, wie der Host Alice traut,
+fordet sie ihn auf, sich ihr gegen"uber zu authentifizieren.
+
+%%
+%% Authentifikation mit Schl"usselaustausch
+%%
+
+\section{Authentifikation mit Schl"usselaustausch}
+
+Diese Protokolle verbinden die Authentifikation mit einem
+Schl"usselaustausch, um ein generelles Problem zu l"osen: Alice und
+Bob sind an zwei verschiedenen Enden eines Netzwerks und wollen sicher
+Daten "ubertragen. Wie k"onnen Alice und Bob einen geheimen Schl"ussel
+austauschen und dabei sicher sein, da\3 keiner von ihnen in
+Wirklichkeit mit einem Angreifer Mallory spricht? Die meisten dieser
+Protokolle basieren auf der Tatsache, da\3 eine Schl"usselzentrale mit
+jedem Teilnehmer einen gemeinsamen geheimen Schl"ussel besitzt und
+da\3 alle Schl"ussel am richtigen Ort sind, bevor das Protokoll
+beginnt.
+
+%%
+%% Wide-mouth frog
+%%
+
+\subsubsection*{Wide-mouth frog}
+
+Das wide-mouth frog Protokoll ist vielleicht das einfachste Protokoll,
+das ein symmetrisches Verfahren und eine vertrauensw"urdige
+Schl"usselzentrale benutzt.  Alice und Bob besitzen jeweils einen
+geheimen Schl"ussel $A$ bzw. $B$ mit der Schl"usselzentrale. Diese
+Schl"ussel werden nur f"ur den Schl"usselaustausch und nicht zur
+Verschl"usselung von eigentlichen Nachrichten verwendet. Mit Hilfe von
+nur zwei Nachrichten "ubermittelt Alice an Bob einen geheimen
+Sitzungsschl"ussel $K$.  Mit $T_A$ und $T_B$ werden Zeitstempel
+bezeichnet. Die Verschl"usselungsfunktionen $E_A$ und $E_B$ sind mit
+den geheimen Schl"usseln parametrisiert, die Alice und Bob mit der
+Schl"usselzentrale teilen.
+\begin{enumerate}
+  \item Alice erzeugt das Tupel $(Alice,E_A(T_A,Bob,K))$ und schickt es an
+        die Schl"us\-sel\-zen\-trale.
+  \item Die Schl"usselzentrale entschl"usselt die Nachricht von
+        Alice. Sie erzeugt einen neuen Zeitstempel $T_B$ und sendet das
+        verschl"usselte Tupel $E_B(T_B,Alice,K)$ an Bob.
+\end{enumerate}
+Die wichtigste Annahme bei diesem Protokoll ist, da\3 Alice kompetent
+ist, gute (sichere) Sitzungschl"ussel zu erzeugen. Man mu\3 beachten,
+da\3 es schwierig ist, Zufallszahlen zu erzeugen. Alice ist
+m"oglicherweise nicht dazu in der Lage.
+
+%%
+%% Needham-Schroeder
+%%
+
+\subsubsection*{Needham-Schroeder}
+
+Das Protokoll von Needham und Schroeder benutzt ein symmetrisches Verfahren
+und eine Schl"usselzentrale.
+\begin{enumerate}
+  \item Alice erzeugt eine Zufallszahl $R_A$ und schickt das Tupel
+        $(Alice,Bob,R_A)$ an die Schl"us\-sel\-zen\-trale.
+  \item Die Schl"usselzentrale erzeugt einen zuf"alligen
+        Sitzungsschl"ussel $K$ und schickt das Tupel
+        $E_A(R_A,Bob,K,E_B(K,Alice))$ an Alice.
+  \item Alice entschl"usselt und erh"alt den Sitzungsschl"ussel
+        $K$. Sie "uberpr"uft die Zufallszahl $R_A$ und schickt das
+        Tupel $E_B(K,Alice)$ an Bob.
+  \item Bob entschl"usselt und erh"alt den Sitzungsschl"ussel $K$. Er
+        erzeugt eine Zufallszahl $R_B$ und schickt das Tupel
+        $E_K(R_B)$ an Alice.
+  \item Alice entschl"usselt und erh"alt die Zufallszahl $R_B$. Sie
+        berechnet $R_B-1$ und schickt das Tupel $E_K(R_B-1)$ an Bob.
+  \item Bob pr"uft, ob $R_B-1$ geschickt wurde.
+\end{enumerate}
+
+%%
+%% Kerberos
+%%
+
+\subsubsection*{Kerberos}
+
+Das Kerberos-Protokoll ist eine Variante des
+Needham-Schroeder-Protokolls. Die Zufallszahl $R_A$ wird durch einen
+Zeitstempel ersetzt.
+\begin{enumerate}
+  \item Alice sendet das Tupel $(Alice,Bob)$ an die
+        Schl"usselzentrale.
+  \item Die Schl"usselzentrale schickt das Tupel
+        $(E_A(T_{SZ},L,K,Bob),E_B(T_{SZ},L,K,Alice))$ an Alice. Die
+        Nachricht wird mit einer G"ultigkeitsdauer $L$ und einem
+        Zeitstempel $T_{SZ}$ versehen.
+  \item Alice schick das Tupel
+        $(E_K(Alice,T_A),E_B(T_{SZ},L,K,Alice))$ an Bob.
+  \item Bob sendet das Tupel $E_K(T_A+1)$ an Alice.
+\end{enumerate}
+
+%%
+%% Neuman-Stubblebine
+%%
+
+\subsubsection*{Neuman-Stubblebine}
+
+\begin{enumerate}
+  \item Alice erzeugt eine Zufallszahl $R_A$ und sendet das Tupel
+        $(Alice,R_A)$ an Bob.
+  \item Bob erzeugt eine Zufallszahl $R_B$ und sendet das Tupel
+        $(Bob,R_B,E_B(Alice,R_A,T_B))$ mit einem Zeitstempel $T_B$
+        versehen an die Schl"usselzentrale.
+  \item Die Schl"usselzentrale erzeugt einen zuf"alligen
+        Sitzungsschl"ussel $K$ und sendet das Tupel
+        $E_A(Bob,R_A,K,T_B),E_B(Bob,K,T_B),R_B$ an Alice.
+  \item Alice entschl"usselt und "uberpr"uft, ob $R_A$ mit dem Wert im
+        1-ten Schritt "ubereinstimmt. Alice sendet
+        $E_B(Alice,K,T_B),E_K(R_B)$ an Bob.
+  \item Bob entschl"usselt und erh"alt den Sitzungsschl"ussel $K$. Er
+        "uberpr"uft, ob $T_B$ und $R_B$ mit den Werten im 2-ten
+        Schritt "ubereinstimmen.
+\end{enumerate}
+
+%%
+%% Digital Cash
+%%
+
+\section{Digital Cash}
+
+Ein ideales System f"ur "`Digital Cash"' soll folgende sechs
+Eigenschaften erf"ullen:
+\begin{itemize}
+  \item {\em Unabh"angigkeit}: das digitale Bargeld kann "uber Netze
+        verschickt und gespeichert werden.
+  \item {\em Sicherheit}: das digitale Bargeld kann nicht kopiert und
+        mehrfach benutzt werden.
+  \item {\em Nichzur"uckverfolgbarkeit}: Die Privatsph"are des
+        Benutzers ist gewahrt. Keiner kann feststellen, welche
+        Transaktionen vom Benutzer vorgenommen wurden.
+  \item {\em Off-line Bezahlung}: Bei der Bezahlung mit dem digitalen
+        Bargeld ist keine Kommunikation mit der Bank notwendig. Die
+        Bezahlung erfolgt off-line.
+  \item {\em "Ubertragbarkeit}: Das digitale Bargeld kann an andere
+        Benutzer "ubertragen werden.
+  \item {\em Teilbarkeit}: Das digitale Bargeld kann in kleinere
+        Betr"age aufgeteilt werden.
+\end{itemize}
+Das erste vorgeschlagene Protokoll, das alle diese Punkte erf"ullte,
+ben"otigt 200 MByte Datentransfer f"ur eine Buchung. Mitterweile
+existieren Protokolle, die nur 20 KByte Datentransfer brauchen und in
+wenigen Sekunden arbeiten.
+
+Im folgenden pr"asentieren wir ein Protokoll, das die ersten vier
+Eigenschaft erf"ullt. Wir werden das Protokoll schrittweise ausbauen,
+um Sicherheitsl"ucken zu beseitigen.
+
+\subsection{Erste Protokolle}
+
+\subsubsection*{1. Protokoll}
+\begin{enumerate} 
+  \item Alice stellt 100 anonyme Bankschecks "uber jeweils 1000 DM aus.
+  \item Alice steckt jeden Bankscheck zusammen mit Durchschlagspapier
+        in einen Umschlag und tr"agt dann alle Umschl"age zur Bank.
+  \item Die Bank "offnet 99 Umsch"age und pr"uft, ob der richtige
+        Betrag (1000 DM) auf jedem Scheck von Alice eingetragen wurde.
+  \item Die Bank unterzeichnet den letzten unge"offneten Umschlag. Die
+        Unterschrift der Bank wird durch das Durchschlagspapier auf
+        den Scheck "ubertragen.  Die Bank gibt den unge"offneten
+        Umschag an Alice zur"uck und belastet ihr Konto mit 1000 DM.
+  \item Alice "offnet den Umschag und verwendet den Scheck bei einem
+        H"andler.
+  \item Der H"andler "uberpr"uft die Unterschrift der Bank und
+        akzeptiert den Scheck.
+  \item Der H"andler bringt den Scheck zur Bank.
+  \item Die Bank "uberpr"uft ihre Unterschrift und zahlt 1000 DM dem
+        H"andler aus.
+\end{enumerate}
+Bei diesem Protokoll kann die Bank nicht feststellen, von wem der
+Scheck kommt. Die Wahrscheinlichkeit, da\3 ein Betrug von der Bank
+unentdeckt bleibt, betr"agt durch die 1-aus-100-Wahl lediglich
+$1/100$. Durch die Einf"uhrung einer Geldstrafe f"ur Betrug lohnt es
+sich nicht f"ur Alice zu betr"ugen.
+
+Allerdings gibt es noch eine Sicherheitsl"ucke, da Alice oder der
+H"andler den Scheck kopieren und mehrfach verwenden k"onnten. Mit dem
+folgenden Protokoll soll diese Sicherheitsl"ucke beseitigt werden.
+
+
+\subsubsection*{2. Protokoll} 
+
+\begin{enumerate}
+  \item Alice stellt 100 anonyme Bankschecks "uber jeweils 1000 DM
+        aus. Auf jeden Scheck tr\"agt sie eine Zufallszahl ein, die lang
+        genug ist, um die Wahrscheinlichkeit, da\3 eine andere Person
+        dieselbe Zufallszahl benutzt, verschwindened klein ist.
+  \item Alice steckt jeden Bankscheck zusammen mit Durchschlagspapier
+        in einen Umschlag und tr"agt alle Umschl"age zur Bank.
+  \item Die Bank "offnet 99 Umsch"age und pr"uft, ob der richtige
+        Betrag (1000 DM) und eine jeweils andere Zufallszahl auf jedem
+        Scheck von Alice eingetragen wurde.
+  \item Die Bank unterzeichnet den letzten unge"offneten Umschlag. Die
+        Unterschrift der Bank wird durch das Durchschlagspapier auf
+        den Scheck "ubertragen.  Die Bank gibt den unge"offneten
+        Umschag an Alice zur"uck und belastet ihr Konto mit 1000 DM.
+  \item Alice "offnet den Umschag und verwendet den Scheck bei einem
+        H"andler.
+  \item Der H"andler "uberpr"uft die Unterschrift der Bank und
+        akzeptiert den Scheck.
+  \item Der H"andler bringt den Scheck zur Bank.
+  \item Die Bank "uberpr"uft ihre Unterschrift und schaut in einer
+        Datenbank nach, ob ein Scheck mit derselben Zufallszahl
+        eingel"ost wurde. Falls nicht, dann zahlt die Bank dem
+        H"andler 1000 DM aus. Die Bank speichert die Zufallszahl in
+        ihrer Datenbank ab.
+  \item Falls aber ein Scheck mit derselben Zufallszahl eingel"ost
+        wurde, dann akzeptiert die Bank den Scheck nicht.
+\end{enumerate}
+Die Bank kann jetzt zwar einen Betrug feststellen, kann aber den 
+Betr"uger nicht identifizieren. Der H"andler ist im Nachteil, da er nicht 
+feststellen kann, ob Alice ihm eine Kopie des Schecks aush"andigt. 
+
+\subsubsection*{3. Protokoll}
+
+\begin{enumerate}
+  \item Alice stellt 100 anonyme Bankschecks "uber jeweils 1000 DM
+        aus. Auf jeden Scheck tr\"agt sie eine Zufallszahl ein, die lang
+        genug ist, um die Wahrscheinlichkeit, da\3 eine andere Person
+        dieselbe Zufallszahl benutzt, verschwindened klein ist.
+  \item Alice steckt jeden Bankscheck zusammen mit Durchschlagspapier
+        in einen Umschlag und tr"agt alle Umschl"age zur Bank.
+  \item Die Bank "offnet 99 Umsch"age und pr"uft, ob der richtige
+        Betrag (1000 DM) und eine jeweils andere Zufallszahl auf jedem
+        Scheck von Alice eingetragen wurde.
+  \item Die Bank unterzeichnet den letzten unge"offneten Umschlag. Die
+        Unterschrift der Bank wird durch das Durchschlagspapier auf
+        den Scheck "ubertragen.  Die Bank gibt den unge"offneten
+        Umschag an Alice zur"uck und belastet ihr Konto mit 1000 DM.
+  \item Alice "offnet den Umschag und verwendet den Scheck bei einem
+        H"andler.
+  \item Der H"andler "uberpr"uft die Unterschrift der Bank.
+  \item Der H"andler fordert Alice auf einen Zufallsstring auf den
+        Scheck zu schreiben.
+  \item Alice tut dies.
+  \item Der H"andler bringt den Scheck zur Bank.
+  \item Die Bank "uberpr"uft ihre Unterschrift und schaut in einer
+        Datenbank nach, ob ein Scheck mit derselben Zufallszahl
+        eingel"ost wurde. Falls nicht, dann zahlt die Bank dem
+        H"andler 1000 DM aus. Die Bank speichert die Zufallszahl und den
+        Zufallsstring in ihrer Datenbank ab.
+  \item Falls aber ein Scheck mit derselben Zufallszahl eingel"ost
+        wurde, dann akzeptiert die Bank den Scheck nicht. Sie
+        "uberpr"uft den Zufallsstring auf dem Scheck mit dem in der
+        Datenbank. Falls sie "ubereinstimmen, wei\3 die Bank, da\3 der
+        H"andler den Scheck kopiert hat. Falls sie verschieden sind,
+        dann wei\3 die Bank, da\3 die Person, die den Scheck gekauft
+        hat, ihn kopiert hat.
+\end{enumerate}
+
+Damit ist ein Betrug des H\"andlers, der sich der Bank zu erkennen
+gibt, nicht mehr m\"oglich, die anonyme Alice ist aber in der Lage zu
+betr\"ugen.
+Um Alices Anonymit\"at zu sichern, solange sie sich korrekt verh\"alt,
+ihre Identit\"at aber offenzulegen, sobald sie versucht, zu betr\"ugen
+bedarf es einiger Hilfsmittel, die jetzt bereitgestellt werden. Weiterhin
+ist noch eine elektronische Version der "`Unterschrift mit
+Durchschlagspapier"' zu finden.
+
+\subsection{Hilfsprotokolle}
+
+\subsubsection*{Blinde Unterschrift}
+
+Die Bank soll eine Nachricht $m$ von Alice ungesehen
+unterschreiben. F"ur die Signatur wird das RSA-Signaturverfahren
+benutzt. Die Bank verwendet ihren geheimen Schl"usse~$d$. Der
+"offentliche Schl"ussel $(e,n)$ ist allgeimein zug"anglich.
+
+Alice berechnet 
+$$ t := m \cdot k^e \pmod{n},$$
+wobei $k$ eine Zufallszahl ist.
+Die Bank signiert $t$, indem sie $t^d$ berechnet und das Ergebnis
+Alice liefert. Alice berechnet
+$$ s := t^d \cdot k^{-1} \equiv m^d \cdot (k^e)^d \cdot k^{-1}
+   \equiv m^{d} \cdot k^1 \cdot k^{-1} \equiv m^d \pmod{n} $$
+und erh"alt die mit dem geheimen Schl"ussel der Bank signierter
+Nachricht $m^d$. Die Bank kennt die Nachricht $m$ nicht.
+
+Die blinde Unterschrift entspricht dem Unterschreiben des Umschlags
+durch die Bank, wobei die Unterschrift durch das Durchschlagspapier
+auf den Scheck "ubertragen wird.
+
+
+\subsubsection*{Verschleiern einer Nachricht}
+
+Alice w"ahlt eine Zufallszahl $k$ und ver"offentlicht $(f(I,k),k)$,
+wobei $f$ eine bekannte Einwegfunktion ist. Jeder kann nach der
+Bekanntgabe von $I$ verifizieren, da\3 auch wirklich $f(I,k)$
+ver"offentlicht wurde.
+
+Mit dieser Technik l"a"st sich das Problem, die Anonymit"at einer
+ehrlichen Alice zu sichern und bei einem Betrug doch die Identit"at
+des Betr"ugers zu erhalten:
+
+Alice spaltet eine Bitfolge $I$, die ihre Identit"at vollst"andig
+beschreibt (Name, Adresse und alle anderen Informationen, die die Bank
+verlangt), in zwei Bitfolgen derart auf, da\3 $I = I_L \oplus I_R$ gilt.
+Dann ver\"offentlicht Alice einige dieser "`halbierten Identit\"aten"' in der Form
+$\left(f\left(I_{i_L},k_{i_1}\right),k_{i_1}\right)$ und
+$\left(f\left(I_{i_R},k_{i_2}\right),k_{i_2}\right)$.
+Kann man es erreichen, da\3 bei korrektem Verhalten von jedem Paar nur
+eine H\"alfte offengelegt wird, bei einem Betrug jedoch von mindestens
+einem Paar beide Teile, so ist diese scheinbar widerspr\"uchliche
+Anforderung von Anonymit\"at und Bekanntgabe der Identit\"at
+erf\"ullt.
+
+
+\subsection{Ein vollst\"andiges Protokoll}
+
+\begin{enumerate}
+  \item Alice stellt $n$ anonyme Bankschecks "uber einen festen,
+        jeweils identischen Betrag aus. Auf jeden Scheck tr\"agt sie
+        eine gen\"ugend lange Zufallszahl ein.
+        Auf jedem Scheck wird $m$ mal der Identit\"atsstring von
+        Alice eingetragen, jeweils auf verschiedene Weisen halbiert 
+        und verschleiert (s.o.).
+  \item Alle $n$ Schecks werden von Alice f\"ur eine blinde
+        Unterschrift der Bank vorbereitet.
+  \item Alice "offnet nach Wahl der Bank $n-1$ dieser Schecks;
+        die Bank pr\"uft den Betrag, die Zufallszahl und alle (von Alice
+        auch offengelegten) Identit\"atsstrings.
+  \item Die Bank signiert den letzten Scheck, gibt ihn Alice und belastet
+        ihr Konto.
+  \item Alice entfernt die Verschleierung und verwendet den Scheck bei einem
+        H"andler.
+  \item Der H"andler "uberpr"uft die Unterschrift der Bank.
+  \item Der H"andler fordert Alice auf von den $m$ Identit\"atsstrings
+        jeweils, nach seiner Wahl, die linke oder rechte H\"alfte bekanntzugeben.
+  \item Alice tut dies.
+  \item Der H"andler bringt den Scheck zur Bank.
+  \item Die Bank "uberpr"uft ihre Unterschrift und schaut in einer
+        Datenbank nach, ob ein Scheck mit derselben Zufallszahl
+        eingel"ost wurde. Falls nicht, dann zahlt die Bank dem
+        H"andler den Betrag aus. Die Bank speichert die Zufallszahl in
+        ihrer Datenbank ab.
+  \item Falls aber ein Scheck mit derselben Zufallszahl eingel"ost
+        wurde, dann akzeptiert die Bank den Scheck nicht. Sie
+        vergleicht die offengelegten H"alften der Identit"atsstrings 
+        mit denen des Schecks in der Datenbank. Falls sie alle "ubereinstimmen, 
+        wei\3 die Bank, da\3 der
+        H"andler den Scheck kopiert hat. Falls sie verschieden sind,
+        dann wei\3 die Bank, da\3 die Person, die den Scheck gekauft
+        hat, ihn kopiert hat.
+        Da der zweite H\"andler h\"ochst wahrscheinlich eine andere 
+        Kombination der halbierten Identit\"aten hat offenlegen lassen,
+        kennt die Bank jetzt von einem der Identit\"atsstrings beide 
+        H\"alften und damit die Identit\"at des Betr\"ugers.
+\end{enumerate}
+
+
+  

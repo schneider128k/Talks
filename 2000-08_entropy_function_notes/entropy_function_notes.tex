@@ -1,0 +1,653 @@
+\documentclass[10pt]{article}
+\usepackage{german,mathsym,amsfonts}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{satz}[theorem]{Satz}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{anmerk}{Anmerkung}[section]
+\newtheorem{bsp}{Beispiel}[section]
+\newtheorem{cor}[theorem]{Corollary}
+\newtheorem{alg}{Algorithm}[section]
+\title{Zusammenfassung der "Ubung zu Entropie}
+\author{Pawel Wocjan\footnote{Bei Fragen, Verbesserungsvorschl"agen, etc. 
+email an mich: \texttt{wocjan@ira.uka.de}}}
+\begin{document}
+\pagestyle{plain}
+\maketitle
+\tableofcontents
+\pagenumbering{arabic}
+\pagestyle{headings}
+
+
+\section{Kombinatorische Grundbegriffe}
+\subsection{Stirling-Approximation}
+\begin{definition}[Fakult"at]
+  Die f"ur alle nat"urlichen Zahlen $n\in\N$ definierte Funktion $f(n)=n!$, 
+  f"ur die gilt: $f(0)=1$ und f"ur alle $n$: $f(n+1)=(n+1)\cdot f(n)$, hei"st
+  $n$-Fakult"at.
+\end{definition}
+Zur n"ahrungsweisen Berechnung von $n!$ f"ur sehr gro"se Zahlen $n$ benutzt
+man die \emph{Stirlingsche Formel}.
+\begin{satz}[Stirlingsche Formel]
+Die Stirlingsche N"ahrung lautet
+$$
+  n! \approx \sqrt{2\pi n}  \cdot n^n \cdot e^{-n} \quad\mbox{bzw.}\quad
+  \ln(n!)\approx \left(n+{1\over 2}\right)\ln n - n + {1\over 2}\ln(2\pi) \,.
+$$
+\end{satz}
+%
+Beweis: (aus \cite{ham}) Zur Herleitung der Stirlingschen Formel, beweisen wir 
+zun"achst die folgenden Absch"atzungen:
+\begin{eqnarray*}
+  n! & <    & e^1 \sqrt{n}            \cdot n^n \cdot e^{-n} \\
+  n! & >    & e^{{7\over 8}} \sqrt{n} \cdot n^n \cdot e^{-n}
+\end{eqnarray*}
+Mit einem Trick k"onnen wir sie dann benutzen, um die Stirlingsche Formel
+herzuleiten.
+
+Der Beweis geht "uber die geometrisch anschauliche Absch"atzung 
+von $\int_1^n \ln x dx$ durch eine Obersumme $O$ und eine Untersumme $U$. 
+Es gilt
+$$
+  \int_{1}^n \ln x dx = n\ln n - n + 1.
+$$
+Anhand des folgenden Bildes (selber "uberlegen) wird die Untersumme $U$ 
+entwickelt. Wir approximieren den Fl"acheninhalt durch die Trapezregel:
+$$
+  \int_1^n \ln x\, dx \ge \sum_{i=1}^{n-1} {\ln i + \ln(i+1)\over 2}
+$$
+\begin{eqnarray*}
+  U & = & {1\over 2}\ln n + {1\over 2}\ln 1 + \sum_{i=2}^{n-1}\ln i \\
+    & = & \ln(n-1)! + {1\over 2}\ln n \\
+    & = & \ln n! - {1\over 2}\ln n
+\end{eqnarray*}
+Wir haben also $\ln n! - {1\over 2}\ln n < n\ln n - n + 1$. Wir l"osen nach
+$\ln n!$ auf und erhalten so
+$$ \ln n! < 1+{1\over 2}\ln n + n\ln n - n \, . $$
+Wir wenden die Exponentialfunktion auf diese Ungleichung und erhalten so die
+\emph{obere Schranke}
+$$
+  n! < n^n e^{-n} \sqrt{n} e \le n! \, .
+$$
+Die Berechnung f"ur die Obersumme $O$ ist etwas aufwendiger. Das folgende
+Bild macht sie anschaulich.
+Wir unterscheiden drei F"alle.
+\begin{itemize}
+  \item Der Fl"acheninhalt "uber $[1,1.5]$ wird durch den des Dreiecks
+    "uberboten, dessen Hypothenuse die Steigung $1$ hat. Dieses Dreieck
+    hat den Fl"acheninhalt $O_1={1\over 8}$.
+  \item "Uber den Intervallen $[i-{1\over 2}, i+{1\over 2}]$ f"ur 
+    $i=2,\ldots,n-1$ bilden wir Trapeze, deren Mittelinie die
+    L"ange $\ln i$ hat und deren Oberseite die Tangentensteigung der
+    Logarithmuskurve als Steigung hat. Der Fl"acheninhalt ist
+    H"ohe (hier die Intervall"ange) mal Mittelinie gleich $\ln i$. 
+    Alle Trapeze haben also insgesamt den Fl"acheninhalt
+    $O_2 = \sum_{i=2}^{n-1}\ln i = \ln(n-1)!$.
+  \item "Uber $[n-{1\over 2},n]$ bilden wir das Rechteck, dessen Seitenl"ange
+    $\ln n$ ist. Es hat den Fl"acheninhalt $O_3={1\over 2}\ln n$.
+\end{itemize}
+So ergibt sich insgesamt f"ur die Obersumme 
+\begin{eqnarray*}
+  O & = & O_1 + O_2 + O_3 \\
+    & = & {1\over 8} + \ln n! - {1\over 2}\ln n
+\end{eqnarray*}
+und damit 
+$$
+  {1\over 8} + {1\over 2}\ln n + n\ln n < \ln n! \, ,
+$$
+wenn wir nach $\ln n!$ aufl"osen. Wir wenden die Exponentialfunktion auf diese
+Ungleichung und erhalten so die \emph{untere Schranke}
+$$
+  n! > n^n e^{-n} \sqrt{n} e^{7/8} \, .
+$$
+Nach den Ungleichung ist $n!$ also $n^n e^{-n} \sqrt{n} C$, wobei $C$
+zwischen $e^{{7\over 8}}$ und $e$ liegt. Wir beweisen noch, da"s
+$$ \lim_{n\rightarrow\infty} C = \sqrt{2\pi} $$
+gilt.
+
+Um diesen Koeffizienten $C$ f"ur $n\rightarrow\infty$ zu berechnen,
+wenden wir einen Trick an und betrachten dazu das Integral
+$$ I_k = \int_0^{\pi/2} \cos^k x dx $$
+f"ur $k\ge 0$. Die trigonometrische Identit"at $\cos^2 x = 1-\sin^2 x$ 
+liefert f"ur $k\ge 2$
+\begin{eqnarray*}
+  I_k & = & \int_0^{\pi/2} \cos^{k-2} x (1-\sin^2 x) dx \\
+      & = & I_{k-2} + \int_0^{\pi/2} \cos^{k-2} x (-\sin x) \sin x dx \\
+      & = & I_{k_2} + 
+            {1\over k-1} \int_0^{\pi/2} (\cos^{k-1} x)'\cdot\sin x dx \, .
+\end{eqnarray*}
+Partielle Integration ergibt nun
+\begin{eqnarray*}
+  I_k & = & I_{k-2} + {\cos^{k-1} x\over k-1} \sin x\vert_0^{\pi/2} -
+            {1\over k-1} \int_0^{\pi/2} \cos^{k-1} x \cos x dx \\
+      & = & I_{k-2} - {1\over k-1} I_k\,.
+\end{eqnarray*}
+Bei der Aufl"osung nach $I_k$ erhalten wir die Rekurrenzformel 
+$$
+  I_k = {k-1\over k} I_{k-2}
+$$
+f"ur $k\ge 2$. Man kann leicht zeigen, da"s
+\begin{eqnarray*}
+  I_1 & = & 1 \\
+  I_0 & = & {\pi \over 2} 
+\end{eqnarray*}
+gilt.
+
+Wir bemerken nun, da"s wegen $\cos x\le 1$ ($x\in [0,{\pi\over 2}]$) gilt
+$$ I_{2k-1} > I_{2k} > I_{2k+1}\,. $$
+Wir teilen diese Ungleichung durch $I_{2k-1}$ und erhalten 
+$$ 1 > {I_{2k}\over I_{2k-1}} > {I_{2k+1}\over I_{2k-1}}\, . $$
+Wir ersetzen sukzessive die Terme mit Hilfe der Rekurrenzformel und erhalten
+$$ 1 > 2k \left[ {2k-1\over 2k} {2k-3\over 2k-2} \cdots {3\over 2}\right]^2
+       {\pi\over 2}
+     > {2k\over 2k+1}  $$
+Wir k"onnen den Z"ahler in der eckigen Klammer gleich $(2k)!$ machen, indem
+wir den Bruch mit dem dem Nenner erweitern. Wir verwenden
+$$ 2k(2k-2)(2k-4)\cdots = 2^k k! $$
+und erhalten
+$$ 1 > \pi k \left[ {(2k)! \over 2^k\cdot (k!)\cdot 2^k\cdot (k!)} \right]^2 
+     > {2k\over 2k+1} \, .$$
+Wir ziehen nun aus jedem Glied die positive Quadratwurzel 
+$$ 1 > \sqrt{\pi k}\left[{(2k)!\over (k!)^2\cdot 2^{2k}}\right]
+     > \sqrt{1-{1\over 2k+1}} $$
+Schlie"slich setzen wir die N"ahrung
+$$ n! = n^n e^{-n} \sqrt{n} C $$
+in diese Ungleichung f"ur jede Fakult"at ein und erhalten 
+$$ 1 > \sqrt{\pi k}\left[{ (2k)^{2k} e^{-2k}\sqrt{2k} C\over
+       2^{2k} k^k e^{-k} \sqrt{k} C k^k e^{-k} \sqrt{k} C} \right] 
+     > \sqrt{1-{1\over 2k+1}} $$
+Deshalb gilt f"ur $k\rightarrow\infty$
+$$ C\rightarrow \sqrt{2\pi}. $$
+Damit haben wir die Stirlingsche Formel bewiesen
+$$
+  n\approx\sqrt{2\pi n} \cdot n^n \cdot e^{-n} \, .
+$$
+Das Verh"altnis des Stirlingschen N"ahrungswertes zum wahren Wert ist selbst
+f"ur kleine Werte bemerkenswert gut. Die N"ahrung ist so beschaffen, da"s sie
+f"ur $n\rightarrow\infty$ \emph{relative} exakt ist, die Differenz jedoch 
+\emph{nicht} Null erreicht.
+
+Wenn dies ungewohnt erscheint, so betrachte man die beiden Funktionen
+\begin{eqnarray*}
+  f(n) & = & n + \sqrt{n} \\
+  g(n) & = & n
+\end{eqnarray*}
+Der Limes des Verh"altnisses ist
+$$ {f(n)\over g(n)}={n+\sqrt{n}\over n}=1+{1\over\sqrt{n}}\rightarrow 1\, .$$
+Die Differenz betr"agt jedoch 
+$$ f(n)-g(n)=\sqrt{n}\rightarrow\infty \, .$$
+Die Approximation $n\approx\sqrt{2\pi n} \cdot n^n \cdot e^{-n}$ ist schon 
+f"ur kleine Werte von $n$ genau, aber es gibt noch sch"arfere 
+Absch"atzungen
+$$
+  \sqrt{2\pi n} \cdot n^n \cdot e^{-n} \cdot e^{\frac{1}{12n+1}} < n ! <
+  \sqrt{2\pi n} \cdot n^n \cdot e^{-n} \cdot e^{\frac{1}{12n}}\, ,
+  \label{scharfStirling}
+$$
+deren Beweis in \cite{krengel91} gefunden werden kann.
+
+\subsection{Binomial- und Multinominalkoeffizienten}
+\begin{definition}[Binominalkoeffizient]
+  Die f"ur alle nat"urlichen Zahlen $n$ und $k$ ($0\le k\le n$) definierte 
+  Funktion 
+  $$
+    {n\choose k} = {n!\over k!\, (n-k)!} 
+  $$
+  hei"st Binominalkoeffizient.
+\end{definition}
+Die Werte des Binominalkoeffizienten k"onnen sukzessiv aus dem 
+\emph{Pascalschen Dreieck} ermittelt werden.
+\begin{definition}[Multinominalkoeffizient]
+  Die f"ur alle nat"urlichen Zahlen $n$ und alle $q$-Tupel 
+  $(k_1,k_2,\ldots,k_q)$, f"ur die $\sum_{i=1}^q k_i=n$ gilt, erkl"arte
+  Funktion
+  $$
+    {n\choose k_1, k_2,\ldots, k_q}={n!\over k_1!\, k_2! \cdots k_q!}
+  $$
+  hei"st Multinominalkoeffizient.
+\end{definition}
+%
+\begin{anmerk}
+  Der Binominalkoeffizient ${n\choose k}$ ist demnach ein spezieller 
+  Multinominalkoeffizient ${n \choose k_1, k_2}$ mit $k_1=k$ und $k_2=n-k$.
+\end{anmerk}
+
+
+\section{Die Rolle der Entropie bei asymptotischen Ab\-sch"atzungen}
+Wir f"uhren den Begriff der Entropie ein und kl"aren ihre Beudeutung bei
+asympotischen Absch"atzungen.
+
+\subsection{Kompositionsklassen}
+Mit ${\cal A}_q$ bezeichnen wir ein endliches \emph{Alphabet}, d.h. eine 
+endliche Menge 
+$$ {\cal A}_q=\{a_1, a_2,\ldots, a_q\} \, ,$$
+die $q$ verschiedene Symbole $a_1, a_2,\ldots, a_q$ enth"alt. Wir betrachten 
+Sequenzen der L"ange $n$ "uber ${\cal A}_q$. Die Anzahl der Sequenzen w"achst
+exponentiell mit der L"ange $n$.
+
+"Ublicherweise werden die Sequenzen \emph{lexikographisch} geordnet, wobei
+$$ a_1 < a_2 < \ldots < a_q $$
+gilt. Wir betrachten  jetzt eine andere Ordnung, die sp"ater eine 
+zentrale Rolle spielen wird. Dazu definieren wir f"ur jede Sequenz "uber
+dem Alphabet ${\cal A}_q$ der L"ange $n$ das $q$-Tupel
+$$ \vec{k}=(k_1, k_2, \ldots, k_q) \mbox{ mit } 
+  \sum_{i=1}^n k_i=n \, ,$$
+wobei $k_i$ angibt, wie oft das Symbol $a_i$ in der Sequenz vorkommt
+(die Reihenfolge ist dabei egal). Eine \emph{Kompositionsklasse} besteht
+aus Sequenzen, deren $\vec{k}$'s "ubereinstimmen. Die Anordnung der
+Sequenzen innerhalb einer Kompositionsklasse nicht entscheidend; wir werden
+sie lexikographisch anordnen. Wir ordnen die Kompositionsklassen 
+lexikographisch bez"uglich ihrer zugeh"origen $\vec{k}$-Vektoren an.
+F"ur gegebene $q$ und $n$ ist eine Kompositionsklasse durch ihr zugeh"origes
+$q$-Tupel $\vec{k}$ eindeutig bestimmt.
+%
+\begin{definition}
+  Die Anzahl der verschiedenen Kompositionsklassen f"ur gegebene $q$ und $n$
+  wird mit ${\cal K}(q,n)$ bezeichnet.
+\end{definition}
+%
+\begin{satz}
+Die Anzahl der verschiednen Kompositionsklassen ${\cal K}(q,n)$ ist die 
+Anzahl der verschiedenen Kombinationen mit Wiederholung von $n$ Elementen der 
+Ordnung $q$ und damit 
+$$ {\cal K}(q,n)=A(\tilde{C}_q^n) = {n+q-1\choose q} \, . $$
+\end{satz}
+%
+\begin{definition}
+Die Anzahl der Sequenzen in der Kompositionsklasse mit dem zugek"origen Tupel
+hei"st \emph{Multiplizit"at} $M(\vec{k})$ der Kompositionsklasse.
+\end{definition}
+%
+\begin{satz}
+Die Multiplizit"at $M(\vec{k})$ der Kompositionsklasse mit dem zugeh"origen
+Tupel $\vec{k}=(k_1,k_2,\ldots,k_q)$ ist durch
+den Multinominalkoeffizienten 
+$$ M(\vec{k}) = {n \choose k_1, k_2,\ldots, k_q}\,, $$
+gegeben, wobei $n=\sum_{i=1}^q k_i$.
+\end{satz}
+
+
+\subsection{Herleitung der bin"aren Entropiefunktion}
+Wir betrachten hier den Fall $q=2$ und bezeichnen die beiden Symbole mit
+$A$ und $B$. Wir werden die bin"are Entropiefunktion herleiten und ihre 
+Bedeutung bei asymptotischen Absch"atzungen erkl"aren. Diese Ergebnisse werden 
+im n"achsten Abschnitt f"ur $q>2$ verallgemeinert.
+
+Wir wollen das asymptotische Verhalten der Gr"ossen von Kompositionsklassen 
+f"ur $n\rightarrow\infty$ untersuchen, wobei die relative H"aufigkeit der 
+$A$'s gleich bleiben soll. Wir betrachten also eine Folge von 
+Kompositionsklassen mit den Paaren $\vec{k}=(k_A,k_B)$, wobei 
+$k_A=\lambda n$ und $k_B = (1-\lambda) n$. Wir wissen, da"s die Gr"ossen 
+durch die Binominalkoeffizienten ${n\choose \lambda n}$ gegeben sind. Wir
+benutzten die Approximationen 
+$$
+  \sqrt{2\pi n} \cdot n^n \cdot e^{-n} \cdot e^{\frac{1}{12n+1}} < n ! <
+  \sqrt{2\pi n} \cdot n^n \cdot e^{-n} \cdot e^{\frac{1}{12n}} \, ,
+$$
+um Absch"atzungen f"ur die Binominalkoeffizienten zu bekommen.
+
+Als untere Schranke f"ur den Binomialkoeffizienten 
+$$ {n \choose k} = {n! \over k! (n-k)!} $$
+erhalten wir
+$$ {1\over\sqrt{2\pi n \lambda (1-\lambda)}} \cdot
+   n^n \cdot k^{-k} \cdot (n-k)^{-(n-k)} \cdot
+   e^{{1\over 12n+1} - {1\over 12k} - {1\over 12(n-k)}}, $$
+indem wir f"ur den Z"ahler $n!$ die obige Unterschranke und f"ur die Faktoren
+$k!$ und $(n-k)!$ im Nenner die Oberschranke verwenden.
+Der Logarithmus des Terms $n^n \cdot k^{-k} \cdot (n-k)^{-(n-k)}$ ist
+$$ n\log_2 n - k\log_2 k - (n-k)\log_2 (n-k).$$
+Wenn wir $n\log_2 n$ in die Summe $k\log_2 n + (n-k)\log_2 n$ aufspalten und
+die Logarithmenregeln anwenden, vereinfacht sich der Ausdruck zu
+$$ k\log {n\over k} + (n-k)\log_2 (n-k). $$
+Wir verwenden jetzt, da"s die relative H"aufigkeit $\underline{k}_A=\lambda$ 
+fest bleibt, d.h.
+$k=k_A=\lambda n$, und damit
+$$ n\left
+      (\lambda\log_2{1\over\lambda} + (1-\lambda)\log_2{1\over 1-\lambda}
+    \right) =
+   n H_2(\lambda), $$
+wobei
+$$
+  H_2(\lambda) = -\lambda \log_2 \lambda - (1-\lambda) \log_2 (1-\lambda)
+$$
+die \emph{bin"are Entropiefunktion} bezeichnet. Die \emph{Unterschranke} f"ur
+den Binominalkoeffizienten ist also
+$$
+  {1\over\sqrt{2\pi n \lambda (1-\lambda)}} \cdot 
+  2^{n H_2(\lambda)} \cdot 
+  e^{{1\over 12n+1} - {1\over 12\lambda n} - {1\over 12(1-\lambda)n}}
+  \le {n \choose \lambda n}.
+$$
+Die \emph{Oberschranke} wird analog hergeleitet. Sie ist
+$$
+  {n \choose \lambda n} \le
+  {1\over\sqrt{2\pi n \lambda (1-\lambda)}} \cdot 
+  2^{n H_2(\lambda)} \cdot
+  e^{{1\over 12n} - {1\over 12\lambda n+1} - {1\over 12(1-\lambda)n+1}}.
+$$
+Wir k"onnen die Oberschranke auch als
+$$
+  2^{n H_2(\lambda)} \cdot
+  2^{-{1\over 2} \log_2 (2\pi n \lambda (1-\lambda)) +
+    \log_2 e \cdot ({1\over 12n} - {1\over 12\lambda n+1} - 
+    {1\over 12(1-\lambda)n+1})}
+$$
+schreiben, indem wir den Logarithmus von der Wurzel ziehen und ihn im 
+Exponenten schreiben. Der Term 
+$$  {1\over 2} \log_2 (2\pi n \lambda (1-\lambda)) -
+    \log_2 e \cdot \left({1\over 12n} - {1\over 12\lambda n+1} - 
+    {1\over 12(1-\lambda)n+1}\right) $$
+kann in der Funktionsklasse $o(n)$ versteckt werden, wobei
+$$ o(n) := \left\{ f : \N \rightarrow \R \, , \lim_{n\rightarrow\infty}
+                   {f(n)\over n} = 0 \right\} \, . $$
+Damit haben wir den folgenden Satz bewiesen:
+\begin{satz}[Die bin"are Entropiefunktion]\label{binaereEntropie}
+Es gilt:
+$$
+  {n\choose \lambda n} = 2^{n H_2(\lambda)-o(n)}
+$$
+Genauer:
+$$
+  2^{n H_2(\lambda)-f(n)} \le {n\choose \lambda n} 
+  \le 2^{n H_2(\lambda)-g(n)} \, ,
+$$
+wobei 
+\begin{eqnarray*}
+  f(n) & = & 
+  {1\over 2} \log_2 (2\pi n \lambda (1-\lambda)) -
+    \log_2 e \cdot \left({1\over 12n+1} - {1\over 12\lambda n} - 
+    {1\over 12(1-\lambda)n}\right) \\
+  g(n)  & = & 
+  {1\over 2} \log_2 (2\pi n \lambda (1-\lambda)) -
+    \log_2 e \cdot \left({1\over 12n} - {1\over 12\lambda n+1} - 
+    {1\over 12(1-\lambda)n+1}\right)
+\end{eqnarray*}
+\end{satz}
+
+
+\subsection{Die $q$-n"are Entropiefunktion}
+\begin{definition}[Die $q$-n"are Entropiefunktion]
+Es sei
+$\vec{\underline{k}}=(\underline{k}_1,\underline{k}_2,\ldots,\underline{k}_q)$
+mit $\underline{k}_i\ge 0$ und $\sum_{i=1}^q \underline{k}_i=1$.
+Die Funktion
+$$
+  H_q(\vec{\underline{k}}) = 
+  \sum_{i=1}^q \underline{k}_i\log \underline{k}_i
+$$
+hei"st die \emph{$q$-n"are Entropiefunktion}. Mit dem $q$-Tupel
+$\vec{\underline{k}}$ werden die relativen H"aufigkeiten der Alphabetsymbole
+$a_1,a_2,\ldots,a_q$ festgelegt.
+\end{definition}
+"Ahnlich im bin"aren Fall kann die $q$-n"are Entropiefunktion heranzienhen, um
+Multiplizit"aten von Kompositionsklassen zu abzusch"aten:
+$$ M(\vec{k})={n \choose k_1, k_2, \ldots, k_q} \approx 
+2^{n H_q(\vec{\underline{k}})}\,. $$
+
+
+\section{Entropie als Ungewi"sheit}
+Wir haben im vorhergehenden Abschnitt die Entropie hergeleitet und ihre
+Bedeutung bei asymptotischen Absch"atzungen erl"autert. Jetzt wollen wir
+zeigen, da"s die Entropie auch ein Ma"s f"ur Ungewi"sheit darstellt. Dieser
+Zugang wird "ublicherweise in der Informationstheorie benutzt. Betrachten wir
+einige Beispiele, die verdeutlichen, was eigentlich Ungewi"sheit bedeutet:
+\begin{itemize}
+  \item Der Ausgang eines Rennens zwischen zwei ebenb"urtigen Pferden ist
+    nicht so ungewi"s wie der eines Rennens zwischen sechs ebenb"urtigen
+    Pferden.
+  \item Beim Roulette ist das Ergebnis ungewisser als bei einem W"urfelwurf.
+  \item Wird ein unverf"alschter W"urfel geworfen, ist das Ergebnis 
+    ungewisser, als wenn ein einseitig belasteter W"urfel geworfen wird,
+    bei dem die Wahrscheinlichkeit ${1\over 10}$ besteht, eine der Zahlen
+    $1$ bis $5$ zu w"urfeln, und ${1\over 2}$, eine $6$ zu w"urfeln.
+\end{itemize}
+Wir fordern axiomatisch einige Eigenschaften, die man sinnvollerweise von
+der Ungewi"sheit erwartet und zeigen dann, da"s die Entropiefunktion die einzige
+Funktion ist, die diese Eigenschaften erf"ullt. Deswegen stellt die 
+Entropie ein Ma"s f"ur die Ungewi"sheit dar.
+\subsection*{Eigenschaften der Ungewissheit}
+\begin{itemize}
+  \item[E1] $H$ ist eine symmetrische Funktion der Argumente 
+    $p_1,p_2,\ldots,p_q$, d.h. 
+    f"ur jede Permutation $\pi$ von $1,2,\ldots,q$ gilt:
+    $$  H(p_1,p_2,\ldots,p_q)=H(p_{\pi(1)},p_{\pi(1)},\ldots,p_{\pi(1)})\,. $$
+    Es kommt lediglich auf die Wahrscheinlichkeiten an und nicht auf deren
+    Reihenfolge.
+  \item[E2] $H$ ist eine nichtnegative Funktion, d.h. es gilt:
+    $$ H(p_1,\ldots,p_q)\ge 0\,. $$
+    $H$ nimmt den Wert Null an, genau dann wenn
+    $$ \exists i : p_i=1 \,. $$
+    Die Ungewissheit ist eine von Natur aus positive Gr"o"se und nimmt nur
+    dann den Wert Null an, wenn keine Zuf"alligkeit vorhanden ist.
+  \item[E3] $H$ hat ein Maximum, genau dann wenn
+    $$ p_1=p_2=\ldots =p_q={1\over q} \, , $$
+    d.h.
+    $$ \max_{p_1,\ldots,p_q} H\left(p_1,\ldots,p_q\right) = 
+       H\left({1\over q},\ldots,{1\over q}\right) \, . $$
+    Der Ausgang eines Rennens ist h"ochst ungewi"s, wenn alle Pferde
+    ebenb"urtig sind.
+  \item[E4] Es gilt:
+    $$ H\left({1\over q},\ldots,{1\over q}\right) \le 
+       H\left({1\over q+1},\ldots,{1\over q+1}\right) $$
+    Der Ausgang eines Rennens mit zwei ebenb"urtigen Pferden ist weniger
+    ungewi"s als der eines Rennens mit drei ebenb"urtigen Pferden.
+  \item[E5] Es gilt:
+    $$ H\left({1\over q_1 q_2},\ldots,{1\over q_1 q_2}\right) =
+       H\left({1\over q_1},\ldots,{1\over q_1}\right) + 
+       H\left({1\over q_2},\ldots,{1\over q_2}\right) $$
+    Die Gesamtungewi"sheit der Ausg"ange von zwei unabh"angigen Pferderennen,
+    an denen jeweils ebenb"urtige Pferde teilnehmen, besteht aus der Summe der
+    Ungewi"sheiten der einzelnen Pferderennen.
+  \item[E6] Es gilt:
+    $$ H\left({1\over q},\ldots,{1\over q},0\right) = 
+       H\left({1\over q},\ldots,{1\over q}\right)$$
+    Der Ausgang eines Rennens, an dem zus"atzlich ein Holzpferd teilnimmt,
+    bleibt gleich ungewi"s.
+  \item[E7] $H$ sollte eine stetige Funktion ihrer Argumente sein, d.h. bei
+    kleinen "Anderungen der Wahrscheinlichkeiten sollte sich die
+    Ungewi"sheit nicht wesentlich "andern.
+  \item[E8] Es seien $p^{(1)}=p^{(1)}_1+\ldots +p^{(1)}_{q_1}$ und
+    $p^{(2)}=p^{(2)}_1+\ldots +p^{(2)}_{q_2}$.
+    Dann l"a"st sich bei $p^{(1)}+p^{(2)}=1$ 
+    $$ H\left(p^{(1)}_1,\ldots,p^{(1)}_{q_1},
+              p^{(2)}_1,\ldots,p^{(2)}_{q_2}\right) $$
+    wie folgt zerlegen
+    $$ H\left(p^{(1)},p^{(2)}\right) + 
+       p^{(1)}\,
+H\left({p^{(1)}_1\over p^{(1)}},\ldots ,{p^{(1)}_{q_1}\over p^{(1)}}\right) +
+       p^{(2)}\,
+H\left({p^{(2)}_1\over p^{(2)}},\ldots ,{p^{(2)}_{q_2}\over p^{(2)}}\right)\,.
+    $$
+    Die obige Situation tritt beispielsweise bei einem Pferderennen auf, an 
+    dem zusammen $q_1$ schwarze Pferde und $q_2$ weisse Pferde teilnehmen.
+    Dabei ist $p^{(1)}_i$ die Wahrscheinlichkeit, da"s das $i$-te 
+    schwarze Pferd gewinnt, und $p^{(2)}_j$ die Wahrscheinlichkeit, da"s das 
+    $j$-te weisse Pferd gewinnt. Folglich sind $p^{(1)}$ und
+    $p^{(2)}$ die Wahrscheinlichkeiten, da"s ein schwarzes bzw. ein weisses 
+    Pferd gewinnt.
+
+    Die Gesamtungewi"sheit ergibt sich nun aus Summe der Ungewi"sheit, ob ein 
+    schwarzes oder weisses Pferd gewinnt, sowie den gewichteten Ungewi"sheiten 
+    unter der Voraussetzung, da"s der Gewinner ein schwarzes bzw. weisses Pferd 
+    ist.
+\end{itemize}
+%
+Das folgende Theorem zeigt, da"s die Entropiefunktion die einzige Funktion
+ist, die die Eigenschaften E1-E8 der Ungewi"sheit erf"ullt.
+%
+\begin{theorem}[Entropie als Ma"s f"ur Ungewi"sheit]
+  Es sei $H(p_1,\ldots,p_q)$ eine Funktion, die f"ur alle Zahlen
+  $p_1,\ldots,p_q\in \mathbb{R}$ mit
+  $$ p_i\ge 0 \mbox{ und } \sum_{i=1}^q p_i = 1 $$
+  definiert ist. Wenn $H$ die Eigenschaften E1 bis E8 erf"ullen soll, dann gilt
+  $$ H(p_1,\ldots,p_q)=-\lambda\sum_{i=1}^q p_i\log_b p_i \, .$$
+  Hierbei ist $\lambda\in\mathbb{R}$ eine beliebige positive Konstante, und die
+  Summe wird "uber diejenigen $i$ gebildet, f"ur die $p_i>0$ gilt.
+\end{theorem}
+Beweis: Wir definieren
+$$ g(q)=H\left({1\over q},{1\over q},\ldots,{1\over q}\right) $$
+f"ur alle $q\in\mathbb{N}$. 
+Nach E5 
+$$ H\left({1\over q_1 q_2},\ldots,{1\over q_1 q_2}\right) =
+   H\left({1\over q_1},\ldots,{1\over q_1}\right) + 
+   H\left({1\over q_2},\ldots,{1\over q_2}\right) $$
+gilt (setze $q_1=q_2=q$)
+$$ g(q^2)=g(q)+g(q)=2 g(q) $$
+und damit
+$$ g(q^k)=k\cdot g(q) $$
+f"ur $k\in\mathbb{N}$. Nach E4
+$$ H\left({1\over q},\ldots,{1\over q}\right) \le
+   H\left({1\over q+1},\ldots,{1\over q+1}\right) $$
+gilt 
+$$ g(q)\le g(q+1) $$  
+und damit sieht man, da"s $g$ eine monoton steigende Funktion, d.h.
+$$ g(q_1)\le g(q_2)$$
+f"ur $q_1\le q_2$ und $q_1,q_2\in\mathbb{N}$. Funktionen, die 
+diese beiden Eigenschaften erf"ullen, sind die elementaren Funktionen
+$$ g(q)=A\log_b(q) \, $$
+wobei $A\in\R^+$ eine Konstante ist und der Logarithmus zu einer beliebigen
+Basis $b>1$ genommen wird.
+
+Als n"achstes betrachten wir die Eigenschaft E8: F"ur 
+$p^{(1)}=p^{(1)}_1+\ldots +p^{(1)}_{q_1}$
+und
+$p^{(2)}=p^{(2)}_1+\ldots +p^{(2)}_{q_2}$ l"a"st sich 
+$$ H\left(p^{(1)}_1,\ldots,p^{(1)}_{q_1},p^{(2)}_1,\ldots,p^{(2)}_{q_2}\right)
+$$
+in
+$$ H\left(p^{(1)},p^{(2)}\right) + 
+   p^{(1)}\cdot 
+   H\left({p^{(1)}_1\over p^{(1)}},\ldots,{p^{(1)}_{q_1}\over p^{(1)}}\right) +
+   p^{(2)}\cdot
+   H\left({p^{(2)}_1\over p^{(2)}},\ldots,{p^{(2)}_{q_2}\over p^{(2)}}\right)
+$$
+zerlegen. F"ur $q=q_1+q_2$ und 
+$$ p^{(1)}_1 = \ldots = p^{(1)}_{q_1} = {1\over q} $$
+$$ p^{(2)}_1 = \ldots = p^{(2)}_{q_2} = {1\over q} $$
+haben wir
+$p^{(1)}={q_1\over q}$ und $p^{(2)}={q_2\over q} = {q-q_1\over q}$. Nach E8
+l"ast sich $g(q)$ als 
+$$ H\left({q_1\over q},{q-q_1\over q}\right) +
+   {q_1\over q} 
+   \underbrace{H\left({1\over q_1},\ldots,{1\over q_1}\right)}_{g(q_1)} +
+   {q-q_1\over q} 
+   \underbrace{H\left({1\over q-q_1},\ldots,{1\over q-q_2}\right)}_{g(q-q_1)}
+$$
+schreiben. Wir haben also
+$$ g(q)=H\left({q_1\over q},{q-q_1\over q}\right)+
+   {q_1\over q} g(q_1) + 
+   {q-q_1\over q} g(q-q_1)\,. $$
+Wenn wir jetzt $g(x)=A\log x$ ausnutzen, so erhalten wir mit elementaren
+Umformungen
+\begin{eqnarray*}
+  H\left({q_1\over q},{q-q_1\over q}\right) 
+  & = & 
+  A\left(\log q - {q_1\over q}\log q_1 - {q-q_1\over q}\log (q-q_1)\right)\\
+  & = &
+  -A\left(\log q_1^{{q_1\over q}}+\log(q-q_1)^{{q-q_1\over q}}-\log q\right)\\
+  & = &
+  -A\log {q_1^{{q_1\over q}} \cdot (q-q_1)^{{q-q_1\over q}}\over q}\\
+  & = &
+  -A\log\left(
+       \left({q_1\over q}\right)^{{q_1\over q}}
+  \cdot\left({q-q_1\over q}\right)^{{q-q_1\over q}}
+  \right) \\
+  & = & 
+  -A\log\left({q_1\over q}\log_2\left({q_1\over q}\right) +
+              {q-q_1\over q}\log_2\left({q-q_1\over q}\right)
+  \right) \\
+  & = &
+  -A\left(p\log p + (1-p)\log(p-1)\right) \\
+  & = &
+  H(p,1-p)
+\end{eqnarray*}
+Damit haben wir f"ur $q=2$ die L"osung.
+Wir vermuten nun, da"s allgemein 
+\begin{equation}
+  H(p_1,p_2,\ldots,p_q) = -A \sum_{i=1}^q p_i\log p_i
+\end{equation}
+gilt. Wir beweisen dies mit vollst"andiger Induktion. Die 
+Induktionsverankerung ist die L"osung f"ur $q=2$. Die Induktionsannahme ist,
+da"s die obige Gleichung bis zu einem gewissen $q\in\mathbb{N}$ gilt. Wir
+machen den Induktionsschlu"s auf $q+1$ und betrachten dazu
+$$ H(p_1,p_2,\ldots,p_q,p_{q+1}) \, . $$
+Wir setzen $p_i^{(1)}=p_i$ f"ur $i=1,\ldots,q$, 
+$p^{(1)}=\sum_{i=1}^q p_i^{(1)}$ und $p^{(2)}=p_1^{(2)}=p_{q+1}$ und wenden
+wieder E8 an. Mit elementaren Umformungen erhalten wir dann
+\begin{eqnarray*}
+  & &
+  H(p_1,\ldots,p_q,p_{q+1}) \\
+  & = & 
+  H(p^{(1)},p^{(2)}) +
+  p^{(1)} \cdot
+  H\left({p_1^{(1)}\over p^{(1)}},\ldots,{p_q^{(1)}\over p^{(1)}}\right) +
+  p^{(2)} \cdot 
+  H\left({p_1^{(2)}\over p^{(2)}}\right) \\
+  & = &
+  H(p^{(1)},p^{(2)}) +
+  p^{(1)} \cdot
+  H\left({p_1\over p^{(1)}},\ldots,{p_q\over p^{(1)}}\right) +
+  p^{(2)} \cdot 
+  \underbrace{H(1)}_{=0} \\
+  & = &
+  -A \left( p^{(1)}\log p^{(1)} + p^{(2)}\log p^{(2)} \right) -
+  p^{(1)}\, A\,\sum_{i=1}^q {p_i\over p^{(1)}} \log {p_i\over p^{(1)}} \\
+  & = &
+  -A \left( p^{(1)}\log p^{(1)} + p^{(2)}\log p^{(2)} \right) -
+  A\,\sum_{i=1}^q p_i \log p_i + A \, p^{(1)} \log p^{(1)} \\
+  & = &
+  -A \sum_{i=1}^q p_i \log p_i
+\end{eqnarray*}
+Damit ist die Behauptung f"ur alle $q\in\mathbb{N}$ bewiesen.
+
+
+\section{Entropie als Informationsma"s}
+Es sei $\Omega=\{\omega_1,\ldots,\omega_n\} $ die Menge der Elementarereignisse
+und ${\cal P}=(p_1,\ldots,p_q)$ ein Wahrscheinlichkeitsma"s auf $\Omega$.
+Die zugeh"orige Entropie ist
+$$ H({\cal P}) = H(p_1,\ldots,p_q) = -\sum_{i=1}^q p_i \log p_i \quad
+   \left[ {\mbox{bit}\over\mbox{EE}}\right]\,. $$
+Wir wollen zeigen, da"s die Entropie der Mittelwert 
+der Selbstinformation der Elementarereignisse ist. Dazu
+definieren wir ein Ma"s f"ur die Information, die ein
+Elementarereignis tr"agt. Betrachten wir die Zufallsvariable 
+$$ X=-\log p\,. $$
+Zu jedem Elementarereignis $\omega_i$ geh"ort der Wert $x_i$ der
+Zufallsvariablen
+$$ x_k = -\log P(\omega_i) = -\log p_i\,. $$
+Die Gr"o"se $-\log p_i$ wird oft als \emph{Selbstinformation}, das zu dem
+Elementarereignis $\omega_i$ geh"ort, bezeichnet:
+$$ I(\omega_i)=-\log p_i\,.$$
+Die Einheit der Information wird als \emph{Bit} bezeichent, wobei 1 Bit der
+der Information entspricht, die mit dem  Ausw"ahlen von zwei 
+gleichwahrscheinlichen Elementarereignissen ($p_1,p_2=\frac{1}{2}$) 
+assoziiert ist. In diesem Fall haben wir
+$$ I(\omega_1)=I(\omega_2)=-\log \frac{1}{2} = 1 \mbox{ bit}\,. $$
+Die Auswahl zwischen zwei gleichwahrscheinlichen Elementarereignissen 
+ben"otigt 1 bit an Information. Wenn $\Omega$ in $2^n$ gleichwahrscheinliche
+Ereignisse partitioniert wird, dann betr"agt die Selbstinformation eines
+Elementarereignisses
+$$ I(\omega_i) = -\log p_i = -\log 2^{-n} = n \mbox{ bits} $$
+Die Selbstinformation ist eine nichtnegative Gr"o"se:
+$$ I(\omega_i) = -\log p_i \ge 0\,. $$
+Gleichheit ergibt sich nur bei einem sicheren Ereignis; in dem Wissen des
+Auftreten dieses Ereignisses liegt kein Informationsgehalt.
+
+Wenn $I(\omega_i)$ den Informationsgehalt angibt, der mit dem Auftreten des
+Elementarereignisses verbunden ist, so gibt die Entropie
+$$ H(p_1, p_2, \ldots, p_n)=-\sum_{i=1}^n p_i \log p_i = 
+   \overline{I(\omega_i)} $$
+den mitteren Informationsgehalt an.
+\begin{thebibliography}{10}
+\bibitem{ham}
+  R.~W.~Hamming,
+  \emph{Coding and information theory},
+  Englewood Cliffs, NJ : Prentice-Hall, 1980.
+\bibitem{krengel91}
+  U.~Krengel,
+  \emph{Einf"uhrung in die Wahrscheinlichkeitstheorie und Statistik},
+  vieweg studium,
+  1991.
+\end{thebibliography}
+
+\end{document}

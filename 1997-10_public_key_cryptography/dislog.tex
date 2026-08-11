@@ -1,0 +1,499 @@
+\chapter{Das diskrete Logarithmusproblem}
+
+Alle bis heute bekannten Algorithmen liefern keine effizienten
+Berechnungsverfahren zur Bestimmung des diskreten Logarithmus eines
+Gruppenelements aus einer endlichen zyklischen Gruppe. Damit wird das 
+diskrete Logarithmusproblem neben dem Faktorisieren als eines der beiden 
+bekannten harten Probleme angesehen, die sich f"ur kryptographische 
+Zwecke eignen. Das Verfahren von ElGamal st"utzt sich auf diese Tatsache.
+
+\section{Einf"uhrung}
+
+Es sei $G$ eine endliche zyklische Gruppe und $\alpha$ ein Erzeuger von $G$.
+Dann gilt 
+$$ G = \left\{\alpha^i\mid 0\le i < \#G\right\}, $$
+wobei $\#G$ die Gruppenordnung von $G$ ist. Der diskrete Logarithmus
+eines Elements $\beta$ zu der Basis $\alpha$ in $G$ ist eine ganze Zahl $x$ mit
+$\alpha^x = \beta$. Wenn $x$ auf das Intervall $0\le x < \#G$ beschr"ankt ist,
+dann ist der diskrete Logarithmus von $\beta$ zu der Basis $\alpha$
+eindeutig. Wir schreiben $x = \dlog{\alpha}{\beta}$.
+
+Das diskrete Logarithmusproblem besteht darin, einen effizienten
+Algorithmus zu finden, der Logarithmen in einer gegebenen Gruppe 
+berechnet.
+
+Man kann sofort zwei Algorithmen zur Berechnung der diskreten Logarithmen
+in einer endlichen zyklischen Gruppe $G$ angeben. Der erste berechnet
+einmal eine Liste der Logarithmen aller Gruppenelemente. Der zweite
+berechnet so lange Potenzen von $\alpha$, bis eine "Ubereinstimmung mit
+$\beta$ auftritt. Diese trivialen Algorithmen sind wertlos, wenn $\#G$ 
+gro"s ist.
+
+\section{Baby-Step Giant-Step Algorithmus}
+Der Baby-Step Giant-Algorithmus eignet sich, um Logarithmen in beliebigen
+zyklischen Gruppen zu berechnen. Er stellt eine erhebliche Verbesserung
+gegen"uber den in der Einf"uhrung beschrieben trivialen Algorithmen, ist
+aber praktisch nicht einsetztbar, wenn die Gruppenordnung zu gro"s ist.
+
+Wir wollen den diskreten Logarithmus $\dlog{\alpha}{\beta}$ berechnen.
+Es sei $m=\oben{\sqrt{\#G}}$.
+\begin{enumerate}
+  \item Stelle eine Liste der Paare $(i,\alpha^i)$ f"ur $0\le i < m$
+    (offensichtlich gilt $i=\dlog{\alpha}{\alpha^i}$) und sortiere
+    diese Liste nach der zweiten Komponente.
+  \item Berechne f"ur jedes $j$ mit $0 \le j < m$ $\beta \alpha^{-j m}$ und
+    "uberpr"ufe (mit Bin"arsuche), ob dieses Element als zweite 
+    Komponente eines Listeneintrags vorkommt.
+  \item Falls $\beta\alpha^{-jm} = \alpha^i$ f"ur ein $i$ mit $0 \le i < m$,
+    dann gilt $\beta = \alpha^{i+jm}$ und $\dlog{\alpha}{\beta} = i + j m$. 
+\end{enumerate}
+Der Algorithmus stellt eine Liste mit $\Oklasse{m}$ Eintr"agen und 
+ben"otigt $\Oklasse{m \log m}$ Operationen, um die Liste zu sortieren
+und dann in der Liste zu suchen. Mit einer Operation ist
+eine Gruppenoperation oder ein Vergleich gemeint. Der Name beschreibt in
+kennzeichnender Weise die Funktionsweise des Algorithmus.
+
+"Ubung: Wie sieht die Giant-Step Baby-Step Version des Algorithmus?
+
+\section{Index Calculus}
+
+Wir beschreiben generisch die Funktionsweise der Index Calculus Methode.
+Es sei $G$ eine endliche zyklische Gruppe der Ordnung $n$, die durch
+$\alpha$ erzeugt wird. Wir wollen die Logarithmen der Gruppenelemente zu
+dieser Basis berechnen. Es sei $S=\{p_1, p_2, \ldots, p_t\}$ eine
+Untermenge von $G$ mit der Eigenschaft, da"s ein "`bedeutender"' Teile
+der Gruppenelemente sich als Produkt der Elemente aus $S$ schreiben l"a"st.
+Die Menge $S$ wird als die {\em Faktorbasis} bezeichnet.
+
+Im ersten Schritt versuchen wir die Logarithmen aller Elemente aus $S$
+zu bestimmen. Dazu w"ahlen wir eine Zufallszahl $a$ und versuchen $\alpha^a$
+als Produkt der Elemente aus $S$ zu schreiben:
+\begin{equation}
+  \alpha^a = \prod_{i=1}^t p_i^{\lambda_i}.\label{produkt}
+\end{equation}
+Wenn wir so eine Darstellung finden k"onnen, erhalten wir aus \ref{produkt}
+eine lineare Kongurenz
+\begin{equation}
+  a \equiv \sum_{i=1}^t \lambda_i \dlog{\alpha}{p_i} \pmod{n}.\label{relation}
+\end{equation}
+Nachdem wir eine gen"ugend gro"se Anzahl (gr"o"ser als $t$) an Relationen
+der Form~\ref{relation} aufgestellt haben, k"onnen wir erwarten, da"s das 
+zugeh"orige lineare
+Gleichungssystem eine eindeutige L"osung f"ur die Unbekannten 
+$\dlog{\alpha}{p_i}$ mit $1 \le i \le t$ besitzt.
+
+Im zweiten Schritt berechnen wir individuelle Logarithmen in $G$.
+Es sei ein $\beta\in G$ gegeben, von dem wir den Logarithmus 
+$x=\dlog{\alpha}{\beta}$ bestimmen m"ochten. Wir w"ahlen solange Zufallszahlen
+$s$, bis $\alpha^s\beta$ sich als Produkt von Elementen aus $S$ schreiben
+l"a"st:
+\begin{equation}
+  \alpha^s\beta = \prod_{i=1}^t p_i^{b_i}. \label{inS}
+\end{equation}
+Es gilt dann
+$$ \dlog{\alpha}{\beta} \equiv \sum_{i=1}^t b_i\dlog{\alpha}{p_i} - s
+   \pmod{n}. $$
+Um die Beschreibung der Index Calculus Methode abzuschlie"sen, m"ussen wir
+angeben, wie ein geeignetes $S$ zu w"ahlen ist und wie effizient die
+Relationen \ref{produkt} und \ref{inS} zu erzeugen sind. Ein geeignetes
+$S$ ist klein (das Gleichungssystem im ersten Schritt ist dann nicht zu
+gro"s) und gleichzeitig mu"s die Anzahl der Gruppenelemente, die "uber
+$S$ faktorisieren, gro"s sein (die erwartete Zeit, um die Relationen
+\ref{produkt} und \ref{inS} aufzustellen, ist nicht zu lang). Solche Spezifikationen
+sind f"ur einige Endliche K"orper bekannt. Wir beschreiben kurz die
+Index Calcus Methode f"ur endliche K"orper. Die Algorithmen machen Gebrauch 
+von den unterschiedlichen Darstellungsm"oglichkeiten der K"orperelemente. 
+Deswegen wird eine kurze Einf"uhrung in die Theorie der endlichen K"orper
+gegeben.
+
+Die erwarteten Laufzeiten der Algorithmen werden durch die Funktion
+$$ L[x,\alpha,c] = \Oklasse{\exp((c+o(1))(\log x)^\alpha)
+   (\log\log x)^{1-\alpha})}, $$
+beschrieben, wobei $x$ die Gruppenordung ist, $0\le\alpha\le 1$ und $c$ Konstanten sind.
+Wenn $\alpha = 0$, dann ist $L[x,\alpha,c]$ polynomial in
+$\log x$. Bei $\alpha = 1$ ist $L[x,\alpha,c]$ dagegen exponentiell in
+$\log x$. Wenn $0 < \alpha < c$, dann ist $L[x,\alpha,c]$ 
+{\em subexponentiell} in $\log x$.
+
+\subsection{Endliche K"orper}
+
+  \begin{satz}[Primk"orper]
+    F"ur $m\in\N$ sind 
+    (i)  $m$ ist eine Primzahl und (ii) $\Z/m\Z$ ist ein K"orper 
+    "aquivalent.
+  \end{satz}
+  Die endlichen K"orper $\koerper{p} = \Z/p\Z$, wobei $p$ eine Primzahl ist,
+  hei\3en {\em Primk"orper}.
+
+  \begin{definition}[K"orpererweiterung]
+    Unter einer K"orpererweiterung versteht man ein Paar von K"orpern 
+    $K \subset L$, wobei $K$ ein Teilk"orper von $L$ ist. Bezeichnung: $L/K$
+    oder $K<L$. L hei\3t Erweiterungsk"orper von K.
+  \end{definition}
+  Es sei $L$ eine K"orpererweiterung von $K$. Man kann die Multipikation
+  auf $L$ einschr"anken zu einer Multipikation $K \times L \rightarrow L$  
+  und auf diese Weise $L$ als $K$-Vektorraum auffassen. Mit Hilfe dieser
+  Beobachtung erh"alt man eine wichtige Strukturaussage "uber endliche
+  K"orper. 
+
+  Es sei $\koerper{q}$ ein endlicher K"orper mit q Elementen und 
+  $\koerper{q}/\koerper{p}$. Dann ist $\koerper{q}$ ein endlicher 
+  $\koerper{p}$-Vektorraum, da $\koerper{q}$ endlich ist. Es sei
+  $ \mbox{dim}_{\koerper{p}}(\koerper{q}) = [\koerper{q} : \koerper{p}] = n$
+  die Dimension und $\{\omega_1, \ldots, \omega_n\}$ eine Basis von
+  $\koerper{q}$ "uber $\koerper{p}$. Jedes Element von $\koerper{q}$ l"a\3t
+  sich in eindeutiger Weise als Linerakombination
+  $ a_1 \omega_1 + \ldots + a_n \omega_n $
+  mit $a_1, \ldots, a_n\in\koerper{p}$ schreiben. Die Anzahl der Elements
+  des K"orpers $\koerper{q}$ ist also $p^n$.
+
+  Durch die Vektorrauminterpretation erhalten wir die Strukturaussage, da\3
+  die Anzahl der Elemente eines endlichen K"orpers eine Primzahlpotenz
+  ist.
+  \begin{definition}[Irreduzibel]
+    Ein Polynom $f(x)\in K[x], f\neq 0$, wobei $K$ ein K"orper ist, hei\3t 
+    {\em irreduzibel}, falls f"ur jede Zerlegung $f(x)=g(x) h(x)$ mit 
+    $g(x),h(x)\in K[x]$ 
+    gilt $g(x)\in K^*$ oder $h(x)\in K^*$. 
+  \end{definition} 
+
+  \begin{satz}[Konstruktion eines K"orpers mit $p^n$ Elementen]
+    Es sei $f(x)\in\koerper{p}[x]$ ein irreduzibles Polynom mit $\grad f=n$.
+    Dann ist der Restklassenring $\koerper{p}[x]/f(x)$ sogar ein K"orper.
+  \end{satz}
+  \beweis Die K"orpereigenschaft kann leicht dadurch verdeutlicht werden, 
+  indem der erweiterte ggT-Algorithmus ELBA betrachtet wird. Der ELBA
+  stellt den ggT zweier Elemente eines euklidischen Rings als eine
+  Linearkombination von ihnen dar. 
+  Wir fordern vor"ubergehend, da\3 $f(x)$ normiert ist, d.h. der 
+  Leitkoeffizient ist gleich $1$. Da $f(x)$ ein normiertes irreduzibles 
+  Polynom vom Grad $n$ ist, ist der $\ggt (f(x),g(x))=1$ f"ur alle 
+  Polynome $g(x)\in\koerper{p}[x]$ mit $\grad(g(x)) < n$. 
+  Der ELBA liefert die Darstellung 
+  $$ \ggt (f(x),g(x)) = 1 = r(x)f(x)+s(x)g(x) $$
+  mit $r(x), s(x)\in\koerper{p}[x]$. Wird die Berechnung modulo $f(x)$
+  ausgef"uhrt, so ergibt sich direkt
+  $$ 1\equiv s(x)g(x) \pmod{f(x)} $$
+  und $s(x)$ ist somit das inverse Element von $g(x)$ modulo $f(x)$.
+  Die Eigenschaft, da\3 $f(x)$ normiert ist, ist unwesentlich, da wir sonst
+  mit dem inversen Element des Leitkoeffizients durchmultiplizieren k"onnen.
+  Alle Element au\3er der Restklasse der Null haben bez"uglich der 
+  Multiplikation ein Inverses. Der Restklassenring ist also ein K"orper 
+  mit $p^n$ Elementen, da soviele Restklassen modulo $f(x)$ existieren. 
+  \hfill $\Box$
+
+  \begin{satz}[Verfahren von Kronecker]
+    Es sei $K$ ein K"orper und $f(x)\in K[x]$ ein nichtkonstantes Polynom.
+    Dann existiert ein Erweiterungsk"orper $K$ ($K<L$), so da\3 $f(x)$ eine
+    Nullstelle in $L$ besitzt. Ist $f(x)$ irreduzibel, so kann man 
+    $$ L:= K[x]/f(x) $$
+    setzen.
+  \end{satz}
+  \beweis Es sei ohne Einschr"ankung $f(x)$ irreduzibel, ansonsten 
+  faktorisieren wir $f(x)$ und ersetzen $f(x)$ durch einen 
+  seiner irreduziblen Faktoren. Wir bilden die Komposition
+  $$ \phi: K \stackrel{\iota}{\hookrightarrow} K[x] 
+             \stackrel{\pi}{\rightarrow} K[x]/f(x) =:L. $$
+  Der resultierende Homomorphismus $\phi = \pi \circ \iota$ ist injektiv.
+  Wir k"onnen $L$ als Erweiterungsk"orper von $K$ auffassen, indem wir
+  $K$ mit seinem Bild $\phi (K)$ unter $\phi: K \rightarrow L$
+  identifizieren. Wir setzen $\bar{x} := \pi(x)$. Mit 
+  $ f(X) = \sum_{i=0}^{n} c_i X^i$ gilt dann
+  \begin{eqnarray*}
+    f(\bar{x}) & = & \sum_{i=0}^{n} c_i \bar{x}^i \\
+               & = & \sum_{i=0}^{n} \pi(x)^i \\
+               & = & \pi\left( \sum_{i=o}^{n} c_i x^i\right) \\
+               & = & \pi\left(f(x)\right) \\
+               & = & \bar{0},
+  \end{eqnarray*}
+  d.h. $\bar{x}$ ist eine Nullstelle von $f(x)\in K[x]$ in $L$. 
+  \hfill $\Box$
+
+  Bei dem Verfahren von Kronecker ensteht $L$ aus $K$ durch
+  {\em Adjunktiion einer Nullstelle $\bar{x}$ von $f(x)$}. Die Nullstelle
+  $\bar{x}$ wird sozusagen erzwungen, indem wir ausgehend von dem 
+  Polynomring $K[x]$ den Restklassenring $L:=K[x]/f(x)$ bilden. Wir
+  k"onnen einen Linerfaktor von $f$ "uber $L$ abspalten und k"onnen das
+  Verfahren wiederholen. Nach endlich vielen Schritten gelangt man zu einem
+  Erweiterungsk"orper, "uber dem $f$ vollst"andig in Linearfaktoren
+  zerf"allt.
+  \begin{lemma}[Mehrfache Nullstellen]
+    Ein normiertes Polynom $f(x)\in K[x]$ hat genau dann keine mehrfachen
+    Nullstellen, wenn $\ggt (f(x),f'(x))=1$.
+  \end{lemma}
+
+  \begin{definition}[Zerf"allungsk"orper]
+    Ein Zerf"allungsk"orper eines Polynoms $f\in K[x]$ ist ein
+    Erweiterungsk"orper $L$ des K"orpers $K$, in dem $f$ vollst"andig
+    in Linearfaktoren zerf"allt.
+  \end{definition}  
+  \begin{satz}[Isomorphie der minimalen Zerf"allungsk"orper]
+    Es seien $L_1$ und $L_2$ zwei minimale Zerf"allungsk"orper eines
+    Polynoms $f\in K[x]$. Dann sind $L_1$ und $L_2$ isomorph.
+  \end{satz}
+  \begin{lemma}[Gruppenordung]
+    Es sei G eine Gruppe. Dann gilt f"ur jedes Gruppenelement 
+    $ g^{\betrag{G}} = 1. $
+  \end{lemma}
+  \beweis mit dem Satz von Lagrange. \hfill $\Box$
+
+  Die multiplikative Gruppe $\koerper{q}^{*}$ eines endlichen K"orpers 
+  $\koerper{q}$ hat die Ordnung $q-1$, da alle Elemente au\3er des
+  Nullelements invertierbar sind. Daher erf"ullt jedes
+  $\alpha\in\koerper{q}$ die Gleichung $X^{q-1}=1$. Wenn man noch das
+  Nullelement ber"ucksichtigt, erf"ullt jedes Element 
+  $\alpha\in\koerper{q}$ die Gleichung
+  $$ f(x) = x\left( x^{q-1} - 1\right) = x^q - x = 0. $$
+  Das Polynom $f(x)$ hat $q$ verschiedne Nullstellen in $\koerper{q}$,
+  n"amlich die Elemente von $\koerper{q}$. Das Polynom $f(x)$ zerf"allt
+  in Linearfaktoren "uber $\koerper{q}$
+  $$ f(x) = x^q-x = \prod_{\alpha\in\koerper{q}} \left( x - \alpha \right). $$
+  Damit erhalten wir eine zweite Strukturaussage "uber endliche K"orper.
+  Alle K"orper $K$ mit $q=p^n$ Elementen sind isomorph, da sie
+  minimale Zerf"allungsk"orper des Polynoms $f(x) = x^q - x$ sind.
+  
+  Diese Aussagen lassen sich zu folgendem Theorem zusammenfassen.
+  \begin{theorem}[Strukur endlicher K"orper]
+    F"ur jede Primzahl $p$ und jedes $n\in\N$ existiert ein K"orper 
+    $\koerper{p^n}$ mit $p^n$ Elementen. Er ist der minimale 
+    Zerf"allungsk"orper des Polynoms $x^{p^n}-x$ und seine Elemente sind die 
+    Nullstellen dieses Polynoms. 
+
+    Jeder endliche K"orper ist isomorph zu genau einem K"orper
+    $\koerper{p^n}$.
+  \end{theorem}
+  Der folgende Satz ist f"ur die Defintion des diskreten Logarithmus in 
+  endlichen K"orpern wichtig.
+  \begin{satz}[Struktur der multipikativen Gruppe $\koerper{q}^*$] 
+    Die multiplikative Gruppe eines endlichen K"orpers ist zyktisch. Ein 
+    Element $\omega\in\koerper{q}^*$ mit 
+    $\left<\omega\right>=\koerper{q}^{*}$ hei\3t {\em primitives Element}.
+  \end{satz}
+%%
+%% Index-Calculus
+%%
+\subsection{Index-Calculus f"ur $\koerper{p}^*$}
+
+Wir stellen die Elemente von $\koerper{p}^*$ als die Menge der Zahlen
+$\{1,2,\ldots, p-1\}$. Die Multiplikation wird modulo $p$ ausgef"uhrt.
+Der Erzeuger von $\koerper{p}^*$ sei $\alpha$. Es sei $m$ eine Zahl, die
+eine Funktion von $p$ ist. Die Faktorbasis $S$ ist die Menge aller
+Primzahlen kleiner $m$. 
+
+Der erste und zweite Schritt werden wie im generischen Fall ausgef"uhrt.
+
+Wenn wir die Wahrscheinlichkeit, da"s eine Zufallszahl kleiner $p$ in
+Primfaktoren kleiner $m$ zerf"allt, betrachten, k"onnen wir $m$ optimal
+w"ahlen, um die Vorberechnungsphase (erster Schritt) und die Berechnung
+eines beliebigen Logarithmus (zweiter Schritt) zu beschleunigen. Das f"uhrt
+zu einer heuristischen aber subexponentiellen Implementierung des 
+Index Calculus Algorithmus mit einer erwarteten Laufzeit von
+$L[p,1/2,c]$. Die Laufzeit ist nicht rigoros, da angenommen wird, da"s
+das Gleichungssystem im ersten Schritt vollen Rang hat.
+
+\subsection{Index-Calculus f"ur $\koerper{p^n}$}
+
+Die Elemente des endlichen K"orpers $\koerper{p^n}$ werden als Polynome vom 
+Grad kleiner $n$ aus $\koerper{p}[x]$ aufgefa\3t. Die Addition ist
+gew"ohnliche Polynomaddition und die Multiplikation wird modulo eines
+festgelegten irreduziblen Polynoms $f(x)\in\koerper{p}[x]$ ausgef"uhrt.
+Wir benutzen also die Isomorphie $\koerper{p^n} \cong \koerper{p}[x]/(f(x))$.
+
+\begin{definition}
+  Ein Polynom $w(x)\in\koerper{p}[x]$ hei\3t {\em glatt} bez"uglich
+  der Schranke $b\in\N$, genau dann, wenn es in Polynome aus 
+  $\koerper{p}[x]$ vom Grad kleiner $b$ faktorisiert.
+\end{definition}
+
+Mit der Polynomdarstellung des K"orpers $\koerper{p^n}$ ist es offensichtlich,
+die Faktorbasis $S$ als die Menge aller irreduziblen $b$-glatten Polynome aus 
+$\koerper{p}[x]$ zu w"ahlen. Im ersten Schritt werden die Logarithmen aller Elemente
+der Faktorbasis bestimmt. Es kann gezeigt werden, da"s f"ur kleine $p$ und eine
+geeignet Wahl f"ur $b$, der Index Calculus Algorithmus eine erwartete
+Laufzeit von $L[p^n,1/2,c]$ hat.
+
+{\bf Algorithmus: }
+
+Es sei $\alpha(x)$ ein Erzeuger von $\koerper{p^n}^*$. Die Faktorbasis
+$S$ wird als die Menge aller irreduziblen Polynome $p(x)\in\koerper{p}[x]$ 
+mit $\deg(p(x)) \le b$ gew"ahlt. Die Schranke $b$ geben wir sp"ater an.
+\begin{enumerate}
+  \item Vorberechnungsphase: es werden die diskreten Logarithmen aller 
+    Elemente aus der Faktorbasis $S$ berechnet.
+    \begin{enumerate}
+      \item W"ahle $a_i\in\{1,\ldots,p^n-1\}$ zuf"allig aus und
+        berechne $y_i(x) := \alpha(x)^{a_i}$.  
+        Wir k"onnen effizient mit dem ggT-Algoritmus "uberpr"ufen, ob
+        die Faktoren $p_i(x)\in S$ $y_i(x)$ teilen. Es werden alle
+        maximalen Potenzen von $p_i(x)\in S$ von $y_i(x)$ abgespalten.
+        Falls wir danach ein Polynom ungleich $c_i\in\koerper{p}$
+        erhalten, wissen wir, da"s $y_i(x)$ nicht $b$-glatt ist.
+        Falls $y_i(x)$ $b$-glatt ist, so speichern wir die Faktorisierung
+        $$ y_i(x) = c_i \cdot \prod_{p_j(x)\in S} p_j(x)^{e_{ij}} $$ mit
+        $c_i\in\koerper{p}$. F"ur die diskreten Logarithmen $a_i$
+        gilt dann
+        \begin{equation} a_i = \dlog{\alpha(x)}{y_i(x)} =
+            \dlog{\alpha(x)}{c_i} + \sum_{p_j(x)\in S} e_{ij} \cdot
+            \dlog{\alpha(x)}{p_j(x)} \label{loggl} 
+        \end{equation}
+        Wir wiederholen dies so lange, bis wir mehr als $\#S$ Gleichungen
+        der Form~\ref{loggl} haben. 
+      \item 
+        L"ose dieses lineare Gleichungssystem mit den unbekannten
+        $\dlog{\alpha(x)}{p_j(x)}$ f"ur $p_j(x)\in S$.
+    \end{enumerate}
+
+  \item Berechnen eines konkreten Logarithmus von $y(x)=\alpha(x)^{s}$. 
+
+        W"ahle $s$ so lange zuf"allig aus, bis $\alpha(x)^s y(x)$
+        $b$-glatt ist. Das Polynom $\alpha(x)^s y(x)$ kann dann wie folgt
+        $$ \alpha(x)^s y(x) = c \cdot \prod_{p_j(x)\in S} p_j(x)^{e_j} $$
+        mit $c\in\koerper{p}$ faktorisiert werden. Daraus kann
+        bereits der diskrete Logarithmus $\dlog{\alpha(x)}{y(x)}$ berechnet
+        werden, denn es gilt
+        $$ \dlog{\alpha(x)}{y(x)} = \dlog{\alpha(x)}{c} - s +
+        \sum_{p_j(x)\in S} e_{j} \cdot \dlog{\alpha(x)}{p_j(x)}. $$ 
+        Die diskreten Logarithmen $\dlog{\alpha(x)}{p_j(x)}$ f"ur $p_j(x)\in
+        S$ wurden im Schritt 1.(a) bestimmt und $\dlog{\alpha(x)}{c}$
+        ist im (deutlich kleineren Grundk"orper) einfach zu berechnen.
+\end{enumerate}
+
+Die Schranke $b$ sollte so gew"ahlt werden, da\3 f"ur die Menge $S$
+$$ \# S \approx \exp\left( c \cdot \sqrt{\log q\log\log q} \right) $$
+gilt, wobei $q=p^n$.
+%%
+%% Coppersmith-Algorithmus
+%%
+
+\section{Coppersmith-Algorithmus f"ur $\koerper{2^n}$}
+
+Der Coppersmith-Algorithmus basiert auf der speziellen Darstellung des
+K"orpers $\koerper{2^n} \cong \koerper{2}[x]/(x^n + f_1(x))$ mit
+$\grad(f_1(x)) \le \log_2(n)$. Ein solches Polynom $f_1(x)$ existiert
+f"ur gen"ugend gro\3e $n$.
+
+%%
+%% Algorithmus
+%%
+
+\subsubsection*{ 1. Erzeugung der Datenbasis}
+
+Es werden die Logarithmen der Elemente aus der Menge $S$ berechnet,
+wobei $S$ die irreduziblen Polynome vom Grad kleiner $s$
+enth"alt. Dabei wird $s \approx (n\log^2(n))^{1/3}$ und das primitive
+Element $\alpha(x)\in S$ gew"ahlt. Beim Index-Calculus-Algorithmus wird
+ein beliebiges Polynom (K"orperelement) faktorisiert. Coppersmith
+verwendet dagegen zwei Polynome vom Grad $n^{2/3}$. Da diese einen
+kleineren Grad haben, steigt die Wahrscheinlichkeit, da\3 sie "uber
+$S$ zerfallen.
+
+Es sei $k\in\N$ so gew"ahlt, da\3 $2^k \le (n/\log_2(n))^{1/3}$ und
+setze $h:=\oben{\frac{n}{2^k}}$.  W"ahle $u_1(x)$ und $u_2(x)$
+teilerfremd vom Grad kleiner $s$ und berechne
+\begin{equation} w_1(x) = u_1(x) \cdot x^h + u_2(x) 
+\end{equation}
+und
+\begin{equation} w_2(x) \equiv w_1(x)^{2^k} \pmod{f(x)}. \label{w2} 
+\end{equation}
+Es gilt dann 
+\begin{eqnarray*} 
+  w_2(x) & \equiv & u_1(x)^{2^k} \cdot x^{h \cdot 2^k} 
+                                      + u_2(x)^{2^k} \pmod{f(x)} \\
+         & \equiv & u_1(x)^{2^k} \cdot x^{h \cdot 2^k - n} \cdot f_1(x) 
+                                      + u_2(x)^{2^k} \pmod{f(x)},
+\end{eqnarray*}
+da $x^n \equiv f_1(x) \pmod{f(x)}$ und das Potenzieren mit $2^k$ in
+K"orpern der Charakteristik $2$ ein Homomorphismus ist.  Zerfallen
+beide Polynome $w_1(x)$ und $w_2(x)$ in irreduzible Polynome aus $S$,
+so erhalten wir, wenn wir den diskreten Logarithmus der
+Gleichung~\ref{w2} nehmen, die Beziehung
+$$ 
+\begin{array}{rcll}
+  \dlog{\alpha(x)}{w_2(x)} & \equiv & 2^k \cdot \dlog{\alpha(x)}{w_1(x)} 
+                  & \pmod{ 2^n - 1} \\
+  \Leftrightarrow \dlog{\alpha(x)}{w_2(x)} - 2^k \cdot \dlog{\alpha(x)}{w_1(x)} 
+                  & \equiv & 0 & \pmod{ 2^n - 1}.
+\end{array}
+$$
+und damit eine lineare Gleichung f"ur die Logarithmen der Elemente aus $S$.
+      
+Der Aufwand f"ur die Aufstellung der Datenbasis ist $O(\exp( (c+o(1))
+(n\log^2(n))^{1/3} ))$ mit $c \approx \mbox{1,4}$. Diese Laufzeitabsch"atzung
+st"utzt sich auf heuristische Annahmen.
+
+
+\subsubsection*{2. Berechnung des Logarithmus}
+
+Es sei der Logarithmus des Elements $g(x)$ bez"uglich der Basis
+$\alpha(x)$ gesucht. Falls $g(x)$ einen Grad $\deg(g(x))\le s$ hat,
+dann kann der Logarithmus aus der Datenbasis entnommen werden.
+
+Es sei nun $\deg(g(x))>s$. Wir gehen zun"achst wie beim
+Index-Calculus-Algorithmus vor. Es wird $r\in\{1,\ldots,n-1\}$
+zuf"allig ausgew"ahlt und
+$$ h(x) = g(x) \cdot \alpha^r(x) $$ 
+berechnet. Wir faktorisieren $h(x)$ und "uberpr"ufen, ob es glatt
+bez"uglich der Schranke $\tilde{s} := (n^2\log_2(x))^{1/3}$ ist. Falls
+ja, dann ergibt sich der Logarithmus von $g(x)$ zu
+$$ \dlog{\alpha(x)}{g(x)} = \sum_{i=1}^{k}
+   \log_{\alpha(x)}{p_i(x)}-r. 
+$$ 
+Die Polynome $p_i(x)$ sind vom Grad kleiner oder gleich $\tilde{s}$. Die
+Logarithmen $\dlog{\alpha(x)}{p_i(x)}$ der Polynome $p_i(x)$ mit
+$\deg{p_i(x)}\le s$ stehen in der Datenbasis. Die noch fehlenden
+Logarithmen der Polynome $p_i(x)$ mit $s < \deg(p_i(x)) \le \tilde{s}$
+werden noch berechnet. Die Berechnung wird vereinfacht, indem man
+sie durch Polynome kleineren Grades ersetzen. Zur Bestimmung des
+Logarithmus von $p_i(x)$ w"ahlen wir $k$, so da\3 $2^k \le \sqrt{n/b}$
+mit $b\approx (n^2\log n)^{1/3} + \deg(p_i(x))/2$ und setzen
+$h:=\oben{n/2^k}$.
+
+Anschlie\3end w\"ahlt man zwei zuf"allige teilerfremde Polynome $u_1(x)$
+und $u_2(x)$ vom Grad kleiner gleich $\tilde{s}$ und berechnen die
+Polynome
+$$ w_1(x) := u_1(x)\cdot x^h + u_2(x) $$
+und
+$$ w_2(x) := w_1(x)^{2^k}, $$
+so da\3 $p_i(x) \mid w_1(x)$.
+Zerfallen $\frac{w_1(x)}{p_i(x)}$ und $w_2(x)$ in irreduzible Polynome
+kleineren Grades,
+$$ w_1(x) = p_i(x) \prod_{j=1}^k s_i(x) $$
+und
+$$ w_2(x) = \prod_{j=1}^l t_j(x), $$
+so erh"alt man
+$$
+\begin{array}{cccc}
+   \ds \dlog{\alpha(x)}{w_2(x)}  
+      & \equiv 
+      & \ds 2^k\dlog{\alpha(x)}{w_1(x)} \equiv \sum_{j=1}^l \dlog{\alpha(x)}{t_j(x)}
+      & \pmod{2^n - 1} \\
+   \ds 
+      & \equiv 
+      & \ds 2^k(\dlog{\alpha(x)}{p_i(x)} + \sum_{j=1}^k \dlog{\alpha(x)}{s_j(x))} 
+      & \pmod{2^n - 1} \\
+   \ds \Rightarrow  \dlog{\alpha(x)}{p_i(x)} 
+      & \equiv 
+      & \ds 2^{-k} \sum_{j=1}^l \dlog{\alpha(x)}{t_i(x)} - \sum_{j=1}^k \dlog{\alpha(x)}{s_j(x)} 
+      & \pmod{2^n - 1}
+\end{array}
+$$
+Diese Gleichnung reduziert die Berechnung der Logarithmen
+$\dlog{\alpha(x)}{p_i(x)}$ auf die Berechnung der
+$\dlog{\alpha(x)}{s_j(x)}$ und $\dlog{\alpha(x)}{t_j(x)}$. Diese
+k"onnen entweder aus der Datenbasis entnommen werden, oder werden
+durch rekursive Anwendung des obigen Schrittes berechnet.
+
+Der Aufwand betr"agt $O(\exp(c+o(1)) (n\log^2 n)^{1/3}))$ mit $c
+\approx \mbox{1,1}$.
+   
+
+
+      
+    
+    
+        
+        
+   
+   
+
+   
