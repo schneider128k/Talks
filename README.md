@@ -106,5 +106,9 @@ contents rather than by their names, which is what made the difference: filename
 machines were limited to eight characters, and after so much copying the contents are the more
 reliable guide.
 
+Two things I had not expected to find at all: a paper written out of the Studienarbeit, with
+Michael Schmid and Thomas Beth, and one written out of the Diplomarbeit, with Gaétan Haché.
+Neither was ever published, and I am glad they are not lost.
+
 The IAKS — the Institut für Algorithmen und Kognitive Systeme — no longer exists, and Universität
 Karlsruhe (TH) is now the Karlsruhe Institute of Technology (KIT).
