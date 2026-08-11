@@ -1,0 +1,590 @@
+% dhsp.tex
+%
+% Talk for IQI Seminar, Caltech
+%
+% Pawel Wocjan <wocjan@cs.caltech.edu>
+
+\documentclass[final,slideColor,nototal,colorBG,pdf,simple]{prosper}
+
+%\input{Qcircuit.tex}
+
+\hypersetup{pdfpagemode=FullScreen}
+
+\usepackage[usenames]{color}
+\usepackage{amsmath,amsfonts,amsthm} %,cancel}
+\usepackage{pstricks,pst-node,pst-text,pst-3d,ulem}
+\usepackage{epsfig}
+
+\setlength{\abovedisplayskip}{-20pt}
+\setlength{\belowdisplayskip}{-20pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Macros
+
+\definecolor{orange}{rgb}{1,.7,0}
+\definecolor{gray}{rgb}{.5,.5,.5}
+\definecolor{green}{rgb}{0,.7,0}
+
+\newcommand{\bluetext}[1]{\textcolor{blue}{#1}}
+\newcommand{\orangetext}[1]{\textcolor{orange}{#1}}
+\newcommand{\greentext}[1]{\textcolor{green}{#1}}
+\newcommand{\graytext}[1]{\textcolor{gray}{#1}}
+\newcommand{\redbf}[1]{\textcolor{red}{\textbf{#1}}}
+%\renewcommand{\CancelColor}{\red}
+
+\newcommand{\bs}{\begin{slide}}
+\newcommand{\es}{\end{slide}}
+
+\newcommand{\be}{\begin{equation*}}
+\newcommand{\ee}{\end{equation*}}
+\def\ba#1\ea{\begin{align*}#1\end{align*}}
+\newcommand{\nn}{\nonumber\\}
+
+\newcommand{\<}{\langle} 
+\renewcommand{\>}{\rangle}
+
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\poly}{\operatorname{poly}}
+
+\newcommand{\D}{{\mathcal D}}
+\newcommand{\G}{{\mathcal G}}
+\renewcommand{\H}{{\mathcal H}}
+
+\newcommand{\C}{{\mathbb C}}
+\renewcommand{\R}{{\mathbb R}}
+\newcommand{\Z}{{\mathbb Z}}
+
+\newcommand{\dg}{\dagger}
+
+\newenvironment{mylist}{\begin{itemize}
+                        \setlength{\itemsep}{2pt}}
+                       {\end{itemize}}
+
+
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{
+\vskip -15pt
+\textcolor{blue}{On the Quantum Hardness of}
+
+\medskip 
+\textcolor{blue}{Solving Isomorphism Problems as}
+
+\medskip 
+\textcolor{blue}{Nonabelian Hidden Shift Problems}}
+
+\author{
+
+\bigskip
+
+\bigskip
+\fontText{\textcolor{green}{Pawel Wocjan}}
+
+\bigskip
+
+\fontText{joint work with Andrew Childs}
+
+\medskip 
+\fontText{arXiv:quant-ph/0510185}}
+
+%\institution{
+
+%\bigskip
+%\fontText{Computer Science Department \&
+
+%Institute for Quantum Information
+
+%\medskip
+%California Institute of Technology}}
+
+\slideCaption{}
+%\Logo(9.5,7.5){\input{iqilogo2.eepic}}
+\DefaultTransition{Replace}
+
+\begin{document}
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bs{Organization of the talk}
+
+Graph isomorphism
+
+\bigskip
+Hidden \textcolor{blue}{subgroup} approach
+
+\bigskip
+Hidden \textcolor{red}{shift} approach
+\medskip
+\begin{itemize}
+\item Definition of nonabelian H-Shift-P
+
+\medskip
+\item Natural quantum approach to solving H-Shift-P
+
+\medskip
+\item Isomorphism problems as H-Shift-P
+
+\bigskip
+\item Structure of hidden shift states
+
+\medskip
+\item Single register measurement do not suffice 
+
+\medskip
+\item Lower bound on the number of copies
+\end{itemize}
+
+
+\es
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bs{Graph isomorphism}
+
+$\Gamma$ graph on $n$ vertices and $g\in S_n$ permutation
+
+\bigskip
+
+$S_n$ acts on the set of $n$-vertex graphs:\quad $g(\Gamma)$ is the
+graph obtained from $\Gamma$ by permuting the vertices according to
+$g$
+
+\bigskip
+$\Gamma$ rigid $\Leftrightarrow$ $/\!\!\!\exists g\in S_n \, : \,
+g(\Gamma)=\Gamma$
+
+\bigskip
+$\Gamma_0$ and $\Gamma_1$ isomorphic $\Leftrightarrow$ $\exists
+s\in S_n\,:\, s(\Gamma_1)=\Gamma_0$
+
+\medskip 
+$s$ is the isomorphism between $\Gamma_1$ and $\Gamma_0$
+
+\bigskip
+
+\bigskip
+Problem: given two rigid graphs decide if they are isomorphic or not
+\es
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bs{Hidden subgroup problem}
+
+$f : G \rightarrow S$ where $G$ is a group and $S$ a finite set
+
+\medskip
+$f$ hides a subgroup $H$, that is,
+\begin{itemize}
+\item $f$ is constant on the cosets $G/H$, and
+\item $f$ is different on distinct cosets
+\end{itemize}
+
+\medskip
+Problem: determine $H$
+\es
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bs{Graph isomorphism as HSP}
+\es
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bs{Quantum approach to solving HSP}
+
+\es
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bs{Hardness of GI as HSP}
+
+\es
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\bs{Definition of nonabelian H-Shift-P}
+
+black-box access to two injective functions 
+
+\medskip
+$f_0:G\rightarrow S$ and
+$f_1:G\rightarrow S$, 
+
+\medskip
+where $G$ is a (nonabelian) group and $S$ is a finite set
+
+\bigskip
+the functions $f_0$ and $f_1$ are promised to satisfy:
+\begin{itemize}
+\item[(1)] there is an $s\in G$ such that $f_0(g)=f_1(gs)$ for all
+$g\in G$
+
+\medskip
+$s$ is the hidden shift
+
+\medskip
+\item[(2)] the images of $f_0$ and $f_1$ are disjoint
+
+\medskip
+no hidden shift
+\end{itemize}
+
+\bigskip
+Problem: determine if (1) or (2)
+\es
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bs{Graph isomorphism as H-Shift-P}
+
+$\Gamma$ graph on $n$ vertices and $g\in S_n$ permutation
+
+\bigskip
+
+\bigskip
+$S_n$ acts on the set of $n$-vertex graphs:\quad $g(\Gamma)$ is the
+graph obtained from $\Gamma$ by permuting the vertices according to
+$g$
+
+\bigskip
+
+\bigskip
+$\Gamma$ rigid $\Leftrightarrow$ $/\!\!\!\exists g\in S_n \, : \,
+g(\Gamma)=\Gamma$
+
+\bigskip
+
+\bigskip
+$\Gamma_0$ and $\Gamma_1$ isomorphic $\Leftrightarrow$ $\exists
+s\in S_n\,:\, s(\Gamma_1)=\Gamma_0$
+
+\bigskip 
+$s$ is the isomorphism between $\Gamma_1$ and $\Gamma_0$
+\es
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bs{Graph isomorphism as H-Shift-P}
+
+\medskip
+let $\Gamma_0$ and $\Gamma_1$ be two rigid $n$-vertex graphs 
+
+\bigskip
+define $f_0(g)=g(\Gamma_0)$ and $f_1(g)=g(\Gamma_1)$
+
+\bigskip
+
+\bigskip
+clearly, $f_0$ and $f_1$ are injective because both graphs rigid
+
+\bigskip
+\begin{itemize}
+\item[(1)] assume $s(\Gamma_1)=\Gamma_0$ for $s\in S_n$ \quad
+$\Rightarrow$ \quad $f_0(g)=f_1(gs)$
+
+\bigskip
+\item[(2)] assume $\Gamma_1$ and $\Gamma_0$ are not
+isomorphic \quad $\Rightarrow$ 
+
+\medskip
+the images of $f_0$ and $f_1$ are disjoint
+\end{itemize}
+
+\es
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bs{Quantum approach to solving H-Shift-P}
+
+prepare a uniform superposition over $i\in\mathbb{Z}_2$ and $g\in G$,
+compute the value of $f_i(g)$, and measure the third register
+\[
+\frac{1}{\sqrt{2|G|}}\sum_{g\in G} 
+(|0,g,f_0(g)\> + |1,g,f_1(g)\>)
+\]
+
+\begin{itemize}
+\item if there is a hidden shift {\red $s$}, then we are left with
+\[
+|\phi_{{\red s},g}\>:=\frac{1}{\sqrt{2}}(|0,g\> + |1,g{\red s}\>)
+\quad\quad\in\C^2\otimes\C^{|G|}
+\]
+for some uniformly random (unknown) $g\in G$
+
+\medskip
+\item if there is no hidden shift, then we obtain
+\[
+|i,g\>\quad\quad\in\C^2\otimes\C^{|G|}
+\]
+for uniformly random $i\in\mathbb{Z}_2$ and $g\in G$
+\end{itemize}
+\es
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bs{Hidden shift $s$}
+if $s$ is the hidden shift, then the density matrix is
+\[
+\gamma_1(s):=\frac{1}{|G|}\sum_{g\in G} |\phi_{s,g}\>\<\phi_{s,g}|
+\]
+
+\bigskip
+Observation:\quad $\gamma_1(s)$ can be expressed as 
+$R$ 
+\[
+\gamma_1(s)
+= 
+\frac{1}{2|G|}
+\left(
+\begin{array}{cc}
+I         & R(s) \\
+R(s^{-1}) & I
+\end{array}
+\right)
+\]
+
+\bigskip
+where $R$ is the right regular representation 
+\[
+R(s)|g\> = |gs^{-1}\>
+\]
+\es
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bs{No hidden shift}
+if there is no hidden shift, the density matrix is
+\[
+\gamma_2:=
+\frac{1}{2|G|}\sum_{i\in\mathbb{Z}_2}\sum_{g\in G} 
+|i,g\>\<i,g|
+\]
+
+\bigskip
+$\gamma_2$ is the maximally mixed state
+\[
+\gamma_2 := 
+\frac{1}{2|G|}
+\left(
+\begin{array}{cc}
+I & 0 \\
+0 & I
+\end{array}
+\right)
+\]
+\es
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bs{H-Shift-P as state discrimination}
+we can apply the above procedure $k$ times to obtain $k$ copies of the
+hidden shift state (or the maximally mixed state)
+
+\bigskip
+assume that in the case where there is a hidden shift $s$, it is
+equally likely to correspond to any element of $G$
+
+\bigskip
+then the problem is to distinguish the two density operators
+\begin{eqnarray*}
+\gamma_1^{(k)} & := & \frac{1}{|G|} \sum_{s\in G} \gamma_1^{(k)}(s) \\
+\gamma_2^{(k)} & := & \frac{1}{(2|G|)^2} I
+\end{eqnarray*}
+
+\bigskip
+where $\gamma_1^{(k)}(s):=\gamma_1(s)^{\otimes k}$
+\es
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bs{Structure of the hidden shift states}
+Recall
+\[
+\gamma_1(s) = \frac{1}{2|G|} \left(
+\begin{array}{cc}
+I         & R(s) \\
+R(s^{-1}) & I
+\end{array}
+\right)
+\]
+where $R$ the right regular representation $R(s)|g\>=|gs^{-1}\>$
+
+\bigskip
+$\hat{G}$ a set of all irreducible (inequivalent)
+representations of $G$
+
+\medskip
+$F$ the (corresponding) Fourier transform over $G$
+
+\bigskip
+then we have block decomposition
+\[
+F R(s) F^\dagger = \bigoplus_{\rho\in\hat{G}} I_{d_\rho} \otimes \rho(s)
+\]
+
+\es
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bs{Structure of the hidden shift states}
+in the Fourier basis we have the block decomposition
+
+\bigskip
+\begin{eqnarray*}
+\tilde{\gamma}_1(s) & = & \frac{1}{2|G|} 
+\bigoplus_{\rho\in\hat{G}}
+I_{d_\rho} \otimes
+\underbrace{
+\left(
+\begin{array}{cc}
+I_{d_\rho}   & \rho(s) \\
+\rho(s^{-1}) & I_{d_\rho}
+\end{array}
+\right)}_{\mbox{{\large $B^\rho(s)$}}} \\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tilde{\gamma}_2 & := & 
+\frac{1}{2|G|} 
+\bigoplus_{\rho\in\hat{G}}
+I_{d_\rho} \otimes
+\underbrace{\left(
+\begin{array}{cc}
+I_{d_\rho} & 0 \\
+0          & I_{d_\rho}
+\end{array}
+\right)}_{\mbox{{\large $I_{2d_\rho}$}}}
+\end{eqnarray*}
+
+\es
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bs{Single-register measurements}
+
+without loss of generality any POVM used to distinguish among these
+states has the same block structure
+\[
+\mbox{{\LARGE $\Downarrow$}}
+\]
+\medskip
+first measure representation name (weak Fourier sampling), then
+perform arbitrary POVM inside the block
+
+\bigskip
+
+\bigskip
+the various irreducible representations $\rho$ occur independently
+according to the Plancherel distribution
+\[
+{\rm Pr}(\rho) = \frac{d_\rho^2}{|G|}
+\]
+regardless of whether or not there is a hidden shift
+
+\es
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bs{Single register measurements} 
+
+${\cal E}=\{a_1|\psi_1\>\<\psi_1|,\ldots,a_r|\psi_r\>\<\psi_r|\}$ 
+arbitrary POVM acting on subspace of dimension $2d_\rho$ corresponding
+to observed $\rho$
+
+\bigskip
+no hidden shift $\rightarrow$ 
+
+post-measurement state is $I_{2d_\rho}/2d_\rho$ and probability of $j$ is
+\[
+p_2(j)=\frac{a_j}{2d_\rho} \<\psi_j|I_{2\rho_j}|\psi_j\>
+= \frac{a_j}{2d_\rho}
+\]
+
+\bigskip
+hidden shift $s$ $\rightarrow$ 
+
+post-measurement state is $B^\rho(s)/2d_\rho$ and probability of $j$ is
+\[
+p_1(j|s) = \frac{a_j}{2d_\rho} \<\psi_j|B^\rho(s)|\psi_j\>
+\]
+
+\bigskip
+let $P_2$ and $P_{1,s}$ corresponding probability distributions
+
+\es
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bs{Single register measurements}
+single register measurement do not suffice because
+
+\[
+(*)\quad
+{\rm Pr}_{s\in G,\rho\in\hat{G}} (\|P_{1,s}-P_2\|_{\rm TV} \ge e^{-\Theta(n)})
+\le e^{-\Theta(n)}
+\]
+
+\bigskip
+define $p_1(j):=\frac{1}{|G|}\sum_{s\in G} p_1(j|s)$ 
+
+let $P_1$ be the corresponding probability distribution
+
+\bigskip
+we prove $(*)$ by showing
+\begin{itemize}
+\item $P_1$ and $P_2$ are equal for all
+$\rho\in\hat{G}-\{\hat{1}\}$
+\item ${\rm Pr}_{s\in G,\rho\in\hat{G}} (\|P_{1,s}-P_1\|_{\rm TV} 
+\ge e^{-\Theta(n)}) \le e^{-\Theta(n)}$
+\end{itemize}
+\es
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bs{Single register measurements}
+let $\rho\in\hat{G}$ be fixed and $d_\rho$ be its degree
+
+\bigskip
+let $\sigma_j$ be the variance of the random variable $p_1(j|s)$ with
+respect to $s\in G$ uniformly at random
+\[
+\sigma_j^2:=\frac{1}{|G|}\sum_{s\in G} p_1(j|s)^2-p_1(j)^2
+\]
+
+Chebyshev's inequality
+\[
+{\rm Pr}_{s\in G}(|p_1(j|s)-p_1(j)|
+\ge a_j c)\le\frac{\sigma_j^2}{a_j^2 c^2}
+\]
+
+define 
+\[
+J^s_{\rm bad}:=\{j\in J\,:\,|p_1(j|s)-p_1(j)|\ge a_j c\} \mbox{ and }
+J^s_{\rm good}:=J-J^s_{\rm bad}
+\]
+\es
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bs{Single register measurements}
+Now we can write 
+\[
+\|P_{1,s}-P_1\|_{\rm TV}=
+\sum_{j\in J^s_{\rm good}} |p_1(j|s)-p_1(j)| +
+\sum_{j\in J^s_{\rm bad}}  |p_1(j|s)-p_1(j)|
+\]
+
+\bigskip
+Markov's inequality gives the bound
+\[
+{\rm Pr}(\sum_{j\in J^s_{\rm bad}} a_j\ge c') \le 
+\frac{1}{d_\rho^2 c^2 c'}
+\]
+\es
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bs{Lower number of copies}
+
+\es
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+

@@ -8,6 +8,45 @@ and the talks I gave after 2020 are not yet reconstructed.
 
 ---
 
+## Institute for Quantum Information, Caltech — and the move to Florida
+
+- **The Jones Polynomial: Quantum Algorithms and Applications in Quantum Complexity
+  Theory** — *Invited talk*, November 2006  
+  Seminar Combinatorial Theory at the Euler Institute for Discrete Mathematics and its
+  Applications, Technische Universiteit Eindhoven, at the invitation of Prof. Arjeh Cohen.  
+  Joint work with Jon Yard.  
+  An earlier version of the same talk was given in February 2006 to the Topology Seminar of
+  the Department of Mathematics at the University of California, Santa Barbara, at the
+  invitation of Stephen Bigelow, under the title *Quantum algorithms, quantum complexity
+  theory and their connection to the Jones polynomial*. The slides here are the Eindhoven
+  ones; the abstract beside them is the one written for Santa Barbara.  
+  Links as closures of braids, the Jones polynomial at roots of unity, and the unitary
+  Jones-Wenzl representations of the braid group, with the Birman moves and the
+  representation-theoretic formula that follows from them; then quantum computation read as
+  the approximate evaluation of the Jones polynomial. The contribution is a direct proof
+  that approximating the Jones polynomial of plat closures at roots of unity is
+  BQP-complete — encoding a qubit in four strands rather than going through topological
+  quantum computation — together with a braid problem complete for Quantum-NP.  
+  The talk is built on [quant-ph/0603069](https://arxiv.org/abs/quant-ph/0603069).  
+  [presentation](documents/2006-11_jones_polynomial_eindhoven/jones_polynomial_eindhoven_presentation.pdf) ·
+  [abstract](documents/2006-11_jones_polynomial_eindhoven/jones_polynomial_abstract_santa_barbara.txt) ·
+  [sources](documents/2006-11_jones_polynomial_eindhoven/)
+
+- **On the Quantum Hardness of Solving Isomorphism Problems as Nonabelian Hidden Shift
+  Problems** — *Seminar*, October 2005  
+  Institute for Quantum Information (IQI), California Institute of Technology, Pasadena.  
+  Joint work with Andrew Childs.  
+  Graph isomorphism, and isomorphism of rigid graphs, recast as hidden shift problems over
+  nonabelian groups — and the evidence that the recasting does not make them easy. Measuring
+  a single register does not suffice: the distribution it produces with the shift and the
+  one without it are exponentially close in total variation, so any algorithm along these
+  lines has to make entangled measurements across many copies.  
+  The talk is built on [quant-ph/0510185](https://arxiv.org/abs/quant-ph/0510185).  
+  No mail from the Caltech years survives, so the month is that of the finished slides
+  rather than of the seminar itself.  
+  [presentation](documents/2005-10_nonabelian_hidden_shift_caltech/nonabelian_hidden_shift_caltech_presentation.pdf) ·
+  [sources](documents/2005-10_nonabelian_hidden_shift_caltech/)
+
 ## Promotion — Universität Karlsruhe (TH), doctoral work at the IAKS
 
 - **Estimating mixing properties of local Hamiltonian dynamics and continuous quantum random

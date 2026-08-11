@@ -1,0 +1,77 @@
+%==============================================================================
+% Prosper -- (PPRsimple.sty) Style file
+% A LaTeX class for creating slides
+% Author: amchilds
+%==============================================================================
+\NeedsTeXFormat{LaTeX2e}[1995/12/01]
+\ProvidesPackage{PPRsimple}
+\typeout{`simple' style for Prosper ---}
+\typeout{ }
+
+% Required packages
+\RequirePackage{amssymb}
+\RequirePackage{semhelv}
+
+% Get rid of the slide counter
+\renewpagestyle{GenericPageStyle}{\hfill }{\hfill%
+  \ifisDraft
+ {\@colorFoot\tiny
+\textbf{\jobname.tex}~--~\@Title~--~\@Author~--~\number\day/\
+number\month/\number\year~--~\timenow~--~p.\thepage\ifallPages/\realpageref{last
+@page}\fi}
+  \else
+  \ifshowVersion
+ {\@colorFoot\tiny
+\textbf{\jobname.tex}~--~\@Title~--~\@Author~--~\number\day/\
+number\month/\number\year~--~\timenow~--~p.\thepage\ifallPages/\realpageref{last
+@page}\fi}
+  \else
+  {\@colorFoot\tiny\@cartouche}
+  \fi\fi
+}
+
+% Fonts
+\FontTitle{%
+  \usefont{T1}{phv}{b}{n}\fontsize{17.28pt}{17pt}\selectfont\blue}{%
+  \usefont{T1}{phv}{b}{n}\fontsize{17.28pt}{17pt}\selectfont\blue}
+\FontText{%
+  \black\usefont{T1}{phv}{m}{n}\fontsize{12pt}{12pt}\selectfont}{%
+  \black\usefont{T1}{phv}{m}{n}\fontsize{12pt}{12pt}\selectfont}
+
+% Positionning of the title of a slide.
+\newcommand{\slidetitle}[1]{%
+  \rput[l](-.4,4){\fontTitle{#1}}
+}
+
+% Positionning for a logo
+\LogoPosition{-1,-1.1}
+
+% Slide style
+\newcommand{\BasicFrame}[1]{%
+%\ifinColor
+%\else
+%\fi
+  \PutLogo % Mandatory
+ {#1}}
+
+\NewSlideStyle[115mm]{t}{5.3,3.2}{BasicFrame}
+\PDFCroppingBox{10 40 594 800}
+
+% Bullets
+\myitem{1}{{\scriptsize\raisebox{2pt}{\ensuremath{\bullet}}}}
+\myitem{2}{{\scriptsize\raisebox{2pt}{\ensuremath{\bullet}}}}
+\myitem{3}{{\scriptsize\raisebox{2pt}{\ensuremath{\bullet}}}}
+
+% Vertical space around equations
+\def\slidedisplayskips{%
+  \abovedisplayskip .75ex minus .35ex
+  \belowdisplayskip \abovedisplayskip
+  \abovedisplayshortskip .2ex minus .2ex
+  \belowdisplayshortskip 1ex minus .2ex}
+
+\endinput
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

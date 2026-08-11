@@ -1,0 +1,15 @@
+Title: Quantum algorithms, quantum complexity theory and their
+connection to the Jones polynomial (joint work with Jon Yard)
+
+Abstract: I will present a proof that approximating the Jones
+polynomial of plat closures of braids at roots of unity to within a
+certain precision is BQP-complete, meaning that it is the hardest
+problem that can be solved efficiently on a quantum computer.  This
+result was essentially shown by Freedman, Kitaev, Larsen, and Wang in
+the context of topological quantum computation. However, our proof,
+which is motivated by [Aharonov, Jones, Landau 05], is more direct, as
+it makes use of a conceptually simpler encoding of qubits into
+irreducible representations of the braid group, while remaining within
+the standard quantum computation model.  I will conclude with an
+application to the complexity class Quantum-NP.
+
