@@ -17,9 +17,9 @@ handed in afterwards.
   Supervisor: Michael Schmid.  
   The fractional Fourier transform, its eigenfunctions, and its realisation in a
   quadratic GRIN medium. My first talk, in my third semester.  
-  [presentation](1996-02_fractal_fourier_transform/fractal_fourier_presentation.pdf) ·
-  [report](1996-02_fractal_fourier_transform/fractal_fourier_report.pdf) ·
-  [sources](1996-02_fractal_fourier_transform/)
+  [presentation](documents/1996-02_fractal_fourier_transform/fractal_fourier_presentation.pdf) ·
+  [report](documents/1996-02_fractal_fourier_transform/fractal_fourier_report.pdf) ·
+  [sources](documents/1996-02_fractal_fourier_transform/)
 
 - **Quantentheorie** — *Seminar*, Sommersemester 1996  
   Seminar *Quantum Computing* at the Institut für Algorithmen und Kognitive Systeme
@@ -30,8 +30,8 @@ handed in afterwards.
   polarised photons as a worked example, and the dynamics of a mixture.  
   I gave this one at the blackboard — no slides were made, and what survives is the
   Ausarbeitung as it went into the seminar volume.  
-  [report](1996-06_density_operators/density_operators_report.pdf) ·
-  [sources](1996-06_density_operators/)
+  [report](documents/1996-06_density_operators/density_operators_report.pdf) ·
+  [sources](documents/1996-06_density_operators/)
 
 ---
 
@@ -54,8 +54,8 @@ handed in afterwards.
   quadratic sieve; the discrete logarithm by baby-step giant-step, index calculus and
   Coppersmith; and finally authentication, Kerberos and digital cash.  
   It is marked *Vorabversion* on the title page, and it still is one.  
-  [lecture notes](1997-10_public_key_cryptography/public_key_cryptography_lecture_notes.pdf) ·
-  [sources](1997-10_public_key_cryptography/)
+  [lecture notes](documents/1997-10_public_key_cryptography/public_key_cryptography_lecture_notes.pdf) ·
+  [sources](documents/1997-10_public_key_cryptography/)
 
 - **Quantenalgorithmen** — *Seminar*, June 1997  
   Seminar *Quantum Computing* at the Institut für Algorithmen und Kognitive Systeme
@@ -64,9 +64,9 @@ handed in afterwards.
   Grover's search algorithm and the diffusion transformation as an inversion about the
   average, the lower bound for quantum search, and algorithms for finding the minimum
   and estimating the median.  
-  [presentation](1997-06_quantum_search_algorithms/quantum_search_algorithms_presentation.pdf) ·
-  [report](1997-06_quantum_search_algorithms/quantum_search_algorithms_report.pdf) ·
-  [sources](1997-06_quantum_search_algorithms/)
+  [presentation](documents/1997-06_quantum_search_algorithms/quantum_search_algorithms_presentation.pdf) ·
+  [report](documents/1997-06_quantum_search_algorithms/quantum_search_algorithms_report.pdf) ·
+  [sources](documents/1997-06_quantum_search_algorithms/)
 
 ---
 
@@ -83,5 +83,5 @@ handed in afterwards.
   measure of information.  
   The source carries no date of its own, so it is left exactly as it was and the PDF beside
   it is the one typeset at the time.  
-  [notes](2000-08_entropy_function_notes/entropy_function_notes.pdf) ·
-  [sources](2000-08_entropy_function_notes/)
+  [notes](documents/2000-08_entropy_function_notes/entropy_function_notes.pdf) ·
+  [sources](documents/2000-08_entropy_function_notes/)

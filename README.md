@@ -25,11 +25,11 @@ are not yet reconstructed. The recovery itself is finished; the publishing is no
 
 ## How an entry is arranged
 
-One folder per entry, named `YYYY-MM_short-title`, holding the LaTeX sources and the PDF built
-from them:
+Everything with sources lives under `documents/`, one folder per entry, named
+`YYYY-MM_short-title`, holding the LaTeX sources and the PDF built from them:
 
 ```
-1996-02_fractal_fourier_transform/
+documents/1996-02_fractal_fourier_transform/
     fractal_fourier_presentation.tex    the slides
     fractal_fourier_presentation.pdf
     fractal_fourier_report.tex          the written version

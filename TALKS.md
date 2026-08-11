@@ -19,8 +19,8 @@ and the talks I gave after 2020 are not yet reconstructed.
   channels: rescaled binomial multiplicity enumerators, Holevo's suboptimal decision rule,
   and the expurgated and cutoff rate bounds. The accompanying paper is in the conference
   proceedings, pp. 43–46.  
-  [poster](2000-07_binary_block_codes/binary_block_codes_poster.pdf) ·
-  [sources](2000-07_binary_block_codes/)
+  [poster](documents/2000-07_binary_block_codes/binary_block_codes_poster.pdf) ·
+  [sources](documents/2000-07_binary_block_codes/)
 
 - **Simulating Arbitrary Pair-Interactions by a Given Hamiltonian: Graph-Theoretical Bounds
   on the Time Complexity** — *Poster*, July 2001  
@@ -28,7 +28,7 @@ and the talks I gave after 2020 are not yet reconstructed.
   Joint work with Dominik Janzing and Thomas Beth.  
   An earlier state of the poster below, listed here under the title of the paper it was built
   around. The October version is the one that survives.  
-  [poster](2001-10_multiparticle_hamiltonians/multiparticle_hamiltonians_poster.pdf)
+  [poster](documents/2001-10_multiparticle_hamiltonians/multiparticle_hamiltonians_poster.pdf)
 
 - **Universal Simulation of Multiparticle Hamiltonians: Efficient Schemes and Complexity Bounds** — *Poster*, October 2001  
   Project meeting in Turin, under the European project Q-ACTA
@@ -41,8 +41,8 @@ and the talks I gave after 2020 are not yet reconstructed.
   bounds on the simulation overhead taken from the spectrum and the chromatic index of the
   interaction graph.  
   What survives is the PostScript it was printed from.  
-  [poster](2001-10_multiparticle_hamiltonians/multiparticle_hamiltonians_poster.pdf) ·
-  [sources](2001-10_multiparticle_hamiltonians/)
+  [poster](documents/2001-10_multiparticle_hamiltonians/multiparticle_hamiltonians_poster.pdf) ·
+  [sources](documents/2001-10_multiparticle_hamiltonians/)
 
 - **Simulating Hamiltonians in Quantum Networks: Efficient Schemes and Complexity Bounds** — *Poster*, January 2002  
   QIP 2002, the Fifth Workshop on Quantum Information Processing, IBM T.J. Watson Research
@@ -50,7 +50,7 @@ and the talks I gave after 2020 are not yet reconstructed.
   Joint work with Martin Rötteler, Dominik Janzing and Thomas Beth.  
   The same poster as the Turin one above, listed here under the title of the paper it was
   built around.  
-  [poster](2001-10_multiparticle_hamiltonians/multiparticle_hamiltonians_poster.pdf)
+  [poster](documents/2001-10_multiparticle_hamiltonians/multiparticle_hamiltonians_poster.pdf)
 
 - **Mutual Simulation of Hamiltonian Dynamics on Interacting Quantum Systems** — *Colloquium*, January 2002  
   Colloquium *Quantum Information Processing* of the Deutsche Forschungsgemeinschaft, at the
@@ -60,8 +60,8 @@ and the talks I gave after 2020 are not yet reconstructed.
   control-theoretic model and average Hamiltonian theory, decoupling schemes built from
   orthogonal arrays and error bases, and bounds on the time overhead read off the
   interaction graph — its chromatic index, and the spectrum of its adjacency matrix.  
-  [presentation](2002-01_mutual_simulation_of_hamiltonians/mutual_simulation_of_hamiltonians_presentation.pdf) ·
-  [sources](2002-01_mutual_simulation_of_hamiltonians/)
+  [presentation](documents/2002-01_mutual_simulation_of_hamiltonians/mutual_simulation_of_hamiltonians_presentation.pdf) ·
+  [sources](documents/2002-01_mutual_simulation_of_hamiltonians/)
 
 - **Complexity of Mutual Simulation of Hamiltonian Dynamics** — *Invited talk*, 12 July 2002  
   Ludwig-Maximilians-Universität München. Invited, as I remember it, by Robert Raussendorf.  
@@ -73,9 +73,9 @@ and the talks I gave after 2020 are not yet reconstructed.
   here on their own.  
   The abstract was written in German, under the title *Simulation hamiltonscher Dynamiken
   auf wechselwirkenden Quantensystemen*.  
-  [presentation](2002-07_complexity_of_mutual_simulation/complexity_of_mutual_simulation_presentation.pdf) ·
-  [abstract](2002-07_complexity_of_mutual_simulation/complexity_of_mutual_simulation_abstract.pdf) ·
-  [sources](2002-07_complexity_of_mutual_simulation/)
+  [presentation](documents/2002-07_complexity_of_mutual_simulation/complexity_of_mutual_simulation_presentation.pdf) ·
+  [abstract](documents/2002-07_complexity_of_mutual_simulation/complexity_of_mutual_simulation_abstract.pdf) ·
+  [sources](documents/2002-07_complexity_of_mutual_simulation/)
 
 ---
 

@@ -334,7 +334,8 @@ The three theses are the exception. Each has a repository of its own, linked in 
 3. **Computational Power of Hamiltonians in Quantum Computing** — *Dissertation*, 2004. Fakultät für
    Informatik, Universität Karlsruhe (TH). Oral examination 17 November 2003. First examiner
    Prof. Dr. Thomas Beth, second examiner Prof. Dr. Mario Rasetti.
-   [→ github.com/schneider128k/Dissertation](https://github.com/schneider128k/Dissertation)
+   [→ github.com/schneider128k/Dissertation](https://github.com/schneider128k/Dissertation) ·
+   [Mathematics Genealogy Project](https://www.mathgenealogy.org/id.php?id=92366)
 
 ---
 
