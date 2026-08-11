@@ -1,0 +1,399 @@
+%% fuer Drucker "bilby":
+%% dvips -O 5mm,1mm
+
+%% fuer Drucker "goofy":
+%% dvips600 -O 0mm,10mm Magdeburg
+
+\documentclass[portrait]{seminar}
+\usepackage{german,colordvi,boldmath,semcolor,semlayer,rotate,epsf,fancybox,mathsym}
+%\input{farbunilogo}
+%\input{unilogo}
+\usepackage{amssymb}
+\UseLegacyTextSymbols
+
+\def\dummy#1{}
+\overlaystrue
+\def\overlay#1{{}}
+
+\slidewidth9.5in
+\slideheight6.7in
+%\def\slidetopmargin{\iflandscape.2in\else0.8in\fi}
+\def\slidetopmargin{\iflandscape.3in\else0.8in\fi}
+\def\slidebottommargin{\iflandscape1.0in\else0.4in\fi}
+\def\slideleftmargin{\iflandscape.2in\else.5in\fi}
+\def\sliderightmargin{\iflandscape1.0in\else.8in\fi}
+
+\newcommand{\cH}{{\cal H}}
+
+\slidesmag{4}
+\centerslidesfalse
+\slideframewidth0.5pt
+%\slideframe{none}
+
+%\portraitonly
+%\landscapeonly
+%\def\leftsliderotation#1{\rotate[l]{#1}}
+%\sliderotation{left}
+\rotateheaderstrue
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Makros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\bra#1{\left<#1\right|}
+\def\ket#1{\left|#1\right>}
+
+\def\trace{\mathop{\rm tr}\nolimits}
+
+\newcommand{\heading}[1]{%
+  \begin{center}
+    \Large
+    \bfseries
+    \shadowbox{#1}%
+  \end{center}
+  \vspace{1ex minus 1ex}%
+}
+\newbox{\logobox}
+%\setbox\logobox=\hbox{\raise 0.17\baselineskip\hbox{\epsfbox{logo.eps}}}
+
+\def\logo{\usebox{\logobox}}
+\newpagestyle{MH}{\hss\hbox to \hsize{PhysComp96\hss\thepage}\hss}%
+{\hss\hbox to \hsize{${\cal IAKS}$\ \logo\ UniKA\hfil}\hss}
+
+\newpagestyle{nohead}{}{\hss\hbox to \hsize{\tiny IAKS
+\ \logo\ Universit"at Karlsruhe\hfil Prof.~Dr.~Th.~Beth}\hss}
+
+\newpagestyle{nohead_beth}{}{\hss\hbox to \hsize{\tiny${\cal IAKS}$\ \logo\
+UniKA\hfil}\hss}
+
+\newcommand{\tl}{\tilde}
+\newcommand{\onemat}{{\mathbf 1}}
+
+\begin{document}
+
+\begin{slide}
+{$ $}
+\vfill
+\begin{center}
+{\Large \blue Computational Power of Hamiltonians\\ in Quantum Computing} 
+
+\vfill Pawel Wocjan
+
+{\small Institut f"ur Algorithmen und Kognitive Systeme}
+
+{\small Universit"at Karlsruhe}
+\end{center}
+\vfill
+\end{slide}
+
+\begin{slide}
+{\large {\bf Quanteninformationstheorie}}
+\vfill
+\begin{itemize}
+\item Quantenkomlexit\"atstheorie
+\item Quantenkryptographie
+\item Quantenkommunikation
+\end{itemize}
+\vfill
+\end{slide}
+
+\begin{slide}
+{\large {\bf Fast control limit}}
+\vfill
+strength of the control Hamiltonians arbitrarily large $\Longrightarrow$
+
+{\blue control unitaries} arbitrarily fast
+\vfill
+{\red Complexity of a unitary $U$}: minimal time
+\[
+U=\exp(-i H t_N) V_N \cdots \exp(-i H t_2) V_2 \exp(-i H t_1) V_1
+\]
+\vfill
+express it as the evolution according to the piecewise constant Hamiltonian
+\[
+U = U_N \exp(-i U_N^\dagger H U_N t_N) \cdots \exp(-i U_2^\dagger H U_2 t_2)
+    \exp(-i U_1^\dagger H U_1 t_1)
+\]
+\vfill
+\end{slide}
+
+
+\begin{slide}
+{\large {\bf Average Hamiltonian Theory}}
+\vfill
+{\blue Dyson expansion}
+\[
+U(t)={\cal T} \exp(\int_{\tau=0}^t d\tau H(\tau))=\exp(-i\bar{H}t)
+\]
+\vfill
+{\blue Magnus expansion} $\bar{H}=\bar{H}^{(0)}+\bar{H}^{(1)}+\cdots$
+\begin{eqnarray*}
+{\red\bar{H}^{(0)}} & {\red =} & {\red \frac{1}{t}\int_0^t d\tau
+H(\tau)\,,\quad\quad\quad\quad\ \quad\quad\quad\quad
+\|\bar{H}^{(0)}\|\le 1} \\
+\bar{H}^{(1)} & = & \frac{-i}{2t}\int_0^t
+d\tau' \int_0^t\tau'' [H(\tau'),H(\tau'')]\,,\quad
+\|\bar{H}^{(1)}\|\le t/2
+\end{eqnarray*}
+\vfill
+{\red $\Longrightarrow$ $U(t)$ essentially determined by $\bar{H}^{(0)}$ for
+small $t$}
+\vfill
+\end{slide}
+
+
+\begin{slide}
+{\large {\bf Simulating Hamiltonians/First order simulation}}
+\vfill
+{\blue $H$ can simulate $\tilde{H}$ with overhead $1$}, 
+written $\tilde{H}\prec H$, iff 
+\[
+\tilde{H}=\sum_{j=1}^N p_j U_j^\dagger H U_j
+\]
+with $\sum_j p_j = 1$ and $U_j$ control operations, i.e.
+
+{\red $\tilde{H}$ is a convex sum of unitary conjugates of $H$}
+\vfill
+$H$ can simulate $\tilde{H}$ with overhead {\red $\tau$} iff 
+$\tilde{H} \prec {\red \tau} H$ 
+\vfill 
+{\red time-optimal simulation} problem $\longrightarrow$
+{\red convex optimization} problem 
+\vfill
+\end{slide}
+
+\begin{slide}
+{\large {\bf Quantum Networks}}
+\vfill
+system consisting of {\blue $n$ nodes}  
+$\quad {\cal H}=\C^d\otimes\C^d\otimes\cdots\otimes\C^d$ 
+\vfill
+{\blue pair-interaction Hamiltonian}
+\[
+H = \sum_{k<l} \sum_{\alpha\beta} J_{kl;\alpha\beta} 
+\sigma_\alpha^k\sigma_\beta^l\,,\quad \sigma_\alpha \mbox{ ONB of } su(d)
+\]
+{\blue coupling matrix}
+\[
+J=\left(
+\begin{array}{c|c|c|c|c}
+0      & J_{12} & J_{13} & \cdots & J_{1n} \\ \hline
+J_{21} & 0      & J_{23} & \cdots & J_{2n} \\ \hline
+\vdots & \vdots &        &        &        \\ \hline
+J_{n1} & J_{n2} & J_{n3} &        & 0 
+\end{array}
+\right)\in\R^{(d^2-1)\,n\times (d^2-1)\,n}
+\]
+{\blue control operations} are all {\red local} operations in
+\[
+SU(d)\otimes SU(d)\otimes\cdots\otimes SU(d)
+\]
+\end{slide}
+
+\begin{slide}
+{\bf Decoupling/Switching off the time evolution} 
+\vfill 
+Conjugating by unitaries of an {\blue error basis} ${\cal E}=\{U_1={\mathbf
+1},U_2,\ldots,U_{d^2}\}$
+\[
+\sum_j U_j^\dagger\, a\, U_j = {\mathbf 0}\quad\quad
+\mbox{for all } a\in su(d)
+\]
+cancels all matrices in $su(d)$
+\vfill
+Combinatorial problem: which sequences of conjugations allow to switch off
+all interactions?
+\vfill
+Efficient solution: decoupling in networks based on
+{\blue orthogonal arrays} 
+
+number of conjugations grows linearly with $n$
+\vfill
+\end{slide}
+
+\begin{slide}
+{\large {\bf Action of control operations on the coupling matrix $J$}}
+\vfill
+\begin{center}
+{\blue Conjugation of the pair-interaction Hamiltonian $H$ by control
+operations}
+
+corresponds to
+
+{\blue conjugation of $J$ by a direct sum of orthogonal matrices}
+\end{center}
+\[
+\begin{array}{ccc}
+H & \mapsto & (u_1\otimes u_2\otimes\cdots\otimes u_n)^\dagger\, H\, 
+(u_1\otimes u_2\otimes\cdots\otimes u_n) \\
+J & \mapsto & (U_1\oplus U_2\oplus\cdots\oplus U_n)\, J\,
+(U_1\oplus U_2\oplus\cdots\oplus U_n)^T
+\end{array}
+\]
+\vfill
+\end{slide}
+
+\begin{slide}
+{\large {\bf Lower bounds on time overhead}}
+\vfill
+If $H$ can simulate $\tilde{H}$ with overhead $\tau$ then
+\[
+\tilde{J}/\tau = \sum_{j=1}^N p_j 
+(U_{j1}\oplus U_{j2}\oplus\cdots\oplus U_{jn})
+\,J\, (U_{j1}\oplus U_{j2}\oplus\cdots\oplus U_{jn})^T
+\]
+convex sum of conjugates of $J$
+\vfill
+$\Rightarrow$ necessary condition given by {\blue majorization criterion}:\\
+\begin{center}
+the spectrum Spec($\tilde{J}$) majorizes the spectrum Spec($\tau J$)
+\end{center}
+\vfill
+\end{slide}
+
+
+\begin{slide}
+{\large {\bf Application I: Time reversal}}
+\vfill
+Time reversal: $H \mapsto -H$ (refocusing, spin echoes)
+\vfill
+dipole-dipole coupling between all nodes (easy to invert)
+\[
+H=\sum_{k<l} w_{kl} (3\,\sigma_z\otimes\sigma_z - \sum_{\alpha=x,y,z} 
+\sigma_\alpha\otimes\sigma_\alpha)\,,\quad w_{kl}\neq 0
+\]
+\vfill
+lower bound on time overhead is $2$
+\vfill
+this bound is tight (well known-scheme in NMR)
+\vfill
+\end{slide}
+
+
+\begin{slide}
+{\large {\bf Application I: Time reversal}}
+\vfill
+strong scalar coupling between all nodes (difficult to invert)
+\[
+H = \sum_{k<l} w_{kl}
+(\sigma_x^k\sigma_x^l + \sigma_y^k\sigma_y^l + \sigma_z^k\sigma_z^l)\,,\quad
+w_{kl}\neq 0
+\]
+\vfill
+lower bound on the overhead $n-1$
+
+the inverted time-evolution is necessarily slower by the factor $(n-1)$
+\vfill
+upper bound $cn-1$ (decoupling scheme based on orthogonal arrays)
+\vfill
+\end{slide}
+
+\begin{slide}
+{\large {\bf Application II: Hierarchy of Hamiltonians}}
+\vfill
+\[
+H_1 = \sum_{kl} w_{kl} 
+(\sigma^k_x\otimes\sigma^l_x\, {\red +}\, \sigma^k_y\otimes\sigma^l_y)
+\]
+\[
+H_2 = \sum_{kl} w_{kl} 
+(\sigma^k_x\otimes\sigma^l_x\, {\blue -}\, \sigma^k_y\otimes\sigma^l_y)
+\]
+\vfill
+$H_1$ cannot simulate $H_2$ with overhead less than $(n-1)$
+
+$H_2$ can simulate $H_1$ with overhead $2$
+\vfill
+\end{slide}
+
+\begin{slide}
+{\large {\bf Application III: Switching off {\red some} interactions}}
+\vfill
+Combinatorial problem: cancel some interactions
+\vfill
+Are the other interactions necessarily disturbed?
+\begin{figure}
+\centerline{
+\epsfbox[0 0 285 98]{HonnefGraphen.eps}}
+\end{figure}
+\vfill 
+Yes, for some graphs $\rightarrow$ lower bound on time overhead
+given by eigenvalues of the adjacency matrix \vfill
+
+Upper bound given by chromatic index of interaction graph
+\end{slide}
+
+\begin{slide}
+{\bf Optimal simulation problem equivalent to separability problem}
+\vfill
+complete $zz$-Hamiltonian $H$: interaction between all nodes are of the
+form $\sigma_z\otimes \sigma_z$
+\vfill
+A Hamiltonian with coupling matrix $J$ can be simulated with overhead 
+$1$ iff there is a separable $n$-qubit state $\rho$ such that $J$ is the
+$3n\times 3n$-matrix
+\[
+\left( tr(\rho\sigma_\alpha^k\sigma_l^l)\right)_{kl\alpha\beta}
+\]
+\vfill
+\begin{center}
+{\blue maximal strength of pair-interactions implementable with overhead $1$}
+
+corresponds to
+
+{\blue maximal strength of pair-correlations in a separable state}
+\end{center}
+\vfill
+\end{slide}
+
+\begin{slide}
+{\large {\bf Universal simulation using finite control groups}}
+\vfill
+{\blue Universal simulation} does not require all operations in $SU(d)$
+
+Certain subgroups are sufficient; called {\blue transformer groups}
+\vfill 
+{\blue Finite transformer groups are characterized in terms of group 
+characters} 
+\vfill
+\end{slide}
+
+\begin{slide}
+{\bf {\large Conclusions}}
+\begin{itemize}
+\item Upper and lower bounds on simulation complexity are given by
+graph-theoretical notions like chromatic index, chromatic number and
+graph spectra
+\item Efficient decoupling schemes can be constructed by using 
+orthogonal arrays and error basis
+\item Universal simulation does not require the ability to perform all
+local unitary operations; we have found finite control groups that are
+sufficient
+\end{itemize}
+{\tiny
+{\it Simulating Arbitrary Pair-interactions by a Given Hamiltonian: 
+Graph-theoretical Bounds on the Time Complexity},
+quant-ph/0106077, to appear in QIC
+
+{\it Simulating Hamiltonians in Quantum Networks: Efficient schemes and
+Complexity Bounds}, quant-ph/0109088, to appear in Phys. Rev. A
+
+{\it Universal Simulation of Hamiltonians Using a Finite Set of Control 
+Operations}, quant-ph/0109063, to appear in QIC
+
+{\it Complexity of inverting n-spin interactions: Arrow of time in quantum 
+control}, quant-ph/0106085
+
+{\it Lower Bound on the Chromatic Number by Spectra of Weighted Adjacency 
+Matrices}, cs.DM/0112023
+}
+\end{slide}
+\end{document}
+
+
+
+
+
+
+
+
+

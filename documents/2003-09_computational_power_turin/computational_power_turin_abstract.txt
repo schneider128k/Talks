@@ -1,0 +1,45 @@
+Title: Computational Power of Hamiltonians in Quantum Computing
+
+Abstract:
+
+In this talk I would like to present you the main results of my PhD
+thesis. They encompass the formal definition of mutual simulation of
+Hamiltonians and the development of a theory investigating the
+computational resources required for simulating Hamiltonians.
+
+Mutual simulation of Hamiltonians builds upon a control theoretic
+model of quantum computers. In this model unitary transformations are
+implemented by performing an external control operation, letting the
+system evolve for a certain time, and repeating both steps several
+times. We study the ability of the system to implement transformations
+representing the time evolution of another quantum system. Considering
+the cost of simulating the time evolution of a quantum system by a
+given one defines in a certain sense the comparison of the
+``computational power'' of different systems. The determination of the
+cost in general is a computationally hard problem. But it can be
+solved to a large extent if we consider infinitesimal time intervals
+only. This leads to our definition of mutual simulation of
+Hamiltonians.
+
+We derive lower bounds on the simulation complexity. An important tool
+for obtaining these bounds is the characterization of Hamiltonians by
+graphs; the graphs represent the coupling topology of the
+Hamiltonians, that is, which pairs of subsystems interact. Our bounds
+show that the simulation complexity depends strongly on the properties
+of these graphs. We develop optimal simulation algorithms based on
+methods of graph theory, representation theory of finite groups,
+design theory, and convex optimization theory. Furthermore, we show
+how the elementary quantum gates of the quantum circuit model can be
+implemented within the control theoretic model. This shows an
+interesting connection between the quantum circuit model and the
+control theoretic model.
+
+We show as an interesting application of our simulation methods that
+they allow an efficient realization of adiabatic quantum computing in
+the control theoretic model. It is important that only physically
+realistic Hamiltonians (that is, with a local coupling topology) are
+used as computational resources. We construct such Hamiltonians whose
+energy minima encode the solutions of the NP-complete problem ``max
+independent set''. Due to their special structure these Hamiltonians
+can be simulated efficiently by Ising-interactions on a
+two-dimensional lattice.

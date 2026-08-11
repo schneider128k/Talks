@@ -1,0 +1,86 @@
+% Poor person's blackboard bold.
+% January 6, 1988.
+%
+% modified: 05.01.1995 MG
+%
+% Robert Messer
+% Department of Mathematics
+% Albion College
+%
+% modified by:
+%
+%  Markus Grassl
+%  Institut fuer Algorithmen und Kognitive Systeme
+%  Fakultaet fuer Informatik
+%  Universitaet Karlsruhe
+
+
+\def\mathsymfont#1{\ifmmode{\mathchoice{%
+    \mbox{\the\textfont0\ignorespaces#1}}{%
+    \mbox{\the\textfont0\ignorespaces#1}}{%
+    \mbox{\the\scriptfont0\ignorespaces#1}}{%
+    \mbox{\the\scriptscriptfont0\ignorespaces#1}}}%
+  \else{{\rm\ignorespaces#1}}\fi}
+
+\def\A{\mathsymfont{\kern.22em
+    \vrule width.02em height0.5ex depth 0ex
+    \kern-.24em A}}
+\def\B{\mathsymfont{ I\kern-.25em B}}
+\def\C{\mathsymfont{\kern.24em
+    \vrule width.02em height1.4ex depth-.05ex
+    \kern-.26em C}}
+\def\D{\mathsymfont{I\kern-.25em D}}
+\def\E{\mathsymfont{I\kern-.25em E}}
+\def\F{\mathsymfont{I\kern-.25em F}}
+\def\G{\mathsymfont{\kern.24em
+    \vrule width.02em height1.4ex depth-.05ex
+    \kern-.26em G}}
+\def\H{\mathsymfont{I\kern-.25em H}}
+\def\I{\mathsymfont{I\kern-.25em I}}
+\def\J{\mathsymfont{\kern.19em
+    \vrule width.02em height1.47ex depth 0ex
+    \kern-.21em J}}
+\def\K{\mathsymfont{I\kern-.25em K}}
+\def\L{\mathsymfont{I\kern-.25em L}}
+\def\M{\mathsymfont{I\kern-.25em M}}
+\def\N{\mathsymfont{I\kern-.25em N}}
+\def\O{\mathsymfont{\kern.24em
+    \vrule width.02em height1.4ex depth-.05ex
+    \kern-.26em O}}
+\def\P{\mathsymfont{I\kern-.25em P}}
+\def\Q{\mathsymfont{\kern.24em
+    \vrule width.02em height1.4ex depth-.05ex
+    \kern-.26em Q}}
+\def\R{\mathsymfont{I\kern-.25em R}}
+\def\S{\mathsymfont{\kern.18em
+    \vrule width.02em height1.47ex depth-.9ex
+    \kern.12em
+    \vrule width.02em height0.7ex depth 0ex
+    \kern-.34em S}}
+\def\T{\mathsymfont{\kern.45em
+    \vrule width.02em height1.47ex depth 0ex
+    \kern-.47em T}}
+\def\U{\mathsymfont{\kern.30em
+    \vrule width.02em height1.47ex depth-.05ex
+    \kern-.32em U}}
+\def\V{\mathsymfont{\kern.27em
+    \vrule width.02em height1.47ex depth-.8ex
+    \kern-.29em V}}
+\def\W{\mathsymfont{\kern.25em
+    \vrule width.02em height1.47ex depth-.9ex
+    \kern.34em
+    \vrule width.02em height1.47ex depth-.9ex
+    \kern-.63em W}}
+\def\X{\mathsymfont{\kern.30em
+    \vrule width.02em height1.47ex depth-1ex
+    \kern.12em
+    \vrule width.02em height0.4ex depth 0ex
+    \kern-.46em X}}
+\def\Y{\mathsymfont{\kern.25em
+    \vrule width.02em height1.0ex depth 0ex
+    \kern-.27em Y}}
+\def\Z{\mathsymfont{\kern.26em
+    \vrule width.02em height0.5ex depth 0ex
+    \kern.04em
+    \vrule width.02em height1.47ex depth-1ex
+    \kern-.34em Z}}

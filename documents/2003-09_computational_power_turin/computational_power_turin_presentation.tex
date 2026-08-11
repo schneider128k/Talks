@@ -1,0 +1,910 @@
+\documentclass[portrait]{seminar}
+\usepackage{colordvi,boldmath,semcolor,semlayer,rotate,epsf,fancybox,mathsym}
+\UseLegacyTextSymbols
+
+\slidewidth9.5in
+\slideheight6.7in
+%\def\slidetopmargin{\iflandscape.2in\else0.8in\fi}
+\def\slidetopmargin{\iflandscape.3in\else0.8in\fi}
+\def\slidebottommargin{\iflandscape1.0in\else0.4in\fi}
+\def\slideleftmargin{\iflandscape.2in\else.5in\fi}
+\def\sliderightmargin{\iflandscape1.0in\else.8in\fi}
+
+\newcommand{\cH}{{\cal H}}
+
+\slidesmag{4}
+\centerslidesfalse
+\slideframewidth0.5pt
+%\slideframe{none}
+
+%\portraitonly
+%\landscapeonly
+%\def\leftsliderotation#1{\rotate[l]{#1}}
+%\sliderotation{left}
+\rotateheaderstrue
+
+
+\newcommand{\onemat}{{\bf 1}}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{slide}
+{$ $}
+\vfill
+\begin{center}
+{\Large \blue Computational Power of Hamiltonians\\ 
+in Quantum Computing}
+
+\vfill Pawel Wocjan
+
+{\small Institut f\"ur Algorithmen und Kognitive Systeme}
+
+{\small Universit\"at Karlsruhe}
+\end{center}
+\vfill
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% research topics 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}
+{\large {\bf Important research topics of quantum computer science}}
+\vfill
+\begin{enumerate}
+\item development of abstract {\red computational models} that
+determine the elementary transformations of a quantum computer 
+
+(based on physical laws governing the considered quantum system),
+\item classification of {\red computational problems} with
+respect to their complexity within these models
+\item development of {\red efficient quantum algorithms} to handle these
+various types of computational problems
+\end{enumerate}
+\vfill
+development of {\it computational models} is central 
+
+\hspace{4cm} {\huge $\Downarrow$} 
+
+\hspace{3cm} complexity of problems and 
+
+\hspace{3cm} efficiency of algorithms
+\vfill
+\end{slide}
+
+
+\begin{slide}
+{\large {\bf Control theoretic model of quantum computers}}
+\vfill
+respects more the properties of real quantum systems than the
+quantum circuit model
+\vfill
+{\blue elementary operations of the control theoretic model}:
+\begin{itemize}
+\item external control operations in control
+group $K$
+\[
+\mbox{       unitary transformations}\quad
+V
+\]
+\item Hamiltonian time evolution internal to the system
+\[
+\exp(-i H t)
+\]
+\vfill
+\end{itemize}
+\end{slide}
+
+\begin{slide}
+{\large {\bf Control theoretic model of quantum computers}}
+\vfill
+implement $U$ by sequences
+
+perform $V_1$, wait $t_1$, perform $V_2$, wait $t_2$, $\ldots$, 
+perform $V_N$, wait $t_N$
+
+such that
+\[
+U=\exp(-i H t_N) V_N \cdots \exp(-i H t_2) V_2 \exp(-i H t_1) V_1
+\]
+\vfill
+{\red complexity of $U$}
+\begin{itemize}
+\item number of control operations $N$ and
+\item time $t_1+t_2+\ldots+t_N$
+\end{itemize}
+\vfill
+\end{slide}
+
+
+
+
+\begin{slide}
+{\large {\bf Mutual simulation of time evolutions}} 
+\vfill 
+use control theoretic model to implement
+\begin{itemize}
+\item transformations for solving computational problems
+\item {\red transformations representing the time-evolution of another 
+quantum system} ($\rightarrow$ universal quantum simulator)
+\end{itemize}
+\vfill 
+simulation cost defines ``computational power'' of
+different systems 
+\vfill 
+determining the cost: difficult!  
+\vfill 
+but: solvable for {\blue infinitesimal} time intervals
+\vfill
+\end{slide}
+
+\begin{slide}
+{\large {\bf Mutual simulation of {\red Hamiltonians}}} 
+\vfill 
+mutual simulation of time evolutions for {\red infinitesimal} time
+intervals
+\medskip
+
+simulated time evolution $\exp(-i\, \tilde{H}\,{\red \epsilon})$ is
+reproduced with error $O({\red \epsilon^2})$ 
+\vfill
+\[
+\tilde{H} =
+t_1\, {\blue U_1^\dagger H U_1}\, +\, 
+t_2\, {\blue U_2^\dagger H U_2}\, +\, 
+\ldots +\,
+t_N\, {\blue U_N^\dagger H U_N} 
+\]
+\hspace{5cm}
+{\LARGE $\Downarrow$}
+\begin{eqnarray*}
+&& 
+\exp(-i\, {\blue U_N^\dagger H U_N}\, t_N{\red \epsilon})\, \cdots\, 
+\exp(-i\, {\blue U_2^\dagger H U_2}\, t_2{\red \epsilon})\,
+\exp(-i\, {\blue U_1^\dagger H U_1}\, t_1{\red \epsilon})  \\
+& & \\
+& = & 
+\exp(-i\, \tilde{H}\,{\red \epsilon}) +O({\red \epsilon^2})
+\end{eqnarray*}
+\vfill
+\end{slide}
+
+
+
+\begin{slide}
+{\large {\bf Mutual simulation of Hamiltonians}} 
+
+\vfill
+{\blue $H$ can simulate $\tilde{H}$ with overhead $1$}, written
+$\tilde{H}\le H$, and {\blue $N$ time steps} iff
+\[
+\tilde{H}=\sum_{j=1}^N p_j\, U_j^\dagger H U_j\,,
+\]
+$p_1,\ldots,p_N>0$ and $p_1+\ldots p_N=1$
+
+$U_j\in K$ are control operations
+\medskip
+
+{\blue $\tilde{H}$ is a convex sum of $N$ unitary conjugates of $H$}
+\vfill
+$H$ can simulate $\tilde{H}$ with overhead {\red $\tau$} iff 
+$\tilde{H} \le {\red \tau} H$ 
+\vfill 
+{\red time-optimal simulation} problem $\longrightarrow$
+{\red convex optimization} problem 
+\vfill
+\end{slide}
+
+\begin{slide}
+{\large {\bf Composite systems and pair-interaction Hamiltonians}}
+\vfill
+system consisting of {\blue $n$ qudits}  
+$\quad {\cal H}=\C^d\otimes\C^d\otimes\cdots\otimes\C^d$ 
+\vfill
+{\blue pair-interaction Hamiltonian}
+\[
+H = 
+\sum_{k<l} \sum_{\alpha\beta} J_{kl;\alpha\beta} \,\,
+\sigma_\alpha^{(k)}\sigma_\beta^{(l)}\,,
+\]
+$B:=\{\sigma_\alpha\mid\alpha=1,\ldots,d^2-1\}$ is a basis of
+$su(d)$
+\vfill 
+{\blue control operations} are all {\red local} operations in
+\[
+K:=SU(d)\otimes SU(d)\otimes\cdots\otimes SU(d)
+\]
+\vfill
+\end{slide}
+
+
+
+
+\begin{slide}
+{\bf Main results of the thesis}
+\vfill
+\begin{itemize}
+\item {\red formal definition of mutual simulation of Hamiltonians}
+\item {\red lower and upper bounds on complexity} of mutual simulation
+of Hamiltonians
+\item {\red optimal simulation algorithms} using methods of
+representation theory of finite groups (irreducible projective
+representations) design theory (orthogonal arrays, difference schemes,
+Hadamard matrices, and spreads) and algebraic graph theory
+\item {\red application of mutual simulation of Hamiltonians to
+adiabatic quantum computing} for solving computationally hard problems
+\item {\red new computational problems and their quantum complexity}
+classes
+\end{itemize}
+\vfill
+\end{slide}
+
+\begin{slide}
+{\bf Algebraic Graph Theory gives Lower Bounds on Complexity}
+\vfill
+represent {\blue pair-interaction Hamiltonian}
+\[
+H = 
+\sum_{k<l} \sum_{\alpha\beta} J_{kl;\alpha\beta}\,\, 
+\sigma_\alpha^{(k)}\sigma_\beta^{(l)}
+\]
+\quad\quad\quad\quad\quad\quad 
+$B:=\{\sigma_\alpha\mid\alpha=1,\ldots,d^2-1\}$ is a ONB of $su(d)$
+\vfill
+as {\blue coupling matrix} (extension of adjacency matrix of a graph)
+\[
+J=\left(
+\begin{array}{c|c|c|c|c}
+0      & J_{12} & J_{13} & \cdots & J_{1n} \\ \hline
+J_{21} & 0      & J_{23} & \cdots & J_{2n} \\ \hline
+\vdots & \vdots &        &        &        \\ \hline
+J_{n1} & J_{n2} & J_{n3} &        & 0 
+\end{array}
+\right)\in\R^{(d^2-1)\,n\times (d^2-1)\,n}
+\]
+\vfill
+\end{slide}
+
+\begin{slide}
+{\bf Analogy: coupling matrix $\leftrightarrow$ adjacency matrix}
+\vfill
+consider dipole-dipole coupling between all nodes
+\[
+H=\sum_{k<l} w_{kl} (3\,\sigma_z^{(k)}\sigma_z^{(l)} - 
+\sum_{\alpha=x,y,z} \sigma_\alpha^{(k)}\sigma_\alpha^{(l)})\,,
+\quad w_{kl}\neq 0
+\]
+\vfill
+coupling matrix can be expressed as
+\[
+J={\red W}\otimes {\blue C}\,,
+\]
+where $W=(w_{kl})$ and $C={\rm diag}(-1,-1,2)$
+\vfill
+{\red $W$ adjacency matrix} of a weighted graph
+
+{\blue $C$ characterizes the type of coupling} between nodes
+\vfill
+\end{slide}
+
+
+\begin{slide}
+{\large {\bf Action of control operations on the coupling matrix $J$}}
+\vfill
+\begin{center}
+{\blue Conjugation of the pair-interaction Hamiltonian $H$ by control
+operations}
+
+corresponds to
+
+{\blue conjugation of $J$ by a direct sum of orthogonal matrices}
+\end{center}
+\[
+\begin{array}{ccc}
+H & \mapsto & (U_1\otimes U_2\otimes\cdots\otimes U_n)^\dagger\, H\, 
+(U_1\otimes U_2\otimes\cdots\otimes U_n) \\
+J & \mapsto & (O_1\oplus O_2\oplus\cdots\oplus O_n)\, J\,
+(O_1\oplus O_2\oplus\cdots\oplus O_n)^T
+\end{array}
+\]
+\vfill
+\end{slide}
+
+\begin{slide}
+{\large {\bf Lower bounds on time overhead}}
+\vfill 
+{\blue majorization criterion}
+
+$H$ can simulate $\tilde{H}$ with time overhead $\tau$
+\[
+\sum_{j=1}^N p_j\, O_j \,(\tau J)\, O_j^T =
+\tilde{J}
+\]
+$\tilde{J}$ convex sum of conjugates of $\tau J$
+$\Longrightarrow$
+{\red Spec($\tilde{J}$) majorizes Spec($\tau J$)}
+\vfill
+\end{slide}
+
+\begin{slide}
+{\large {\bf Lower bounds on time steps}} 
+\vfill
+{\blue rank criterion} (special case)
+
+$H$ can simulate $\tilde{H}$ with $N$ time steps
+\[
+\tau\sum_{j=1}^N 
+p_j\, O_j 
+\,(W\otimes C)\,
+O_j^T =
+\tilde{W}\otimes C
+\]
+adding the block diagonal matrix $R:=\tau\sum_{j=1}^N p_j O_j
+\,(\onemat\otimes C)\,O_j^T$ on both sides gives
+
+$\Longrightarrow$ {\red $N \ge \mbox{rank}(\tilde{W}\otimes C + R)/
+\mbox{rank}((W+\onemat)\otimes C)$}
+
+\vfill
+\end{slide}
+
+\begin{slide}
+{\large {\bf Complexity of time reversal}}
+\vfill
+time reversal: $H \mapsto -H$ (refocusing, spin echoes)
+\vfill
+$J=W\otimes C$ coupling matrix of $n$ coupled qubits, $w_{kl}\neq 0$ for 
+all $k,l$
+\vfill
+\begin{enumerate}
+\item $C$ traceless
+
+time step and time overhead are at most $2$
+\item $C$ has positive and negative eigenvalues, but $tr(C)\neq 0$
+
+time steps at least $n/3-1$
+
+time overhead independent of $n$, depends on eigenvalues only
+
+\item $C$ either positive or negative semidefinite
+
+time steps at least $n-1$
+
+time overhead at least $n-1$
+\end{enumerate}
+\vfill
+
+\end{slide}
+
+
+
+\begin{slide}
+{\large {\bf Complexity of time reversal}}
+\vfill
+{\red dipole-dipole coupling} between all nodes (easy to invert)
+\begin{eqnarray*}
+H & = & \sum_{k<l} (3\,\sigma_z^{(k)}\sigma_z^{(l)} - 
+\sum_{\alpha=x,y,z} \sigma_\alpha^{(k)}\sigma_\alpha^{(l)}) \\
+J & = & K \otimes {\rm diag}(-1,-1,2)\,,
+\end{eqnarray*}
+where $K$ is the adjacency matrix of the complete graph 
+\vfill 
+lower bound on time overhead is $2$ 
+\vfill 
+this bound is tight 
+
+(well known-scheme in NMR with time overhead $2$ and $2$ time steps) 
+\vfill
+\end{slide}
+
+
+\begin{slide}
+{\large {\bf Complexity of time reversal}}
+\vfill
+{\red strong scalar coupling} between all nodes (difficult to reverse)
+\begin{eqnarray*}
+H & = & \sum_{k<l}
+(\sigma_x^{(k)}\sigma_x^{(l)} + \sigma_y^{(k)}\sigma_y^{(l)} + 
+ \sigma_z^{(k)}\sigma_z^{(l)})\\
+J & = & K \otimes \onemat_3
+\end{eqnarray*}
+\vfill
+lower bound on the time overhead $n-1$
+
+$\longrightarrow$ reversed time-evolution necessarily slower by the 
+factor $(n-1)$
+
+lower bound on time steps $n-1$
+\vfill
+upper bounds $cn-1$ 
+
+(decoupling algorithms based on orthogonal arrays)
+\vfill
+\end{slide}
+
+\begin{slide}
+{\large {\bf Computational power of Hamiltonians}}
+\vfill
+\begin{eqnarray*}
+H_1 & = & \sum_{k<l} w_{kl} 
+(\sigma^{(k)}_x\sigma^{(l)}_x\, {\red +}\, 
+ \sigma^{(k)}_y\sigma^{(l)}_y) \\
+& & \\
+H_2 & = & \sum_{k<l} w_{kl} 
+(\sigma^{(k)}_x\sigma^{(l)}_x\, {\blue -}\, 
+ \sigma^{(k)}_y\sigma^{(l)}_y)
+\end{eqnarray*}
+\vfill
+$H_1$ cannot simulate $H_2$ with overhead less than $(n-1)$
+
+$H_2$ can simulate $H_1$ with overhead $2$
+\vfill
+\end{slide}
+
+\begin{slide}
+{\bf Graph-theoretical bounds: Selective decoupling}
+\vfill
+\epsfxsize0.35\textwidth\epsfbox{selective_decoupling.eps}
+\hspace{0.5cm}
+\raisebox{25ex}{\begin{minipage}[t]{5.5cm} 
+complete Ising-Hamiltonian:
+
+\quad $\sigma_z\otimes\sigma_z$  between all qubits
+
+\bigskip
+
+control operations $\onemat$ and $\sigma_x$
+\end{minipage}}
+
+{\blue Combinatorial problem: switching off unwanted interactions}
+
+are the other interactions necessarily weakened (time overhead $>1$)?
+
+yes, for some graphs $\rightarrow$ lower bound on time overhead given
+by eigenvalues of the adjacency matrix
+
+upper bound given by {\red chromatic index} of interaction graph
+\vfill
+\end{slide}
+
+\begin{slide}
+{\bf Selective decoupling based on chromatic index}
+\vfill
+\unitlength0.02cm
+\begin{picture}(50,80)
+\put( 0, 0){\line( 1, 0){40}}
+\put(40, 0){\line( 0, 1){40}}
+\put( 0,40){\line( 0,-1){40}}
+\put( 0, 0){\line( 1, 1){40}}
+\put( 0,40){\line( 1, 2){20}}
+\put(20,80){\line( 1,-2){20}}
+\put( 0, 0){\circle*{5}}
+\put(40, 0){\circle*{5}}
+\put(40,40){\circle*{5}}
+\put( 0,40){\circle*{5}}
+\put(20,80){\circle*{5}}
+\end{picture}
+\begin{picture}(40,80)
+\put(15,30){\makebox(0,0){$=$}}
+\end{picture}
+\begin{picture}(50,80)
+%\put( 0, 0){\line( 1, 0){40}}
+%\put(40, 0){\line( 0, 1){40}}
+%\put( 0,40){\line( 0,-1){40}}
+\put( 0, 0){\line( 1, 1){40}}
+\put( 0,40){\line( 1, 2){20}}
+%\put(20,80){\line( 1,-2){20}}
+\put( 0, 0){\circle*{5}}
+\put(40, 0){\circle*{5}}
+\put(40,40){\circle*{5}}
+\put( 0,40){\circle*{5}}
+\put(20,80){\circle*{5}}
+\end{picture}
+\begin{picture}(40,80)
+\put(15,30){\makebox(0,0){$+$}}
+\end{picture}
+\begin{picture}(50,80)
+%\put( 0, 0){\line( 1, 0){40}}
+\put(40, 0){\line( 0, 1){40}}
+\put( 0,40){\line( 0,-1){40}}
+%\put( 0, 0){\line( 1, 1){40}}
+%\put( 0,40){\line( 1, 2){20}}
+%\put(20,80){\line( 1,-2){20}}
+\put( 0, 0){\circle*{5}}
+\put(40, 0){\circle*{5}}
+\put(40,40){\circle*{5}}
+\put( 0,40){\circle*{5}}
+\put(20,80){\circle*{5}}
+\end{picture}
+\begin{picture}(40,80)
+\put(15,30){\makebox(0,0){$+$}}
+\end{picture}
+\begin{picture}(50,80)
+\put( 0, 0){\line( 1, 0){40}}
+%\put(40, 0){\line( 0, 1){40}}
+%\put( 0,40){\line( 0,-1){40}}
+%\put( 0, 0){\line( 1, 1){40}}
+%\put( 0,40){\line( 1, 2){20}}
+\put(20,80){\line( 1,-2){20}}
+\put( 0, 0){\circle*{5}}
+\put(40, 0){\circle*{5}}
+\put(40,40){\circle*{5}}
+\put( 0,40){\circle*{5}}
+\put(20,80){\circle*{5}}
+\end{picture}
+\vfill
+Hadamard matrices: orthogonal matrices with $\pm 1$ entries
+
+\epsfxsize0.29\textwidth\epsfbox{chromatic_index.eps}\hspace{0.1cm}\raisebox{10em}{
+\begin{minipage}[t]{8cm}
+$+1$: conjugation by $\onemat$
+\medskip
+
+$-1$: conjugation by $\sigma_x$
+($\sigma_x \sigma_z \sigma_x = -\sigma_z$)
+\medskip
+
+rows: different pairs of qubits or single qubit
+\medskip
+
+columns: time steps
+\end{minipage}}
+\end{slide}
+
+\begin{slide}
+{\bf Application: ``one-way quantum computer''}
+\vfill
+required: Ising-interactions on two-dimensional lattice
+
+but: resource Hamiltonian couples all qubits
+
+$\rightarrow$ selective decoupling
+\vfill
+\epsfxsize0.7\textwidth\epsfbox{rectangular_lattice.eps}
+
+$l\times l$ lattice
+\vfill
+selective decoupling with time overhead $4$ (=chromatic index)
+
+lower bound on time overhead
+\[
+-4\cos\left( \frac{\pi}{l+1}l \right)\approx 4
+\]
+\vfill
+\end{slide}
+
+\begin{slide}
+{\bf Application: continuous complexity measure for quantum circuits}
+\medskip
+
+weighted depth:
+
+continuous complexity measure
+
+based on control theoretic model with complete Ising-Hamiltonian
+
+\hspace{1cm}
+\unitlength0.03cm
+\begin{picture}(100,150)
+% 1 wire
+\put(0,10){\line(1,0){10}}
+% 2 wire
+\put(0,30){\line(1,0){10}}
+% 3 wire
+\put(0,50){\line(1,0){10}}
+% 4 wire
+\put(0,70){\line(1,0){10}}
+% 5 wire
+\put(0,90){\line(1,0){10}}
+%
+% depth 1
+\put(10,2){\framebox(20,16){}}
+%
+\put(10,22){\framebox(20,36){}}
+%
+\put(10,62){\framebox(20,36){}}
+%
+%
+% 1 wire
+\put(30,10){\line(1,0){10}}
+% 2 wire
+\put(30,30){\line(1,0){10}}
+% 3 wire
+\put(30,50){\line(1,0){10}}
+% 4 wire
+\put(30,70){\line(1,0){10}}
+% 5 wire
+\put(30,90){\line(1,0){10}}
+%
+% depth 2
+\put(40,2){\framebox(20,36){}}
+%
+\put(40,42){\framebox(20,36){}}
+%
+\put(40,90){\line(1,0){20}}
+%
+% 1 wire
+\put(60,10){\line(1,0){10}}
+% 2 wire
+\put(60,30){\line(1,0){10}}
+% 3 wire
+\put(60,50){\line(1,0){10}}
+% 4 wire
+\put(60,70){\line(1,0){10}}
+% 5 wire
+\put(60,90){\line(1,0){10}}
+%
+% depth 3
+\put(70,10){\line(1,0){20}}
+%
+\put(70,22){\framebox(20,36){}}
+%
+\put(70,62){\framebox(20,36){}}
+%
+% 1 wire
+\put(90,10){\line(1,0){10}}
+% 2 wire
+\put(90,30){\line(1,0){10}}
+% 3 wire
+\put(90,50){\line(1,0){10}}
+% 4 wire
+\put(90,70){\line(1,0){10}}
+% 5 wire
+\put(90,90){\line(1,0){10}}
+%
+\put(10,100){\makebox(20,20){1}}
+\put(40,100){\makebox(20,20){2}}
+\put(70,100){\makebox(20,20){3}}
+%
+\put(30,-15){a.\ depth}
+\end{picture}
+\hspace{1cm}
+\begin{picture}(130,150)
+% 1 wire
+\put(0,10){\line(1,0){10}}
+% 2 wire
+\put(0,30){\line(1,0){10}}
+% 3 wire
+\put(0,50){\line(1,0){10}}
+% 4 wire
+\put(0,70){\line(1,0){10}}
+% 5 wire
+\put(0,90){\line(1,0){10}}
+%
+% weighted depth 1
+\put(10,2){\line(0,1){16}}
+%
+\put(10,22){\framebox(30,36){}}
+%
+\put(10,62){\framebox(10,36){}}
+%
+%
+% 1 wire
+\put(10,10){\line(1,0){40}}
+% 2 wire
+\put(40,30){\line(1,0){10}}
+% 3 wire
+\put(40,50){\line(1,0){10}}
+% 4 wire
+\put(20,70){\line(1,0){30}}
+% 5 wire
+\put(20,90){\line(1,0){30}}
+%
+% weighted depth 2
+\put(50,2){\framebox(20,36){}}
+%
+\put(50,42){\framebox(10,36){}}
+%
+% 1 wire
+\put(70,10){\line(1,0){10}}
+% 1 wire
+\put(70,30){\line(1,0){10}}
+% 3 wire
+\put(60,50){\line(1,0){20}}
+% 4 wire
+\put(60,70){\line(1,0){20}}
+% 5 wire
+\put(50,90){\line(1,0){30}}
+%
+% weigthed depth 3
+%
+\put(80,22){\framebox(40,36){}}
+%
+\put(80,62){\framebox(30,36){}}
+%
+% 1 wire
+\put(80,10){\line(1,0){50}}
+% 2 wire
+\put(120,30){\line(1,0){10}}
+% 3 wire
+\put(120,50){\line(1,0){10}}
+% 4 wire
+\put(110,70){\line(1,0){20}}
+% 5 wire
+\put(110,90){\line(1,0){20}}
+%
+%
+\put(5,110){\vector(1,0){120}}
+\put(5,105){\line(0,1){10}}
+\put(125,105){\line(0,1){10}}
+\put(55,110){\makebox(20,20){$\alpha$}}
+%
+\put(20,-15){b.\ weighted depth}
+\end{picture}
+
+\end{slide}
+
+\begin{slide}
+{\bf Application of mutual simulation of Hamiltonians to adiabatic quantum
+computing}
+\vfill
+To do: construct {\red ``physically reasonable''} Hamiltonians whose ground 
+states encode solutions of the problem ``independent set''
+\begin{itemize}
+\item graph $G=(V,E)$, positive integer $v\le |V|$
+\item {\large $\exists$} independent set with cardinality at least $v$
+\vfill 
+subset $V'\subseteq V$ with 
+\begin{itemize}
+\item $|V'|\ge v$ and 
+\item no two vertices in $V'$ are joined by an edge in $E$
+\end{itemize}
+\end{itemize}
+\vfill
+``independent set'' remains NP-complete for {\blue cubic planar} graphs.
+\vfill
+\end{slide}
+
+\begin{slide}
+{\bf Theorem (Planar spin glass within a magnetic field)}
+\vfill
+$G=(V,E)$ cubic planar graph 
+
+determining {\blue energy of ground states} of the Hamiltonian
+\[
+\sum_{(k,l)\in E} \sigma_z^{(k)}\sigma_z^{(l)} + \sum_{k\in V}
+\sigma_z^{(k)}
+\]
+equivalent to determining {\blue maximal cardinality of independent
+sets}
+
+\epsfbox[20 25 160 130]{graph3.ps}
+\raisebox{14ex}{{but \red not physically reasonable!}}
+\end{slide}
+
+\begin{slide}
+{\bf Planar orthogonal embedding} of graph $G=(V,E)$ maps
+
+\begin{itemize}
+\item vertices $k\in V$ to lattice points $\Gamma(k)$  
+\item edges $(k,l)\in E$ to paths such that 
+\begin{itemize}
+\item images of their endpoints $\Gamma(k)$ and $\Gamma(l)$ are 
+connected and 
+\item paths do not intersect
+\end{itemize}
+\end{itemize}
+\hspace{2cm}
+\epsfxsize0.35\textwidth\epsfbox{planar_orthogonal_embedding.eps}
+\vfill
+\end{slide}
+
+\begin{slide}
+{\bf Planar orthogonal Hamiltonians}
+\vfill
+\hspace{0.25cm}
+\epsfxsize0.35\textwidth\epsfbox{planar_orthogonal_Hamiltonian.eps}
+\hspace{0.5cm}
+\raisebox{15ex}{\begin{minipage}[t]{5.5cm} 
+\begin{tabular}{rl}
+filled circles & no $\sigma_z$ \\
+thick lines & ${\red -c}\sigma_z\otimes\sigma_z$ \\
+circles &  $\sigma_z$ \\
+thin lines & $\sigma_z\otimes\sigma_z$
+\end{tabular}
+\end{minipage}}
+
+ground states correspond $1$-to-$1$ to grounds states of $H$ for $c=3$
+
+gap between ground and first excited is the same for $c=9$
+\vfill
+can be simulated efficiently by Ising-interactions on lattice
+
+$16$ time steps, $2(c+1)$ time overhead
+\vfill
+\end{slide}
+
+\begin{slide}
+{\bf Quantum complexity classes}
+\medskip
+
+determining minimal energy of 
+\begin{itemize}
+\item pair-interaction ($2$-local) Hamiltonians: NP-complete
+\item $k$-local Hamiltonians: {\blue QMA}-complete for $k\ge 3$
+\end{itemize}
+\medskip
+
+QMA/QCMA quantum extensions of NP
+\vfill
+\end{slide}
+
+\begin{slide}
+{\bf New complete problems for QMA/QCMA}
+\medskip
+
+{\red low-energy and low-complexity states of local Hamiltonians}
+\vfill
+
+{\red Non-identity check}
+
+\medskip
+
+{\red Non-identity check on basis states}
+\medskip
+
+$\Rightarrow$ impression of how difficult it is to decide if an 
+implementation in the control-theoretic model is optimal
+\medskip
+
+$\rightarrow$ justification for considering infinitesimal time
+intervals (mutual simulation of Hamiltonians) 
+\vfill
+\end{slide}
+
+
+\begin{slide}
+{\bf Mathematical tools}
+
+{\blue Vector majorization}
+
+let $x=(x_1,x_2,\ldots,x_d)\in\R^d$
+
+define
+$x^\downarrow=(x^\downarrow_1,x^\downarrow_2,\ldots,x^\downarrow_d)\in\R^d$
+as the vector whose components are the same as of $x$, but ordered so that
+\[
+x^\downarrow_1\ge x^\downarrow_2\ge\ldots\ge x^\downarrow_d
+\]
+
+{\blue $x$ majorizes $y$}, written {\blue $x\preceq y$}, if
+\[
+\sum_{j=1}^k x^\downarrow_j \le \sum_{j=1}^k y^\downarrow_j
+\]
+for $k=1,\ldots,d-1$ and 
+\[
+\sum_{j=1}^d x^\downarrow_j = \sum_{j=1}^d y^\downarrow_j
+\]
+\end{slide}
+
+\begin{slide}
+{\bf Mathematical tools} 
+
+{\blue Operator majorization}
+\vfill
+let $A$ and $B$ be two Hermitian matrices of size $d$
+
+we say {\blue $A$ majorizes $B$}, written {\blue $A\preceq B$}, if
+\[
+\lambda(A)\preceq\lambda(B)\,,
+\]
+where $\lambda(A)$ and $\lambda(B)$ are the spectra (the vectors of
+eigenvalues) of $A$ and $B$, respectively.
+\vfill
+{\bf Uhlmann's theorem} 
+
+we have $A\preceq B$ iff
+\[
+A=\sum_{j=1}^N p_j U_j^\dagger B U_j\,,
+\]
+where $\{p_j\}$ is a probability distribution and $\{U_j\}$ is a set
+of unitaries
+\vfill
+\end{slide}
+
+\end{document}
+

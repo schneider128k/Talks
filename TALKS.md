@@ -27,6 +27,20 @@ and the talks I gave after 2020 are not yet reconstructed.
   [abstract](documents/2004-02_mixing_properties_pspace/mixing_properties_pspace_abstract.pdf) ·
   [sources](documents/2004-02_mixing_properties_pspace/)
 
+- **Computational Power of Hamiltonians in Quantum Computing** — *Invited talk*, September 2003  
+  Fondazione Istituto per l'Interscambio Scientifico (ISI), Turin, at the invitation of
+  Prof. Mario Rasetti. I was in Turin from 22 to 25 September.  
+  The main results of the dissertation, shown to Rasetti shortly before he examined them: he was
+  the Korreferent, the second reviewer, and the oral examination followed on 17 November 2003
+  under this same title.  
+  The control-theoretic model and the definition of mutual simulation of Hamiltonians; lower
+  bounds from the majorization and rank criteria; the complexity of time reversal; selective
+  decoupling by chromatic index; the construction of planar orthogonal Hamiltonians whose ground
+  states encode maximum independent sets; and the new complete problems for QMA and QCMA.  
+  [presentation](documents/2003-09_computational_power_turin/computational_power_turin_presentation.pdf) ·
+  [abstract](documents/2003-09_computational_power_turin/computational_power_turin_abstract.txt) ·
+  [sources](documents/2003-09_computational_power_turin/)
+
 - **Mutual simulation of Hamiltonian dynamics on interacting quantum systems** — *Seminar*, 1 April 2003  
   Institute for Quantum Information (IQI), California Institute of Technology, Pasadena, at
   the invitation of Prof. John Preskill. I stayed three weeks.  
@@ -38,6 +52,21 @@ and the talks I gave after 2020 are not yet reconstructed.
   [presentation](documents/2003-04_mutual_simulation_caltech/mutual_simulation_caltech_presentation.pdf) ·
   [abstract](documents/2003-04_mutual_simulation_caltech/mutual_simulation_caltech_abstract.txt) ·
   [sources](documents/2003-04_mutual_simulation_caltech/)
+
+- **Computational Power of Hamiltonians in Quantum Computing** — *Professorenrunde*, February 2003  
+  Universität Karlsruhe (TH), Fakultät für Informatik. The Professorenrunde was the presentation
+  to the faculty's professors that had to be given before the oral doctoral examination; the
+  examination itself followed on 17 November 2003, under this same title.  
+  The Karlsruhe Hamiltonian-simulation work put to a general audience: average Hamiltonian
+  theory and the fast control limit, simulation as a convex sum of local conjugates, decoupling
+  by error bases and orthogonal arrays, and the bounds on the time overhead read off the
+  interaction graph — with time reversal and the separability problem as the applications.  
+  I finished the deck on the evening of 18 February, and the last thing I did to it was to
+  replace the opening technical slide with a plain German overview of the field — quantum
+  complexity theory, quantum cryptography, quantum communication — which is the one slide in
+  the talk that is not in English.  
+  [presentation](documents/2003-02_computational_power_karlsruhe/computational_power_karlsruhe_presentation.pdf) ·
+  [sources](documents/2003-02_computational_power_karlsruhe/)
 
 - **Complexity of Mutual Simulation of Hamiltonian Dynamics** — *Invited talk*, 12 July 2002  
   Ludwig-Maximilians-Universität München. Invited, as I remember it, by Robert Raussendorf.  
@@ -68,8 +97,8 @@ and the talks I gave after 2020 are not yet reconstructed.
   QIP 2002, the Fifth Workshop on Quantum Information Processing, IBM T.J. Watson Research
   Center, Yorktown Heights, 14–17 January 2002.  
   Joint work with Martin Rötteler, Dominik Janzing and Thomas Beth.  
-  The same poster as the Turin one below, listed here under the title of the paper it was
-  built around.  
+  The same poster as the one for the Turin project meeting below, listed here under the title of
+  the paper it was built around.  
   [poster](documents/2001-10_multiparticle_hamiltonians/multiparticle_hamiltonians_poster.pdf)
 
 - **Universal Simulation of Multiparticle Hamiltonians: Efficient Schemes and Complexity Bounds** — *Poster*, October 2001  
