@@ -22,9 +22,7 @@ and the talks I gave after 2020 are not yet reconstructed.
   University of Bristol on 17 March 2004, at Richard Jozsa's invitation, under the title
   *Measuring 4-local n-qubit observables could probabilistically solve PSPACE*; and at
   Imperial College London, arranged with Martin Plenio for the same trip.  
-  One figure the slides call for, `schaltkreis_1bit_neu.eps`, is not in the archive, so the
-  sources no longer build complete. The PDF here is made from the DVI file of the time, and
-  has the space where that one drawing belongs.  
+  The talk is built on [quant-ph/0308011](https://arxiv.org/abs/quant-ph/0308011).  
   [presentation](documents/2004-02_mixing_properties_pspace/mixing_properties_pspace_presentation.pdf) ·
   [abstract](documents/2004-02_mixing_properties_pspace/mixing_properties_pspace_abstract.pdf) ·
   [sources](documents/2004-02_mixing_properties_pspace/)
