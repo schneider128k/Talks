@@ -1,9 +1,9 @@
 # Research record
 
-A record of my research: the papers I published, the talks and posters I gave, and the notes and
-coursework I wrote as a student in Karlsruhe — with the LaTeX sources for those of them that
-survive. It runs from 1996 to the present, through the university years and the industrial ones
-that followed.
+What I have published, the talks and posters I have given, and the notes and coursework I wrote as
+a student in Karlsruhe — kept as three lists, in chronological order, with the LaTeX sources
+wherever I still have them. It runs from 1996 to the present, through the university years and the
+industrial ones that followed.
 
 ## How this is organised
 
@@ -98,26 +98,44 @@ are here only so that the documents still build, and they are not my work.
 The lecture notes on public key cryptography are a special case: the writing is mine, but the
 course was Dr. Willi Geiselmann's, and the mathematics and the choice of material in them are his.
 
+There is no code in this repository, so there is no software licence here. The code sits in the
+thesis repositories instead — the original implementations, where they survive, and the modern
+Python reimplementations — and each of those carries its own licence for it.
+
 ---
 
-I am glad to have been able to put the student material back together. When I left Karlsruhe I
-burned my university account onto a CD-ROM, and then moved continents. The disc was copied onto
-one machine after another for the next twenty years, mostly unread, and that is the only reason
-any of it still exists. The oldest thing here is from February 1996, my third semester. I did not
-expect that anything from then had survived.
+## How the old material survived
 
-It had, but not in one place. Going through those layers of backups meant matching files by their
-contents rather than by their names, which is what made the difference: filenames on those
-machines were limited to eight characters, and after so much copying the contents are the more
-reliable guide.
+This concerns the Karlsruhe years, and mostly the oldest part of them. Nothing from 2000 onwards had
+to be recovered — those papers were published and are on the arXiv.
+
+The early work was written on a PC and carried on floppy disks over to the Sun workstations at the
+institute, where my university account lived. When I left Karlsruhe I burned that account onto a
+CD-ROM, and then moved continents. The disc was copied onto one machine after another for the next
+twenty years, mostly unread, and that is the only reason any of it still exists. The oldest thing
+here is from February 1996, my third semester. I did not expect that anything from then had survived.
+
+It had, but not in one place. Putting it back together turned out to be a genuinely enjoyable piece
+of digital forensics and archaeology. The same file existed in a dozen copies under a dozen names, so
+things had to be matched by their contents rather than by their names — filenames on those machines
+were limited to eight characters, and after that much copying the contents are the more reliable
+guide. Much of the history had to be read off the artifacts rather than the documents: when a build
+was last run, which version of LaTeX a source expected, what a compiler had complained about at the
+time.
 
 Two papers I had almost forgotten came back with it: one written out of the Studienarbeit, with
 Michael Schmid and Thomas Beth, and one written out of the Diplomarbeit, with Gaétan Haché.
 Neither was ever published, and I am glad they are not lost.
 
-Thomas Beth, who supervised the Proseminar, the Studienarbeit and the dissertation and was a
-co-author on much of the early work here, died in 2005. Three obituaries, the first of them written
-by three of my colleagues at the IAKS:
+## Thomas Beth
+
+Thomas Beth supervised my Proseminar, my Studienarbeit and my dissertation, and he was a co-author
+on much of the early work here. More than that, he shaped my scientific education — what I think is
+worth asking, and the habit of turning a problem over and over until it looks different. I owe him a
+great deal, and I am grateful for it.
+
+He died in 2005, at fifty-five, far too young. Three obituaries, the first of them written by three
+of my colleagues at the IAKS:
 
 - Markus Grassl, Andreas Klappenecker and Martin Rötteler, *In Memoriam: Thomas Beth*, Quantum
   Information Processing **5** (2006), 1–4 —
