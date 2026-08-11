@@ -69,7 +69,9 @@ and the talks I gave after 2020 are not yet reconstructed.
   [sources](documents/2003-02_computational_power_karlsruhe/)
 
 - **Complexity of Mutual Simulation of Hamiltonian Dynamics** — *Invited talk*, 12 July 2002  
-  Ludwig-Maximilians-Universität München. Invited, as I remember it, by Robert Raussendorf.  
+  Ludwig-Maximilians-Universität München, at the invitation of Robert Raussendorf, who asked me
+  on 14 June 2002 to speak in their seminar on Friday 5 July and moved it to the 12th a week
+  later. The seminar drew people from Immanuel Bloch's experimental group as well.  
   Joint work with Dominik Janzing, Martin Rötteler and Thomas Beth.  
   Much the same talk as the one in Bad Honnef six months earlier, but with new material on
   the mathematics it rests on: vector and operator majorization, and Uhlmann's theorem.
