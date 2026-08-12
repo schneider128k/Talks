@@ -10,6 +10,33 @@ and the talks I gave after 2020 are not yet reconstructed.
 
 ## University of Central Florida
 
+- **Efficient Combinatorial Schemes for Decoupling and Simulating Hamiltonians** —
+  *Invited talk*, December 2007  
+  QEC07, the First International Conference on Quantum Error Correction, Center for Quantum
+  Information Science & Technology (CQIST), University of Southern California, Los Angeles,
+  17–21 December 2007, at the invitation of Prof. Daniel Lidar.  
+  The same invitation asked me to contribute a chapter to the book on quantum error
+  correction; that became *Combinatorial decoupling schemes*, with Martin Rötteler, in the
+  volume edited by Daniel Lidar, Todd Brun and Paolo Zanardi (Cambridge University Press,
+  2013).  
+  The talk is built on
+  [quant-ph/0409135](https://arxiv.org/abs/quant-ph/0409135), with Martin Rötteler, and
+  [quant-ph/0410107](https://arxiv.org/abs/quant-ph/0410107).  
+  What I have is the PDF of the slides, not the source they were built from.  
+  [presentation](documents/2007-12_combinatorial_decoupling_qec07/combinatorial_decoupling_qec07_presentation.pdf)
+
+- **Introduction to Quantum Algorithms Based on Group Representations** —
+  *Conference talk*, September 2007  
+  Conference on Group Representations and Combinatorics, Department of Mathematics,
+  University of Florida, Gainesville, at the invitation of Prof. Pham Huu Tiep.  
+  I gave the same talk again to the Department of Mathematics at the University of Central
+  Florida in March 2008.  
+  A survey written for mathematicians rather than physicists: the hidden subgroup problem,
+  and the part representation theory plays in the quantum algorithms that solve it.  
+  [presentation](documents/2007-09_group_representations_gainesville/group_representations_gainesville_presentation.pdf) ·
+  [abstract](documents/2007-09_group_representations_gainesville/group_representations_gainesville_abstract.pdf) ·
+  [sources](documents/2007-09_group_representations_gainesville/)
+
 - **A PromiseBQP-complete String Rewriting Problem** — *Invited talk*, July 2007  
   Workshop on the Computational Complexity of Quantum Hamiltonian Systems, Lorentz Center,
   Universiteit Leiden, organized by Barbara Terhal and David DiVincenzo.  
@@ -23,7 +50,12 @@ and the talks I gave after 2020 are not yet reconstructed.
   *Seminar*, May 2007  
   Institute for Quantum Information (IQI), California Institute of Technology, Pasadena.  
   Joint work with Thomas Decker and Jan Draisma.  
-  I gave versions of this talk several more times through 2007.  
+  I gave versions of this talk three more times that year: at a workshop on quantum algorithms
+  and multi-party protocols in Sydney at the end of May, at the invitation of Jason Twamley;
+  in the quantum information special session of the AMS–PTM Joint Meeting in Warsaw at the
+  beginning of August, at the invitation of Mary Beth Ruskai; and on 4 October in the
+  Rutgers/NEC Labs seminar series *Quantum Computing: Theory and Implementations* in
+  Princeton, at the invitation of Martin Rötteler.  
   The talk is built on [arXiv:0706.1219](https://arxiv.org/abs/0706.1219).  
   [presentation](documents/2007-05_hidden_polynomial_graphs_caltech/hidden_polynomial_graphs_caltech_presentation.pdf) ·
   [abstract](documents/2007-05_hidden_polynomial_graphs_caltech/hidden_polynomial_graphs_caltech_abstract.txt) ·

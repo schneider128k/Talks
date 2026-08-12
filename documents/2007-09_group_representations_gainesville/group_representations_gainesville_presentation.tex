@@ -1,0 +1,210 @@
+\documentclass[slideColor]{prosper}
+\usepackage{amsmath,amsfonts,amsthm}
+%\usepackage{epsfig}
+%\include{Qcircuit}
+
+
+\newcommand{\bbC}{{\mathbb{C}}}
+\newcommand{\C}{{\mathbb{C}}}
+\newcommand{\F}{{\mathbb{F}}}
+\newcommand{\N}{{\mathbb{N}}}
+\newcommand{\Q}{{\mathbb{Q}}}
+\renewcommand{\R}{{\mathbb{R}}}
+\newcommand{\Z}{{\mathbb{Z}}}
+
+\newcommand{\cA}{{\mathcal{A}}}
+\newcommand{\cD}{{\mathcal{D}}}
+\newcommand{\cH}{{\mathcal{H}}}
+\newcommand{\cN}{{\mathcal{N}}}
+\newcommand{\cP}{{\mathcal{P}}}
+\newcommand{\cQ}{{\mathcal{Q}}}
+\newcommand{\cS}{{\mathcal{S}}}
+\newcommand{\cU}{{\mathcal{U}}}
+\newcommand{\cV}{{\mathcal{V}}}
+
+\newcommand{\tr}{\mathop{\mathrm{tr}}}
+\newcommand{\rank}{\mathop{\mathrm{rank}}}
+\newcommand{\poly}{\mathop{\mathrm{poly}}}
+\newcommand{\E}{\mathop{\mbox{$\mathbf{E}$}}}
+\newcommand{\schur}{\mathop{\mathrm{Schur}}}
+\newcommand{\schursmall}[2]{{\mathrm{S}}_{#1,#2}}
+\newcommand{\planch}{\mathop{\mathrm{Planch}}}
+\newcommand{\planchsmall}[1]{{\mathrm{P}}_{#1}}
+\renewcommand{\d}{{\mathrm{d}}}
+
+\newcommand{\HSP}{\textsc{hsp}\xspace}
+
+\renewcommand{\>}{\rangle}
+\newcommand{\<}{\langle}
+\newcommand{\ket}[1]{|#1\rangle}
+\newcommand{\bra}[1]{\langle #1|}
+\newcommand{\scalar}[2]{\langle #1|#2\rangle}
+\newcommand{\proj}[1]{\left|#1\right\>\!\left\<#1\right|}
+\newcommand{\norm}[1]{\|#1\|}
+\newcommand{\ot}{\otimes}
+\newcommand{\eps}{\epsilon}
+\newcommand{\ra}{\rightarrow}
+
+\renewcommand{\setminus}{\mathbin{-}}
+\newcommand{\partitionof}{\mathbin{\vdash}}
+
+
+\newcommand{\I}{\mathrm{I}}
+\renewcommand{\H}{\mathrm{H}}
+\renewcommand{\S}{\mathrm{S}}
+\newcommand{\T}{\mathrm{T}}
+
+%
+
+\newcommand{\bI}{\mathbb{I}}
+\newcommand{\bH}{\mathbb{H}}
+\newcommand{\bS}{\mathbb{S}}
+\newcommand{\bT}{\mathbb{T}}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Introduction to Quantum Algorithms Based on Group Representations}
+\author{Pawel M. Wocjan\\[1ex]School of Electrical Engineering and Computer Science\\ University of Central Florida\\Orlando}
+\email{wocjan@cs.ucf.edu}
+
+\begin{document}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Quantum Computing}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Black-box Functions}
+
+Let $R$ and $S$ be two sets.
+
+\medskip
+A function $f : R \rightarrow S$ is called a black-box function if
+
+\begin{itemize}
+\item we don't know how $f$ is implemented 
+\item the only way we can learn something about $f$ is to query $f$, i.e., to choose $r\in R$ and to obtain $f(r)$ (possibly multiple times; the queries could be adaptive)
+\end{itemize}
+
+Usually, the task is to determine some property of $f$.
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Black-box Functions on Groups}
+
+Let $G$ be a group and $S$ some set.
+
+\bigskip
+We say that the black-box function $f : G \rightarrow S$ hides a subgroup $H\le G$ if $f$ satisfies the following two conditions:
+
+\begin{itemize}
+\item $f$ is constant on the left cosets of $H$ in $G$, i.e.,
+\[
+f(g)=f(h) \mbox{ iff $gH=hH$}
+\]
+\item $f$ is different on different cosets, i.e., 
+\[
+f(g)\neq f(h) \mbox{ iff $gH\neq hH$}
+\]
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{The Stabilizer Problem as a HSP}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Important Applications of HSP}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Complexity of the Hidden Subgroup Problem}
+
+The task is to determine a generating set of the hidden subgroup $H$ by only querying $f$.
+
+\bigskip
+Classically, we need $\Omega(|G|)$ queries to solve the HSP.  
+
+\bigskip
+In contrast, we can solve the problem with high probability and running time $O(\log^c(|G|))$ on quantum computer for the following families of groups:
+
+\begin{itemize}
+\item
+\item
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Intro to Quantum Computing}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Pontrajagin-duality}
+\textcolor{blue}{Theorem (Pontrajagin-duality)}
+
+For every finite abelian group $G$ there is an isomorphism $\phi$ with $G\cong_{\phi} \hat{G}:={\rm Hom}(G,\C^\times)$.
+
+\medskip
+Let $\beta$ be the pairing between $G$ and $\hat{G}$ defined by 
+\[
+\beta : \left\{
+\begin{array}{ccc}
+G \times \hat{G} & \rightarrow & \C^\times \\
+(g,\chi)         & \mapsto     & \chi(g)
+\end{array}
+\right.
+\]
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Orthogonal complement of subgroups}
+
+\medskip
+We say that $g\in G$ is orthogonal to $\chi\in\hat{G}$, denoted by $g \perp \chi$, if $\beta(g,\chi)=1$, that is, $g\in{\rm ker}(\chi)$.
+
+\medskip
+We identify $\hat{A}$ and $A$ with respect to the isomorphism $\phi$ and define for a subgroup $H\le G$ an orthogoanl complement by
+\[
+H^{\perp} := \{y\in G \mid \forall x\in H : y \perp x\} 
+\]
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Fourier transform}
+The Fouriertransform ${\rm DFT}_G$ over the abelian group $G$ is defined by
+\[
+{\rm DFT}_G := \frac{1}{\sqrt{|G|}} \sum_{x,y\in G} \beta(x,y) |y\>\<x|
+\]
+
+Lemma: For every subgroup $H\le G$ and $g\in G$ we have
+\[
+{\rm DFT}_G \frac{1}{\sqrt{H}} \sum_{x\in H} |g+x\> = \frac{1}{\sqrt{|H^\perp|}} \sum_{y\in H^\perp} \beta(g,y) |y\>
+\]
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+

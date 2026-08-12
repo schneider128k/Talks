@@ -1,0 +1,35 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage,hyperref,bbm,amssymb,amsfonts,amsthm}
+
+\newcommand{\F}{\mathbb{F}}
+%\newcommand{\Pr}{\mathrm Pr}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+
+
+\begin{document}
+\title{Introduction to Quantum Algorithms\\ Based on Group Representations}
+\author{Pawel Wocjan\\{\small School of Electrical Engineering \& Computer Science}\\[-0.5ex] {\small University of Central Florida}}
+\date{}
+
+\maketitle
+
+\abstract{The research in quantum computing seeks to understand how quantum phenomena can be harnessed to solve some computationally hard problems more efficiently than it is possible with classical (conventional) computers. 
+
+\medskip
+I will start by presenting the mathematical description of the computational model of a quantum computer. For example, the state space (memory) of a quantum computer is a complex Hilbert space ${\cal H}:=\C^2\otimes \C^2\otimes\cdots\otimes\C^2$. Its tensor components are called qubits (quantum bits) and are the quantum generalizations of bits (classical bits). 
+
+\medskip
+Most fast quantum algorithms, including Shor's celebrated algorithm for factoring integers and determining discrete logarithms, proceed by reduction to a so-called {\it hidden subgroup problem} (HSP), in which an unknown subgroup $H$ of a finite group $G$ must be determined by querying a black-box function $f : G \longrightarrow S$, where $S$ is some finite set. The only information available about $f$ is that it is constant on the left cosets of $H$ in $G$ and that it is different on different cosets. Many relevant problems can be cast as HSPs over different groups. For example, integer factorization reduces to the HSP over $\Z_N^*$ (where $N$ is the number we want to factor) and graph isomorphism to a HSP over the wreath product $S_2 \wr S_n$ (where $n$ is the number of vertices of the graphs). 
+
+\medskip
+Classically, $\Omega(|G|)$ queries are necessary to determine $H$ in terms of, say, a generating set. In contrast, quantum algorithms make it possible to determine a generating set of $H$ in time $O(\log^c|G|)$ for all abelian and some nonabelian groups $G$ (where $c$ is a constant depending on the family of groups under consideration). It is an open research problem to design efficient quantum algorithms for the general nonabelian HSP. I will describe how tools and ideas from representation theory such as Fourier analysis have been used in the development of efficient quantum algorithms for the HSP over abelian groups and in the attempts to solve the nonabelian case.
+
+\medskip
+I hope to convince the audience that many interesting group-theoretic problems arise in quantum computing (also outside of the HSP setting) and that it should not be too difficult for mathematicians trained in linear algebra and group theory to fully understand the abstract mathematical description of quantum computers and algorithms.
+}
+
+
+\end{document}
