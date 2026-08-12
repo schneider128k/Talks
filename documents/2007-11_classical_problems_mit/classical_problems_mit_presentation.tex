@@ -1,0 +1,995 @@
+\documentclass[slideColor]{prosper}
+\usepackage{amsmath,amsfonts,amsthm}
+%\usepackage{epsfig}
+\include{Qcircuit}
+
+
+\newcommand{\bbC}{{\mathbb{C}}}
+\newcommand{\C}{{\mathbb{C}}}
+\newcommand{\F}{{\mathbb{F}}}
+\newcommand{\N}{{\mathbb{N}}}
+\newcommand{\Q}{{\mathbb{Q}}}
+\renewcommand{\R}{{\mathbb{R}}}
+\newcommand{\Z}{{\mathbb{Z}}}
+
+\newcommand{\cA}{{\mathcal{A}}}
+\newcommand{\cD}{{\mathcal{D}}}
+\newcommand{\cH}{{\mathcal{H}}}
+\newcommand{\cN}{{\mathcal{N}}}
+\newcommand{\cP}{{\mathcal{P}}}
+\newcommand{\cQ}{{\mathcal{Q}}}
+\newcommand{\cS}{{\mathcal{S}}}
+\newcommand{\cU}{{\mathcal{U}}}
+\newcommand{\cV}{{\mathcal{V}}}
+
+\newcommand{\tr}{\mathop{\mathrm{tr}}}
+\newcommand{\rank}{\mathop{\mathrm{rank}}}
+\newcommand{\poly}{\mathop{\mathrm{poly}}}
+\newcommand{\E}{\mathop{\mbox{$\mathbf{E}$}}}
+\newcommand{\schur}{\mathop{\mathrm{Schur}}}
+\newcommand{\schursmall}[2]{{\mathrm{S}}_{#1,#2}}
+\newcommand{\planch}{\mathop{\mathrm{Planch}}}
+\newcommand{\planchsmall}[1]{{\mathrm{P}}_{#1}}
+\renewcommand{\d}{{\mathrm{d}}}
+
+\newcommand{\HSP}{\textsc{hsp}\xspace}
+
+\renewcommand{\>}{\rangle}
+\newcommand{\<}{\langle}
+%\newcommand{\ket}[1]{|#1\rangle}
+%\newcommand{\bra}[1]{\langle #1|}
+\newcommand{\scalar}[2]{\langle #1|#2\rangle}
+\newcommand{\proj}[1]{\left|#1\right\>\!\left\<#1\right|}
+\newcommand{\norm}[1]{\|#1\|}
+\newcommand{\ot}{\otimes}
+\newcommand{\eps}{\epsilon}
+\newcommand{\ra}{\rightarrow}
+
+\renewcommand{\setminus}{\mathbin{-}}
+\newcommand{\partitionof}{\mathbin{\vdash}}
+
+
+\newcommand{\I}{\mathrm{I}}
+\renewcommand{\H}{\mathrm{H}}
+\renewcommand{\S}{\mathrm{S}}
+\newcommand{\T}{\mathrm{T}}
+\newcommand{\G}{\mathrm{G}}
+%
+
+\newcommand{\bI}{\mathbb{I}}
+\newcommand{\bH}{\mathbb{H}}
+\newcommand{\bS}{\mathbb{S}}
+\newcommand{\bT}{\mathbb{T}}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Classical Problems Characterizing\\ the Power of Quantum Computing}
+\author{Pawel M. Wocjan\\[1ex]School of Electrical Engineering and Computer Science\\ University of Central Florida\\Orlando}
+\email{wocjan@cs.ucf.edu}
+
+\begin{document}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Joint work with}
+\begin{itemize}
+\item Dominik Janzing (School of EECS, University of Central Florida) 
+\item Shengyu Zhang (IQI, Caltech)
+\end{itemize}
+
+Talk is based on
+\begin{itemize}
+\item A single-shot measurement of the energy of product states in a translation invariant spin chain can replace any quantum computation, \texttt{quant-ph/0710.1615}
+
+\medskip
+\item A Simple PromiseBQP-complete Problem, {\em Theory of Computing}, Volume 3, Article 4, 2007
+
+\medskip
+\item A PromiseBQP-complete String Rewriting Problem, \texttt{quant-ph/0705.1180}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Challenges in Quantum Computer Science}
+
+\begin{itemize}
+\item designing new efficient quantum algorithms
+\item	understanding the computational power and limitations of quantum computers in comparision to those of classical computers 
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Complexity Class PromiseBQP}
+
+PromiseBQP is the class of promise problems $(\Pi_{{\rm YES}},\Pi_{{\rm NO}})$ that can be solved by a {\em uniform} family of quantum circuits $\{U_n\}$ in the following sense:
+
+\bigskip
+Let ${\bf x}$ be a binary string of length $n$. Then the application of $U_n$ to $|{\bf x},{\bf 0}\>$ produces the state
+\[
+U_n |{\bf x},{\bf 0}\> = \alpha_{{\bf x},0}|0\> \otimes |\psi_{{\bf x},0}\> + \alpha_{{\bf x},1}|1\> \otimes |\psi_{{\bf x},1}\>
+\]
+such that 
+\begin{itemize}
+\item $|\alpha_{{\bf x},1}|^2\ge 2/3$ if $x\in \Pi_{{\rm YES}}$
+\item $|\alpha_{{\bf x},1}|^2\le 1/3$ if $x\in \Pi_{{\rm NO}}$
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Measurements of Observables}
+
+\begin{itemize}
+\item
+a measurement of the obervable $A$ with spectral decomposition 
+\[
+A=\sum_{\lambda} \lambda \, Q_\lambda
+\]
+is a quantum process that
+
+\medskip
+\begin{itemize}
+\item outputs the eigenvalue $\lambda$  
+
+\medskip
+\item with probability ${\rm tr}(Q_\lambda \, \rho)$
+\end{itemize}
+
+\medskip
+when applied to an arbitrary quantum state $\rho$
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Remarks: Measurements of Observables}
+
+\begin{itemize}
+\item note that
+
+\begin{itemize}
+
+\medskip
+\item the post-measurement state is irrelevant
+
+\medskip
+\item a quantum process with the property that the expectation of the generated values is equal to ${\rm tr}(A\,\rho)$ may not suffice
+\end{itemize}
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Spectral measure}
+
+\begin{itemize}
+\item
+the spectral measure induced by the observable $A$ and the state $\rho$ is the probability distribution on $\Omega=\R$ where
+\[
+\Pr(\lambda) = {\rm tr}(Q_\lambda \rho)
+\]
+we set $Q_\lambda = {\bf 0}$ for all $\lambda\not\in {\rm Spec}(A)$
+
+\item
+a measurement of $A$ in the state $\rho$ allows us to sample according the spectral measure
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Accuracy of Measurements}
+
+We say that an approximate measurement of $A$ has 
+\begin{itemize}
+\item maximal error $\delta$ and
+\item reliability $1-\epsilon$
+\end{itemize}
+iff 
+\[
+\Pr(\lambda\in [a-\delta,b+\delta]) \ge {\rm tr}(Q_{[a,b]}\, \rho)\cdot(1-\epsilon)
+\]
+for all intervals $[a,b]\subseteq\R$ and all states $\rho$
+
+\bigskip
+where $Q_{[a,b]} = \sum_{\mu\in [a,b]} Q_\mu$
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Efficient Implementation of Measurements}
+\begin{itemize}
+\item let $A$ be a sparse matrix of size $N$
+
+\medskip
+\item a measurement of $A$ with maximal error $\delta$ and reliability $1-\epsilon$ can be implemented with resources (time and space) that are polynomial in $1/\delta$, $1/\epsilon$ and $\log N$
+
+\medskip
+\item the idea is to
+
+\begin{itemize}
+\item simulate time evolution $U\approx \exp(-i A/\|A\|)$ 
+
+\medskip
+\item apply phase estimation to $U$
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Quantum Computution with Measurements}
+\begin{itemize}
+\item there is a family of Hamiltonians $H^{(m)}$ acting on qudit chains $(\C^{60})^{\otimes m}$
+\[
+H^{(m)}=\sum_{j=0}^{m-2} H_{j,j+1}
+\]
+where $m=poly(n)$ such that a single-shot measurement of the energy of 
+
+\begin{itemize}
+\item canonical basis states 
+
+\medskip
+\item with error $\delta=1/poly(m)$ and reliability $1-\epsilon$ 
+\end{itemize}
+
+solves BQP in a probabilistic sense
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Properties of the Hamiltonians}
+
+\begin{itemize}
+\item the Hamiltonians $H^{(m)}$ are ``physically realistic'' since
+
+\begin{itemize}
+\item each $H^{(m)}$ is translation invariant
+
+\medskip
+\item each $H^{(m)}$ consists of nearest-neighbor interactions; $H$ acts on $(\C^{60})^{\otimes 2}$
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Solving BQP in a probabilistic sense}
+
+\begin{itemize}
+\item for all input strings ${\bf x}$ of length $n$ there is
+  
+  \begin{itemize}
+  \item a partition $\R = {\cal Y}_m \, \dot{\cup} \, {\cal N}_m$ and
+
+  \medskip
+  \item a canonical basis state $|\psi_x\>\in(\C^{60})^{\otimes m}$ such that
+  \end{itemize}
+  \vspace{-0.5cm}
+  \begin{eqnarray*}
+  \Pr(\lambda\in \textcolor{red}{{\cal Y}_m}  \, | \, x\in \textcolor{red}{\Pi_{\rm YES}}) & \ge & p_{{\bf x}, \textcolor{red}{1}}  (1-\epsilon) \\ && \\
+  \Pr(\lambda\in \textcolor{blue}{{\cal N}_m} \, | \, x\in \textcolor{blue}{\Pi_{\rm NO}}) & \ge & p_{{\bf x}, \textcolor{blue}{0}} (1-\epsilon) 
+  \end{eqnarray*}
+
+  where $\lambda$ is the random output of the approximate energy measurement of $H^{(m)}$ in the state $|\psi_x\>$
+  
+  \medskip
+  \item
+  the objects $m$, $|\psi_x\>$, $Y_m$, and $N_m$ can be efficiently computed from $x$ and $U^{(n)}$
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Idea of the Proof}
+\begin{itemize}
+\item let $U=U_r U_{r-1} \cdots U_1$ be an arbitrary quantum circuit 
+
+\medskip
+\item define the non-unitary gates $R:=|1\>\<1|$ and $E:={\bf 0}$ 
+
+\medskip
+\item for $s>r$ define the non-unitary circuit 
+\[
+\hat{U}=\hat{U}_{s+1}\hat{U}_s \hat{U}_{s-1} \cdots \hat{U}_{r+1} \hat{U}_r \hat{U}_{r-1} \cdots \hat{U}_1
+\]
+\begin{itemize}
+\item the gates of $\hat{U}$ are 
+\begin{eqnarray*}
+\hat{U}_t     & := & U_t \quad\quad\mbox{for $t=1,\ldots,r$}    \\
+\hat{U}_{r+1} & := & R                                          \\
+\hat{U}_t     & := & I   \quad\quad\mbox{ for $t=r+2,\ldots,s$} \\
+\hat{U}_{s+1} & := & E
+\end{eqnarray*}
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Example}
+
+\[
+\Qcircuit @C=1em @R=.7em {
+\lstick{|x\>} & \multigate{1}{U_1} & \qw                & \multigate{1}{U_3} & \gate{U_4} & \gate{R} & \gate{I} & \gate{I} & \gate{I} & \gate{E} & \qw \\
+\lstick{|0\>} & \ghost{W}          & \multigate{1}{U_2} & \ghost{U_3}        & \qw        & \qw      & \qw      & \qw      & \qw      & \qw      & \qw \\
+\lstick{|0\>} & \qw                & \ghost{U_2}        & \qw                & \qw        & \qw      & \qw      & \qw      & \qw      & \qw      & \qw  
+} 
+\]
+\begin{itemize}
+\item $r=4$ and $s=8$
+\item read-out gate $R:=|1\>\<1|$ and end-gate $E:={\bf 0}$
+\item 
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Forward-Time Operator}
+
+\begin{itemize}
+\item adjoin a Hilbert space $\cH_{\rm clock}$ to the quantum register 
+
+\medskip
+\item define the forward operator $F$ by
+\begin{eqnarray*}
+F \Big( |\varphi\> \otimes |t\> \Big)         & = & \hat{U}_{t+1} |\varphi\> \otimes |t+1\> \mbox{ for $t=0,\ldots,s$} \\
+F^\dagger \Big( |\varphi\> \otimes |0\> \Big) & = & 0 
+\end{eqnarray*}
+
+\item define the initial state $|\psi\>:=|{\bf x},{\bf 0}\> \otimes |0\>_{\rm clock}$ 
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Intuitive Action of $F$}
+
+\begin{itemize}
+\item $F$ operates as follows:
+
+\begin{itemize}
+\item $F$ implements $U=U_r U_{r-1} \cdots U_1$
+
+\medskip
+\item $F$ checks the output of $U$ (with read-out gate $R$)
+
+\medskip
+\item \quad output NO $\Rightarrow$ $F$ stops
+
+\medskip
+\item \quad output YES $\Rightarrow$ $F$ carries out idle steps
+
+\medskip
+\item $F$ stops unconditionally (end-gate $E$)
+\end{itemize}
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Action of $F$}
+
+\begin{itemize}
+
+\item define the matrix $\hat{F}$ acting on $\cH:=\C^{r+1}\oplus \C^{s+1}$ by 
+\[
+\hat{F}:=S_{r+1} \oplus S_{s+1}
+\]
+$S_{r+1}$ and $S_{s+1}$ are the adjacency matrices of line graphs with $r+1$ and $s+1$ vertices
+
+\medskip
+\item define the state $|\phi\>:=\sqrt{1-p_1} |0\> \oplus \sqrt{p_1} |0\>$
+
+\medskip
+\item $\Rightarrow$ there is a nice isomorphism between $F$ and $\hat{F}$
+\begin{eqnarray*}
+{\rm span}\{ F^t|\psi\>\} & \cong & \cH \\ 
+&& \\
+F^t|\psi\>                & \cong & \hat{F}^t|\phi\>
+\end{eqnarray*}
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Spectral measure}
+
+\begin{itemize}
+\item $\Rightarrow$ the spectral measure induced by 
+\[
+H=F+F^\dagger \mbox{ and } |\psi\>=|{\bf x},{\bf 0}\>\otimes |0\>_{\rm clock}
+\]
+is a convex combination 
+\[
+(1-p_1) P_{r+1} + p_1 P_{s+1}
+\]
+
+where $P_{r+1}$ and $P_{s+1}$ are probability distributions on the spectra of the line graphs with $r+1$ and $s+1$ vertices
+
+\medskip
+\item the spectra ${\cal S}_{r+1}$ and ${\cal S}_{s+1}$ are disjoint and the distance between them is $\Omega(1/poly(r))$
+
+\medskip 
+\item 
+$\Rightarrow$ quantum computation can be replaced by a single-shot approximate energy measurement
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{A Simple PromiseBQP-complete Matrix Problem}
+
+\begin{itemize}
+\item let $A$ be a sparse matrix of size $N$
+
+\medskip
+\item given 
+$m=polylog(N)$,
+$j\in [1,\ldots,N]$,
+$\epsilon=1/polylog(N)$, and 
+$g\in [ - \|A\|^m, \|A\|^m ]$ 
+
+decide if
+\begin{itemize}
+\item $(A^m)>$
+
+\item 
+\end{itemize}
+\item
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{A PromiseBQP-complete String Rewriting Problem}
+
+\begin{itemize}
+\item let $\cA$ be a finite alphabet
+
+\medskip
+\item let $\sim$ be a symmetric relation on substrings of length at most $k$ (where $k$ is a constant)
+
+\medskip
+\item let $A$ be the adjacency matrix of the undirected graph $G=(V,E)$, where
+\begin{itemize}
+
+\medskip
+\item the set of vertices $V$ is $\cA^r$ (strings of length $r$ over $\cA$)
+
+\medskip
+\item the set of edges $E$ corresponds to possible conversions between strings, that is,
+\[
+(avb,awb)\in E \quad \Longleftrightarrow \quad v\sim w\
+\]
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{String Rewriting Problem}
+\begin{itemize}
+\item let $s$, $t$, and $t'$ be three strings in $\cA^r$
+\item let 
+\[
+\Delta_{s,t,t'}(n):=A_{s,t}^n - A_{s,t'}^n
+\]
+be the difference between the number of possibilities to obtain $t$ from $s$ and those to obtain $t'$ from $s$ after exactly $n$ replacements
+\item given the promise
+\begin{itemize}
+\item $|\Delta_{s,t,t'}(n)| \le c^n$ for all $n\in\N$ ({\em growth condition})
+\item $|\Delta_{s,t,t'}(m)|\ge \epsilon c^m$
+\end{itemize}
+determine the sign of $\Delta_{s,t,t'}(m)$ where
+
+$c>0$ is a constant, $m\in\N$ with $m=poly(r)$, and $\epsilon\in [0,1]$ with $\epsilon=poly(1/r)$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Motivation from Bioinformatics}
+\begin{itemize}
+\item strings $s$, $t$, and $t'$ correspond to DNA sequences 
+\item mutations change substrings (possible mutations are specified by the relation $\sim$)
+\item String rewriting problem:
+
+Are there more possibilities to mutate from $s$ to $t$ or from $s$ to $t'$ if exactly $m$ mutations occur?
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{PromiseBQP-complete}
+Theorem: String Rewriting is PromiseBQP-complete
+
+\bigskip
+The string rewriting problem is the most difficult problem that can be efficiently solved on a quantum computer.
+
+\bigskip
+Quantum computers are better at estimating differences of combinatorial quantities than classical computers (provided that BPP is not equal to BQP).
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Conclusions}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{``Spectral'' Quantum Algorithms}
+
+\begin{itemize}
+\item Approximate evaluation of Jones, HOMFLYPT, and Tutte polynomials (PromiseBQP-complete problems)
+
+\medskip
+\item Evaluation of NAND-Trees
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Promise Problem}
+
+A promise problem $\Pi$ is a pair $(\Pi_{\rm YES},\Pi_{\rm NO})$ of non-intersecting sets, i.e., 
+$\Pi_{\rm YES},\Pi_{\rm NO}\subseteq\{0,1\}^*$ and $\Pi_{\rm YES}\cap\Pi_{\rm NO}=\emptyset$.
+
+\bigskip
+The set $\Pi_{\rm YES}\cup\Pi_{\rm NO}$ is called the {\em promise}.
+
+\bigskip
+Standard ``language recognition'' problems can be cast as the special case in which that promise is the set of all strings $\Pi_{\rm YES}\cup\Pi_{\rm NO}=\{0,1\}^*$ ({\em trivial promise})
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Complexity Class PromiseBQP}
+
+PromiseBQP is the class of promise problems $(\Pi_{\rm YES},\Pi_{\rm NO})$ that can be solved by a {\em uniform} family of quantum circuits $\{U_n\}$ in the following sense:
+
+\bigskip
+Let ${\bf x}$ be a binary string of length $n$. Then the application of $U_n$ to $|{\bf x},{\bf 0}\>$ produces the state
+\[
+U_n |{\bf x},{\bf 0}\> = \alpha_{{\bf x},0}|0\> \otimes |\psi_{{\bf x},0}\> + \alpha_{{\bf x},1}|1\> \otimes |\psi_{{\bf x},1}\>
+\]
+such that 
+\begin{itemize}
+\item $|\alpha_{{\bf x},1}|^2\ge 2/3$ if $x\in\Pi_{\rm YES}$
+\item $|\alpha_{{\bf x},1}|^2\le 1/3$ if $x\in\Pi_{\rm NO}$
+\end{itemize}
+
+note that nothing is required with respect to inputs that violate the promise
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Complete Problems}
+\begin{itemize}
+\item no complete problems are known for complexity classes such as BPP, BQP, and MA
+\item complete problems are only known for their promise versions 
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{String Rewriting Problem}
+
+\begin{itemize}
+\item let $\cA$ be a finite alphabet
+
+\medskip
+\item let $\sim$ be a symmetric relation on substrings of length at most $k$ (where $k$ is a constant)
+
+\medskip
+\item let $A$ be the adjacency matrix of the undirected graph $G=(V,E)$, where
+\begin{itemize}
+
+\medskip
+\item the set of vertices $V$ is $\cA^r$ (strings of length $r$ over $\cA$)
+
+\medskip
+\item the set of edges $E$ corresponds to possible conversions between strings, that is,
+\[
+(avb,awb)\in E \quad \Longleftrightarrow \quad v\sim w\
+\]
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{String Rewriting Problem}
+\begin{itemize}
+\item let $s$, $t$, and $t'$ be three strings in $\cA^r$
+\item let 
+\[
+\Delta_{s,t,t'}(n):=A_{s,t}^n - A_{s,t'}^n
+\]
+be the difference between the number of possibilities to obtain $t$ from $s$ and those to obtain $t'$ from $s$ after exactly $n$ replacements
+\item given the promise
+\begin{itemize}
+\item $|\Delta_{s,t,t'}(n)| \le c^n$ for all $n\in\N$ ({\em growth condition})
+\item $|\Delta_{s,t,t'}(m)|\ge \epsilon c^m$
+\end{itemize}
+determine the sign of $\Delta_{s,t,t'}(m)$ where
+
+$c>0$ is a constant, $m\in\N$ with $m=poly(r)$, and $\epsilon\in [0,1]$ with $\epsilon=poly(1/r)$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Motivation from Bioinformatics}
+\begin{itemize}
+\item strings $s$, $t$, and $t'$ correspond to DNA sequences 
+\item mutations change substrings (possible mutations are specified by the relation $\sim$)
+\item String rewriting problem:
+
+Are there more possibilities to mutate from $s$ to $t$ or from $s$ to $t'$ if exactly $m$ mutations occur?
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{PromiseBQP-complete}
+Theorem: String Rewriting is PromiseBQP-complete
+
+\bigskip
+The string rewriting problem is the most difficult problem that can be efficiently solved on a quantum computer.
+
+\bigskip
+Quantum computers are better at estimating differences of combinatorial quantities than classical computers (provided that BPP is not equal to BQP).
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{String Rewriting is in PromiseBQP}
+
+\begin{itemize}
+\item rewrite $\Delta_{s,t,t'}(m)$ as a difference of expected values
+\[
+\Delta_{s,t,t'}(m)=\sqrt{2}(\<\psi^+|A^m|\psi^+\> - \<\psi^-|A^m|\psi^-\>)
+\]
+with $|\psi^{\pm}\>=(|s\>\pm|\varphi\>)/\sqrt{2}$ and $|\varphi\>=(|t\>+|t'\>))/\sqrt{2}$
+\item determine the expected values as follows:
+\begin{itemize}
+\item let $U:=\exp(-i A/b)$ where $b\le\|A\|$
+\item apply quantum phase estimation to $U$ and $|\psi^{\pm}\>$
+
+\medskip
+this allows one to sample according to the spectral measure induced by $A$ and $|\psi^{\pm}\>$: 
+
+eigenvalue $\lambda_j$ occurs with probability  $\<\psi^{\pm}|P_j|\psi^{\pm}\>$
+\end{itemize}
+\item raise the outcome to the $m$th power
+\item output average value after sufficiently many runs 
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Technical Difficulties}
+
+\begin{itemize}
+\item imperfect simulated time evolution
+\item imperfect reproduction of the spectral measure
+\item amplification of errors due to $x\mapsto x^m$ 
+
+$\Longrightarrow$ use a Lipschitz-continuous function instead
+
+\item imperfect estimation due to statistical fluctuations 
+
+\item most serious problem: the accuracy of the estimation is of order $b^m$  
+
+$\Longrightarrow$ the growth condition allows one to zoom onto the right scale, making it possible to attain accuracy of order $c^m$ 
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{String Rewriting is PromiseBQP-hard}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Equivalent Definition of PromiseBQP}
+
+\begin{itemize}
+\item let $U$ be a quantum circuit and let ${\bf x}$ be the input
+\item let $p_0$ and $p_1$ denote the probability of finding the output qubit in state $|0\>$ and $|1\>$, respectively
+\item elementary calculations show that
+\[
+\<{\bf x}\,, 0\ldots 0|U^\dagger\sigma_z U|{\bf x}\,, 0\ldots 0\>=p_0 - p_1
+\]
+\item the sign of this quantity indicates if $x\in\Pi_{\rm YES}$ or $x\in\Pi_{\rm NO}$
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Quantum-Universal Interaction}
+we construct a quantum-universal translationally-invariant finite-range interaction on a line 
+\[
+H = F + F^\dagger = \sum_j V_j + \sum_j V_j^\dagger
+\]
+acting on $\cH:=(\C^d)^{\otimes l}$ such that
+\[
+\<\omega|H^m|\alpha\>=(p_0 - p_1) \cdot w(m)
+\]
+
+where $|\alpha\>$ and $|\omega\>$ are basis states of $\cH$ that encode the input $x$ and the circuit $U$
+and $w$ is a certain function with $w : \N \rightarrow \R_+$
+
+\bigskip 
+$\Longrightarrow$ the sign of $\<\omega|H^m|\alpha\>$ indicates if $x\in\Pi_{\rm YES}$ or $x\in\Pi_{\rm NO}$
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Action of Forward-Time Operator}
+\[
+\begin{array}{cccccccccccccccccc}
+\#   &\#      &\#      &\#      &\#      &\boxplus & \I  & \T  & \I  &\H      &\I      &\H      &\S      &\I  &\#     &\#  \\
+\mid &\bullet &\bullet &\bullet &\bullet &\mid     & b_1 & b_2 & b_3 & b_4    &\bullet &\bullet &\bullet &\bullet &\bullet &\bullet
+\end{array}\,
+\]
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Action of Forward-Time Operator}
+\[
+\begin{array}{cccccccccccccccccc}
+\#   &\#      &\#      &\#      &\#      &\blacksquare & \I  & \T  & \I  &\H      &\I      &\H      &\S      &\I  &\#     &\#  \\
+\mid &\bullet &\bullet &\bullet &\bullet &\mid    & b_1 & b_2 & b_3 & b_4    &\bullet &\bullet &\bullet &\bullet &\bullet &\bullet
+\end{array}\,
+\]
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Action of Forward-Time Operator}
+\[
+\begin{array}{cccccccccccccccccc}
+\#   &\#      &\#      &\#      &\#      &\I      & \blacksquare  & \T  & \I  &\H      &\I      &\H      &\S      &\I  &\#     &\#  \\
+\mid &\bullet &\bullet &\bullet &\bullet &\mid    & b_1 & b_2 & b_3 & b_4    &\bullet &\bullet &\bullet &\bullet &\bullet &\bullet
+\end{array}\,
+\]
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Action of Forward-Time Operator}
+\[
+\begin{array}{cccccccccccccccccc}
+\#   &\#      &\#      &\#      &\#      &\I      & \T  & \blacksquare  & \I  &\H      &\I      &\H      &\S      &\I  &\#     &\#  \\
+\mid &\bullet &\bullet &\bullet &\bullet &\mid    & b_1 & b_2 & b_3 & b_4    &\bullet &\bullet &\bullet &\bullet &\bullet &\bullet
+\end{array}\,
+\]
+$\blacksquare$ moves to the end of the program code
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Action of Forward-Time Operator}
+\[
+\begin{array}{cccccccccccccccccc}
+\#   &\#      &\#      &\#      &\#      &\I      & \T  & \I  &\H      &\I      &\H      &\S      &\I   &\blacksquare &\#     &\#  \\
+\mid &\bullet &\bullet &\bullet &\bullet &\mid    & b_1 & b_2 & b_3 & b_4    &\bullet &\bullet &\bullet &\bullet &\bullet &\bullet
+\end{array}\,
+\]
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Action of Forward-Time Operator}
+\[
+\begin{array}{cccccccccccccccccc}
+\#   &\#      &\#      &\#      &\#      &\I      & \T  & \I  &\H      &\I      &\H      &\S      &\I   &\Diamond &\#     &\#  \\
+\mid &\bullet &\bullet &\bullet &\bullet &\mid    & b_1 & b_2 & b_3 & b_4    &\bullet &\bullet &\bullet &\bullet &\bullet &\bullet
+\end{array}\,
+\]
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Action of Forward-Time Operator}
+\[
+\begin{array}{cccccccccccccccccc}
+\#   &\#      &\#      &\#      &\#      &\I      & \T  & \I  &\H      &\I      &\H      &\S      &\bI   &\# &\#     &\#  \\
+\mid &\bullet &\bullet &\bullet &\bullet &\mid    & b_1 & b_2 & b_3 & b_4    &\bullet &\bullet &\bullet &\bullet &\bullet &\bullet
+\end{array}\,
+\]
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Action of Forward-Time Operator}
+\[
+\begin{array}{cccccccccccccccccc}
+\#   &\#      &\#      &\#      &\#      &\I      & \T  & \I  &\H      &\I      &\H      &\bS      &\I   &\# &\#     &\#  \\
+\mid &\bullet &\bullet &\bullet &\bullet &\mid    & b_1 & b_2 & b_3 & b_4    &\bullet &\bullet &\bullet &\bullet &\bullet &\bullet
+\end{array}\,
+\]
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Action of $H$ on the Relevant Subspace}
+\begin{itemize}
+\item the restriction of the Hamiltonian $H$ to the span of $F^i|\alpha\>$ is unitarily equivalent to the adjaceny matrix of the line graph
+\[
+\cP:=\sum_{j=0}^{\ell-1} |j\>\<j+1| + |j+1\>\<j|
+\]
+where $\ell$ is the number of transitions until the program code has moved all the way to the left (so that no transition is possible anymore)
+\item 
+\[
+\<\omega|H^m|\alpha\>=(p_0 - p_1) (\cP^m)_{0,\ell-1}
+\]
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Hamiltonian $H$}
+\[
+H = F + F^\dagger = \sum_{j=1}^r V_j + V_j^\dagger
+\]
+the operator $V$ acts on three adjacent cells
+\[
+V = Z \big( U_\T P_\T + U_\S P_\S + U_\H P_\H + P_\I \big)
+\]
+\begin{itemize}
+\item $Z$ defines the annihilation and creation of configurations 
+\item $P_\G$ is a projector onto $|\G\>$ (indicating that gate $G$ has to be applied)
+\item $U_\G$ implements the gate $\G$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Conversion of $H$ into string rewriting rules}
+\begin{itemize}
+\item the entries of the Hamiltonian $H$ are $0,1,\pm 1/\sqrt{2}$
+\item the entries should be only $0$ and $1$, so that the Hamiltonian defines an adjacency matrix
+\item it is possible to construct a Hamiltonian $\tilde{H}$ such that it contains only entries $0,\pm 1/\sqrt{2}$
+\item $\tilde{H}$ has the same spectral properties as $H$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Conversion into Adjacency Matrix}
+\begin{itemize}
+\item the operator $\tilde{V}$ acts on three cells $(\C^d)^{\otimes 3}$
+\[
+\tilde{V}=\sum_{a,b} s_{ab}|a\>\<b|
+\]
+\item define operators $X_{ab}$ acting on $(\C^2)^{\otimes 3}$ (`minus-sign simulator'' cells) by setting
+\begin{eqnarray*}
+X_{ab} = I \otimes \sigma_x \otimes I &\mbox{ if }& s_{ab}=-1/\sqrt{2} \\
+X_{ab} = I \otimes I        \otimes I &\mbox{ if }& s_{ab}=1/\sqrt{2}  \\
+X_{ab} = {\bf 0}                      &\mbox{ if }& s_{ab}=0 
+\end{eqnarray*}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Conversion into Adjacency Matrix}
+\begin{itemize}
+\item prepare the simulator cells in the state
+\[
+|\psi\> = |0\> \otimes |-\> \otimes |0\> 
+\]
+\item then we can simulate the minus sign since
+\[
+X_{ab} |\psi\> = s_{ab} |\psi\>
+\]
+\item define the operator $\hat{V}$ by setting
+\[
+\hat{V}=\sqrt{2}\sum_{a,b} X_{ab} \otimes |a\>\<b|
+\]
+\item $\hat{V}$ defines the substitution rules for substrings
+\item let $A$ be the corresponding Hamiltonian/adjacency matrix
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Conversion into String Rewriting Problem}
+\begin{itemize}
+\item one can show that there are three strings $s:=\alpha_0$, $t:=\omega_0$, and $t':=\omega_1$ such that
+\begin{eqnarray*}
+(A^m)_{st} - (A^m)_{st'} & = & 
+\<\omega_0|A^m|\alpha_0\> - \<\omega_1|A^m|\alpha_0\> \\
+& = & 
+(p_0 - p_1) \cdot \sqrt{2}^m \cdot (\cP^m)_{0,\ell-1}
+\end{eqnarray*}
+
+\item eigenvalues of the line graph are in $[-2,2]$
+
+\medskip
+$\Rightarrow$ growth condition is satisfied with $c:=2\sqrt{2}$
+
+\item one can choose $m=poly(r)$ such that $\sqrt{2}^m \cdot (\cP^m)_{0,\ell-1} = 1/poly(r) \cdot c^m$
+
+\medskip
+$\Rightarrow$ it suffices to estimate $\Delta_{s,t,t'}(m)$ with precision $\epsilon c^m$ (where $\epsilon=1/poly(r)$) to determine the sign
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Conclusions}
+\begin{itemize}
+\item a purely classical (quantum free) characterization of BQP
+\item quantum computers are better at counting and comparing the number of solutions of combinatorial problems (provided that BQP is strictly larger BQP)
+\end{itemize}
+\end{slide}
+
+\end{document}
+

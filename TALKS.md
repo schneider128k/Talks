@@ -33,6 +33,21 @@ and the talks I gave after 2020 are not yet reconstructed.
   What I have is the PDF of the slides, not the source they were built from.  
   [presentation](documents/2007-12_combinatorial_decoupling_qec07/combinatorial_decoupling_qec07_presentation.pdf)
 
+- **Classical Problems Characterizing the Power of Quantum Computing** — *Invited talk*,
+  November 2007  
+  Center for Extreme Quantum Information Theory (xQIT), Massachusetts Institute of
+  Technology, at the invitation of Prof. Edward Farhi.  
+  Joint work with Dominik Janzing and Shengyu Zhang.  
+  Some of the slides carry only a title: I did those derivations at the blackboard, and I no
+  longer have the handwritten notes.  
+  The talk is built on [arXiv:0710.1615](https://arxiv.org/abs/0710.1615),
+  [quant-ph/0606229](https://arxiv.org/abs/quant-ph/0606229) and
+  [arXiv:0705.1180](https://arxiv.org/abs/0705.1180).  
+  The slides here are the ones built at the time; the source beside them no longer compiles
+  as it stands.  
+  [presentation](documents/2007-11_classical_problems_mit/classical_problems_mit_presentation.pdf) ·
+  [sources](documents/2007-11_classical_problems_mit/)
+
 - **Introduction to Quantum Algorithms Based on Group Representations** —
   *Conference talk*, September 2007  
   Conference on Group Representations and Combinatorics, Department of Mathematics,
