@@ -33,6 +33,8 @@ and the talks I gave after 2020 are not yet reconstructed.
   Florida in March 2008.  
   A survey written for mathematicians rather than physicists: the hidden subgroup problem,
   and the part representation theory plays in the quantum algorithms that solve it.  
+  Some of the slides carry only a title: I did those derivations at the blackboard, and I no
+  longer have the handwritten notes.  
   [presentation](documents/2007-09_group_representations_gainesville/group_representations_gainesville_presentation.pdf) ·
   [abstract](documents/2007-09_group_representations_gainesville/group_representations_gainesville_abstract.pdf) ·
   [sources](documents/2007-09_group_representations_gainesville/)
