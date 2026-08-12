@@ -1,0 +1,730 @@
+\part{The QFT and phase estimation}\label{part:qft}
+
+\begin{frame}
+  \partpage
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Quantum Phase Estimation
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Quantum phase estimation}
+
+\begin{problem}
+We are given a unitary $U$ and an eigenvector $|\psi\>$ of $U$ with unknown eigenvalue \pause
+
+\bigskip		
+We seek to determine its eigenphase $\varphi\in[0,1)$ such that 
+\[
+   U|\psi\> = e^{2 \pi i \varphi}|\psi\>
+\] \pause
+
+\medskip
+More precisely, we want to obtain an estimate $\hat{\varphi}$ such that
+\[
+   \Pr\big(|\hat{\varphi} - \varphi| \le \frac{1}{2^n}\big) \ge \frac{3}{4}
+\]
+The deviation $|\hat{\varphi} - \varphi|$ is computed modulo $1$ 
+\end{problem}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Phase Kick Back
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Phase kick back}
+
+\hspace{4cm}
+\Qcircuit @C=1em @R=0.7em {
+\lstick{|+\>}    & \ctrl{1} & \qw  \\
+\lstick{|\psi\>} & \gate{U} & \qw 
+}
+
+\bigskip
+\begin{eqnarray*}
+\frac{|0\> + |1\>}{\sqrt{2}} \otimes |\psi\>  \pause
+&  = &
+\frac{|0\>}{\sqrt{2}} \otimes |\psi\> + \frac{|1\>}{\sqrt{2}} \otimes |\psi\> \\ \pause
+& \mapsto &
+\frac{|0\>}{\sqrt{2}} \otimes |\psi\> + \frac{|1\>}{\sqrt{2}} \otimes U |\psi\> \\ \pause
+& = &
+\frac{|0\>}{\sqrt{2}} \otimes |\psi\> + \frac{|1\>}{\sqrt{2}} \otimes e^{2\pi i\varphi} |\psi\> \\ \pause
+& = &
+\frac{|0\>}{\sqrt{2}} \otimes |\psi\> + \frac{e^{2\pi i\varphi} |1\>}{\sqrt{2}} \otimes |\psi\> \\ \pause
+& = &
+\frac{|0\> + e^{2\pi i\varphi} |1\>}{\sqrt{2}} \otimes |\psi\> 
+\end{eqnarray*}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Phase Kick Back
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Phase kick back}
+
+\hspace{4cm}
+\Qcircuit @C=1em @R=0.7em {
+\lstick{|+\>}    & \ctrl{1} & \qw  \\
+\lstick{|\psi\>} & \gate{U} & \qw 
+}
+
+\bigskip
+\[
+\frac{|0\> + |1\>}{\sqrt{2}} \otimes |\psi\>  \pause
+\mapsto
+\frac{|0\> + e^{2\pi i\varphi} |1\>}{\sqrt{2}} \otimes |\psi\> 
+\] \pause
+
+\medskip
+The eigenstate $|\psi\>$ in the {\color{blue} target} register emerges {\color{blue} unchanged} \pause
+
+\bigskip
+$\Rightarrow$ It suffices to focus on the control register \pause
+
+\bigskip
+The state $|0\>+|1\>$ of the {\color{red} control} qubit is {\color{red} changed} to $|0\>+e^{2\pi i \varphi}|1\>$ by phase kick back 
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Phase Kick Back
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Hadamard test + phase kick back}
+
+\hspace{4cm}
+\Qcircuit @C=1em @R=0.7em {
+\lstick{|0\>}    & \gate{H}    & \ctrl{1} & \gate{H} & \meter \\
+\lstick{|\psi\>} & {/}\qw      & \gate{U} & \qw      & \qw
+}
+
+\bigskip
+\begin{eqnarray*}
+&& 
+\frac{|0\> + e^{2\pi i\varphi} |1\>}{\sqrt{2}} \\ \pause
+& \mapsto &
+\frac{1}{2}\, \big( (|0\> + |1\>) + e^{2\pi i\varphi} ( |0\> - |1\> ) \big) \\ \pause
+& \mapsto &
+\frac{1}{2}\, \big( ( 1 + e^{2\pi i\varphi}) |0\> + ( 1 - e^{2\pi i\varphi}) |1\> ) \big)  := |\varphi\> 
+\end{eqnarray*}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Phase Kick Back
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Hadamard test + phase kick back}
+
+\[
+|\varphi\> = \frac{1}{2}\, \big( ( 1 + e^{2\pi i\varphi}) |0\> + ( 1 - e^{2\pi i\varphi}) |1\> ) \big) \pause
+\]
+
+\bigskip
+The probability of obtaining $0$ is \pause
+
+\medskip
+\begin{eqnarray*}
+\Pr(0) 
+& = & 
+\| |0\>\<0| \, |\varphi\> \|^2 \\ \pause
+& = &
+| \frac{1}{2} \, (1 + e^{2\pi i \varphi}) |^2 \\ \pause
+& = &
+\frac{1}{4} \, |e^{\pi i\varphi} + e^{-\pi i\varphi}) |^2 \\ \pause
+& = &
+\frac{1}{4} \, | 2 \cos(\pi\varphi)|^2 \\ \pause
+& = &
+\cos^2(\pi\varphi) = \frac{1}{2} \, \big(1 +\cos(2\pi\varphi)\big)
+\end{eqnarray*}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Phase kick back 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Phase kick back due to higher powers of $U$}
+
+	For arbitrary $k$, we obtain
+	
+	\bigskip
+	
+	\bigskip
+	\hspace{1cm}
+	\Qcircuit @C=1.0em @R=1.0em {  
+		\lstick{|0\>}    & \qw  &\gate{H}  &  \ctrl{1}       &  \qw  &  \qw &  \qw &  \rstick{\frac{1}{\sqrt{2}}({|0\> + e^{2\pi i 2^k\varphi}|1\>})}\\
+	 	\lstick{|\psi\>} & \qw  &{/}\qw    &  \gate{U^{2^k}} &  \qw  &  \qw &  \qw &  \rstick{|\psi\>}
+	}			 	
+	
+	\bigskip
+	
+	since
+	\begin{eqnarray*}
+		U^{2^k}|\psi\>=e^{2\pi i 2^k \varphi}|\psi\>
+	\end{eqnarray*}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Phase estimation
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Phase kick back part of phase estimation}
+
+\hspace{1cm}
+\Qcircuit @C=1.0em @R=0.7em {
+\lstick{|0\>}    & \qw & \gate{H} & \qw      & \qw      & \qw &        & & \qw & \ctrl{4} & \qw & \qw & \rstick{\frac{|0\> + e^{2\pi i 2^{n-1}\varphi}|1\>}{\sqrt{2}}} \\
+\lstick{|0\>}    & \qw & \gate{H} & \qw      & \ctrl{3} & \qw &        & & \qw & \qw      & \qw & \qw & \rstick{\frac{|0\> + e^{2\pi i 2^{n-2}\varphi}|1\>}{\sqrt{2}}} \\
+                 &     & \raisebox{0.5em}{\vdots}   &          &          &     & \cdots & &     &          &     &     & \rstick{\raisebox{0.5em}{\vdots}} \\
+\lstick{|0\>}    & \qw & \gate{H} & \ctrl{1} & \qw      & \qw &        & & \qw & \qw      & \qw & \qw & \rstick{\frac{|0\> + e^{2 \pi i 2^0\varphi}|1\>}{\sqrt{2}}} \\
+%
+\lstick{|\psi\>} & \qw & {/} \qw  & \gate{U^{2^0}} & \gate{U^{2^1}} & \qw & & & \qw & \gate{U^{2^{n-1}}} & \qw & \qw & \rstick{|\psi\>}
+}
+
+\bigskip
+
+\bigskip
+We set
+\[
+|\varphi\> := 
+\frac{|0\> + e^{2 \pi i 2^{n-1} \varphi}|1\>}{\sqrt{2}} \!\otimes\!
+\frac{|0\> + e^{2 \pi i 2^{n-2} \varphi}|1\>}{\sqrt{2}} \!\otimes\!\cdots\!\otimes
+\frac{|0\> + e^{2 \pi i 2^0 \varphi}    |1\>}{\sqrt{2}} 
+\]
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Binary fractions
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Binary fractions}
+
+Assume that the eigenphase $\varphi$ is an exact $n$-bit binary fraction, i.e.,
+\[
+\varphi=0.x_1 x_2 \ldots x_n = \sum_{i=1}^n \frac{x_i}{2^i}
+\]
+
+For arbitrary $k\in\{0,\ldots,n-1\}$, we have
+\begin{eqnarray*}
+2^k\, \varphi 
+& = &
+x_1 x_2\ldots x_k . x_{k+1} \ldots x_n \\
+& & \\
+e^{2\pi i 2^k \varphi} 
+&=&
+e^{2\pi i (x_1x_2\ldots x_k . x_{k+1}\ldots x_n)}\\
+&=&
+e^{2\pi i (x_1x_2\ldots x_k + 0. x_{k+1}\ldots x_n)} \\
+&=&
+e^{2\pi i (x_1x_2\ldots x_k)} \cdot e^{2\pi i (0. x_{k+1}\ldots x_n)} \\
+&=& 
+e^{2\pi i (0. x_{k+1}\ldots x_n)}
+\end{eqnarray*}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Phase estimation
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Phase kick back part of phase estimation}
+
+\Qcircuit @C=1.0em @R=0.7em {
+\lstick{|0\>}&\qw& \gate{H} & \qw      & \qw      & \qw &        & & \qw & \ctrl{4} & \qw & \qw & \rstick{\frac{|0\> + e^{2\pi i 0.x_n}|1\>}{\sqrt{2}}}\\
+\lstick{|0\>}&\qw& \gate{H} & \qw      & \ctrl{3} & \qw &        & & \qw & \qw      & \qw & \qw & \rstick{\frac{|0\> + e^{2\pi i 0.x_{n-1} x_n}|1\>}{\sqrt{2}}}\\
+             &   & \raisebox{0.5em}{\vdots}   &          &          &     & \cdots & &     &          &     &     & \rstick{\raisebox{0.5em}{\vdots}} \\
+\lstick{|0\>}&\qw& \gate{H} & \ctrl{1} & \qw      & \qw &        & & \qw & \qw      & \qw & \qw & \rstick{\frac{|0\> + e^{2 \pi i 0.x_1 \ldots x_{n-1} x_n}|1\>}{\sqrt{2}}}\\
+%
+\lstick{|\psi\>} & \qw & {/} \qw  & \gate{U^{2^0}} & \gate{U^{2^1}} & \qw & & & \qw & \gate{U^{2^{n-1}}} & \qw & \qw & \rstick{|\psi\>}
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Quantum Fourier transform
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Quantum Fourier transform}
+
+The quantum Fourier transform $F$ is defined by
+
+\begin{eqnarray*}
+& & 
+F \big( |x_n\> \otimes |x_{n-1}\> \otimes \cdots \otimes |x_1\> \big) \\ & & \\
+& = &
+\frac{|0\> + e^{2 \pi i 0.x_n}|1\>}{\sqrt{2}} \!\otimes\!
+\frac{|0\> + e^{2 \pi i 0.x_{n-1} x_n}|1\>}{\sqrt{2}} \!\otimes\!\cdots\!\otimes
+\frac{|0\> + e^{2 \pi i 0.x_1x_2\ldots x_n}|1\>}{\sqrt{2}} 
+%\\ \pause
+%& & \\
+%& = &
+%\frac{1}{\sqrt{2^n}} \sum_{y=0}^{2^n-1} e^{2\pi i \varphi y} |y\>
+\end{eqnarray*}
+
+%\medskip
+%where $\varphi=0.x_1 x_2 \ldots x_n$, $y=\sum_{k=1}^n y_k 2^{n-k}$, and $|y\>=|y_n\>\otimes |y_{n-1}\>\otimes\cdots\otimes |y_1\>$ \pause
+
+\bigskip
+We use inverse quantum Fourier transform $F^\dagger$ to obtain the bits of the eigenphase \pause
+
+\bigskip
+Note: QFT is defined by $F|x_1\>\otimes|x_2\>\otimes\cdots\otimes|x_n\>=|0.x_1 x_2 \ldots x_n\>$ in the literature; we use the above definition for the sake of notational simplicity (otherwise, we would have to include the so-called bit-reversal)
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Quantum circuit for phase estimation
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Quantum circuit for phase estimation}
+
+\Qcircuit @C=1.0em @R=0.7em {
+\lstick{|0\>}& \qw & \gate{H}                 & \qw      & \qw      & \qw &        &        & \qw & \ctrl{4} & \qw & \multigate{3}{F^\dagger} & \qw & \rstick{|x_n\>}\\
+\lstick{|0\>}& \qw & \gate{H}                 & \qw      & \ctrl{3} & \qw &        &        & \qw & \qw      & \qw & \ghost{F^\dagger}        & \qw & \rstick{|x_{n-1}\>}\\
+             &     & \raisebox{0.5em}{\vdots} &          &          &     & \cdots &        &     &          &     &         &     & \\
+\lstick{|0\>}& \qw & \gate{H}                 & \ctrl{1} & \qw      & \qw &        &        & \qw & \qw      & \qw & \ghost{F^\dagger}        & \qw & \rstick{|x_1\>}\\
+%
+\lstick{|\psi\>} & \qw & {/} \qw  & \gate{U^{2^0}} & \gate{U^{2^1}} & \qw & & & \qw & \gate{U^{2^{n-1}}} & \qw & \qw & \qw & \rstick{|\psi\>}
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Inverse quantum Fourier transform for $3$ bits}
+
+\hspace{2.0cm}
+\Qcircuit @C=.4em @R=1.0em {  
+\lstick{\frac{|0\> + e^{2\pi i 0.x_3}|1\>}{\sqrt{2}}}       &\qw &\gate{H} & \qw & \qw & \qw & \qw & \ctrl{1}        & \qw & \qw      & \qw & \qw & \qw & \ctrl{2}        & \qw             & \qw & \qw & \qw & \qw & \rstick{|x_3\>} \\ 
+\lstick{\frac{|0\> + e^{2\pi i 0.x_2x_3}|1\>}{\sqrt{2}}}    &\qw &\qw      & \qw & \qw & \qw & \qw & \gate{R_2^\dagger} & \qw & \gate{H} & \qw & \qw & \qw & \qw             & \ctrl{1}        & \qw &\qw      &\qw & \qw & \rstick{|x_2\>} \\ 
+\lstick{\frac{|0\> + e^{2\pi i 0.x_1x_2x_3}|1\>}{\sqrt{2}}} &\qw &\qw      & \qw & \qw & \qw & \qw & \qw             & \qw & \qw      & \qw & \qw & \qw & \gate{R_3^\dagger} & \gate{R_2^\dagger} & \qw &\gate{H} &\qw & \qw & \rstick{|x_1\>}  
+	        \gategroup{1}{3}{1}{3}{1.3em}{--}
+	        \gategroup{1}{8}{2}{10}{1.3em}{--}
+	        \gategroup{1}{14}{3}{17}{1.3em}{--}
+}	
+
+\bigskip
+The phase shift $R_k$ is defined by
+\[
+R_k :=
+\left[ 
+\begin{array}{cc}
+ 1 & 0  \\
+ 0 & e^{2\pi i/2^k}  \\
+ \end{array} 
+\right]
+\]	 
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% least significant bit -- top qubit
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{QPE: least significant bit -- top qubit}
+
+\hspace{3cm}
+\Qcircuit @C=1.0em @R=1.0em {  
+	\lstick{\frac{|0\>+e^{2\pi i 0.x_3}|1\>}{\sqrt{2}}} &\qw &\gate{H} & \qw & \qw
+	\gategroup{1}{3}{1}{3}{1.2em}{--}
+}			 	
+
+\bigskip
+\begin{eqnarray*}
+	&                 & \frac{|0\> + e^{2\pi i 0.x_3}|1\>}{\sqrt{2}} \pause = \frac{|0\> + (-1)^{x_3} |1\>}{\sqrt{2}} \\ \pause
+	& \xrightarrow{H} & |x_3\> 
+\end{eqnarray*}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% second bit -- middle qubit
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{QPE: second bit -- middle qubit}
+
+\hspace{3cm}
+\Qcircuit @C=1.0em @R=1.0em {
+	\lstick{|x_3\>}                                           & \qw & \ctrl{1}            & \qw      & \qw & \qw \\
+	\lstick{\frac{|0\> + e^{2\pi i 0.x_2 x_3}|1\>}{\sqrt{2}}} & \qw & \gate{R_2^\dagger}  & \gate{H} & \qw & \qw 
+	\gategroup{1}{3}{2}{4}{1.5em}{--}
+}
+			              
+\bigskip        
+\begin{eqnarray*}
+		&                                  & |x_3\> \otimes \frac{|0\> + e^{2\pi i 0.x_2 x_3}|1\>}{\sqrt{2}} \\ \pause
+		& \xrightarrow{ctrl\, R_2^\dagger} & |x_3\> \otimes \frac{|0\> + e^{2\pi i 0.x_2 0}  |1\>}{\sqrt{2}} \\ \pause
+    & \xrightarrow{I \otimes H}				 & |x_3\> \otimes |x_2\> 
+\end{eqnarray*} 
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% most significant bit -- bottom qubit
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{QPE: most significant bit -- bottom qubit}
+
+\hspace{3cm}
+\Qcircuit @C=1.0em @R=1.0em {
+	\lstick{|x_3\>}                                        & \qw & \ctrl{2}           & \qw                &\qw      & \qw & \qw \\
+	\lstick{|x_2\>}                                        & \qw & \qw                & \ctrl{1}           &\qw      & \qw & \qw \\
+	\lstick{\frac{|0\> + e^{0.x_1 x_2 x_3}|1\>}{\sqrt{2}}} & \qw & \gate{R_3^\dagger} & \gate{R_2^\dagger} &\gate{H} & \qw & \qw
+	\gategroup{1}{3}{3}{5}{1.5em}{--}
+}
+
+\bigskip
+\begin{eqnarray*}
+			& & 																	  |x_3\> \otimes |x_2\> \otimes \frac{|0\> + e^{2\pi i 0.x_1 x_2 x_3}|1\>}{\sqrt{2}}  \\ \pause
+			& \xrightarrow{ctrl\, R_3^\dagger}    & |x_3\> \otimes |x_2\> \otimes \frac{|0\> + e^{2\pi i 0.x_1 x_2 0  }|1\>}{\sqrt{2}}  \\ \pause
+  		& \xrightarrow{ctrl\, R_2^\dagger}    & |x_3\> \otimes |x_2\> \otimes \frac{|0\> + e^{2\pi i 0.x_1 0   0  }|1\>}{\sqrt{2}}  \\ \pause
+  		& \xrightarrow{I \otimes I \otimes H} & |x_3\> \otimes |x_2\> \otimes |x_1\> 
+\end{eqnarray*} 
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Summary of phase estimation circuit
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Summary of phase estimation circuit}
+
+
+  We use phase kick back due to the controlled $U^{2^k}$ gate to prepare the state
+  		\[
+  				\frac{|0\> + e^{2 \pi i 0.x_{k+1} x_{k+2}\ldots x_n} |1\>}{\sqrt{2}}
+  		\] \pause
+  
+  Using the previously determined bits $x_{k+2},\ldots, x_n$, we change this state to
+  	  \[
+  	  		\frac{|0\> + e^{2 \pi i 0.x_{k+1} 0       \ldots 0  } |1\>}{\sqrt{2}} = \frac{|0\> + (-1)^{x_k}|1\>}{\sqrt{2}}
+  	  \] \pause
+  
+  We apply the Hadamard gate to obtain
+  	\[
+  			|x_{k+1}\>
+  	\] \pause
+  	
+  The controlled phase shifts enable us to reduce the problem of determining each bit to distinguishing between $|+\>$ and $|-\>$ (deterministic Hadamard test)
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Special case
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Special case: exact $n$-bit binary fraction}
+
+Assume that $\varphi$ is an exact $n$-bit binary fraction, i.e., $\varphi=0.x_1 \ldots x_{n-1} x_n$
+
+\bigskip
+\hspace{1cm}
+\Qcircuit @C=1.0em @R=0.7em {
+\lstick{|0\>}& \qw & \gate{H}                 & \qw      & \qw      & \qw &        &        & \qw & \ctrl{4} & \qw & \multigate{3}{F^\dagger} & \qw & \rstick{|x_n\>}\\
+\lstick{|0\>}& \qw & \gate{H}                 & \qw      & \ctrl{3} & \qw &        &        & \qw & \qw      & \qw & \ghost{F^\dagger}        & \qw & \rstick{|x_{n-1}\>}\\
+             &     & \raisebox{0.5em}{\vdots} &          &          &     & \cdots &        &     &          &     &         &     & \\
+\lstick{|0\>}& \qw & \gate{H}                 & \ctrl{1} & \qw      & \qw &        &        & \qw & \qw      & \qw & \ghost{F^\dagger}        & \qw & \rstick{|x_1\>}\\
+%
+\lstick{|\psi\>} & \qw & {/} \qw  & \gate{U^{2^0}} & \gate{U^{2^1}} & \qw & & & \qw & \gate{U^{2^{n-1}}} & \qw & \qw & \qw & \rstick{|\psi\>}
+}
+
+\bigskip
+$\Rightarrow$ The measurment of the qubits yields the bits $x_n, x_{n-1},\ldots, x_1$ deterministically
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% General case
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{General case: arbitrary eigenphases}
+
+Let $\varphi$ be arbitrary
+
+\bigskip
+Unless $\varphi$ is an exact $n$-bit fraction, the application of the inverse quantum Fourier transform
+\bigskip
+\[
+		F^\dag |\varphi\> 
+\]
+produces a {\color{blue}superposition} of $n$-bit strings
+ 
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Geometric summation
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Geometric summation}
+
+\begin{lemma}
+We have
+\begin{eqnarray*}
+\sum_{y=0}^{N-1} e^{2\pi i \theta y} & = & N \mbox{~for $\theta=0$} \\ \pause
+\sum_{y=0}^{N-1} e^{2\pi i \theta y} & = & \frac{1-e^{2\pi i N \theta}}{1-e^{2\pi i \theta}} \mbox{~for $\theta\in (0,1)$}
+\end{eqnarray*}
+\end{lemma}
+
+\bigskip
+Assume that $\theta=\frac{x}{N}$ for some $x\in[0,N-1]$
+
+\pause
+
+\bigskip
+$\Rightarrow$ We have
+
+\[
+\sum_{y=0}^{N-1} e^{2\pi i \frac{x}{N} y} = N \, \delta_{x,0}
+\]
+
+\bigskip
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Probability of measuring a bit string
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Probability of obtaining a certain estimate}
+
+\begin{lemma}
+Let $x=\sum_{k=1}^n x_i 2^{n-i}$ and $\varphi_x := 0.x_1 x_2 \ldots x_n = \frac{x}{2^n}$ be the corresponding $n$-bit fraction \pause
+
+\bigskip
+The probability of obtaining the estimate $\varphi_x$ is 
+\bigskip
+\begin{eqnarray*}
+	\Pr(x) 
+	& = &
+	\frac{1}{2^{2n}}
+	\frac{\sin^2 \big(2^n \, \pi \, (\varphi - \varphi_x)\big)}{\sin^2\big( \pi\, (\varphi - \varphi_x)\big)}
+\end{eqnarray*}
+\end{lemma}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Probability distribution
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Examples of probability distributions for different $\varphi$}
+
+%\frame{
+%\movie[width=4in,height=3in,poster]{}{phase.avi}
+
+\begin{center}
+\scalebox{.7}{
+\multiinclude[<+-| handout:+->][format=png]{PE}
+}
+\end{center}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Proof
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Probability of obtaining a certain estimate}
+
+\begin{proof}
+The probability of obtaining the estimate $\varphi_x$ is 
+\begin{eqnarray*}
+&   & 
+\Pr(x) \\
+& = & 
+|\< x| F^\dag |\varphi\> |^2 \\ \pause
+& = & 
+| \< \varphi_x| \varphi\> |^2 \\ \pause
+& = &
+\frac{1}{2^{2n}} 
+\big|
+\sum_{y = 0}^{2^n-1} e^{2 \pi i \, (\varphi -
+\varphi_x) \, y }
+\big|^2 \pause \quad \mbox{geometric summation} \\ \pause
+& = &
+\frac{1}{2^{2n}}
+\Big|
+\frac{1 - e^{2 \pi i (2^n (\varphi - \varphi_x))}}{1 -
+e^{2 \pi i (\varphi - \varphi_x)}}
+\Big|^2 \pause \quad |1 - e^{i 2\theta}| =| e^{-i \theta} -
+e^{i\theta}| = 2|\sin\theta| \\ \pause
+& = &
+\frac{1}{2^{2n}}
+\frac{\sin^2 (2^n\, \pi (\varphi - \varphi_x))}{\sin^2(\pi(\varphi - \varphi_x))}
+\end{eqnarray*}
+\end{proof}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Success probability
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Lower bound on success probability}
+
+\begin{theorem}
+Let $x$ be such that $\frac{x}{2^n} \le \varphi < \frac{x+1}{2^n}$
+
+\bigskip
+The probability of returning one of the two closest $n$-bit fractions $\varphi_x$ and $\varphi_{x+1}$ is at least $\frac{8}{\pi^2}$
+\end{theorem}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Proof continued
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Proof of lower bound on success probability}
+
+\begin{eqnarray*}
+\Pr(\mbox{success}) & := &
+\Pr(x) + \Pr(x+1) \\
+& = &
+\frac{1}{2^{2n}}
+\left( \big| 
+\sum_{y = 0}^{{2^n}-1} 
+e^{2 \pi i (\varphi - \varphi_x)y}
+\big|^2 
++ 
+\big|\sum_{y = 0}^{{2^n}-1}
+e^{2 \pi i (\varphi - \varphi_x)y}
+\big|^2\right)
+\end{eqnarray*}
+
+\pause
+
+\medskip
+This function attains its minimum at $\varphi = \frac{1}{2} (\varphi_x + \varphi_{x+1})$ \pause \quad $\Rightarrow$
+\begin{eqnarray*}
+\Pr(\mbox{success}) 
+& \geq &
+\frac{2}{2^{2n}}
+\left(
+\big|
+\sum_{y = 0}^{{2^n}-1} e^{2 \pi i \frac{y}{2^{n+1}}}
+\big|^2
+\right) \\ \pause
+& \geq &
+\frac{2}{2^{2n}}
+\frac{4}{4 \sin^2(\frac{\pi}{2^{n+1}})} \\ \pause
+& \geq &
+\frac{8}{\pi^2}
+\end{eqnarray*}
+
+The last inequality follows from $\frac{1}{|\sin{\theta}|^2} \geq \frac{1}{|\theta|^2}$
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Summary of phase estimation
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Summary of phase estimation}
+
+\bigskip
+We are given a unitary $U$ and an eigenvector $|\psi\>$ of $U$ with unknown eigenphase $\varphi$
+
+\bigskip
+We obtain an estimate $\hat{\varphi}$ such that
+\[
+   \Pr\big(|\hat{\varphi} - \varphi| \le \frac{1}{2^n}\big) \ge \frac{8}{\pi^2}
+\]
+
+\medskip
+To do this, we need invoke each of the controlled $U$, $U^2$,\ldots,$U^{2^{n-1}}$ gates once \pause
+
+\bigskip
+We can boost the success probability to $1-\epsilon$ by repeating the above algorithm $O(\log(1/\epsilon))$ times and outputting the median of the outcomes
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Phase estimation
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Phase estimation applied to superpositions of eigenstates}
+
+\bigskip
+We are given a unitary $U$ with eigenvectors $|\psi_i\>$ and corresponding eigenphases $\varphi_i$
+
+\bigskip
+Let 
+\[
+|\psi\> = \sum_i \alpha_i |\psi_i\>
+\]
+
+\pause
+
+\bigskip
+What happens if we apply phase estimation to $|0\>^{\otimes n} \otimes |\psi\>$?
+
+\pause
+
+\bigskip
+After the $n$ phase kick-backs due to $U^{2^0}$, $U^{2^1}$, \ldots $U^{2^{n-1}}$, we obtain
+
+\[
+\sum_i \alpha_i |\varphi_i\> \otimes |\psi_i\>
+\]
+
+\pause
+
+\bigskip
+After applying the inverse quantum Fourier transform, we obtain
+
+\[
+\sum_i \alpha_i |\tilde{x}_i\> \otimes |\psi_i\>
+\]
+
+where $|\tilde{x}_i\>$ denotes a superpositions of $n$-bit estimates of $\varphi_i$
+
+\end{frame}

@@ -1,0 +1,792 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\part{Quantum walk}
+\begin{frame}
+  \partpage
+\label{part:walk}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Randomized algorithms}
+  
+Randomness is an important tool in computer science
+
+\pause
+\bigskip
+
+Black-box problems \pause
+\begin{itemize}[<+->]
+  \item Huge speedups are possible (Deutsch-Jozsa: $2^{\Omega(n)}$ vs.\ $O(1)$)
+  \item Polynomial speedup for some total functions (game trees: $\Omega(n)$ vs.\ $O(n^{0.754})$)
+\end{itemize}
+
+\pause
+\bigskip
+
+Natural problems \pause
+\begin{itemize}[<+->]
+  \item Majority view is that derandomization should be possible (P=BPP)
+  \item Randomness may give polynomial speedups (Sch\"oning algorithm for $k$-SAT)
+  \item Can be useful for algorithm design
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Random walk}
+
+Graph $G=(V,E)$ \hspace{3ex}
+\raisebox{-1cm}{
+\setlength{\unitlength}{.2cm}
+\begin{picture}(18.5,11)(-.5,-.5)
+%  \put(-.5,-.5){\framebox(18.5,11){}}
+  \put(0,0){\circle*{1}}
+  \put(0,10){\circle*{1}}
+  \put(10,0){\circle*{1}}
+  \put(10,10){\circle*{1}}
+  \put(17.5,5){\circle*{1}}
+  \thicklines
+  \put(0,0){\line(1,0){10}}
+  \put(0,0){\line(0,1){10}}
+  \put(0,10){\line(1,0){10}}
+  \put(10,0){\line(0,1){10}}
+  \put(10,0){\line(3,2){7.5}}
+  \put(10,10){\line(3,-2){7.5}}
+\end{picture}
+}
+
+\pause
+\bigskip
+\bigskip
+
+Two kinds of walks:
+\begin{itemize}
+  \item Discrete time
+  \item Continuous time
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Random walk algorithms}
+
+Undirected $s$--$t$ connectivity in log space
+\begin{itemize}
+  \item Problem: given an undirected graph $G=(V,E)$ and $s,t \in V$, is there a path from $s$ to $t$?
+  \item A random walk from $s$ eventually reaches $t$ iff there is a path
+  \item Taking a random walk only requires log space
+  \item Can be derandomized (Reingold 2004), but this is nontrivial
+\end{itemize}
+
+\pause
+\bigskip
+
+Markov chain Monte Carlo
+\begin{itemize}
+  \item Problem: sample from some probability distribution (uniform distribution over some set of combinatorial objects, thermal equilibrium state of a physical system, etc.)
+  \item Create a Markov chain whose stationary distribution is the desired one
+  \item Run the chain until it converges
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Continuous-time quantum walk}
+
+\begin{columns}
+\begin{column}{2cm}
+\noindent Graph $G$ \medskip
+\setlength{\unitlength}{.12cm}
+\begin{picture}(19.5,13)(-.5,-.5)
+%  \put(-.5,-.5){\framebox(19.5,13){}}
+  \put(0,0){\circle*{1}}
+  \put(0,10){\circle*{1}}
+  \put(10,0){\circle*{1}}
+  \put(10,10){\circle*{1}}
+  \put(17.5,5){\circle*{1}}
+  \thicklines
+  \put(0,0){\line(1,0){10}}
+  \put(0,0){\line(0,1){10}}
+  \put(0,10){\line(1,0){10}}
+  \put(10,0){\line(0,1){10}}
+  \put(10,0){\line(3,2){7.5}}
+  \put(10,10){\line(3,-2){7.5}}
+  \footnotesize
+  \put(0,10){\makebox(2,3){1}}
+  \put(8,10){\makebox(2,3){2}}
+  \put(0,0){\makebox(2,3){3}}
+  \put(8,0){\makebox(2,3){4}}
+  \put(17.5,5){\makebox(2,3){5}}
+\end{picture}
+\end{column}
+\begin{column}{3cm}
+\[
+\setlength{\arraycolsep}{.75ex}
+A = \footnotesize\begin{pmatrix}
+0 & 1 & 1 & 0 & 0 \\
+1 & 0 & 0 & 1 & 1 \\
+1 & 0 & 0 & 1 & 0 \\
+0 & 1 & 1 & 0 & 1 \\
+0 & 1 & 0 & 1 & 0
+\end{pmatrix}
+\]
+\begin{center}
+{\color{teal} adjacency matrix}
+\end{center}
+\end{column}
+\begin{column}{4cm}
+\onslide<2->
+\[
+\setlength{\arraycolsep}{.5ex}
+L = \footnotesize\begin{pmatrix}
+-2 & 1 & 1 & 0 & 0 \\
+1 & -3 & 0 & 1 & 1 \\
+1 & 0 & -2 & 1 & 0 \\
+0 & 1 & 1 & -3 & 1 \\
+0 & 1 & 0 & 1 & -2
+\end{pmatrix}
+\]
+\begin{center}
+{\color{teal} Laplacian}
+\end{center}
+\end{column}
+\end{columns}
+
+\pause \pause
+\bigskip
+
+Random walk on $G$
+\begin{itemize}
+  \item State: probability $p_v(t)$ of being at vertex $v$ at time $t$ \pause
+  \item Dynamics: $\frac{\d}{\d{t}}\vec p(t) = -L\vec p(t)$
+\end{itemize}
+
+\pause
+\bigskip
+
+Quantum walk on $G$
+\begin{itemize}
+  \item State: amplitude $q_v(t)$ to be at vertex $v$ at time $t$ \\
+  (i.e., $|\psi(t)\> = \sum_{v \in V} q_v(t) |v\>$) \pause
+  \item Dynamics: $\ii\frac{\d}{\d{t}}\vec q(t) = -L\vec q(t)$
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Random vs.\ quantum walk on the line}
+
+\begin{center}
+\setlength{\unitlength}{.1cm}
+\begin{picture}(100,5)(-10,-4)
+%  \put(-10,-4){\framebox(100,5){}}
+  \multiput(0,0)(10,0){9}{\circle*{1}}
+  \thicklines
+  \put(0,0){\line(1,0){80}}
+  \put(0,0){\vector(-1,0){10}}
+  \put(80,0){\vector(1,0){10}}
+  \put(-1,-4){\makebox(2,3){-4}}
+  \put(9,-4){\makebox(2,3){-3}}
+  \put(19,-4){\makebox(2,3){-2}}
+  \put(29,-4){\makebox(2,3){-1}}
+  \put(39,-4){\makebox(2,3){0}}
+  \put(49,-4){\makebox(2,3){1}}
+  \put(59,-4){\makebox(2,3){2}}
+  \put(69,-4){\makebox(2,3){3}}
+  \put(79,-4){\makebox(2,3){4}}
+\end{picture}
+\end{center}
+
+\pause
+\bigskip
+
+\begin{tabular}{cc}
+\raisebox{1.5cm}{Classical:} &
+  \includegraphics[width=7cm]{linec}
+\\[.5cm] \pause
+\raisebox{1.5cm}{Quantum:} &
+  \includegraphics[width=7cm]{lineq}
+\end{tabular}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Random vs.\ quantum walk on the hypercube}
+
+\begin{columns}
+\begin{column}{5cm}
+\begin{align*}
+V = \{&0,1\}^n \\[2pt]
+E = \{&(x,y) \in V \times V: \\[-2pt]
+&\text{$x$ and $y$ differ in} \\[-2pt]
+&\text{exactly one bit}\}
+\end{align*}
+\end{column}
+
+\begin{column}{5cm}
+\raisebox{2.75cm}{$n=3$:}
+\setlength{\unitlength}{.15cm}
+\begin{picture}(21,21)(-3,-3)
+%  \put(-3,-3){\framebox(21,21){}}
+  \put(0,0){\circle*{1}}
+  \put(0,10){\circle*{1}}
+  \put(10,0){\circle*{1}}
+  \put(10,10){\circle*{1}}
+  \put(5,5){\circle*{1}}
+  \put(5,15){\circle*{1}}
+  \put(15,5){\circle*{1}}
+  \put(15,15){\circle*{1}}
+  \thicklines
+  \put(0,0){\line(1,0){10}}
+  \put(0,0){\line(0,1){10}}
+  \put(0,0){\line(1,1){5}}
+  \put(10,10){\line(-1,0){10}}
+  \put(10,10){\line(0,-1){10}}
+  \put(10,10){\line(1,1){5}}
+  \put(5,15){\line(1,0){10}}
+  \put(5,15){\line(0,-1){10}}
+  \put(5,15){\line(-1,-1){5}}
+  \put(15,5){\line(-1,0){10}}
+  \put(15,5){\line(0,1){10}}
+  \put(15,5){\line(-1,-1){5}}
+  \footnotesize
+  \put(-2,-3){\makebox(4,2){000}}
+  \put(8,-3){\makebox(4,2){100}}
+  \put(4,2){\makebox(4,2){010}}
+  \put(-3,11){\makebox(4,2){001}}
+  \put(14,2){\makebox(4,2){110}}
+  \put(3,16){\makebox(4,2){011}}
+  \put(7,11){\makebox(4,2){101}}
+  \put(13,16){\makebox(4,2){111}}
+\end{picture}
+\end{column}
+\end{columns}
+
+\pause
+\bigskip
+
+Classical random walk: reaching $11\ldots1$ from $00\ldots0$ is exponentially unlikely
+
+\bigskip
+
+\pause
+Quantum walk: with $A = \sum_{j=1}^n X_j$, \pause
+\begin{align*}
+  e^{-\ii A t}
+  = \prod_{j=1}^n e^{-\ii X_j t}
+  \onslide<5->{
+  = \bigotimes_{j=1}^n \begin{pmatrix} \cos t & -\ii\sin t \\ -\ii\sin t & \cos t \end{pmatrix}}
+\end{align*}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Glued trees problem}
+
+\begin{center}
+\includegraphics[width=6cm]{gluedtrees}
+\end{center}
+
+Black-box description of a graph
+\begin{itemize}
+  \item Vertices have arbitrary labels
+  \item Label of `\textrm{in}' vertex is known
+  \item Given a vertex label, black box returns labels of its neighbors
+  \item Restricts algorithms to explore the graph locally
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Glued trees problem: Classical query complexity}
+
+\begin{center}
+\includegraphics[width=6cm]{gluedtrees}
+\end{center}
+
+Let $n$ denote the height of one of the binary trees
+
+\pause
+\bigskip
+
+Classical random walk from `\textrm{in}': probability of reaching `\textrm{out}' is $2^{-\Omega(n)}$ at all times
+
+\pause
+\bigskip
+
+In fact, the classical query complexity is $2^{\Omega(n)}$
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Glued trees problem: Exponential speedup}
+
+\begin{columns}
+\begin{column}{6cm}
+\begin{center}
+\includegraphics[width=5cm]{gluedtrees}
+
+\bigskip
+
+\onslide<3>{
+$\downarrow$
+
+\bigskip
+
+\includegraphics[width=5cm]{gluedtrees-reduced}
+}
+\end{center}
+\end{column}
+
+\begin{column}{6cm}
+\onslide<2->{
+  Column subspace
+  \begin{align*}
+  &|\text{col $j$}\> := \frac{1}{\sqrt{N_j}} \sum_{v \in \text{column $j$}}|v\>
+  \\
+  &N_j := \begin{cases}
+  2^j & \text{if $j \in [0,n]$} \\
+  2^{2n+1-j} & \text{if $j \in [n+1,2n+1]$}
+  \end{cases}
+  \end{align*}
+}
+\onslide<3>{
+  \bigskip
+  
+  Reduced adjacency matrix
+  \begin{align*}
+  &\<\text{col $j$}|A|\text{col $j+1$}\> \\
+  &\quad= \small\begin{cases}
+  \sqrt{2} & \text{if $j \in [0,n-1]$} \\
+  \sqrt{2} & \text{if $j \in [n+1,2n]$} \\
+  2 & \text{if $j=n$}
+  \end{cases}
+  \end{align*}
+}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Discrete-time quantum walk: Need for a coin}
+
+Quantum analog of discrete-time random walk?
+
+\pause
+\bigskip
+
+Unitary matrix $U \in \C^{|V| \times |V|}$ with $U_{vw} \ne 0$ iff $(v,w) \in E$
+
+\pause
+\bigskip
+
+Consider the line:
+
+\begin{center}
+\setlength{\unitlength}{.1cm}
+\begin{picture}(100,5)(-10,-4)
+%  \put(-10,-4){\framebox(100,5){}}
+  \multiput(0,0)(10,0){9}{\circle*{1}}
+  \thicklines
+  \put(0,0){\line(1,0){80}}
+  \put(0,0){\vector(-1,0){10}}
+  \put(80,0){\vector(1,0){10}}
+  \put(-1,-4){\makebox(2,3){-4}}
+  \put(9,-4){\makebox(2,3){-3}}
+  \put(19,-4){\makebox(2,3){-2}}
+  \put(29,-4){\makebox(2,3){-1}}
+  \put(39,-4){\makebox(2,3){0}}
+  \put(49,-4){\makebox(2,3){1}}
+  \put(59,-4){\makebox(2,3){2}}
+  \put(69,-4){\makebox(2,3){3}}
+  \put(79,-4){\makebox(2,3){4}}
+\end{picture}
+\end{center}
+
+\pause
+
+Define walk by $|x\> \mapsto \frac{1}{\sqrt2}(|x-1\> + |x+1\>)$?
+
+\pause
+\bigskip
+
+But then $|x+2\> \mapsto \frac{1}{\sqrt2}(|x+1\>+|x+3\>)$,
+so this is not unitary!
+
+\pause
+\bigskip
+
+In general, we must enlarge the state space.
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Discrete-time quantum walk on a line}
+
+\begin{center}
+\setlength{\unitlength}{.1cm}
+\begin{picture}(100,5)(-10,-4)
+%  \put(-10,-4){\framebox(100,5){}}
+  \multiput(0,0)(10,0){9}{\circle*{1}}
+  \thicklines
+  \put(0,0){\line(1,0){80}}
+  \put(0,0){\vector(-1,0){10}}
+  \put(80,0){\vector(1,0){10}}
+  \put(-1,-4){\makebox(2,3){-4}}
+  \put(9,-4){\makebox(2,3){-3}}
+  \put(19,-4){\makebox(2,3){-2}}
+  \put(29,-4){\makebox(2,3){-1}}
+  \put(39,-4){\makebox(2,3){0}}
+  \put(49,-4){\makebox(2,3){1}}
+  \put(59,-4){\makebox(2,3){2}}
+  \put(69,-4){\makebox(2,3){3}}
+  \put(79,-4){\makebox(2,3){4}}
+\end{picture}
+\end{center}
+
+Add a ``coin'': state space $\spn\{|x\>\ot|{\leftarrow}\>,|x\>\ot|{\rightarrow}\>: x \in \Z\}$
+
+\pause
+\bigskip
+
+Coin flip: $C := I \ot H$
+
+\bigskip
+
+Shift:
+$\begin{array}{l@{\;}l}
+S|x\>\ot|{\leftarrow}\> &= |x-1\>\ot|{\leftarrow}\> \\
+S|x\>\ot|{\rightarrow}\> &= |x+1\>\ot|{\rightarrow}\>
+\end{array}$
+
+\bigskip
+
+Walk step: $SC$
+
+\pause
+\begin{center}
+  \includegraphics[width=7cm]{lineqd}
+\end{center}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{The Szegedy walk}
+
+State space: $\spn\{|v\>\ot|w\>,|w\>\ot|v\>: (v,w) \in E\}$
+
+\pause
+\bigskip
+
+Let $W$ be a stochastic matrix (a discrete-time random walk)
+
+\begin{align*}
+\onslide<3->{
+\text{Define} \quad 
+|\psi_v\> &:= |v\>\ot \sum_{w \in V} \sqrt{W_{wv}}|w\> \quad}
+\onslide<4->{
+\text{(note $\<\psi_v|\psi_w\> = \delta_{v,w}$)}} \\
+\onslide<5->{R &:= 2 \sum_{v \in V}|\psi_v\>\<\psi_v| - I} \\
+\onslide<6->{S(|v\>\ot|w\>) &:= |w\>\ot|v\>}
+\end{align*}
+
+\bigskip
+
+\onslide<7->{
+Then a step of the walk is the unitary operator $U := SR$
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Spectrum of the walk}
+  
+Let $T := \sum_{v \in V} |\psi_v\>\<v|$, so $R=2TT^\dag - I$.
+
+\pause
+\bigskip
+  
+\begin{theorem}[Szegedy]
+  Let $W$ be a stochastic matrix.
+  Suppose the matrix
+  \[
+  \sum_{v,w} \sqrt{W_{vw}W_{wv}}|w\>\<v|
+  \]
+  has an eigenvector $|\lambda\>$ with eigenvalue $\lambda$.
+  Then
+  \[
+    \frac{I - e^{\pm\ii\arccos\lambda}S}{\sqrt{2(1-\lambda^2)}} T|\lambda\>
+  \]
+  are eigenvectors of $U=SR$ with eigenvalues
+  \[
+    e^{\pm\ii\arccos\lambda}.
+  \]
+\end{theorem}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Proof of Szegedy's spectral theorem}
+
+\begin{proof}[Proof sketch]
+  Straightforward calculations give
+  \[
+    TT^\dag = \sum_{v \in V} |\psi_v\>\<\psi_v| \qquad\quad
+    T^\dag T = I \]\[
+    T^\dag S T = \sum_{v,w \in V} \sqrt{W_{vw}W_{wv}}|w\>\<v|
+               = \sum_\lambda |\lambda\>\<\lambda|
+  \]
+  \pause
+  which can be used to show
+  \begin{align*}
+    U(T|\lambda\>) &= ST|\lambda\> &
+    U(ST|\lambda\>) &= 2\lambda ST|\lambda\> - T|\lambda\>.
+  \end{align*}
+  \pause
+  Diagonalizing within the subspace $\spn\{T|\lambda\>,ST|\lambda\>\}$ gives the desired result.
+\end{proof}
+
+\pause
+\bigskip
+
+\lab{Exercise} Fill in the details
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Random walk search algorithm}
+
+Given $G=(V,E)$, let $M \subset V$ be a set of \emph{marked vertices}
+
+\pause
+\bigskip
+
+Start at a random unmarked vertex
+
+\bigskip
+
+Walk until we reach a marked vertex\pause{}:
+\begin{align*}
+  W'_{vw} &:= \begin{cases}
+  1 & w\in M \text{~and~} v=w \\
+  0 & w\in M \text{~and~} v\ne w \\
+  W_{vw} & w \notin M.
+  \end{cases} \\
+  &\onslide<4->{= \begin{pmatrix}
+  W_M & 0 \\ V & I
+\end{pmatrix}
+\quad \text{($W_M$: delete marked rows and columns of $W$)}}
+\end{align*}
+
+\bigskip
+
+\onslide<5->{
+\lab{Question} How long does it take to reach a marked vertex?
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Classical hitting time}
+Take $t$ steps of the walk:
+\begin{align*}
+  (W')^t
+  &=
+  \begin{pmatrix}
+  W_M^t & 0 \\ V (I + W_M + \cdots + W_M^{t-1}) & I
+  \end{pmatrix} \\
+  &\onslide<2->{= \begin{pmatrix}
+  W_M^t & 0 \\ V \frac{I - W_M^t}{I - W_M} & I
+  \end{pmatrix}}
+\end{align*}
+
+\medskip
+
+\onslide<3->{
+Convergence time depends on how close $\norm{W_M}$ is to $1$, which depends on the spectrum of $W$
+}
+
+\medskip
+
+\begin{lemma}<4->
+  Let $W = W^T$ be a symmetric Markov chain.
+  Let the second largest eigenvalue of $W$ be $1-\delta$, and let $\epsilon = |M|/|V|$ (the fraction of marked items).
+  Then the probability of reaching a marked vertex is $\Omega(1)$ after $t = O(1/\delta\epsilon)$ steps of the walk.
+\end{lemma}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Quantum walk search algorithm}
+  
+Start from the state
+$
+%  \frac{1}{\sqrt{N-|M|}} \sum_{v \not\in M} T|v\> =
+  \frac{1}{\sqrt{N-|M|}} \sum_{v \not\in M} |\psi_v\>
+$
+
+\pause
+\bigskip
+
+Consider the walk $U$ corresponding to $W'$\pause{}:
+\[
+  \sum_{v,w \in V} \sqrt{W'_{v,w}W'_{w,v}}|w\>\<v|
+  = \begin{pmatrix}
+  W_M & 0 \\ 0 & I
+\end{pmatrix}
+\] \pause
+Eigenvalues of $U$ are $e^{\pm\ii\arccos\lambda}$ where the $\lambda$ are eigenvalues of $W_M$
+
+\pause
+\bigskip
+
+Perform phase estimation on $U$ with precision $O(\sqrt{\delta\epsilon})$
+\begin{itemize}
+  \item<+-> no marked items $\implies$ estimated phase is $0$
+  \item<+-> $\epsilon$ fraction of marked items $\implies$ nonzero phase with probability $\Omega(1)$
+\end{itemize}
+
+\bigskip
+
+\onslide<7->
+Further refinements give algorithms for \emph{finding} a marked item
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Grover's algorithm revisited}
+  
+\begin{problem}
+Given a black box $f:X \to \{0,1\}$, is there an $x$ with $f(x)=1$?
+\end{problem}
+
+\pause
+\bigskip
+
+Markov chain on $N=|X|$ vertices:
+\[
+  W := \frac{1}{N} \begin{pmatrix}
+  1 & \cdots & 1 \\
+  \vdots & \ddots & \vdots \\
+  1 & \cdots & 1
+  \end{pmatrix}
+  = |\psi\>\<\psi|,
+  \quad
+  |\psi\> := \frac{1}{\sqrt N}\sum_{x \in X}|x\>
+\] \pause
+Eigenvalues of $W$ are $0,1$ $\implies$ $\delta = 1$
+
+\pause
+\bigskip
+
+Hard case: one marked vertex, $\epsilon = 1/N$
+\pause
+\bigskip
+
+Hitting times
+\begin{itemize}
+  \item<+-> Classical: $O(1/\delta\epsilon) = O(N)$
+  \item<+-> Quantum: $O(1/\sqrt{\delta\epsilon}) = O(\sqrt{N})$
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Element distinctness}
+
+\begin{problem}
+Given a black box $f:X \to Y$, are there distinct $x,x'$ with $f(x)=f(x')$?
+\end{problem}
+
+\pause
+\bigskip
+
+Let $N=|X|$; classical query complexity is $\Omega(N)$
+
+\pause
+\bigskip
+
+Consider a quantum walk on the Hamming graph $H(N,M)$ \pause
+\begin{itemize}
+  \item<+-> Vertices: $\{(x_1,\ldots,x_M): x_i \in X\}$
+  \item<+-> Store the values $(f(x_1),\ldots,f(x_M))$ at vertex $(x_1,\ldots,x_M)$
+  \item<+-> Edges between vertices that differ in exactly one coordinate
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Element distinctness: Analysis}
+  
+Spectral gap: $\delta = O(1/M)$
+
+\pause
+\bigskip
+
+Fraction of marked vertices: $\epsilon \ge \binom{N-2}{M-2}/\binom{N}{M} = \Theta(M^2/N^2)$
+
+\pause
+\bigskip
+
+Quantum hitting time: $O(1/\sqrt{\delta\epsilon}) = O(N/\sqrt M)$
+
+\pause
+\bigskip
+
+Quantum query complexity: \pause
+\begin{itemize}
+  \item<+-> $M$ queries to prepare the initial state
+  \item<+-> $2$ queries for each step of the walk (compute $f$, uncompute $f$)
+  \item<+-> Overall: $M + O(N/\sqrt M)$
+\end{itemize}
+
+\bigskip
+
+\onslide<8->
+Choose $M=N^{2/3}$: query complexity is $O(N^{2/3})$ ~~~ (optimal!)
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Quantum walk algorithms}
+
+Quantum walk search algorithms
+\begin{itemize}
+  \item Spatial search
+  \item Finding a triangle in a graph
+  \item Checking matrix multiplication
+  \item Testing if a black-box group is abelian
+\end{itemize}
+
+\bigskip
+
+Evaluating Boolean formulas
+
+\bigskip
+
+Exponential speedup for a natural problem?
+
+\end{frame}

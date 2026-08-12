@@ -1,0 +1,545 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\part{Factoring}
+\begin{frame}
+  \partpage
+\label{part:factoring}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{The fundamental theorem of arithmetic}
+\begin{theorem}
+Every positive integer larger than $1$ can be factored as a product of prime numbers, and this factorization is unique (up to the order of the factors).
+\end{theorem}
+\[
+N = 2^{n_2} \times 3^{n_3} \times 5^{n_5} \times 7^{n_7} \times \cdots
+\]
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Examples}
+\begin{align*}
+  15 &\onslide<2->{= 3 \times 5} \\[1ex]
+  \onslide<3->{239815173914273 &\onslide<4->{= 15485863 \times 15486071}\\[1ex]}
+  \onslide<5->{
+  \begin{array}{@{}l@{}}
+  3107418240490043721350750 \\
+  0358885679300373460228427 \\
+  2754572016194882320644051 \\
+  8081504556346829671723286 \\
+  7824379162728380334154710 \\
+  7310850191954852900733772 \\
+  4822783525742386454014691 \\
+  736602477652346609
+  \end{array} &\onslide<6->{=
+  \begin{array}{@{}c@{}}
+  \begin{array}{@{}l@{}}
+  16347336458092538484 \\
+  43133883865090859841 \\
+  78367003309231218111 \\
+  08523893331001045081 \\
+  51212118167511579
+  \end{array} \\
+  \times \\
+  \begin{array}{@{}l@{}}
+  19008712816648221131 \\
+  26851573935413975471 \\
+  89678996851549366663 \\
+  85390880271038021044 \\
+  98957191261465571
+  \end{array}
+  \end{array}
+  }}
+\end{align*}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+``The problem of distinguishing prime numbers from composite numbers and of resolving the latter into their prime factors is known to be one of the most important and useful in arithmetic. It has engaged the industry and wisdom of ancient and modern geometers to such an extent that it would be superfluous to discuss the problem at length... Further, the dignity of the science itself seems to require that every possible means be explored for the solution of a problem so elegant and so celebrated.''
+
+\bigskip
+
+-- Carl Friedrich Gauss, Disquisitiones Arithmetic\ae\ (1801)
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{RSA}
+
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}c@{}c@{}c@{}}
+  \rule{1.8cm}{0pt}\includegraphics[width=1.25cm]{alice.png}\rule{1.8cm}{0pt} &
+  \includegraphics[width=1.25cm]{eve.png} &
+  \rule{1.8cm}{0pt}\includegraphics[width=1.25cm]{bob.png}\rule{1.8cm}{0pt} \\[-1ex]
+  Alice & Eve & Bob \\[1ex]
+  \overdef{$M$}{message} & & \\
+  & & \onslide<2->{primes $p,q$} \\
+  \onslide<6->{$n$} & \onslide<6->{$n$} & \onslide<3->{$n=pq$} \\
+  \onslide<6->{$e$} & \onslide<6->{$e$} & \onslide<4->{\overdefloose{$e \in \Z^\times_{(p-1)(q-1)}$}{encryption key}} \\
+  & & \onslide<5->{\overdef{$d := e^{-1} \bmod (p-1)(q-1)$}{decryption key}} \\
+  \onslide<7->{\overdef{$C := M^e \mod n$}{ciphertext}} & \onslide<8->{$C$} & $\onslide<8->{C}\onslide<9->{^d = M^{ed} \bmod n = M}$ 
+\end{tabular}
+\renewcommand{\arraystretch}{1}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Order finding}
+
+\begin{definition}
+Given $a,N \in \Z$ with $\gcd(a,N)=1$, the \emph{order} of $a$ modulo $N$ is the smallest positive integer $r$ such that $a^r \equiv 1 \pmod N$.
+\end{definition}
+
+\pause
+\bigskip
+
+\begin{prob}
+\begin{itemize}
+\item Given: $a,N \in \Z$ with $\gcd(a,N)=1$
+\item Task: find the order of $a$ modulo $N$
+\end{itemize}
+\end{prob}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Spectrum of a cyclic shift}
+
+\bigskip
+  
+Let $P$ be a cyclic shift modulo $r$:
+$
+  P|x\> = |x+1 \bmod r\>
+$
+
+\pause
+\bigskip
+
+\claim
+  For any $k \in \Z$, the state
+  $ \displaystyle |u_k\> := \frac{1}{\sqrt r}\sum_{x=0}^{r-1}e^{-2\pi\ii kx/r} |x\> $
+  is an eigenstate of $P$.
+
+\pause
+\bigskip
+\bigskip
+
+\lab{Proof}
+\vspace{-6.6ex}
+\begin{align*}
+  U|u_k\>
+  &= \frac{1}{\sqrt r} \sum_{x=0}^{r-1} e^{-2\pi\ii kx/r} |x+1 \bmod r\> \\
+  &\onslide<4->{= \frac{1}{\sqrt r} \sum_{x=0}^{r-1} e^{2\pi\ii k/r} e^{-2\pi\ii k(x+1)/r} |x+1 \bmod r\>} \\
+  &\onslide<5->{= e^{2\pi\ii k/r} \frac{1}{\sqrt r} \sum_{x=1}^{r} e^{-2\pi\ii kx/r} |x \bmod r\>} \\
+  &\onslide<6->{= e^{2\pi\ii k/r} |u_k\> \hspace{4.5cm} \qed}
+\end{align*}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{The multiplication-by-$a$ map}
+
+Define $U$ by $U|x\> = |ax\>$ for $x \in \Z_N$.
+
+\pause
+\bigskip
+\bigskip
+
+Computing $U$:
+\begin{align*}
+  |x,0\> &\onslide<3->{\mapsto |x,ax\> && \text{(reversible multiplication by $a$)}} \\
+         &\onslide<4->{\mapsto |ax,x\> && \text{(swap)}} \\
+         &\onslide<5->{\mapsto |ax,0\> && \text{(uncompute reversible division by $a$)}}
+\end{align*}
+
+\bigskip
+
+\onslide<6->{
+High powers of $U$ can be implemented efficiently using repeated squaring
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Spectrum of the multiplication-by-$a$ map}
+
+Define $U$ by $U|x\> = |ax\>$ for $x \in \Z_N$.
+
+\pause
+\bigskip
+
+\claim
+  Let $r$ be the order of $a$ modulo $N$.  For any $k \in \Z$, the state
+  \[ |u_k\> := \frac{1}{\sqrt r}\sum_{x=0}^{r-1}e^{-2\pi\ii kx/r} |a^x \bmod N\> \]
+  is an eigenstate of $U$ with eigenvalue $e^{2\pi\ii k/r}$.
+
+\pause
+\bigskip
+
+\begin{proof}
+Same as for the cyclic shift, due to the isomorphism
+\[
+  x \bmod r \quad\leftrightarrow\quad a^x \bmod N \qedhere
+\]
+\end{proof}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Order finding and phase estimation}
+
+$U|u_k\> = e^{2\pi \ii k/r} |u_k\>$
+
+\bigskip
+
+Phase estimation of $U$ on $|u_k\>$ can be used to approximate $k/r$.
+
+\pause
+\bigskip
+\bigskip
+
+Problems:
+  \begin{itemize}
+    \item We don't know $r$, so we can't prepare $|u_k\>$.
+    \item We only get an approximation of $k/r$.
+    \item Even if we knew $k/r$ exactly, $k$ and $r$ could have common factors.
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Estimating $k/r$ in superposition}
+
+A useful identity:
+\[
+  \sum_{k=0}^{r-1} e^{2\pi \ii k x/r} 
+  = \begin{cases}r & \text{if $x=0$} \\
+  0 & \text{otherwise}
+  \end{cases}
+\]
+
+\pause
+
+Consider
+\begin{align*}
+  \frac{1}{\sqrt r}\sum_{k=0}^{r-1} |u_k\>
+  &\onslide<3->{= \frac{1}{r} \sum_{k,x=0}^{r-1} e^{-2\pi \ii k x/r} |a^x \bmod N\>} \\
+  &\onslide<4->{= |a^0 \bmod N\> = |1\>}
+\end{align*}
+
+\onslide<5->{
+Phase estimation:
+\begin{align*}
+  |0\> \ot |1\>
+  \onslide<6->{= \frac{1}{\sqrt r}\sum_{k=0}^{r-1} |0\> \ot |u_k\>}
+  &\onslide<7->{\mapsto
+  \frac{1}{\sqrt r}\sum_{k=0}^{r-1} |\widetilde{k/r}\> \ot |u_k\>}
+\end{align*}
+}
+\onslide<8->{
+Measurement gives an approximation of $k/r$ for a random $k$
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Continued fractions}
+
+\begin{problem}
+Given samples $x$ of the form $\floor{k \smfrac{2^n}{r}}$, $\ceil{k \smfrac{2^n}{r}}$ ($k \in \{0,1,\ldots,r-1\}$), determine $r$.
+\end{problem}
+
+\pause
+\medskip
+
+Continued fraction expansion:
+\[
+  \frac{x}{2^n} = \frac{1}{a_1+\frac{1}{a_2+\frac{1}{a_3+\cdots}}}
+\]
+Gives an efficiently computable sequence of rational approximations
+
+\pause
+\medskip
+
+\begin{theorem}
+If $2^n \ge N^2$, then $k/r$ is the closest convergent of the CFE to $x/2^n$ among those with denominator smaller than $N$.
+\end{theorem}
+
+\pause
+\medskip
+
+Since $r < N$, it suffices to take $n=2\log_2 N$
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Common factors}
+
+If $\gcd(k,r)=1$, then the denominator of $k/r$ is $r$
+
+\pause
+\bigskip
+
+\begin{columns}
+\begin{column}{6cm}
+\begin{fact}
+The probability that $\gcd(k,r)=1$ for a random $k \in \{0,1,\ldots,r-1\}$ is
+\[
+  \frac{\phi(r)}{r} = \Omega\left(\frac{1}{\log\log r}\right)
+\]
+\end{fact}
+\end{column}
+\begin{column}{4cm}
+\includegraphics[width=4cm]{totient}
+\end{column}
+\end{columns}
+
+\pause
+\bigskip
+
+Thus $\Omega(\log\log N)$ repetitions suffice to give $r$ with constant probability
+
+\pause
+\bigskip
+
+Alternatively, find two (or more) denominators and take their least common multiple; then $O(1)$ repetitions suffice
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Factoring $\to$ finding a nontrivial factor}
+
+Suppose we want to factor the positive integer $N$.
+
+\bigskip
+
+Since primality can be tested efficiently, it suffices to give a procedure for finding a nontrivial factor of $N$ with constant probability.
+
+\begin{center}
+\begin{minipage}{4.5cm}
+%\rule{4.5cm}{1pt}
+\tiny
+\begin{verbatim}
+function factor(N)
+
+if N is prime
+     output N
+else
+     repeat
+          x=find_nontrivial_factor(N)
+     until success
+     factor(x)
+     factor(N/x)
+end if
+\end{verbatim}
+\end{minipage}
+\end{center}
+
+We can assume $N$ is odd, since it is easy to find the factor 2.
+
+\bigskip
+
+We can also assume that $N$ contains at least two distinct prime powers, since it is easy to check if it is a power of some integer.
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Reduction of factoring to order finding}
+  
+Factoring $N$ reduces to order finding in $\Z_N^\times$ [Miller 1976].
+
+\pause
+\bigskip
+
+Choose $a \in \{2,3,\ldots,N-1\}$ uniformly at random.
+
+\pause
+\bigskip
+
+If $\gcd(a,N) \ne 1$, then it is a nontrivial factor of $N$.
+
+\pause
+\bigskip
+
+If $\gcd(a,N)=1$, let $r$ denote the order of $a$ modulo $N$.
+
+\pause
+\bigskip
+
+Suppose $r$ is even.  Then
+\begin{center}
+  $a^r = 1 \bmod N$ \\
+  $\Updownarrow$ \\
+  $(a^{r/2})^2 - 1 = 0 \bmod N$ \\
+  \onslide<6->{
+  $\Updownarrow$ \\
+  $(a^{r/2}-1)(a^{r/2}+1) = 0 \bmod N$ }
+\end{center}
+\onslide<7->{
+so we might hope that $\gcd(a^{r/2}-1,N)$ is a nontrivial factor of $N$.
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Miller's reduction}
+
+\begin{question}
+  Given $(a^{r/2}-1)(a^{r/2}+1) = 0 \bmod N$, when does $\gcd(a^{r/2}-1,N)$ give a nontrivial factor of $N$?
+\end{question}
+
+\pause
+\bigskip
+
+Note that $a^{r/2}-1 \ne 0 \bmod N$ (otherwise the order of $a$ would be $r/2$, or smaller).
+
+\bigskip
+
+So it suffices to ensure that $a^{r/2}+1 \ne 0 \bmod N$.
+
+\pause
+\bigskip
+
+\begin{lemma}
+  Suppose $a \in \Z_N^\times$ is chosen uniformly at random, where $N$ is an odd integer with at least two distinct prime factors.  Then with probability at least $1/2$, the order $r$ of $a$ is even and $a^{r/2} \ne -1 \bmod N$.
+\end{lemma}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Proof (part 1 of 2)}
+
+\begin{align*}
+\text{Let~} 
+N &= p_1^{m_1} \times \cdots \times p_k^{m_k}
+\quad\text{($p_i$ distinct odd primes, $k \ge 2$)} \\
+a &= a_i \bmod p_i^{m_i} \\
+r_i &= \text{order of $a_i \bmod p_i^{m_i}$} \\
+2^{c_i} &= \text{largest power of $2$ that divides $r_i$}
+\end{align*}
+
+\pause
+\bigskip
+
+\claim[ 1]
+\emph{If $r$ is odd or $a^{r/2}+1 = 0 \bmod N$, then $c_1=\cdots=c_k$.}
+
+\pause
+\bigskip
+
+Since $r=\lcm(r_1,\ldots,r_k)$, $r$ is odd iff $c_1=\ldots=c_k=0$.
+
+\pause
+\medskip
+
+If $r$ is even and $a^{r/2}=-1 \bmod N$, then $a^{r/2}=-1 \bmod p_i^{m_i}$ for each $i$, so $r_i$ does not divide $r/2$; but notice that $r_i$ does divide $r$.
+
+\pause
+\medskip
+
+Hence $r/r_i$ is an odd integer for each $i$, and every $r_i$ must contain the same number of powers of $2$ as $r$.
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Proof (part 2 of 2)}
+
+\claim[ 2]
+\emph{$\Pr(c_i=\text{any particular value}) \le 1/2$}
+
+\pause
+\bigskip
+
+(Then the lemma follows, since in particular $\Pr(c_1=c_2) \le 1/2$.)
+
+\pause
+\bigskip
+
+\[
+\begin{array}{c}
+  a \in \Z_N^\times \\
+  \text{uniformly at random}
+\end{array}
+\quad\Leftrightarrow\quad
+\begin{array}{c}
+  a_i \in \Z_{p_i^{m_i}}^\times \\
+  \text{uniformly at random}
+\end{array}
+\]
+
+\pause
+\bigskip
+
+Since $\Z_{p_i^{m_i}}^\times$ is cyclic and of even order, exactly half its elements have the maximal value of $c_i$, so in particular the probability of any particular $c_i$ is at most $1/2$.
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Shor's algorithm}
+
+Input: Integer $N$
+
+Output: A nontrivial factor of $N$
+
+\begin{enumerate}
+  \item\label{step:randoma} Choose a random $a \in \{2,3,\ldots,N-1\}$
+  \item Compute $\gcd(a,N)$; if it is not $1$ then it is a nontrivial factor, and otherwise we continue
+  \item Perform phase estimation with the multiplication-by-$a$ operator $U$ on the state $|1\>$ using $n=2\log_2 N$ bits of precision
+  \item\label{step:cfe} Compute the continued fraction expansion of the estimated phase, and find the best approximation with denominator less than $N$; call the result $r$
+  % \item Repeat steps \ref{step:randoma}--\ref{step:cfe}; call the result $r_2$
+  % \item Let $r = \lcm(r_1,r_2)$
+  \item Compute $\gcd(a^{r/2}-1,N)$.  If it is a nontrivial factor of $N$, we are done; if not, go back to step \ref{step:randoma}
+\end{enumerate}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Quantum vs.\ classical factoring algorithms}
+  
+Best known classical algorithm for factoring $N$
+\begin{itemize}
+  \item Proven running time: $2^{O((\log N)^{1/2}(\log\log N)^{1/2})}$
+  \item With plausible heuristic assumptions: $2^{O((\log N)^{1/3}(\log\log N)^{1/3})}$
+\end{itemize}
+
+\pause
+\bigskip
+
+Shor's quantum algorithm \pause
+\begin{itemize}
+  \item QFT modulo $2^n$ with $n=O(\log N)$: takes $O(n^2)$ steps \pause
+  \item Modular exponentiation: compute $a^x$ for $x<2^n$.  With repeated squaring, takes $O(n^3)$ steps \pause
+  \item Running time of Shor's algorithm: $O(\log^3 N)$
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Beyond factoring}
+
+There are many fast quantum algorithms based on related ideas
+\begin{itemize}
+  \item Computing discrete logarithms
+  \item Decomposing abelian/solvable groups
+  \item Estimating Gauss sums
+  \item Counting points on algebraic curves
+  \item Computations in number fields (Pell's equation, etc.)
+  \item Abelian hidden subgroup problem
+  \item Non-abelian hidden subgroup problem?
+\end{itemize}
+
+\end{frame}

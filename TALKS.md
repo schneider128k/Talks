@@ -10,6 +10,31 @@ and the talks I gave after 2020 are not yet reconstructed.
 
 ## University of Central Florida
 
+- **Quantum Algorithms** — *Lecture course*, July 2010  
+  10th Canadian Summer School on Quantum Information, University of British Columbia,
+  Vancouver, 17–19 July 2010, at the invitation of Robert Raussendorf.  
+  Six lectures given jointly with Andrew Childs of the University of Waterloo: quantum
+  circuits, elementary quantum algorithms, the quantum Fourier transform and phase
+  estimation, factoring, quantum search, and quantum walk.  
+  The six lecture files and the finished PDF are the set Andrew Childs sent round at the end
+  of the school. The master file that binds them together is not in it, and what is here in
+  its place is an earlier version of mine, with most of its inputs still commented out.  
+  [lectures](documents/2010-07_quantum_algorithms_vancouver_summer_school/quantum_algorithms_vancouver_lectures.pdf) ·
+  [sources](documents/2010-07_quantum_algorithms_vancouver_summer_school/)
+
+- **Quantum Algorithms for Approximately Evaluating Jones & HOMFLYPT Polynomials** —
+  *Invited talk*, March 2010  
+  Mini-Conference on Topology and Quantum Information Theory, Department of Mathematics,
+  George Washington University, Washington D.C., 24–26 March 2010, held around a visit by
+  Peter Shor, at the invitation of Prof. Józef Przytycki.  
+  Joint work with Stephen Jordan.  
+  The talk is built on [arXiv:0807.4688](https://arxiv.org/abs/0807.4688) and
+  [arXiv:0904.2211](https://arxiv.org/abs/0904.2211).  
+  The slides call in a macro file for the circuit diagrams that is not beside them, so the
+  source no longer compiles as it stands; what is here is the PDF typeset at the time.  
+  [presentation](documents/2010-03_jones_homflypt_polynomials_washington/jones_homflypt_polynomials_washington_presentation.pdf) ·
+  [sources](documents/2010-03_jones_homflypt_polynomials_washington/)
+
 - **Thermalizing Quantum Systems and Evaluating Partition Functions with a Quantum
   Computer** — *Invited talk*, September 2009  
   NATO Advanced Research Workshop *Quantum Cryptography and Computing: Theory and

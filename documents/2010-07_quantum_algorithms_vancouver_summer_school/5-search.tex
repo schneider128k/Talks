@@ -1,0 +1,568 @@
+\part{Quantum search}\label{part:search}
+
+\begin{frame}
+  \partpage
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Quantum search
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Unstructured search}
+
+Quantum computers can quadratically outperform classical computers at a very basic computational 
+task, called unstructured search.
+
+\bigskip
+There is a set $X$ containing $N$ items, some of which are marked
+
+\bigskip
+We are given a Boolean black box $f : X \rightarrow \{0,1\}$ that indicates whether a given item is marked
+
+\bigskip
+The problem is to decide if any item is marked, or alternatively, to find a marked item given that one exists
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Applications of unstructured search
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Applications of unstructured search}
+
+Unstructured search can be thought of as a model for solving problems in NP by brute force search
+
+\bigskip
+If a problem is in NP, then we can efficiently recognize a solution, so one way to find a solution is to solve unstructured search
+
+\bigskip
+Of course, this may not be the best way to find a solution in general, even if the problem is NP-hard
+
+\bigskip
+We don't know if NP-hard problems are really ``unstructured''
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Complexity of unstructured search
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Unstructured search}
+
+It is obvious that even a randomized classical algorithm needs $\Omega(N)$ queries to decide if any item is marked  
+
+\bigskip
+On the other hand, a quantum algorithm can do much better!
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Phase oracle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Phase oracle}
+
+We assume that we a unitary operator $U$ satisfying
+
+\[
+  U|x\> = (-1)^{f(x)} |x\> = 
+  \begin{cases}
+  	\phantom{-} |x\> & x \text{~is not marked} \\
+             -  |x\> & x \text{~is marked}
+  \end{cases}
+\]
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Target state
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Target state}
+
+We consider the case where there is exactly one $x\in X$ element that is marked; call this element $m$
+
+\bigskip
+Our goal is to prepare the state $|m\>$
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Initial state
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Initial state}
+
+We have no information about which item might be marked
+
+\bigskip
+$\Rightarrow$ We take
+
+\[
+|\psi\> := \frac{1}{\sqrt N} \sum_{x=1}^N |x\>
+\]
+
+as the initial state
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Idea behind Grover search
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}{Rough idea behind Grover search}
+
+We start with the initial state $|\psi\>$
+
+\bigskip
+We prepare the target state $|m\>$ by implementing a rotation that moves $|\psi\>$ toward $|m\>$
+
+\bigskip
+We realize the rotation with the help of two reflections
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Reflection -- visualization
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Visualization of a reflection in $\R^2$}
+
+\begin{center}
+\scalebox{.65}{
+\multiinclude[<+-| handout:+->][format=pdf]{G1}
+}
+\end{center}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Reflections
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Reflections}
+
+$U=I-2|m\>\<m|$ is a reflection about the target state $|m\>$
+
+\bigskip
+$V=I-2|\psi\>\<\psi|$ is the reflection around about the initial state $|\psi\>$:
+
+\begin{eqnarray*}
+V |\psi\>       & = & -   \, |\psi\> \\
+V |\psi^\perp\> & = &  \quad |\psi^\perp\>
+\end{eqnarray*}
+
+\bigskip
+for any state $|\psi^\perp\>$ orthogonal to $|\psi\>$
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Structure of Grover search
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Structure of Grover}
+
+\bigskip
+The algorithm is as follows: 
+
+\bigskip
+\begin{itemize}
+\item start in $|\psi\>$, 
+
+\bigskip
+\item apply the Grover iteration $G := V\, U$ some number of times, 
+
+\bigskip
+\item make a measurement, and hope that the outcome is $m$
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Invariant subspace
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Invariant subspace}
+
+Observe that $\spn\{|m\>,|\psi\>\}$ is a $U$- and $V$-invariant subspace, and both the inital and target states belong to 
+this subspace
+
+\bigskip
+$\Rightarrow$ It suffices to understand the restriction of $VU$ to this subspace
+
+\bigskip
+Consider an orthonormal basis $\{|m\>,|\phi\>\}$ for $\spn\{|m\>,|\psi\>\}$
+
+\bigskip
+The Gram-Schmidt process yields
+
+\bigskip
+\[
+  |\phi\> = \frac{|\psi\> - \alpha |m\>}{\sqrt{1-\alpha^2}}
+\]
+
+\bigskip
+where $\alpha := \<m|\psi\> = 1/\sqrt{N}$
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Invariant subspace
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Invariant subspace}
+
+Now in the basis $\{|m\>,|\phi\>\}$, we have
+
+\begin{eqnarray*}  
+|\psi\> 
+& = & 
+\sin\theta |m\> + \cos\theta |\phi\> \mbox{ where } \sin\theta = \<m|\psi\> = 1/\sqrt{N} \\
+&   & \\
+U & = & 
+\begin{pmatrix}-1 & 0 \\ 0 & 1\end{pmatrix} \\
+&   & \\ \pause
+V 
+& = & 
+I-2|\psi\>\<\psi| \\ \pause
+& = &   
+\begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} 
+-2 
+\begin{pmatrix} \sin\theta \\ \cos\theta \end{pmatrix} 
+\begin{pmatrix} \sin\theta & \cos\theta\end{pmatrix} \\ \pause
+& = & 
+\begin{pmatrix} 
+  1-2\sin^2\theta         & -2\sin\theta\cos\theta \\ 
+   -2\sin\theta\cos\theta & 1-2\cos^2\theta
+\end{pmatrix} \\ \pause
+& = &
+-
+\begin{pmatrix} 
+  -\cos 2\theta & \sin 2\theta \\
+   \sin 2\theta & \cos 2 \theta 
+\end{pmatrix} 
+\end{eqnarray*}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Grover iteration 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Grover iteration within the invariant subspace}
+
+$\Rightarrow$ We find
+
+\begin{eqnarray*}
+V \, U 
+& = &
+-
+\begin{pmatrix} 
+  -\cos 2\theta & \sin 2\theta \\
+   \sin 2\theta & \cos 2 \theta 
+\end{pmatrix} 
+\,
+\begin{pmatrix} -1 & 0 \\ 0 & 1 \end{pmatrix} \\ \pause
+& = &
+- 
+\begin{pmatrix}  
+	  \cos 2\theta & \sin 2\theta \\
+  - \sin 2\theta & \cos 2\theta
+\end{pmatrix}
+\end{eqnarray*}
+
+\bigskip
+This is a rotation up to a minus sign
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% first Grover iteration
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Visualization of first Grover iteration}
+
+\begin{center}
+\scalebox{.48}{
+\multiinclude[<+-| handout:+->][format=pdf]{G2}
+}
+\end{center}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Grover search
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Grover search}
+
+Geometrically, $U$ is a reflection around the $|m\>$ axis and $V$ is a reflection around the $|\psi\>$ axis, 
+which is almost but not quite orthogonal to the $|m\>$ axis
+
+\bigskip
+The product of these two reflections is a clockwise rotation by an angle $2\theta$, up to an overall minus sign
+
+\bigskip
+From this geometric picture, or by explicit calculation using trig identities, it is easy to verify that
+
+\bigskip
+\[
+  (VU)^k = (-1)^k \begin{pmatrix} \cos2k\theta & \sin2k\theta \\
+                       - \sin2k\theta & \cos2k\theta\end{pmatrix}
+\]
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Grover search
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Grover search}
+
+Recall that our initial state is $|\psi\> = \sin\theta|m\> + \cos\theta|\phi\>$
+
+\bigskip
+How large should $k$ be before $(VU)^k|\psi\>$ is close to $|m\>$?  
+
+\bigskip
+We start an angle $\theta$ from the $|\phi\>$ axis and rotate 
+toward $|m\>$ by an angle $2\theta$ per iteration
+
+\bigskip
+$\Rightarrow$ To rotate by $\pi/2$, we 
+need 
+
+\begin{eqnarray*}
+\theta + 2k\theta & =       & \pi/2 \quad \\ & & \\
+k                 & \approx & \frac{\pi}{4}\theta^{-1} \approx \frac{\pi}{4} \sqrt{N}
+\end{eqnarray*}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Grover search
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Grover search}
+
+It is easy to calculate that 
+
+\medskip
+\[
+|\<m|(VU)^k|\psi\>|^2 = \sin^2((2k+1)\theta)
+\]
+
+\bigskip
+This is the probability that, after $k$ steps of the algorithm, a measurement reveals the marked state
+
+\bigskip
+We are solving a completely unstructured search problem with $N$ possible solutions, yet we 
+can find a unique solution in only $O(\sqrt N)$ queries!  
+
+\bigskip
+While this is only a polynomial separation, it is very generic, and it is surprising that we can obtain a speedup for a search in which we have so little 
+information to go on
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Grover search}
+
+It can also be shown that this quantum algorithm is optimal
+
+\bigskip
+Any quantum algorithm needs at least $\Omega(\sqrt N)$ queries to find a marked item (or even to decide if some item is marked)
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Multiple solutions}
+
+Assume that there are $t$ marked items
+
+\bigskip
+$\Rightarrow$ There is a two-dimensional invariant subspace spanned by $\spn\{|\mu\>,|\psi\>\}$ where
+
+\[
+|\mu\> = \frac{1}{\sqrt{t}} \sum_{x \, \mathsf{marked}} |x\>
+\]
+
+is the uniform superposition of all solutions
+
+\bigskip
+The Gram-Schmidt process yields the ONB $\{|\mu\>,|\phi\>\}$ where
+
+\[
+|\phi\> = \frac{1}{\sqrt{N-t}} \sum_{x \, \mathsf{unmarked}} |x\>
+\]
+
+is the uniform superposition of all non-solutions
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Invariant subspace
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Invariant subspace}
+
+Now in the basis $\{|\mu\>,|\phi\>\}$, we have
+
+\begin{eqnarray*}  
+	|\psi\> & = & \sin\theta |\mu\> + \cos\theta |\phi\> \mbox{ where } \sin\theta = \<\mu|\psi\> = \sqrt{\frac{t}{N}} \\
+					&   & \\
+  V U & = & - \begin{pmatrix} \cos2\theta   & \sin2\theta \\
+                              - \sin2\theta & \cos2\theta
+              \end{pmatrix}
+\end{eqnarray*}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Overshooting}
+
+The success probability is given by
+
+\[
+\sin((2k + 1)\theta) \mbox{ where } \sin\theta = \sqrt{\frac{t}{N}}
+\]
+
+\bigskip
+$\Rightarrow$ We need to apply $VU$
+
+\[
+k \approx \frac{\pi}{4} \sqrt{\frac{N}{t}}
+\]
+
+times
+
+\bigskip
+Due to the oscillatory behaviour of the success probability it is important not to overshoot, i.e., to choose a number of iterations that it too large, so that the probability starts decreasing
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Quantum counting}
+
+The eigenvalues of 
+
+\[
+- V U = \begin{pmatrix} \cos2\theta   & \sin2\theta \\
+                              - \sin2\theta & \cos2\theta
+              \end{pmatrix}
+\]
+
+
+are $e^{i 2\theta}$ and $e^{-i 2\theta}$
+
+\bigskip
+The initial state $|\psi\>$ is a superposition of the two eigenvectors corresponding to the above two eigenvalues
+
+\bigskip
+$\Rightarrow$ Using phase estimation, we can obtain an estimate $\tilde{\theta}$ such that
+
+\[
+|\theta - \tilde{\theta} | \le \epsilon
+\]
+
+\bigskip
+by invoking the controlled version of $-VU$ 
+
+\[
+O(1/\epsilon) \mbox{ times}
+\]
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Quantum counting}
+
+Using the estimate $\tilde{\theta}$, we obtain an estimate $\tilde{t}$ satifying
+
+\[
+|t - \tilde{t} | \le (2\sqrt{t N} + \epsilon) \, \epsilon
+\]
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Quantum counting}
+
+We use the following two inequalities:
+\begin{eqnarray*}
+|\sin\theta + \sin\tilde{\theta}| & \le & 2 \sin\theta + |\theta - \tilde{\theta} |  \, \le \, 2\sqrt{\frac{t}{N}} + \epsilon\\
+|\sin\theta - \sin\tilde{\theta}| & \le & |\theta - \tilde{\theta}|  \, \le \, \epsilon
+\end{eqnarray*}
+
+\bigskip
+We have
+\begin{eqnarray*}
+\left| \frac{t}{N} - \frac{\tilde{t}}{N} \right| 
+& = &
+|\sin^2 \theta - \sin^2\tilde{\theta}| \\
+& = &
+|\sin\theta + \sin\tilde{\theta}| \, |\sin\theta - \sin\tilde{\theta}| \\
+& \le &
+\left(
+2 \sqrt{\frac{t}{N}} + \epsilon
+\right) \, \epsilon
+\end{eqnarray*}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Amplitude amplification}
+
+Assume that there is a classical (randomized) algorithm that produces a solution to some problem with probability $p$
+
+\bigskip
+Assume that we can recognized if the output produced by the algorithm is a valid solution or not
+
+\bigskip
+$\Rightarrow$ We repeat the algorithm until we obtain a solution
+
+\bigskip
+The expected number of times we have to repeat is $O(1/p)$ (geometric random variable)
+
+\bigskip
+Quantum amplitude amplification makes it possible to reduce the complexity to $O(1/\sqrt{p})$
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

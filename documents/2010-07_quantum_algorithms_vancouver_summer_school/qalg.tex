@@ -1,0 +1,75 @@
+\documentclass{beamer}
+
+%\usepackage{nicefrac}
+
+\input{Qcircuit}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\nicefrac}[2]{\frac{#1}{#2}}
+\newcommand{\C}{{\mathbb{C}}}
+\newcommand{\F}{{\mathbb{F}}}
+\newcommand{\R}{{\mathbb{R}}}
+\newcommand{\Z}{{\mathbb{Z}}}
+
+\newcommand{\tr}{\mathop{\mathrm{tr}}}
+\newcommand{\spn}{\mathop{\mathrm{span}}}
+\newcommand{\poly}{\mathop{\mathrm{poly}}}
+\newcommand{\abs}{\mathop{\mathrm{abs}}}
+\renewcommand{\d}{{\mathrm{d}}}
+\newcommand{\ii}{{\mathrm{i}}}
+
+\newcommand{\norm}[1]{\|{#1}\|}
+\newcommand{\Norm}[1]{\left\|{#1}\right\|}
+\newcommand{\floor}[1]{{\lfloor{#1}\rfloor}}
+\newcommand{\ceil}[1]{{\lceil{#1}\rceil}}
+\newcommand{\nint}[1]{{\lfloor{#1}\rceil}}
+\newcommand{\amp}[2]{a_{{#1}|{#2}}}
+
+\renewcommand{\>}{\rangle}
+\newcommand{\<}{\langle}
+
+\def\bas#1\eas{\begin{align*}#1\end{align*}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Quantum algorithms}
+
+\author{Andrew Childs\inst{1} \and Pawel Wocjan\inst{2}}
+\institute{
+\inst{1}
+%Department of Combinatorics \& Optimization \\
+%and Institute for Quantum Computing \\ 
+University of Waterloo
+\and
+\inst{2}
+%School of Electrical Engineering and Computer Science \\ 
+University of Central Florida}
+
+\date{10th Canadian Summer School on Quantum Information \\ 17--19 July 2010}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\input{1-circuits.tex}
+%\input{2-elementary.tex}
+%\input{3-qft.tex}
+\input{4-factoring.tex}
+%\input{5-search.tex}
+\input{6-walk.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

@@ -1,0 +1,928 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\part{Quantum circuits}\label{part:circuits}
+
+\begin{frame}
+  \partpage
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Quantum circuit model}
+
+Quantum circuits are generalizations of Boolean circuits
+
+\bigskip
+input \hspace{1.5cm} transformation \hspace{1.0cm} output (probabilistic)
+
+\bigskip
+\hspace{0.75cm}
+\Qcircuit @C=0.7em @R=0.7em {
+\lstick{\ket{1}} & \gate{U_{1\,}}     & \multigate{1}{U_3} & \qw                & \multigate{1}{U_6} & \meter & \rstick{0} \\
+\lstick{\ket{1}} & \multigate{1}{U_2} & \ghost{U_3}        & \gate{U_5}         & \ghost{U_6}        & \meter & \rstick{1} \\
+\lstick{\ket{0}} & \ghost{U_2}        & \qw                & \multigate{1}{U_6} & \qw                & \meter & \rstick{0} \\
+\lstick{\ket{1}} & \multigate{1}{U_3} & \gate{U_4}         & \ghost{U_5}        & \multigate{1}{U_7} & \meter & \rstick{1} \\
+\lstick{\ket{0}} & \ghost{U_3}        & \qw                & \qw                & \ghost{U_7}        & \meter & \rstick{1}
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Classical Bit
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Classical bit}
+
+Classical bit (bit):\, $\mathbb{B}:=\{0,1\}$
+
+\bigskip
+\begin{itemize}
+\item Basis state: either $0$ or $1$
+
+\bigskip
+\item General state: a probability distribution $p=(p_0,p_1)$ on $\mathbb{B}$
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Classical Register
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Classical register}
+
+Classical register: $\mathbb{B}^n := \underbrace{\mathbb{B} \times \mathbb{B} \times \ldots \times \mathbb{B}}_{n}$
+
+\bigskip
+\begin{itemize}
+\item Basis state: a binary string $x\in\mathbb{B}^n$
+
+\bigskip
+\item General state: a probability distribution $p=(p_x \,:\, x\in\mathbb{B}^n)$ on $\mathbb{B}^n$ (written as a column vector)
+
+\bigskip
+
+\bigskip
+Remark: Note that $p$ is a vector with positive entries that is normalized with respect to the $\ell_1$-norm (the sum of the absolute values of the entries)
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Classical Transformations
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Classical transformation}
+
+Transformations on the classical register $\mathbb{B}$ are described by stochastic matrices
+
+\bigskip
+Stochastic matrices preserve the $\ell_1$-norm, i.e., probability distributions are mapped on probability distributions
+
+\bigskip
+Let $p$ be the state of the register.  The state after the transformation $P$ is given by the matrix-vector-product 
+
+\[
+P p
+\]
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% QUBIT
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Qubit}
+
+Quantum bit (qubit):\, two-dimensional complex Hilbert space $\mathbb{C}^2$\,
+
+\bigskip
+\begin{itemize}
+\item Computational basis states (classical states):
+
+\bigskip
+\[
+|0\>:=\left(\begin{array}{c}1\\0\end{array}\right)
+\quad\quad\mbox{and}\quad\quad
+|1\>:=\left(\begin{array}{c}0\\1\end{array}\right)
+\]
+
+\bigskip
+\item General states: \textcolor{blue}{superpositions}
+
+\bigskip
+\[
+|\psi\> = 
+\left(
+\begin{array}{c}
+\alpha_0 \\
+\alpha_1
+\end{array}
+\right)=
+\alpha_0 |0\> + \alpha_1 |1\>\,,\quad |\alpha_0|^2+|\alpha_1|^2=1
+\]
+
+\bigskip
+the coefficients $\alpha_0,\alpha_1\in\mathbb{C}$ are called \textcolor{blue}{probability amplitudes}
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Quantum Register
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Quantum register}
+
+Quantum register: $2^n$-dimensional complex Hilbert space $(\C^2)^{\otimes n}$ with \textcolor{blue}{tensor product structure}
+
+\[
+(\C^2)^{\otimes n} := \underbrace{\mathbb{C}^2\otimes\mathbb{C}^2\otimes\cdots\otimes\mathbb{C}^2}_{n}
+\]
+
+\medskip
+\begin{itemize}
+\item Computational basis states (classical states):
+
+\medskip
+\[
+|x\> = |x_1\> \otimes |x_2\> \otimes \cdots \otimes |x_n\>\,,\quad x\in\mathbb{B}^n
+\]
+
+\medskip
+\item General state:
+
+\medskip
+\[
+|\psi\>=\sum_{x\in\mathbb{B}^n} \alpha_x |x\>\,,\quad \sum_{x} |\alpha_x|^2 = 1
+\]
+
+\bigskip
+
+\bigskip
+Remark: Note that $|\psi\>$ is a column vector (ket) that is normalized with respect to the $\ell_2$-norm (Euclidean norm)
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Quantum Transformations
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Quantum transformations}
+
+Transformations on the quantum register $\cH:=(\C^2)^{\otimes n}$ are
+described by \textcolor{blue}{unitary matrices} $U\in {\cal U}(\cH)$
+
+\bigskip
+Unitary matrices preserve the $\ell_2$-norm
+
+\bigskip
+Let $|\psi\>\in\cH$ be the state of the quantum register;  the state after the transformation $U$ is given by the matrix-vector product
+
+\medskip
+\begin{center}
+{\large $U |\psi\>$}
+\end{center}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Quantum Circuits
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Quantum circuit}
+
+Each transformations $U$ has to be implemented by a \textcolor{red}{quantum circuit}, i.e., a sequence of
+\textcolor{red}{elementary gates}
+
+\bigskip
+Quantum circuit model = Quantum mechanics + Notion of complexity
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Single Qubit Gate
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Single qubit gate on two qubits}
+
+single-qubit gate $U$ on \textcolor{red}{first} qubit\quad
+\raisebox{0.5cm}{
+ \Qcircuit @C=1em @R=1em {
+  & \gate{{U}} & \qw \\
+  & \qw      & \qw 
+ }}
+
+\pause
+
+\bigskip
+action on basis states of $\mathbb{C}^2\otimes\mathbb{C}^2$\quad
+$
+\begin{array}{ccc}
+|0\> \otimes |0\> & \mapsto & ({\color{red} U}|0\>) \otimes |0\>\\
+|0\> \otimes |1\> & \mapsto & ({\color{red} U}|0\>) \otimes |1\>\\
+|1\> \otimes |0\> & \mapsto & ({\color{red} U}|1\>) \otimes |0\>\\
+|1\> \otimes |1\> & \mapsto & ({\color{red} U}|1\>) \otimes |1\>
+\end{array}
+$
+
+\pause
+
+\bigskip
+corresponding matrix 
+
+${\color{red} U}\otimes {\color{blue} I}
+=
+\left(
+\begin{array}{c|c}
+{\color{red} u_{00}} \cdot {\color{blue} I} & {\color{red} u_{01}} \cdot {\color{blue} I} \\ \hline
+{\color{red} u_{10}} \cdot {\color{blue} I} & {\color{red} u_{11}} \cdot {\color{blue} I}
+\end{array}
+\right)
+=
+\left(
+\begin{array}{cccc}
+{\color{red} u_{00}} & 0             & {\color{red} u_{01}} & 0      \\
+0             & {\color{red} u_{00}} & 0             & {\color{red} u_{01}} \\
+{\color{red} u_{10}} & 0             & {\color{red} u_{11}} & 0      \\
+0             & {\color{red} u_{10}} & 0             & {\color{red} u_{11}}
+\end{array}
+\right)
+$
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Single Qubit Gate
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Single qubit gate on two qubits}
+
+single-qubit gate $U$ on \textcolor{blue}{second} qubit\quad
+\raisebox{0.5cm}{
+ \Qcircuit @C=1em @R=1em {
+  & \qw          & \qw \\
+  & \gate{{U}}   & \qw 
+ }}
+
+\pause
+
+\bigskip
+action on basis states of $\mathbb{C}^2\otimes\mathbb{C}^2$\quad
+$
+\begin{array}{ccc}
+|0\> \otimes |0\> & \mapsto & |0\> \otimes {\color{blue} U}|0\>\\
+|0\> \otimes |1\> & \mapsto & |0\> \otimes {\color{blue} U}|1\>\\
+|1\> \otimes |0\> & \mapsto & |1\> \otimes {\color{blue} U}|0\>\\
+|1\> \otimes |1\> & \mapsto & |1\> \otimes {\color{blue} U}|1\>
+\end{array}
+$
+
+\pause
+
+\bigskip
+corresponding matrix
+
+$ {\color{red} I} \otimes {\color{blue} U}
+=
+\left(
+\begin{array}{c|c}
+{\color{red} 1} \cdot {\color{blue} U} & {\color{red} 0} \cdot {\color{blue} U} \\ \hline
+{\color{red} 0} \cdot {\color{blue} U} & {\color{red} 1} \cdot {\color{blue} U}
+\end{array}
+\right)
+=
+\left(
+\begin{array}{cccc}
+{\color{blue} u_{00}} & {\color{blue} u_{01}} & 0      & 0 \\ 
+{\color{blue} u_{10}} & {\color{blue} u_{11}} & 0      & 0 \\
+0              & 0              & {\color{blue} u_{00}} & {\color{blue} u_{01}} \\
+0              & 0              & {\color{blue} u_{10}} & {\color{blue} u_{11}}
+\end{array}
+\right)
+$
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Controlled NOT gate
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Controlled-NOT gate}
+
+control: first qubit; \quad target: second qubit\quad
+\raisebox{0.5cm}{
+\Qcircuit @C=1em @R=1em {
+& \ctrl{1} & \qw \\
+& \targ     & \qw
+}}
+
+\bigskip
+action on basis states of $\mathbb{C}^2\otimes\mathbb{C}^2$
+
+\[
+	|c\> \otimes |t\> \mapsto |c\> \otimes |c\oplus t\>
+\]
+
+\bigskip
+corresponding matrix
+\[
+\left(
+\begin{array}{cc|cc}
+1      & 0      & 0      & 0 \\
+0      & 1      & 0      & 0 \\ \hline
+0      & 0      & 0      & {\color{blue}1} \\
+0      & 0      & {\color{blue}1}      & 0
+\end{array}
+\right)
+=
+|0\>\<0| \otimes I_2 + |1\>\<1| \otimes {\color{blue} X}
+\]
+
+\medskip
+where $I_2 = |0\>\<0|+|1\>\<1|$ and ${\color{blue}X=|0\>\<1| + |1\>\<0|}$
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Controlled U gate
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Controlled $U$ gate}
+
+control: qubit; \quad target: $m$-qubit register
+\quad\raisebox{0.5cm}{
+\Qcircuit @C=1em @R=1em {
+& \qw & \ctrl{1} & \qw & \qw \\
+& {/}\qw & \gate{U}     & \qw & \qw
+}}
+
+\bigskip
+let $U$ be a unitary acting on the $m$-qubit register
+
+\bigskip
+action on basis states of $\mathbb{C}^2\otimes(\mathbb{C}^2)^{\otimes m}$
+
+\[
+	|c\> \otimes |t\> \mapsto |c\> \otimes U^c |t\> \quad \mbox{where } b\in\mathbb{B}, t\in\mathbb{B}^m
+\]
+
+\bigskip
+corresponding matrix
+\[
+\left(
+\begin{array}{c|c}
+I & 0 \\ \hline
+0 & {\color{blue}U} 
+\end{array}
+\right)
+=
+|0\>\<0| \otimes I + |1\>\<1| \otimes {\color{blue}U}
+\]
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Toffoli gate
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Toffoli gate}
+
+control: first and second qubits; \quad target: third qubit\quad
+\raisebox{0.5cm}{
+\Qcircuit @C=1em @R=1em {
+& \ctrl{2} & \qw \\
+& \ctrl{1} & \qw \\
+& \targ     & \qw
+}}
+
+\bigskip
+action on basis states of $\C^2\otimes\C^2\otimes\C^2$
+
+\[
+|c_1\> \otimes |c_2\> \otimes |t\> \mapsto |c_1\> \otimes |c_2\> \otimes |(c_1\land c_2)\oplus t\>
+\]
+
+\bigskip
+corresponding matrix
+\[
+\left(
+\begin{array}{cc|cc|cc|cc}
+1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\ 
+0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\ \hline
+0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\ 
+0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\ \hline 
+0 & 0 & 0 & 0 & 0 & 0 & 0 & {\color{blue}1} \\ 
+0 & 0 & 0 & 0 & 0 & 0 & {\color{blue}1} & 0  
+\end{array}
+\right)
+=
+(I_4 - |11\>\<11|) \otimes I_2 + |11\>\<11| \otimes {\color{blue}X}
+\]
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Reversible Computation
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Simulating irreversible gates with Toffoli gate}
+
+The classical AND gate is irreversible because if the output is $0$ then we cannot determine which of the three possible pairs was the actual input
+
+\bigskip
+
+\hspace{1cm}
+\begin{tabular}{cc|c}
+$x_1$ & $x_2$ & $x_1 \land x_2$ \\ \hline
+0 & 0 & 0 \\
+0 & 1 & 0 \\
+1 & 0 & 0 \\
+1 & 1 & 1 
+\end{tabular}
+
+\pause
+
+\bigskip
+But it is easy to simulate the AND gate with one Toffoli gate
+
+\hspace{1cm}
+\Qcircuit @C=1em @R=1em {
+\lstick{|x_1\>} & \qw & \ctrl{2} & \qw & \rstick{|x_1\>} \\
+\lstick{|x_2\>} & \qw & \ctrl{1} & \qw & \rstick{|x_2\>} \\
+\lstick{|0\>}   & \qw & \targ    & \qw & \rstick{|x_1 \land x_2\>}
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Garbage collection
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Problem of garbage}
+
+To simulate irreversible circuits with Toffoli gates, we keep the input and intermediary results to make everything reversible  
+
+\bigskip
+Consider the function $y=x_1\land x_2\land x_3$
+
+\bigskip
+\hspace{1cm}
+\Qcircuit @C=1em @R=1em {
+\lstick{|x_1\>} & \qw & \ctrl{4} & \qw      & \qw & \rstick{|x_1\>} \\
+\lstick{|x_2\>} & \qw & \ctrl{3} & \qw      & \qw & \rstick{|x_2\>} \\
+\lstick{|x_3\>} & \qw & \qw      & \ctrl{1} & \qw & \rstick{|x_3\>} \\
+\lstick{|0\>}   & \qw & \qw      & \targ    & \qw & \rstick{|x_1 \land x_2 \land x_3\>} \\
+\lstick{|0\>}   & \qw & \targ    & \ctrl{-1}& \qw & \rstick{|x_1 \land x_2\> \mbox{ garbage}}
+}
+
+\pause
+
+\bigskip
+
+\bigskip
+It is important to not leave any garbage;  otherwise, we could not make use of quantum parallelism and constructive interference effects
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Reversible Computation
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Reversible garbage removal}
+
+It is always possible to reversibly remove (uncompute) the garbage
+
+\bigskip
+In the case $y=x_1 \land x_2 \land x_3$, this can be done with the circuit
+
+
+\bigskip
+\hspace{1cm}
+\Qcircuit @C=1em @R=1em {
+\lstick{|x_1\>} & \qw & \ctrl{4} & \qw      & \ctrl{4} & \qw & \rstick{|x_1\>} \\
+\lstick{|x_2\>} & \qw & \ctrl{3} & \qw      & \ctrl{3} & \qw & \rstick{|x_2\>} \\
+\lstick{|x_3\>} & \qw & \qw      & \ctrl{1} & \qw      & \qw & \rstick{|x_3\>} \\
+\lstick{|0\>}   & \qw & \qw      & \targ    & \qw      & \qw & \rstick{|x_1 \land x_2 \land x_3\>} \\
+\lstick{|0\>}   & \qw & \targ    & \ctrl{-1}& \targ    & \qw & \rstick{|0\> \mbox{ garbage uncomputed}}
+}
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Reversible Computation
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Simulating irreversible circuits with Toffoli gates}
+
+Let $f:\{0,1\}^n\rightarrow \{0,1\}$ be any boolean function \pause
+
+\bigskip
+Assume this function can be computed classically using only $t$ classical elementary gates such as AND, OR, NAND \pause
+
+\bigskip
+We can implement a unitary $U_f$ on $(\C^2)^{\otimes n} \otimes \C^2 \otimes (\C^2)^{\otimes w}$ such that
+
+\[
+U_f \big( |x\>_{\mathrm{in}} \otimes |y\>_{\mathrm{out}} \otimes |0\>^{\otimes w}_{\mathrm{work}} \big) = |x\> \otimes |y\oplus f(x) \> \otimes |0\>^{\otimes w}
+\]
+
+\pause
+
+\bigskip
+$U_f$ is built from polynomially many in $t$ Toffoli gates and the size $w$ of the workspace register is polynomial in $t$
+
+\pause
+
+\bigskip
+During the computation the qubits of the workspace register are changed, but at the end they reversibly reset to $|0\>^{\otimes w}$
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Universal Gate Set -- Exact Implementation
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Universal gate set -- exact implementation}
+
+Each unitary $U\in {\cal U}(\cH)$ can be
+implemented exactly by quantum circuits using only:
+
+\medskip
+\begin{itemize}
+\item \textcolor{blue}{CNOT} gates (acting on adjacent qubits)
+
+\bigskip
+\item arbitrary \textcolor{blue}{single qubit} gates
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Gate Complexity of Unitaries -- Exact Implementation
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Gate complexity of unitaries -- exact implementation}
+
+The gate complexity $\kappa(U)$ of a unitary $U\in {\cal U}(\cH)$ is minimal number of elementary gates needed to implement $U$
+
+\bigskip
+
+\bigskip
+For example, quantum Fourier Transform has complexity $O({\color{red} n^2})$ 
+
+\medskip
+\quad $\Longrightarrow$\quad Shor's factorization algorithm
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Universal Gate Set -- Approximate Implementation
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Universal gate set -- approximate implementation}
+
+For each $\epsilon\in (0,1)$ and each unitary $U\in {\cal U}(\cH)$, there is a unitary $V$ such that
+
+\[
+\| U - V \| \le \epsilon \quad\mbox{where}\quad \|U-V\| = \sup_{|\psi\>} \|(U-V)|\psi\>\|
+\]
+
+and $V$ is implemented by quantum circuits using only:
+
+\medskip
+\begin{itemize}
+\item \textcolor{blue}{CNOT} gates (acting on adjacent qubits)
+
+\bigskip
+\item the \textcolor{blue}{single qubit} gates
+
+\[
+H = \nicefrac{1}{\sqrt{2}}
+\left( 
+\begin{array}{cc}
+1 & 1 \\
+1 & -1
+\end{array}
+\right)\,\quad
+R(\theta) = 
+\left( 
+\begin{array}{cc}
+1 & 0 \\
+0 & e^{i\theta}
+\end{array}
+\right)\,,
+\quad\mbox{with } \theta=\frac{\pi}{4}
+\]
+\end{itemize}
+
+\pause
+
+\bigskip
+There are other universal gate sets
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Gate Complexity of Unitaries -- Exact Implementation
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Gate complexity of unitaries -- approximate implementation}
+
+The gate complexity $\kappa_\epsilon(U)$ of a unitary $U$ is the minimal number of gates (from a universal gate set) need to implement a unitary $V$ with $\|U-V\|\le\epsilon$
+
+\pause
+
+\bigskip
+
+\bigskip
+The Solovay-Kitaev theorem implies that 
+\[
+\kappa_\epsilon(U) = O\Big(\kappa(U) \cdot \log^c\big(\kappa(U)/\epsilon\big)\Big)
+\]
+for some small constant $c$
+
+\pause
+
+\bigskip
+
+\bigskip
+Counting arguments show that most $n$-qubit unitaries have gate complexity \textcolor{red}{exponential} in $n$.
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Quantum Measurement
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Quantum measurement}
+
+A general measurement is described by a collection $P_0$,\ldots,$P_{m-1}$ of orthogonal projectors such that 
+
+\[
+\sum_{i=0}^{m-1} P_i = I_{\cH}\quad\mbox{where $\cH$ denotes the identity on $\cH$}
+\]
+
+\pause
+
+\bigskip
+
+Let $|\psi\>$ be the state of the quantum register.  The probability of obtaining the outcome $i$ is given by
+\[
+\Pr(i) = \| P_i |\psi\> \|^2
+\]
+
+\bigskip
+
+\pause
+The post-measurement state (collapse of the wavefunction) is 
+\[
+\frac{P_i|\psi\>}{\|P_i |\psi\>\|}
+\]
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Quantum Measurements
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Elementary quantum measurements}
+
+A measurement has to be realized by first applying a suitable quantum circuit followed by an elementary measurement
+
+\pause
+
+\bigskip
+
+An elementary measurement on the $n$-qubit quantum register $\cH$ consists of measuring the first (w.l.o.g.) $m$ qubits $(m\le n$) with respect to the computational basis
+
+\pause
+
+\bigskip
+The $2^m$ orthogonal projectors $P_b$ are labeled by $m$-bit strings $b\in\mathbb{B}^m$ and are defined by
+\[
+P_b = |b_1\>\<b_1| \otimes |b_2\>\<b_2| \otimes \cdots \otimes |b_m\>\<b_m| \otimes I_{2^{n-m}}
+\]
+
+\pause
+
+\bigskip
+The probability of obtaining outcome $b$ is given by
+\[
+\Pr(b) = \| P_b |\psi\> \|^2 = \sum_{x_{m+1},\ldots,x_n\in\mathbb{B}} |\alpha_{b_1,\ldots,b_m,x_{m+1},\ldots,x_n}|^2
+\]
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Quantum algorithms
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Structure of quantum algorithms}
+
+A quantum algorithm consists of 
+
+\bigskip
+\begin{itemize}
+\item preparing the initial state $|x\>$ with $x\in\mathbb{B}^n$,
+
+\bigskip
+\item applying a quantum circuit of \textcolor{blue}{polynomially} many in $n$ gates from some universal gate set, and
+
+\bigskip
+\item performing an elementary measurement
+\end{itemize}
+
+\bigskip
+These steps are repeated polynomially many times to collect enough samples and followed by classical post-processing $\Longrightarrow$ solution of the problem
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Hadamard test}
+
+\hspace{4cm}
+\Qcircuit @C=1em @R=0.7em {
+\lstick{|0\>}    & \gate{H}    & \ctrl{1} & \gate{H} & \meter \\
+\lstick{|\psi\>} & {/}\qw      & \gate{U} & \qw      & \qw
+}
+
+\pause
+
+\bigskip
+
+The probabilities of obtaining the outcomes $0$ and $1$ are:
+\[
+\Pr(0) = \nicefrac{1}{2}\left( 1 + \mathrm{Re}\<\psi|U|\psi\> \right) \quad\quad
+\Pr(1) = \nicefrac{1}{2}\left( 1 - \mathrm{Re}\<\psi|U|\psi\> \right) 
+\]
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Hadamard test
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Hadamard test}
+
+\hspace{4cm}
+\Qcircuit @C=1em @R=0.7em {
+\lstick{|0\>}    & \gate{H}    & \ctrl{1} & \gate{H} & \meter \\
+\lstick{|\psi\>} & {/}\qw      & \gate{U} & \qw      & \qw
+}
+
+\pause
+
+\bigskip
+
+\begin{eqnarray*}
+& & 
+|0\> \otimes |\psi\> \\ \pause
+& \mapsto &
+\nicefrac{1}{\sqrt{2}}\, (|0\> + |1\>) \otimes |\psi\> \\ \pause
+& = &
+\nicefrac{1}{\sqrt{2}} |0\> \otimes |\psi\> + \nicefrac{1}{\sqrt{2}} |1\> \otimes |\psi\> \\ \pause
+& \mapsto &
+\nicefrac{1}{\sqrt{2}} |0\> \otimes |\psi\> + \nicefrac{1}{\sqrt{2}} |1\> \otimes U |\psi\> \\ \pause
+& \mapsto &
+\nicefrac{1}{2} (|0\> + |1\>) \otimes |\psi\> + \nicefrac{1}{2} (|0\> - |1\>) \otimes U |\psi\> \\ \pause
+& = &
+\nicefrac{1}{2} |0\> \otimes (|\psi\> + U|\psi\>) + \nicefrac{1}{2} |1\> \otimes (|\psi\> - U |\psi\>) \\
+& =: & |\Phi\>
+\end{eqnarray*}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Hadamard test
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Hadamard test}
+
+\begin{eqnarray*}
+& & 
+\Pr(0) \\
+& = & 
+\| P |\Phi\> \|^2 \quad \mbox{with} \quad P = |0\>\<0| \otimes I \\ \pause
+& = &
+\| \big( {\color{red} |0\>\<0|} \otimes I \big) \, \Big( \nicefrac{1}{2} {\color{red} |0\>} \otimes (|\psi\> + U|\psi\>) + \nicefrac{1}{2} {\color{blue} |1\>} \otimes (|\psi\> - U |\psi\>) \Big) \|^2 \\ \pause
+& = & 
+\| \nicefrac{1}{2} |0\> \otimes (|\psi\> + U|\psi\>) \|^2 \\ \pause
+& = &
+\nicefrac{1}{4} \, \| |0\> \|^2 \cdot \| |\psi\> + U|\psi\> \|^2 \\ \pause
+& = &
+\nicefrac{1}{4} \, \big( \<\psi| + \<\psi|U^\dagger\big) \, \big( |\psi\> + U|\psi\> \big) \\ \pause
+& = &
+\nicefrac{1}{4} \, \big( \<\psi|\psi\> + \<\psi|U|\psi\> + \<\psi|U^\dagger|\psi\> + \<\psi|U^\dagger U|\psi\>\big) \\ \pause
+& = & 
+\nicefrac{1}{4} \, \big( 2 + \<\psi|U|\psi\> + \overline{\<\psi|U|\psi\>}\big) \\ \pause
+& = &
+\nicefrac{1}{2} \, \big( 1 + \mathrm{Re}\<\psi|U|\psi\> \big) \\
+\end{eqnarray*}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Hadamard test
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Hadamard test -- Figure it out yourself}
+
+How can you estimate the imaginary part of $\<\psi|U|\psi\>$?
+
+\bigskip
+
+Hint: Add a simple gate on the control register before the measurement.
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% SWAP Test
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{SWAP test -- Figure it out yourself}
+
+Let $S$ denote the swap gate acting on two qubits
+\[
+S = |00\>\<00| + |01\>\<10| + |10\>\<01| + |11\>\<11|
+\]
+
+\bigskip
+Determine the matrix representation of $S$ with respect to the computational basis
+
+\bigskip
+Consider the Hadamard test where the controlled operation is
+\[
+|0\>\<0|\otimes I_4 + |1\>\<1| \otimes S
+\]
+and the state of the target register $|\psi\>=|\psi_1\>\otimes |\psi_2\>$
+
+\bigskip
+Determine the probability of obtaining $0$ and $1$ for the cases:
+\begin{itemize}
+\item arbitrary $|\psi_1\>$ and $|\psi_2\>$, 
+\item $\<\psi_1|\psi_2\>=0$ (orthogonal), and 
+\item $\<\psi_1|\psi_2\>=1$ (the same).
+\end{itemize}
+\end{frame}
+

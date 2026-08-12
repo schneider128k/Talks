@@ -1,0 +1,607 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\part{Elementary quantum algorithms}
+\begin{frame}
+  \partpage
+  \label{part:elementary}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Black box problems}
+
+Standard computational problem: determine a property of some input data
+\begin{itemize}
+  \item Example: Find the prime factors of $N$
+\end{itemize}
+
+\pause
+\bigskip
+
+Alternate model: Input is provided by a \emph{black box} (or \emph{oracle})
+\begin{itemize}
+  \item Query: On input $x$, black box returns $f(x)$ \pause
+  \item Determine a property of $f$ using as few queries as possible
+  \item The minimum number of queries is the \emph{query complexity} \pause
+  \item Example: Given a black box for $f:\{1,2,\ldots,N\} \to \{0,1\}$,
+    is there some $x$ such that $f(x)=1$? \pause
+  \item Why black boxes? \pause
+  \begin{itemize}
+    \item Facilitates proving lower bounds \pause
+    \item Can lead to algorithms for standard problems
+  \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Black boxes for reversible/quantum computing}
+
+Black box ~~
+    \raisebox{.35em}{\Qcircuit @C=1em @R=.7em {
+  & \lstick{x} & \gate{f} & \rstick{f(x)} \qw \\
+  }} \hspace{2em}
+~~ is not reversible
+  
+  \pause
+  \bigskip
+  
+Reversible version: ~~
+    \raisebox{.35em}{\Qcircuit @C=1em @R=.7em {
+  & \lstick{x} & \multigate{1}{f} & \rstick{x} \qw \\
+  & \lstick{z} & \ghost{f} & \rstick{z \oplus f(x)} \qw \\
+  }}
+  
+  \pause
+  \bigskip
+  
+Given a circuit that computes $f$ non-reversibly, we can implement the reversible version with little overhead
+
+  \pause
+  \bigskip
+  
+Quantum version: ~~
+    \raisebox{.35em}{\Qcircuit @C=1em @R=.7em {
+  & \lstick{|x\>} & \multigate{1}{f} & \rstick{|x\>} \qw \\
+  & \lstick{|z\>} & \ghost{f} & \rstick{|z \oplus f(x)\>} \qw \\
+  }}
+
+  \pause
+  \bigskip
+
+A reversible circuit is a quantum circuit
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Deutsch's problem}
+
+\begin{prob}
+\begin{itemize}
+\item Given: a black-box function $f:\{0,1\} \to \{0,1\}$
+\item Task: determine whether $f$ is \emph{constant} or \emph{balanced}
+\end{itemize}
+\end{prob}
+
+\pause
+
+\begin{center}
+\begin{tabular}{cccc}
+  \begin{tabular}{c|c}$x$ & $f_1(x)$ \\ \hline 0 & 0 \\ 1 & 0\end{tabular} &
+  \begin{tabular}{c|c}$x$ & $f_2(x)$ \\ \hline 0 & 1 \\ 1 & 1\end{tabular} &
+  \begin{tabular}{c|c}$x$ & $f_3(x)$ \\ \hline 0 & 0 \\ 1 & 1\end{tabular} &
+  \begin{tabular}{c|c}$x$ & $f_4(x)$ \\ \hline 0 & 1 \\ 1 & 0\end{tabular} \\[-4pt]
+  \multicolumn{2}{@{}c@{}}{\onslide<3->{$\underbrace{\hspace{1.6in}}_{\mbox{constant: $f(0)=f(1)$}}$}} &
+  \multicolumn{2}{@{}c@{}}{\onslide<4->{$\underbrace{\hspace{1.6in}}_{\mbox{balanced: $f(0)\ne f(1)$}}$}}
+\end{tabular}
+\end{center}
+
+\bigskip
+
+\onslide<5->{How many queries are needed?}
+\begin{itemize}
+\item<6-> Classically: 2 queries are necessary and sufficient \pause
+\item<7-> Quantumly: ?
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Toward a quantum algorithm for Deutsch's problem}
+
+Quantum black box for $f$: \hspace{1ex}
+  \raisebox{.35em}{\Qcircuit @C=1em @R=.7em {
+  & \lstick{|x\>} & \multigate{1}{f} & \rstick{|x\>} \qw \\
+  & \lstick{|z\>} & \ghost{f} & \rstick{|z \oplus f(x)\>} \qw \\
+  }}
+
+\bigskip\bigskip
+
+\onslide<2->{Compute $f$ in superposition: \hspace{1ex}
+  \raisebox{.35em}{
+  \Qcircuit @C=1em @R=.7em {
+  & \lstick{|0\>} & \gate{\color<3|handout:0>{red} H} & \multigate{1}{\color<4|handout:0>{red} f} & \qw \\
+  & \lstick{|0\>} & \qw & \ghost{f} & \qw \\
+  }}
+\medskip
+}
+
+\onslide<3->{
+\begin{align*}
+  |0\>\ot|0\>
+  &{\color<3|handout:0>{red} \mapsto \frac{|0\>+|1\>}{\sqrt2}\ot|0\>} \\
+\onslide<4->{
+  &{\color<4|handout:0>{red} \mapsto \frac{1}{\sqrt2}(|0\>\ot|f(0)\>+|1\>\ot|f(1)\>)}
+  }
+\end{align*}
+}
+
+\onslide<5->{
+Can't extract more than one bit of information about $f$
+}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Phase kickback}
+
+% Recall phase kickback example from lecture 1:
+%   \[
+%   \Qcircuit @C=1em @R=1.5em {
+%   & \lstick{|x\>} & \ctrl{1} & \rstick{e^{2\pi\ii\varphi x}|x\>} \qw \\
+%   & \lstick{|\psi\>} & \gate{U} & \rstick{|\psi\>} \qw \\
+%   }
+%   \]
+% 
+%   \bigskip
+% 
+% \onslide<2->{Similar trick for a black box:
+
+\bigskip
+
+Quantum black box for $f$: \hspace{1ex}
+  \raisebox{.35em}{\Qcircuit @C=1em @R=.7em {
+  & \lstick{|x\>} & \multigate{1}{f} & \rstick{|x\>} \qw \\
+  & \lstick{|z\>} & \ghost{f} & \rstick{|z \oplus f(x)\>} \qw \\
+  }}
+  
+\bigskip\bigskip
+
+\onslide<2->{
+Phase kickback:
+  \[
+  \only<2-6|handout:0>{
+  \Qcircuit @C=1em @R=.7em {
+  & \lstick{\color<3>{red}{|x\>}} & \multigate{1}{\color<5>{red}{f}} & \qw \\
+  & \lstick{\color<3>{red}{\frac{|0\>-|1\>}{\sqrt2}}} & \ghost{f} & \qw \\
+  }}
+  \only<7->{
+  \Qcircuit @C=1em @R=.7em {
+  & \lstick{|x\>} & \multigate{1}{f} & \rstick{\color<7|handout:0>{red}{(-1)^{f(x)}|x\>}} \qw \\
+  & \lstick{\frac{|0\>-|1\>}{\sqrt2}} & \ghost{f} & \rstick{\color<7|handout:0>{red}{\frac{|0\>-|1\>}{\sqrt2}}} \qw \\
+  }}
+  \]
+}
+
+\begin{align*}
+\onslide<3->{
+  \color<3|handout:0>{red}{|x\> \ot \smfrac{1}{\sqrt2} (|0\>-|1\>)}
+  \onslide<4->{&=\smfrac{1}{\sqrt2}(|x\>\ot|0\> - |x\>\ot|1\>) \\}
+  \onslide<5->{&\color<5|handout:0>{red}{\mapsto\smfrac{1}{\sqrt2}(|x\>\ot|f(x)\> - |x\>\ot|1\oplus f(x)\>)} \\}
+  \onslide<6->{&=|x\>\ot \smfrac{1}{\sqrt2} (|f(x)\> - |\overline{f(x)}\>) \\}
+ \onslide<7->{&=\color<7|handout:0>{red}{\only<7|handout:0>{(-1)^{f(x)}}\only<8>{\underbrace{(-1)^{f(x)}}_{\mathclap{\text{not necessarily global}}}}|x\>\ot\smfrac{1}{\sqrt2}(|0\> - |1\>)}
+ % following line is just here for spacing
+ \onslide<5|handout:0>{\underbrace{(-1)^{f(x)}}_{\mathclap{\text{not necessarily global}}}}
+ \\}
+}
+\end{align*}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Quantum algorithm for Deutsch's problem}
+
+\[
+  \Qcircuit @C=1em @R=.7em {
+  & \lstick{|0\>} & \gate{\color<2|handout:0>{red}H} & \multigate{1}{\color<3|handout:0>{red}f} & \gate{\color<5|handout:0>{red}H} & \meter & \rstick{\onslide<6->{\color<6|handout:0>{red}{f(0) \oplus f(1)}}} \cw \\
+  & \lstick{\frac{|0\>-|1\>}{\sqrt2}} & \qw & \ghost{f} & \qw & \qw \\
+  }
+\]
+
+\bigskip
+
+\onslide<2->{
+\begin{align*}
+  |0\>\otimes\frac{|0\>-|1\>}{\sqrt2}
+  &\color<2|handout:0>{red}{\mapsto \frac{|0\>+|1\>}{\sqrt2} \otimes \frac{|0\>-|1\>}{\sqrt2}} \\
+\onslide<3->{
+  &\color<3|handout:0>{red}{\mapsto \frac{(-1)^{f(0)}|0\>+(-1)^{f(1)}|1\>}{\sqrt2} \otimes \frac{|0\>-|1\>}{\sqrt2}} \\
+}
+\onslide<4->{
+  &= (-1)^{f(0)}\frac{|0\>+(-1)^{f(0) \oplus f(1)}|1\>}{\sqrt2} \otimes \frac{|0\>-|1\>}{\sqrt2} \\
+}
+\onslide<5->{
+  &\color<5|handout:0>{red}{\mapsto (-1)^{f(0)} |{\color<6|handout:0>{red} f(0) \oplus f(1)}\> \otimes \frac{|0\>-|1\>}{\sqrt2}}
+}
+\end{align*}
+}
+
+\vspace{-2ex}
+
+\onslide<7->{
+\begin{center}
+1 quantum query vs.\ 2 classical queries!
+\end{center}
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{The Deutsch-Jozsa problem}
+
+\begin{prob}
+\begin{itemize}
+\item Given: a black-box function $f:\{0,1\}^n \to \{0,1\}$
+\item Promise: $f$ is either
+\begin{tabular}{@{}ll@{}}
+  \emph{constant} & ($f(x)$ is independent of $x$) \\
+  or \emph{balanced} & ($f(x)=0$ for exactly half the values of $x$)
+\end{tabular}
+\item Task: determine whether $f$ is {constant} or {balanced}
+\end{itemize}
+\end{prob}
+
+\pause
+\bigskip
+
+How many queries are needed? \pause
+\begin{itemize}
+\item Classically: $2^n/2 + 1$ queries to answer with certainty \pause
+\item Quantumly: ?
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Phase kickback for a Boolean function of $n$ bits}
+
+Black box function: \hspace{1.5ex}
+  \raisebox{.35em}{\Qcircuit @C=1em @R=.7em {
+  & \lstick{|x_1\>} & \multigate{3}{f} & \rstick{|x_1\>} \qw \\
+  & \raisebox{4pt}{\vdots} & \push{\rule{0em}{1em}} & \raisebox{4pt}{\vdots} \\
+  & \lstick{|x_n\>} & \ghost{f} & \rstick{|x_n\>} \qw \\
+  & \lstick{|z\>} & \ghost{f} & \rstick{|z \oplus f(x)\>} \qw \\
+  }}
+
+  \bigskip
+  \bigskip
+
+\onslide<2->{Phase kickback: 
+\[
+  |x_1\>\ot\cdots\ot|x_n\>\ot\frac{|0\>-|1\>}{\sqrt2}
+  \mapsto
+  (-1)^{f(x)}
+  |x_1\>\ot\cdots\ot|x_n\>\ot\frac{|0\>-|1\>}{\sqrt2}
+\]
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Quantum algorithm for the Deutsch-Jozsa problem}
+  
+  \[
+  \Qcircuit @C=1em @R=.7em {
+  & \lstick{|0\>} & \gate{\color<2|handout:0>{red}H} & \multigate{3}{\color<4|handout:0>{red}f} & \gate{\color<5|handout:0>{red}H} & \meter \\
+  & & \raisebox{4pt}{\vdots} & \push{\rule{0em}{1em}} & \raisebox{4pt}{\vdots} & \raisebox{4pt}{\vdots} \\
+  & \lstick{|0\>} & \gate{\color<2|handout:0>{red}H} & \ghost{f} & \gate{\color<5|handout:0>{red}H} & \meter \\
+  & \lstick{\frac{|0\>-|1\>}{\sqrt2}} & \qw & \ghost{f} & \qw & \qw \\
+  }
+\]
+
+\bigskip
+\bigskip
+
+\onslide<2->{
+\begin{align*}
+  |0\>^{\otimes n}\otimes\frac{|0\>-|1\>}{\sqrt2}
+  &\color<2|handout:0>{red}{\mapsto \left(\frac{|0\>+|1\>}{\sqrt2}\right)^{\otimes n}  \otimes \frac{|0\>-|1\>}{\sqrt2}} \\
+\onslide<3->{
+  &= \frac{1}{\sqrt{2^n}} \sum_{x \in \{0,1\}^n} \! |x\> \otimes \frac{|0\>-|1\>}{\sqrt2} \\
+}
+\onslide<4->{
+  &\color<4|handout:0>{red}{\mapsto \frac{1}{\sqrt{2^n}} \sum_{x \in \{0,1\}^n} \! (-1)^{f(x)} |x\> \otimes \frac{|0\>-|1\>}{\sqrt2}} \\
+}
+\end{align*}
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Hadamard transform}
+
+What do the final Hadamard gates do?
+
+\onslide<2->{
+\begin{align*}
+  H|x\>
+  &\onslide<3->{= \frac{1}{\sqrt2}(|0\> + (-1)^x|1\>)} \\
+  &\onslide<4->{= \frac{1}{\sqrt2} \sum_{y \in \{0,1\}} (-1)^{xy} |y\>}
+\end{align*}
+}
+
+\vspace{-2ex}
+
+\onslide<5->{
+\begin{align*}
+  H^{\otimes n}(|x_1\> \otimes \cdots \otimes |x_n\>)
+  &\onslide<6->{= \bigotimes_{i=1}^n \left(\frac{1}{\sqrt2} \sum_{y_i \in \{0,1\}} (-1)^{x_i y_i} |y_i\>\right)} \\
+  &\onslide<7->{= \frac{1}{\sqrt{2^n}} \sum_{y \in \{0,1\}^n} (-1)^{x \cdot y} |y\>}
+\end{align*}
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Quantum D-J algorithm: Finishing up}
+  
+\begin{align*}
+  \frac{1}{\sqrt{2^n}} \sum_{x \in \{0,1\}^n} \! (-1)^{f(x)} |x\>
+  \onslide<2->{
+  \stackrel{H^{\otimes n}}{\mapsto}
+  \frac{1}{2^n} \sum_{x,y \in \{0,1\}^n} \! (-1)^{f(x)} (-1)^{x \cdot y} |y\>}
+\end{align*}
+
+\begin{itemize}
+  \item<3-> If $f$ is constant, the amplitude of $|y\>$ is
+  \[
+    \pm \frac{1}{2^n}\sum_{x \in \{0,1\}^n} (-1)^{x \cdot y}
+    \onslide<4->{= \pm \begin{cases}
+    1 & \text{if $y=0\ldots0$} \\
+    0 & \text{otherwise}
+    \end{cases}}
+  \]
+  \onslide<4->{
+  so we definitely measure $0\ldots0$
+  }
+  \item<5-> If $f$ is balanced, the amplitude of $|0\ldots0\>$ is
+  \[
+    \sum_{x \in \{0,1\}^n} (-1)^{f(x)} \onslide<6->{= 0}
+  \]
+  \onslide<6->{
+  so we measure some nonzero string
+  }
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{The Deutsch-Jozsa problem: Quantum vs.\ classical}
+
+Above quantum algorithm uses only one query.
+
+\bigskip
+
+Need $2^n/2 + 1$ classical queries to answer with certainty.
+
+\pause
+\bigskip
+
+What about randomized algorithms? \pause Success probability arbitrarily close to $1$ with a constant number of queries.
+
+\pause
+\bigskip
+ 
+Can we get a separation between randomized and quantum computation?
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Simon's problem}
+  
+\begin{prob}
+\begin{itemize}
+\item Given: a black-box function $f:\{0,1\}^n \to \{0,1\}^m$
+\item Promise: there is some $s \in \{0,1\}^n$ such that $f(x)=f(y)$ if and only if $x=y$ or $x=y \oplus s$
+\item Task: determine $s$
+\end{itemize}
+\end{prob}
+
+\pause
+\bigskip
+
+One classical strategy:
+\begin{itemize}
+  \item query a random $x$
+  \item repeat until we find $x_i \ne x_j$ such that $f(x_i)=f(x_j)$
+  \item output $x_i \oplus x_j$
+\end{itemize}
+
+\pause
+\bigskip
+
+By the birthday problem, this uses about $\sqrt{2^n}$ queries.
+
+\pause
+\bigskip
+
+It can be shown that this strategy is essentially optimal.
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Quantum algorithm for Simon's problem}
+  
+Quantum black box: $|x\>\ot|y\> \mapsto |x\>\ot|y \oplus f(x)\>$ \smallskip\\
+\hfill($x \in \{0,1\}^n$, $y \in \{0,1\}^m$)
+
+\pause
+\bigskip
+  
+\[
+  \Qcircuit @C=1em @R=.7em {
+  & \lstick{|0\>} & \gate{H} & \multigate{5}{f} & \gate{H} & \meter \\
+  & & \raisebox{4pt}{\vdots} & \push{\rule{0em}{1em}} & \raisebox{4pt}{\vdots} & \raisebox{4pt}{\vdots} \\
+  & \lstick{|0\>} & \gate{H} & \ghost{f} & \gate{H} & \meter \\
+  & \lstick{|0\>} & \qw & \ghost{f} & \qw & \qw \\
+  & \raisebox{4pt}{\vdots} & & \push{\rule{0em}{1em}} & & \raisebox{4pt}{\vdots} \\
+  & \lstick{|0\>} & \qw & \ghost{f} & \qw & \qw \\
+  }
+\]
+
+\bigskip
+
+Repeat many times and post-process the measurement outcomes
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Quantum algorithm for Simon's problem: Analysis I}
+
+\begin{columns}
+\begin{column}{5cm}
+\[
+  \Qcircuit @C=1em @R=.7em {
+  & \lstick{|0\>} & \gate{\color<3|handout:0>{red}H} & \multigate{5}{\color<4|handout:0>{red}f} & \gate{H} & \meter \\
+  & & \raisebox{4pt}{\vdots} & \push{\rule{0em}{1em}} & \raisebox{4pt}{\vdots} & \raisebox{4pt}{\vdots} \\
+  & \lstick{|0\>} & \gate{\color<3|handout:0>{red}H} & \ghost{f} & \gate{H} & \meter \\
+  & \lstick{|0\>} & \qw & \ghost{f} & \qw & \qw \\
+  & \raisebox{4pt}{\vdots} & & \push{\rule{0em}{1em}} & & \raisebox{4pt}{\vdots} \\
+  & \lstick{|0\>} & \qw & \ghost{f} & \qw & \qw \\
+  }
+\]
+\end{column}
+\begin{column}{5cm}
+  \begin{align*}
+  &\onslide<2->{|0\>^{\otimes n} \otimes |0\>^{\otimes m}} \\
+  &\onslide<3->{\color<3|handout:0>{red}\mapsto \frac{1}{\sqrt{2^n}} \sum_{x \in \{0,1\}^n} |x\> \otimes |0\>^{\otimes m}} \\
+  &\onslide<4->{\color<4|handout:0>{red}\mapsto \frac{1}{\sqrt{2^n}} \sum_{x \in \{0,1\}^n} |x\> \otimes |f(x)\>} \\
+  &\onslide<5->{= \frac{1}{\sqrt{2^{n-1}}} \sum_{x \in R} \frac{|x\>+|x \oplus s\>}{\sqrt2} \otimes |f(x)\>}
+\end{align*}
+\onslide<5->{for some $R \subset \{0,1\}^n$}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Quantum algorithm for Simon's problem: Analysis II}
+
+Recall $H^{\otimes n}|x\> = \sum_{y \in \{0,1\}^n} (-1)^{x \cdot y} |y\>$
+
+\onslide<2->{
+\begin{align*}
+  H^{\otimes n} \left( \frac{|x\>+|x \oplus s\>}{\sqrt2} \right)
+  &\onslide<3->{= \frac{1}{\sqrt{2^{n+1}}} \sum_{y \in \{0,1\}^n} [(-1)^{x \cdot y} + (-1)^{(x \oplus s)\cdot y}]|y\>} \\
+  &\onslide<4->{= \frac{1}{\sqrt{2^{n+1}}} \sum_{y \in \{0,1\}^n} (-1)^{x \cdot y} [1+(-1)^{s \cdot y}] |y\>}
+\end{align*}
+}
+
+\onslide<5->{
+Two cases:
+\begin{itemize}
+  \item if $s \cdot y = 0 \bmod 2$, $1+(-1)^{s \cdot y} = 2$
+  \item<6-> if $s \cdot y = 1 \bmod 2$, $1+(-1)^{s \cdot y} = 0$
+\end{itemize}
+}
+
+\bigskip
+
+\onslide<7->{
+Measuring gives a random $y$ orthogonal to $s$ (i.e., $s \cdot y = 0$)
+}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Quantum algorithm for Simon's problem: Post-processing}
+  
+Measuring gives a random $y$ orthogonal to $s$ ($s \cdot y = 0$)
+
+\pause
+\bigskip
+
+Repeat $k$ times, giving vectors $y_1,\ldots,y_k \in \{0,1\}^n$; solve a system of $k$ linear equations for $s \in \{0,1\}^n$:
+\[
+y_1 \cdot s = 0,\quad y_2 \cdot s = 0, \quad \ldots, \quad y_k \cdot s = 0
+\]
+
+\bigskip
+
+How big should $k$ be to give a unique (nonzero) solution? \pause
+\begin{itemize}
+  \item Clearly $k \ge n-1$ is necessary
+  \item It can be shown that $k = O(n)$ suffices
+\end{itemize}
+
+\pause
+\bigskip
+
+$O(n)$ quantum queries, $O(n^3)$ quantum gates
+
+\pause
+\bigskip
+
+Compare to $\Omega(2^{n/2})$ classical queries (even for bounded error)
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Recap}
+  
+We have seen several examples of quantum algorithms that outperform classical computation:
+\begin{itemize}
+  \item Deutsch's problem: 1 quantum query vs.\ 2 classical queries
+  \item Deutsch-Jozsa problem: 1 quantum query vs.\ $2^{\Omega(n)}$ classical queries (deterministic)
+  \item Simon's problem: $O(n)$ quantum queries vs.\ $2^{\Omega(n)}$ classical queries (randomized)
+\end{itemize}
+
+\bigskip
+
+Quantum algorithms for more interesting problems build on the tools used in these examples.
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Exercise: One-out-of-four search}
+  
+  \small
+
+Let $f:\{0,1\}^2 \to \{0,1\}$ be a black-box function taking the value $1$ on exactly one input.  The goal is to find the unique $(x_1,x_2) \in \{0,1\}^2$ such that $f(x_1,x_2)=1$.
+\begin{itemize}
+  \item Write the truth tables of the four possible functions $f$.
+  \item How many classical queries are needed to solve the problem?
+  \item Suppose $f$ is given as a quantum black box $U_f$ acting as
+  \[
+    |x_1,x_2,y\> \mapsto |x_1,x_2,y \oplus f(x_1,x_2)\>.
+  \]
+  Determine the output of the following quantum circuit for each of the possible black-box functions $f$:
+  \[
+  \Qcircuit @C=1em @R=.5em {
+  \lstick{|0\>} & \gate{H} & \multigate{2}{f} & \qw \\
+  \lstick{|0\>} & \gate{H} & \ghost{f} & \qw \\
+  \lstick{|1\>} & \gate{H} & \ghost{f} & \qw 
+  }\]
+  \item Show that the four possible outputs obtained in the previous part are pairwise orthogonal.  What can you conclude about the quantum query complexity of one-out-of-four search?
+\end{itemize}
+
+\end{frame}

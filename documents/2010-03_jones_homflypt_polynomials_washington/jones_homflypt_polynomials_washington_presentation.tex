@@ -1,0 +1,1025 @@
+\documentclass[slideColor]{prosper}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand{\>}{\rangle}
+\newcommand{\<}{\langle}
+
+\newcommand{\C}{{\mathbb C}}
+\newcommand{\cH}{{\mathcal H}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{youngtab}
+
+\usepackage[all,knot,poly]{xy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{Qcircuit}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Quantum Algorithms for Approximately Evaluating Jones \& HOMFLYPT Polynomials}
+\author{Pawel M. Wocjan\\[1ex]School of Electrical Engineering and Computer Science\\ University of Central Florida\\Orlando}
+\email{wocjan@eecs.ucf.edu}
+
+\begin{document}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Quantum Circuit Model}
+
+\begin{itemize}
+\item Quantum circuits are generalizations of Boolean circuits
+
+\bigskip
+
+\bigskip
+input \hspace{1.3cm} transformation \hspace{1.3cm} output (probabilistic)
+
+\bigskip
+\hspace{0.8cm}
+\Qcircuit @C=0.7em @R=0.7em {
+\lstick{\ket{1}} & \gate{U_{1\,}}     & \multigate{1}{U_3} & \qw                & \multigate{1}{U_6} & \meter & \rstick{0} \\
+\lstick{\ket{1}} & \multigate{1}{U_2} & \ghost{U_3}        & \gate{U_5}         & \ghost{U_6}        & \meter & \rstick{1} \\
+\lstick{\ket{0}} & \ghost{U_2}        & \qw                & \multigate{1}{U_6} & \qw                & \meter & \rstick{0} \\
+\lstick{\ket{1}} & \multigate{1}{U_3} & \gate{U_4}         & \ghost{U_5}        & \multigate{1}{U_7} & \meter & \rstick{1} \\
+\lstick{\ket{0}} & \ghost{U_3}        & \qw                & \qw                & \ghost{U_7}        & \meter & \rstick{1}
+}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Classical Bit}
+
+\begin{itemize}
+\item Classical bit (bit):\, $\mathbb{B}:=\{0,1\}$
+
+\bigskip
+\begin{itemize}
+\item State: either $0$ or $1$
+\end{itemize}
+
+\bigskip
+\item Classical register: $\mathbb{B}^n := \underbrace{\mathbb{B} \times \mathbb{B} \times \ldots \times \mathbb{B}}_{n}$
+
+\bigskip
+\begin{itemize}
+\item State: one of the $n$-bit strings
+\end{itemize}
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Qubit}
+
+\begin{itemize}
+\item Quantum bit (qubit):\, the Hilbert space $\mathbb{C}^2$\,
+\bigskip
+\begin{itemize}
+\item Basis states (classical states):
+\[
+|0\>:=\left(\begin{array}{c}1\\0\end{array}\right)
+\quad\quad\mbox{and}\quad\quad
+|1\>:=\left(\begin{array}{c}0\\1\end{array}\right)
+\]
+\item General states: \textcolor{blue}{superpositions}
+\[
+|\psi\> = 
+\left(
+\begin{array}{c}
+\alpha\\
+\beta
+\end{array}
+\right)=
+\alpha |0\> + \beta |1\>\,,\quad |\alpha|^2+|\beta|^2=1
+\]
+coefficients $\alpha,\beta\in\mathbb{C}$ are called \textcolor{blue}{probability amplitudes}
+\end{itemize}
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Quantum Register}
+
+\begin{itemize}
+\item Quantum register:
+
+\[
+(\C^2)^{\otimes n} := \underbrace{\mathbb{C}^2\otimes\mathbb{C}^2\otimes\cdots\otimes\mathbb{C}^2}_{n}
+\]
+
+$2^n$-dim. Hilbert space with \textcolor{blue}{tensor product structure}
+
+\bigskip
+\item General state:
+
+\[
+|\psi\>=\sum_{x\in\mathbb{B}^n} \alpha_x |x\>
+\]
+
+where $\sum_{x} |\alpha_x|^2 = 1$ and
+$\ket{x}=\ket{x_1}\otimes\ket{x_2}\otimes\cdots\otimes\ket{x_n}$
+
+\bigskip
+\textcolor{red}{exponentially many basis states in superposition!}
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Quantum Transformations}
+
+\begin{itemize}
+\item Transformations on the quantum register $\cH:=(\C^2)^{\otimes n}$ are
+described by \textcolor{blue}{unitary matrices} $U\in {\cal U}(\cH)$.
+
+\bigskip
+\item Let $|\psi\>\in\cH$ be the unit vector
+describing the state of the quantum register.
+
+\medskip
+
+\bigskip
+The state after the transformation $U$ is given by
+
+\medskip
+\begin{center}
+{\large $U \ket{\psi}$}
+\end{center}
+
+\bigskip
+\item Each transformations $U$ has to be implemented by a \textcolor{red}{quantum circuit}, i.e., a sequence of
+\textcolor{red}{elementary gates}.
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Quantum Measurement}
+
+\begin{itemize}
+\item Let
+\[
+|\psi\> = \sum_{x\in\mathbb{B}^n}\alpha_x |x\>
+\]
+
+\medskip
+be the state of the quantum register
+
+
+\medskip
+
+\bigskip
+\item If we measure the qubits, then the probability of obtaining the outcome
+$x\in\mathbb{B}^n$ is given by $|\alpha_x|^2$ (the absolute value of the probability amplitude squared).
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Single-Qubit Gate on Two Qubits}
+\vspace{-0.2cm}
+\begin{itemize}
+\item single-qubit gate $U$ on \textcolor{blue}{second} qubit\quad
+\raisebox{0.5cm}{
+\Qcircuit @C=1em @R=1em {
+& \qw      & \qw \\
+& \gate{{\blue U}} & \qw 
+}}
+
+\bigskip
+\item action on basis states of $\mathbb{C}^2\otimes\mathbb{C}^2$\quad
+$
+\begin{array}{ccc}
+|00\> & \mapsto & |0\>\, {\blue U}|0\>\\
+|01\> & \mapsto & |0\>\, {\blue U}|1\>\\
+|10\> & \mapsto & |1\>\, {\blue U}|0\>\\
+|11\> & \mapsto & |1\>\, {\blue U}|1\>
+\end{array}
+$
+
+\medskip
+\item corresponding matrix
+
+$ {\red I}\otimes {\blue U}
+=
+\left(
+\begin{array}{c|c}
+{\red 1} \cdot {\blue U} & {\red 0} \cdot {\blue U} \\ \hline
+{\red 0} \cdot {\blue U} & {\red 1} \cdot {\blue U}
+\end{array}
+\right)
+=
+\left(
+\begin{array}{cccc}
+{\blue u_{00}} & {\blue u_{01}} & 0      & 0 \\
+{\blue u_{10}} & {\blue u_{11}} & 0      & 0 \\
+0              & 0              & {\blue u_{00}} & {\blue u_{01}} \\
+0              & 0              & {\blue u_{10}} & {\blue u_{11}}
+\end{array}
+\right)
+$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Single-Qubit Gate on Two Qubits}
+
+\begin{itemize}
+\item single-qubit gate $U$ on \textcolor{red}{first} qubit\quad
+\raisebox{0.5cm}
+{
+\Qcircuit @C=1em @R=1em {
+& \gate{{\red U}} & \qw \\
+& \qw      & \qw 
+}}
+
+\bigskip
+\item action on basis states of $\mathbb{C}^2\otimes\mathbb{C}^2$\quad
+$
+\begin{array}{ccc}
+|00\> & \mapsto & ({\red U}|0\>)\, |0\>\\
+|01\> & \mapsto & ({\red U}|0\>)\, |1\>\\
+|10\> & \mapsto & ({\red U}|1\>)\, |0\>\\
+|11\> & \mapsto & ({\red U}|1\>)\, |1\>
+\end{array}
+$
+
+\medskip
+\item corresponding matrix 
+
+${\red U}\otimes {\blue I}
+=
+\left(
+\begin{array}{c|c}
+{\red u_{00}} \cdot {\blue I} & {\red u_{01}} \cdot {\blue I} \\ \hline
+{\red u_{10}} \cdot {\blue I} & {\red u_{11}} \cdot {\blue I}
+\end{array}
+\right)
+=
+\left(
+\begin{array}{cccc}
+{\red u_{00}} & 0             & {\red u_{01}} & 0      \\
+0             & {\red u_{00}} & 0             & {\red u_{01}} \\
+{\red u_{10}} & 0             & {\red u_{11}} & 0      \\
+0             & {\red u_{10}} & 0             & {\red u_{11}}
+\end{array}
+\right)
+$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Controlled-NOT Gate}
+
+\begin{itemize}
+\item control: first qubit; \quad target: second qubit
+\quad\raisebox{0.5cm}{
+\Qcircuit @C=1em @R=1em {
+& \ctrl{1} & \qw \\
+& \targ     & \qw 
+}}
+
+\bigskip
+\item action on basis states of $\mathbb{C}^2\otimes\mathbb{C}^2$
+
+\[
+\textrm{CNOT}\ket{a}\ket{b} = \ket{a}\ket{a\oplus b}
+\]
+
+\bigskip
+\item corresponding matrix
+\[
+\left(
+\begin{array}{cccc}
+1      & 0      & 0      & 0 \\
+0      & 1      & 0      & 0 \\
+0      & 0      & 0      & 1 \\
+0      & 0      & 1      & 0
+\end{array}
+\right)
+\]
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Universal Gate Set}
+
+\begin{itemize}
+\item Theorem: Each unitary $U\in {\cal U}(\cH)$ can be
+implemented by quantum circuits using only:
+
+\medskip
+\begin{itemize}
+\item \textcolor{blue}{CNOT} gates (acting on adjacent qubits)
+
+\bigskip
+\item arbitrary \textcolor{blue}{single qubit} gates
+\end{itemize}
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Decomposing the Tofolli gate}
+\bigskip
+\hspace{4cm}\raisebox{0cm}{
+\begin{minipage}{5cm}
+\Qcircuit @C=1em @R=1.1em {
+\lstick{\ket{a}} & \ctrl{1} & \qw & \rstick{\ket{a}}\\
+\lstick{\ket{b}} & \ctrl{1} & \qw & \rstick{\ket{b}}\\
+\lstick{\ket{c}} & \targ    & \qw & \rstick{\ket{c\oplus (a\wedge b)}}
+}
+\end{minipage}
+}
+
+\bigskip
+
+\bigskip
+
+\Qcircuit @C=0.7em @R=0.7em {
+& \qw      & \qw      & \qw      & \ctrl{1}      & \ctrl{2} & \qw           & \ctrl{1} & \qw      & \gate{W}      & \ctrl{2} & \qw 
+& \qw \\
+%
+& \qw      & \gate{W} & \ctrl{1} & \targ         & \qw      & \gate{W^\dag} & \targ    & \ctrl{1} & \qw           & \qw      & \qw 
+& \qw \\
+%
+& \gate{H} & \gate{W} & \targ    & \gate{W^\dag} & \targ    & \gate{W}      & \qw      & \targ    & \gate{W^\dag} & \targ    & \gate{H}
+& \qw
+}
+
+\bigskip
+$W={\rm diag}(1,e^{i\pi/4})$ \hspace{1cm} $H=
+\frac{1}{\sqrt{2}}
+\left(
+\begin{array}{cc}
+1 & 1 \\
+1 & -1
+\end{array}
+\right)
+$
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Gate Complexity of Unitaries}
+
+\begin{itemize}
+\item The gate complexity of a unitary $U\in {\cal U}(\cH)$ is minimal number of elementary gates needed to implement $U$.
+
+\bigskip
+
+\bigskip
+\item For example:
+
+\bigskip
+\begin{itemize}
+\item Quantum Fourier Transform has complexity $O({\red n^2})$ 
+
+\medskip
+\quad $\Longrightarrow$\quad Shor's factorization algorithm
+
+\bigskip
+
+\medskip
+\item Fast-Fourier-Transform has complexity $O({\red n\,
+2^n})$
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Quantum Algorithms}
+
+\begin{itemize}
+\item Simple counting arguments show that most unitaries have \textcolor{red}{exponential} gate complexity.
+
+\medskip
+\item A quantum algorithm consists of 
+
+\medskip
+\begin{itemize}
+\item preparing the initial state $|x\>$ with $x\in\mathbb{B}^n$,
+
+\bigskip
+\item running a quantum circuit of \textcolor{blue}{polynomially} many in $n$ gates, and
+
+\bigskip
+\item measuring a subset of qubits.
+\end{itemize}
+
+\medskip
+\item These steps are repeated polynomially many times to collect enough samples and followed by classical post-processing $\Longrightarrow$ solution of the problem.
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Organization I}
+\begin{itemize}
+\item Hadamard Test (a very simple quantum circuit)
+
+\medskip
+\begin{itemize}
+\item The Hadamard test makes it possible to estimate diagonal entries of unitary matrices that are implemented by quantum circuits.
+\end{itemize}
+
+\medskip
+\item Combinatorially Block Diagonal (CBD) Unitaries
+
+\medskip
+\begin{itemize}
+\item There is a simple method for obtaining efficient quantum circuits for implementing arbitrary CBD unitaries.
+
+\medskip
+\item The CBC unitaries are not required to have any tensor product structure.
+\end{itemize}
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Organization II}
+\begin{itemize}
+
+\item Jones-Wenzl Representations $\pi_\lambda$ of the Braid Group $B_n$
+
+\medskip
+\begin{itemize}
+\item The images $\pi_\lambda(\sigma_i)$ of the generators $\sigma_i$ of $B_n$ are CBD unitaries.
+
+\bigskip
+\item $\Rightarrow$ The images $\pi_\lambda(b)$ can be implemented efficiently for arbitrary $b\in B_n$ of polynomial length.
+
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Organization III}
+\begin{itemize}
+\item Jones and one-variable HOMFLYPT Polynomials
+
+\medskip
+\begin{itemize}
+\item We consider the evaluation of these polynomials associated to plat and trace closures of braids $b$ at roots of unity.
+
+\bigskip
+\item These evaluations can be expressed as weighted sums of diagonal entries of $\pi_\lambda(b)$.
+
+\bigskip
+\item We can estimate these diagonal entries with the help of the Hadamard test.
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Hadamard Test}
+
+\vspace{-0.5cm}
+\hspace{4cm}
+\Qcircuit @C=1em @R=0.7em {
+\lstick{|0\>}    & \gate{H}    & \ctrl{1} & \gate{H} & \meter \\
+\lstick{|x\>} & {/}\qw      & \gate{U} & \qw      & \qw
+}
+
+\medskip
+
+\begin{itemize}
+\item The probabilities of obtaining the outcomes $0$ and $1$ are:
+\[
+\Pr(0) = \frac{1}{2}\left( 1 + \mathrm{Re}\<x|U|x\> \right) \quad\quad
+\Pr(1) = \frac{1}{2}\left( 1 - \mathrm{Re}\<x|U|x\> \right) 
+\]
+
+\medskip
+\item Repeat qc $O(\epsilon^{-2}\log(\delta^{-1}))$ times $\Rightarrow$ obtain estimate $R$
+\[
+|R - \mathrm{Re}\<x|U|x\> | \le \epsilon
+\]
+with probability $1-\delta$.
+
+\medskip
+\item The imaginary part can be estimated similarly.
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Combinatorially Block Diagonal Unitaries}
+
+\begin{itemize}
+\item Let $V$ be a unitary acting on $\cH\cong\C^N$.
+
+\medskip
+\item We call $V$ \textbf{combinatorially block diagonal} if
+
+\medskip
+\begin{itemize}
+\item there is some permutation $P$ matrix such that $P V P^{-1}$ is block diagonal,
+
+\medskip
+\item the size of the largest block of $P V P^{-1}$ is at most $d=\mathrm{poly}(\log N)$, and
+
+\medskip
+\item there is an efficient classical function that outputs the positions and values of the non-zero entries of $V$ given the row index as input.
+
+\medskip
+\item Nota bene: This makes it possible to specify EXPONENTIALLY larges matrices efficiently.
+\end{itemize}
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Implementing CBD Unitaries}
+
+\begin{itemize}
+\item Let $\iota : \cH \hookrightarrow (\C^2)^{\otimes n}$ be some (convenient) embedding.
+
+\bigskip
+\item There is simple method for constructing quantum circuits $V$ such that 
+
+\bigskip
+\begin{itemize}
+\item $V$ implements $U$ in the sense
+
+\[
+\Big\| V - \big( U_{\iota(\cH)} \oplus I_{\iota(\cH)^\perp} \big) \Big\|_2 \le \epsilon
+\]
+
+\bigskip
+\item $V$ consists of $\mathrm{poly}(\log N, d, \log(1/\epsilon))$ elementary gates.
+\end{itemize}
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Braid group $B_n$}
+
+\begin{itemize}
+\item The braid group $B_n$ on $n$ strands is generated by counterclockwise twists $\sigma_1,\sigma_2,\ldots,\sigma_{n-1}$ which satisfy the relations:
+
+\bigskip
+\begin{itemize}
+\item Yang-Baxter equation
+
+\[
+\sigma_i \sigma_j \sigma_i = \sigma_j \sigma_i \sigma_j \quad |i-j|=1
+\]
+
+\bigskip
+\item far commutativity 
+
+\[
+\sigma_i \sigma_j = \sigma_j \sigma_i \;\;\;\quad\quad |i-j|>1.
+\]
+\end{itemize}
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Visualization}
+
+\begin{itemize}
+\item Think of $n$ hanging pieces of string.
+
+\medskip
+\item Interpret $\sigma_i$ as a counterclockwise exchange of strands in positions $i$ and $i+1$.
+
+\medskip
+\item Interpret $\sigma_i^{-1}$ as a clockwise exchange.
+
+\medskip
+\item For instance, the product $\sigma_2^{-1}\sigma_2\in B_3$ corresponds to
+
+\begin{center}
+	\includegraphics[width=4cm]{3.eps}
+\end{center}
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Yang-Baxter Equation}
+
+\bigskip
+
+\begin{center}
+	\includegraphics[width=4cm]{4.eps}
+\end{center}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Trace closure}
+
+	\begin{center}
+	\includegraphics[width=9cm]{5.eps}
+	\end{center}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Plat closure}
+
+\begin{center}
+	\includegraphics[width=9cm]{6.eps}
+	\end{center}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{HOMFLYPT polynomial}
+
+\begin{itemize}
+\item The HOMFLYPT polynomial $H_{\overrightarrow{L}}(t,x) \in \mathbb{Z}[t^{\pm 1},x^{\pm 1}]$ is a link invariant.
+
+\bigskip
+\item It is recursively defined by the skein relation
+
+\bigskip
+\[
+t H_{L_{+}}(t,x) - t^{-1} H_{L_{-}}(t,x) = 
+x H_{L_{0}}(t,x)
+\]
+
+\bigskip
+\[
+\xy
+(6,6)*{}="tl";
+(-6,6)*{}="tr";
+(6,-6)*{}="bl";
+(-6,-6)*{}="br";
+{\ar|{\hole \; } "tr";"bl"};
+{\ar "tl";"br"};
+(0,-10)*{L_{+}};
+\endxy
+\qquad \qquad
+\xy
+(-6,6)*{}="tl";
+(6,6)*{}="tr";
+(-6,-6)*{}="bl";
+(6,-6)*{}="br";
+{\ar|{\hole \; } "tr";"bl"};
+{\ar "tl";"br"};
+(0,-10)*{L_{-}};
+\endxy
+\qquad\qquad 
+ \xy
+(-6,6)*{}="tl";
+(6,6)*{}="tr";
+(-6,-6)*{}="bl";
+(6,-6)*{}="br";
+"tl";"bl" **\crv{(-1,0)}?(1)*\dir{>};
+"tr";"br" **\crv{(1,0)}?(1)*\dir{>};
+(0,-10)*{L_{0}};
+\endxy
+\]
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{One-Variable HOMFLYPT \& Jones}
+
+\begin{itemize}
+\item For each $k\ge 2$, we obtain the corresponding one-variable HOMFLYPT polynomial in $\mathbb{Z}[q^{\pm 1/2}]$
+
+\bigskip
+\[
+H^{(k)}_{\overrightarrow{L}}(q) = H_{\overrightarrow{L}}(q^{k/2},q^{1/2} - q^{-1/2})
+\]
+
+\bigskip
+\item Restricting to $k=2$ yields the famous Jones polynomial
+
+\bigskip
+\[
+J_{\overrightarrow{L}}(q) \equiv H^{(2)}_{\overrightarrow{L}}(q) = H_{\overrightarrow{L}}(q,q^{1/2} - q^{-1/2})
+\]
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Additive Approximations}
+\vspace{-0.1cm}
+\begin{itemize}
+\item We assume that $q=e^{2\pi i/\ell}$ is an $\ell$th root of unity.
+
+\medskip
+\item If the link $\vec{L}$ consists of $m$ copies of the trivial knot, then 
+
+\[
+H^{(k)}_{\overrightarrow{L}}(q) = [k]_q^{m-1}
+\]
+
+\medskip
+where $[k]_q$ is the quantum integer
+
+\[
+{[k]}_q = \frac{q^{k/2} - q^{-k/2}}{q^{1/2} - q^{-1/2}} = \frac{\sin(\pi k/\ell)}{\sin(\pi/\ell)}.
+\]
+
+\medskip
+\item A value relevant for analyzing the Jones polynomial is
+\[
+{[2]}_\ell = q^{1/2} + q^{-1/2} = 2\cos(\pi/\ell). 
+\]
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Additive Approximations}
+
+\begin{itemize}
+
+\item Let $b\in B_n$ be a braid of length $m=\mathrm{poly}(n)$ and $\epsilon\in (0,1)$ with $1/\epsilon=\mathrm{poly}(n)$.
+
+\bigskip
+\item Approximate HOMFLYPT Trace Closure
+
+\[
+\left| H^{(k)}_{b^{\mathrm{tr}}}(e^{2\pi i/\ell}) - Z \right| \leq \epsilon \cdot [k]_\ell^{n-1}
+\]
+
+\bigskip
+\item Approximate Jones Plat Closure ($n=2p$)
+
+\[
+\left| J_{b^{\mathrm{pl}}}(e^{2\pi i/\ell}) - Z \right| \leq \epsilon \cdot [2]_\ell^{p-1}
+\]
+
+\medskip
+is the most difficult problem that can be solved efficiently by quantum computers.
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Young Diagrams}
+
+\begin{itemize}
+\item $\Lambda_n$ denotes the collection of $n$-box Young diagrams
+
+\bigskip
+\item For instance, $\Lambda_4$ is given by
+
+\begin{tiny}
+\[\xymatrix@R=.5cm@C=.3cm{
+{\yng(4)} & & {\yng(3,1)} & & {\yng(2,2)} & &  {\yng(2,1,1)} & & {\yng(1,1,1,1)}
+}\]
+\end{tiny}
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Young Tableaux}
+\vspace{-0.3cm}
+\begin{itemize}
+\item $T_\lambda$ denotes the collection of tableaux of shape $\lambda\in\Lambda_n$.
+
+\begin{tiny}
+\[\xymatrix@R=.5cm@C=.3cm{
+& & & & {\yng(1)} \ar[dr] \ar[dl]\\
+& & & {\yng(2)} \ar[dl] \ar[dr] & &  {\yng(1,1)}\ar[dl]\ar[dr] \\
+& & {\yng(3)}\ar[dll]\ar[d] & & {\yng(2,1)}\ar[dll]\ar[d]\ar[drr] & & {\yng(1,1,1)}\ar[d]\ar[drr] \\
+{\yng(4)} & & {\yng(3,1)} & & {\yng(2,2)} & &  {\yng(2,1,1)} & & {\yng(1,1,1,1)}
+}\]
+\end{tiny}
+
+\vspace{-0.3cm}
+\item The tableaux $t\in T_\lambda$ correspond bijectively to paths in the Bratteli diagram that start in {\tiny $\yng(1)$} and end in $\lambda$.
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{$(k,\ell)$-Young Diagrams}
+\vspace{-0.3cm}
+\begin{itemize}
+\item Let $(k,\ell)$ be a pair of integers with $\ell > k >0$.
+
+\bigskip
+\item $\Lambda_n^{(k,\ell)}$ denotes the subcollection of $(k,\ell)$-Young diagrams
+\[
+\Lambda_n^{(k,\ell)} = \{ [\lambda_1,\lambda_2,\ldots,\lambda_k]\in\Lambda_n \, \mid \, \lambda_1 - \lambda_k \le \ell - k\}\,.
+\]
+
+\medskip
+\item The diagrams have at most $k$ rows and their ``overhang'' is at most $\ell-k$ (the parameter $\ell$ is called the level).
+
+\bigskip
+\item For instance, $\Lambda_4^{{\blue (2,5)}}$ is given by
+
+\begin{tiny}
+\[\xymatrix@R=.5cm@C=.3cm{
+{\red {\yng(4)}} & & {\blue {\yng(3,1)}} & & {\blue {\yng(2,2)}} & &  {\red {\yng(2,1,1)}} & & {\red {\yng(1,1,1,1)}}
+}\]
+\end{tiny}
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{$(k,\ell)$-Young Tableaux}
+\vspace{-0.3cm}
+\begin{itemize}
+\item $T^{(k,\ell)}_\lambda$ denotes the subcollection of $(k,\ell)$-tableaux of shape $\lambda\in\Lambda_n^{(k,\ell)}$.
+
+\vspace{-0.3cm}
+\begin{tiny}
+\[\xymatrix@R=.5cm@C=.3cm{
+& & & & {\yng(1)} \ar[dr] \ar[dl]\\
+& & & {\yng(2)} \ar[dr] \ar[dl]& &  {\yng(1,1)}\ar[dl] \\
+& & {\yng(3)} \ar[d]& & {\yng(2,1)}\ar[d]\ar[dll]  \\
+& & {\yng(3,1)}  & & {\yng(2,2)}
+}\]
+\end{tiny}
+
+\item The tableaux $t\in T_\lambda^{(k,\ell)}$ correspond bijectively to paths in the Bratteli diagram that start in {\tiny $\yng(1)$} and end in $\lambda$.
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Jones-Wenzl Unitary Representations}
+
+\begin{itemize}
+\item Consider the Hilbert space
+
+\[
+V_\lambda^{(k,\ell)}=\mathrm{span}\left\{|t\> \, : \, t\in T_\lambda^{(k,\ell)} \right\}\,.
+\]
+
+\medskip
+\item The Jones-Wenzl unitary irreducible representation 
+
+\medskip
+\[
+\pi_\lambda : B_n \rightarrow U\left(V_\lambda^{(k,\ell)}\right)
+\]
+
+\medskip
+has the property that the images $\pi_\lambda(\sigma_i)$ of the generators $\sigma_i$ of $B_n$ are combinatorially block-diagonal (CBD) of size $2$.
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Jones-Wenzl Unitary Representations}
+
+\begin{itemize}
+\item Define $s_i(t)$ to be either
+
+\medskip
+\begin{itemize}
+\item the tableau that results from swapping the positions of $i$ and $i+1$ in $t$ if this operation yields a valid $(k,\ell)$-tableau or
+
+\medskip
+\item $t$ otherwise.
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Jones-Wenzl Unitary Representations}
+
+\begin{itemize}
+\item The images $\pi_\lambda(\sigma_i)$ are CBD of size $2$ since
+
+\bigskip
+\[
+\<t|\pi_\lambda(\sigma_i)|t'\>\neq 0 \quad\Rightarrow\quad t' \in \{ t, s_i(t) \}\,.
+\]
+
+\bigskip
+\item The entries are simple expressions involving $k$, $\ell$, and the hook length between $i$ and $i+1$ in $t\in T_\lambda^{(k,\ell)}$.
+
+\bigskip
+\item $\Rightarrow$ We can construct an efficient quantum circuit that implements $\pi_\lambda(b)$ for any braid $b$ of polynomial length.
+
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Representation-theoretic Jones Plat}
+
+\begin{itemize}
+\item Let $\lambda=[p,p]$ be the ``rectangular'' two-row Young diagram ($n=2p$).
+
+\newcommand{\nnn}{\mbox{\,\,\!$n\!\!-\!\!1$}}
+\newcommand{\nnnn}{\mbox{$n$}}
+
+\bigskip
+\item Let $t$ be the tableau 
+
+\[
+t =
+{\Yvcentermath1\Yboxdim22pt\young(135\cdots\nnn,246\cdots\nnnn)}\,.
+\]
+
+\medskip
+\item Jones polynomial of $b^{\mathrm{pl}}$ evaluated at $e^{2\pi i/\ell}$ is given by
+
+\[
+J_{b^{\mathrm{pl}}}(e^{2\pi i/\ell}) = [2]_\ell^{p-1}\cdot\<t|\pi_\lambda(b)|t\>
+\]
+
+\end{itemize}
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Representation-theoretic HOMFLYPT Trace}
+
+\begin{itemize}
+\item HOMPLYPT poly of $b^\mathrm{tr}$ evaluated at $e^{2\pi i/\ell}$ is given by
+
+\medskip
+\[
+H^{(k)}_{b^{\mathrm{tr}}}(e^{2\pi i/\ell}) =
+[k]_\ell^{n-1} \cdot \alpha \cdot \sum_{\lambda\in\Lambda_n^{(k,\ell)}} p_\lambda^{(k,\ell)} \cdot \frac{1}{d_\lambda^{(k,\ell)}} \cdot 
+\sum_{t\in T_\lambda^{(k,\ell)}} \<t|\pi_\lambda^{(k,\ell)}(b)|t\>
+\]
+
+\medskip
+\begin{itemize}
+\item The number $\alpha\in\C^\times$ is easy to compute from $b$.
+
+\bigskip
+\item We can efficiently sample the irreps $\lambda$ according to the probability distribution $p_\lambda^{(k,\ell)}=s_\lambda^{(k,\ell)} d_\lambda^{(k,\ell)}$ 
+
+\medskip
+Product of the Markov weight and the dimension of $\pi_\lambda^{(k,\ell)}$
+\end{itemize}
+
+\end{itemize}
+
+\end{slide}
+
+
+\end{document}
+
