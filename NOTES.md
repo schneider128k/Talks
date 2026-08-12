@@ -26,6 +26,8 @@ handed in afterwards.
   Prof. Dr. Thomas Beth with Markus Grassl and Jörn Müller-Quade.  
   Grover's search algorithm, the lower bound for quantum search, and algorithms for finding
   the minimum and estimating the median.  
+  The slides here are the ones typeset at the time; the source beside them no longer compiles
+  as it stands. The Ausarbeitung still builds.  
   [presentation](documents/1997-06_quantum_search_algorithms/quantum_search_algorithms_presentation.pdf) ·
   [report](documents/1997-06_quantum_search_algorithms/quantum_search_algorithms_report.pdf) ·
   [sources](documents/1997-06_quantum_search_algorithms/)

@@ -16,9 +16,8 @@ and the talks I gave after 2020 are not yet reconstructed.
   Six lectures given jointly with Andrew Childs of the University of Waterloo: quantum
   circuits, elementary quantum algorithms, the quantum Fourier transform and phase
   estimation, factoring, quantum search, and quantum walk.  
-  The six lecture files and the finished PDF are the set Andrew Childs sent round at the end
-  of the school. The master file that binds them together is not in it, and what is here in
-  its place is an earlier version of mine, with most of its inputs still commented out.  
+  The lectures here are the ones typeset at the time. The master file that binds the six parts
+  together is not among the sources, so what is beside them does not rebuild the course.  
   [lectures](documents/2010-07_quantum_algorithms_vancouver_summer_school/quantum_algorithms_vancouver_lectures.pdf) ·
   [sources](documents/2010-07_quantum_algorithms_vancouver_summer_school/)
 
@@ -30,8 +29,8 @@ and the talks I gave after 2020 are not yet reconstructed.
   Joint work with Stephen Jordan.  
   The talk is built on [arXiv:0807.4688](https://arxiv.org/abs/0807.4688) and
   [arXiv:0904.2211](https://arxiv.org/abs/0904.2211).  
-  The slides call in a macro file for the circuit diagrams that is not beside them, so the
-  source no longer compiles as it stands; what is here is the PDF typeset at the time.  
+  The slides here are the ones typeset at the time; the source beside them no longer compiles
+  as it stands.  
   [presentation](documents/2010-03_jones_homflypt_polynomials_washington/jones_homflypt_polynomials_washington_presentation.pdf) ·
   [sources](documents/2010-03_jones_homflypt_polynomials_washington/)
 
@@ -112,8 +111,8 @@ and the talks I gave after 2020 are not yet reconstructed.
   The talk is built on [arXiv:0710.1615](https://arxiv.org/abs/0710.1615),
   [quant-ph/0606229](https://arxiv.org/abs/quant-ph/0606229) and
   [arXiv:0705.1180](https://arxiv.org/abs/0705.1180).  
-  The slides here are the ones built at the time; the source beside them no longer compiles
-  as it stands.  
+  The slides here are the ones typeset at the time; the source beside them still runs through
+  LaTeX, but it no longer produces every page.  
   [presentation](documents/2007-11_classical_problems_mit/classical_problems_mit_presentation.pdf) ·
   [sources](documents/2007-11_classical_problems_mit/)
 
@@ -286,5 +285,7 @@ and the talks I gave after 2020 are not yet reconstructed.
   Joint work with Dejan E. Lazić and Thomas Beth. The seven sheets carry no title page, so
   the authorship is recorded only here.  
   The accompanying paper is in the conference proceedings, pp. 43–46.  
+  The sheets here are the ones typeset at the time; the source beside them no longer compiles
+  as it stands.  
   [poster](documents/2000-07_binary_block_codes/binary_block_codes_poster.pdf) ·
   [sources](documents/2000-07_binary_block_codes/)
