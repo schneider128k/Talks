@@ -1,0 +1,471 @@
+\documentclass[slideColor]{prosper}
+\usepackage{amsmath,amsfonts,amsthm}
+%\usepackage{epsfig}
+%\include{Qcircuit}
+
+%\usepackage{algorithm} 
+%\usepackage{algorithmic}
+
+\newcommand{\E}{\mathbf{E}}
+\renewcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\newcommand{\cA}{\mathcal A}
+\newcommand{\cB}{\mathcal B}
+\newcommand{\cH}{\mathcal H}
+\newcommand{\C}{\mathbb C}
+\newcommand{\TVD}{\mathrm{TVD}}
+
+\renewcommand{\>}{\rangle}
+\newcommand{\<}{\langle}   
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Efficient Quantum Algorithms for One-Dimensional Infrastructures}
+\author{Pawel M. Wocjan\\[1ex]Department of Electrical Engineering and Computer Science\\ University of Central Florida\\Orlando}
+\email{wocjan@eecs.ucf.edu}
+
+\begin{document}
+
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Joint work with}
+\begin{itemize}
+\item Pradeep Sarvepalli (University of British Columbia) 
+
+\bigskip
+preprint arXiv:1106.6347
+ 
+\bigskip\bigskip
+\item P.W. gratefully acknowledges the support from the NSF grant CCF-0726771 and the NSF CAREER Award CCF-0746600
+
+\bigskip
+P.S. was sponsored by grants from CIFAR, MITACS, and NSERC
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Motivation and overview}
+\vspace{-0.25cm}
+\begin{itemize}
+\item infrastructures are group-like structures
+
+\medskip
+\item they appear in arithmetic geometry in the study of computational problems related to
+number fields and function fields over finite fields 
+
+\medskip
+\item arithmetic geometry provides a unified treatment of global fields 
+
+\medskip
+\item
+the most prominent computational tasks are computing 
+
+\begin{itemize}
+\item the circumference of the infrastructure and
+
+\medskip
+\item generalized discrete logarithms
+\end{itemize}
+
+\medskip
+\item
+both problems are not know to have efficient classical algorithms
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Discrete Infrastructures}
+\begin{itemize}
+\item there is a simple and efficient quantum algorithm for solving these problems for infrastructures arising from function fields 
+
+\medskip
+\item this is because such infrastructures are discrete and can be embedded into finite abelian groups
+
+\medskip
+\item we can simply use the efficient quantum algorithm for the abelian hidden subgroup problem to solve these two problems 
+and also many other problems related function fields
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{1-dim nondiscrete infrastructures}
+\begin{itemize}
+
+\medskip
+\item $\Rightarrow$ we focus on non-discrete infrastructures
+
+\medskip
+\item
+such infrastructures arise from number fields
+
+\medskip
+\item in this talk, I only consider one-dimensional infrastructures
+
+\medskip
+\item such infrastructures arise from number fields of unit rank
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Improvements}
+\vspace{-0.4cm}
+\begin{itemize}
+\item quadratic number fields give rise to one-dimensional infrastructures $\Rightarrow$ 
+our algorithms can be used to solve Pell's equation and the principal ideal problem
+
+\medskip
+\item in this sense, they generalize Hallgren's quantum algorithms for these problems
+
+\medskip
+\item our improvements and extensions:
+
+\begin{itemize}
+\item give a conceptually simpler presentation 
+
+\item find algorithms with lower complexity and constant success probability
+
+\item introduce a technical result for analyzing algorithms based on Fourier sampling
+
+\item present a more efficient method for computing in one-dimensional infrastructures
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{One-dimensional infrastructure}
+
+\begin{itemize}
+\item a one-dimensional infrastructure of circumference $R$ is a pair $(X,d)$ where
+
+\begin{itemize}
+\item $X=\{x_0,x_1,\ldots,x_{m-1}\}$ is a finite set and
+
+\medskip
+\item $d \, : \, X \rightarrow \R/R\Z$ is injective
+\end{itemize}
+
+\medskip
+\item the elements of $X$ are ordered such that 
+\[
+0=d(x_0)<d(x_1)<\ldots<d(x_{m-1})<R
+\]
+we use representatives in $[0,R)$ to order the $d(x_i)$
+
+\medskip
+\item imagine that we place the elements around a circle of circumference $R$ starting at the top most point and moving clockwise
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Baby step}
+
+\begin{itemize}
+\vspace{-0.25cm}
+\item the baby step $\mathrm{bs} : X \rightarrow X$ is defined as
+\[
+\mathrm{bs}(x_i) = \left\{
+\begin{array}{ll}
+x_{i+1} & 0 \le i < m-1 \\
+x_0     & i=m-1
+\end{array}
+\right.
+\]
+\medskip
+it gives you the next element on the circle
+
+\medskip
+\item the relative distance function $\Delta_{\mathrm{bs}} : X \rightarrow [0,R)$ is such that
+\[
+d(\mathrm{bs}(x)) = d(x) + \Delta_{\mathrm{bs}}(x)
+\]
+holds for all $x\in X$
+
+\medskip
+it tells you how far you have to travel along the circle to get to the next element
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Giant step}
+\vspace{-0.25cm}
+\begin{itemize}
+\item for $x,y\in X$ consider the set
+\[
+S_{x,y} = \{ s \in [0,R) \, | \, d(x) + d(y) + s \in d(X) \}
+\]
+
+\medskip
+\item the giant step $\mathrm{gs} : X \times X \rightarrow X$ is defined as
+\[
+\mathrm{gs}(x,y)=z 
+\]
+
+such that
+\[
+d(z) = d(x) + d(y) + \min S_{x,y}
+\]
+
+\medskip
+\item the relative distance function $\Delta_{\mathrm{gs}} \, : \, X \times X \rightarrow [0,R)$ is defined as
+\[
+\Delta_{\mathrm{gs}}(x,y) = \min S_{x,y}
+\]
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Computational problems}
+\vspace{-0.25cm}
+\begin{itemize}
+\item estimate the circumference $R$
+
+\medskip
+\item given $x\in X$, estimate $d(x)$
+
+\bigskip
+\item these problems are computationally hard for classical computers
+
+\medskip
+\item the first generalizes the problem of computing the order of a (black-box) cyclic group
+
+\medskip
+\item the second generalizes the problem of determining discrete logarithms in a (black-box) cyclic group
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Finite cyclic groups}
+\vspace{-0.25cm}
+\begin{itemize}
+\item suppose $G=\<g\>$ is a finite cyclic group of order $R$
+
+\medskip
+\item $\Rightarrow$ we can form an infrastructure out of $G$ as follows:
+
+\begin{itemize}
+\item $X=G$
+
+\medskip
+\item $d(h) = \log_g(h)$ 
+
+\medskip
+\item the baby step corresponds to multiplication by $g$
+
+\medskip
+\item the giant step corresponds to the multiplication of two elements in $G$
+
+\medskip
+\item $\Delta_{\mathrm{bs}}$ always takes on the value $1$
+
+\medskip 
+\item $\Delta_{\mathrm{gs}}$ always takes on the value $0$
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Group arithmetic with $f$-reps}
+
+\begin{itemize}
+\item a pair $(x,f)\in X\times \R$ is called an $f$-representation if 
+\[
+0 \le f < \Delta_{\mathrm{bs}}(x)
+\]
+
+\medskip
+\item denote the set of all $f$-representations by $\mathrm{Rep}(\mathcal{I})$
+
+\medskip
+\item $\mathrm{Rep}(\mathcal{I})$ can be endowed with a group structure such that 
+\[
+\mathrm{Rep}(\mathcal{I}) \cong \R/R\Z
+\]
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{HSP over $\R$}
+
+\begin{itemize}
+\item we have a surjective group homomorphism
+\[
+h : \R \rightarrow \mathrm{Rep}(\mathcal{I})
+\]
+with 
+\[
+\ker h = R \Z
+\]
+
+\medskip
+\item $\Rightarrow$ computing the circumference corresponds to determining the subgroup of $\R$ hidden by $h$
+
+\medskip
+\item this is the intuition behind our algorithm
+
+\medskip
+\item but computing $h$ is impossible due to finite precision
+
+\medskip
+\item this is because we can only approximate $\Delta_{\mathrm{bs}}$ and $\Delta_{\mathrm{gs}}$
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Computable version $h_N$ of $h$}
+
+\vspace{-0.25cm}
+\begin{itemize}
+\item Let $h_N : \Z \rightarrow X \times \Z$ be defined as
+\[
+h_N(i) = (x,\lfloor f N \rfloor)
+\]
+where $s$ is some random offset and $h(i/N + s) = (x,f)$
+
+\medskip
+\item we can compute $h_N(i)$ exactly for $i\in W=\{0,\ldots,q-1\}$ 
+
+\medskip
+\item for more than half $(x,k) \in f(W)$, the corresponding preimage has the special form
+\[
+f^{-1}(x,k) = \{ \lfloor k + j N R \rceil \mid j \in \mathcal{J} \} 
+\]
+
+$\lfloor \cdot \rceil$ is a function assigning to each $u\in\R$ either $\lfloor u \rfloor$ or $\lceil u \rceil$
+
+\medskip
+\item $\Rightarrow$ evaluating $h_N$ in superposition over $W$ and measuring induces a pseudo-periodic state
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Pseudo-periodic states}
+\vspace{-0.25cm}
+\begin{itemize}
+\item a quantum state in $\C^q$ is called $\epsilon$-pseudo-periodic with period $S$ it is of the following form
+\[
+|\psi\> = \frac{1}{\sqrt{\mathcal{J}}} \sum_{j\in\mathcal{J}} | \lfloor k + j S\rceil \>
+\]
+\begin{itemize}
+\item $p=\lfloor q/S+1 \rfloor$
+
+\medskip
+\item $\mathcal{J}\subseteq\{0,1,\ldots,p-1\}$
+
+\medskip
+\item $|\mathcal{J}| \ge \epsilon p$
+
+\medskip
+\item $k\in\{0,1,\ldots,\lfloor S \rfloor\}$
+\end{itemize}
+
+\medskip
+\item we can find a rational number $\hat{S}$ such that $|\hat{S}-S|\le 1$ by Fourier sampling $\epsilon$-pseudo-periodic states
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Fourier sampling}
+\vspace{-0.25cm}
+\begin{itemize}
+\item the lemma ``perturbed geometric sum with missing terms'' is at the heart of the analysis
+
+\begin{itemize}
+\item let $\delta\in(-1,1)$
+
+\medskip
+\item $\omega$ be the $p$th root of unity $e^{2\pi i/p}$
+
+\medskip
+\item $\theta$ an arbitrary real-valued function defined on $\mathcal{J} \subseteq \{0,1,\ldots,p-1\}$ with $|\theta_j|\le \frac{p}{32}$
+
+\item {}
+%\vspace{-0.25cm}
+\[
+|\mathcal{J}|\ge \frac{1-\mathrm{sinc}(\pi\delta)}{1-2\sin(\pi/32)}\, p
+\]
+\end{itemize}
+\[
+\!\!\!
+\Rightarrow
+\frac{1}{|\mathcal{J}|^2} \left| \sum_{j\in\mathcal{J}} \omega^{\delta j + \theta_j} \right|^2 \! \ge
+\left(
+1 - 2\sin(\pi/32) - \big(1-\mathrm{sinc}(\pi\delta)\big) \frac{p}{|\mathcal{J}|}
+\right)^2
+\]
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Estimating the period/circumference}
+
+\begin{itemize}
+\vspace{-0.4cm}
+\item INPUT:
+
+\begin{itemize}
+\item an upper bound $M$ on $S>1$ and $q$ an integer such that $M^2\leq q< 2M^2$
+
+\medskip
+\item a pair of $\epsilon$-periodic states in $\C^q$ with period $S$
+\end{itemize}
+
+\bigskip
+\item for each $\epsilon$-pseudo-periodic state,  apply a Fourier transform over $\Z_q$ and measure to obtain $c$ and $d$
+
+\medskip
+\item compute the convergents $c_i/d_i$ of $c/d$ where $d_i\leq  \lfloor q/32 \rfloor$
+
+\medskip
+\item return $\mathcal{L}= \Big\{ [c_iq/c] \mid d_i\leq \lfloor q/32 \rfloor \Big\}$ as candidates for $S$
+
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Success probability}
+
+\begin{itemize}
+\item our algorithm has constant success probability since $\mathcal{L}$ contains an element $\hat{S}$ with $|\hat{S}-S|<1$ with probability $\Omega(1)$ 
+
+\medskip
+\item Hallgren's algorithm succeeds with only $\Omega(1/\log^4(M))$ and works only if $\log M \ge 256$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Thank you!}
+
+\end{slide}
+
+\end{document} 

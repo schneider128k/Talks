@@ -10,6 +10,26 @@ and the talks I gave after 2020 are not yet reconstructed.
 
 ## University of Central Florida
 
+- **Efficient Quantum Algorithms for One-Dimensional Infrastructures** —
+  *Minisymposium talk*, October 2011  
+  Minisymposium on quantum computing at the SIAM Conference on Applied Algebraic Geometry
+  (AG11), North Carolina State University, Raleigh, 6–9 October 2011.  
+  Joint work with Pradeep Sarvepalli.  
+  The talk is built on [arXiv:1106.6347](https://arxiv.org/abs/1106.6347).  
+  [presentation](documents/2011-10_one_dimensional_infrastructures_nc_state/one_dimensional_infrastructures_nc_state_presentation.pdf) ·
+  [sources](documents/2011-10_one_dimensional_infrastructures_nc_state/)
+
+- **Algorithm for Preparing Thermal Gibbs States** — *Invited talk*, July 2010  
+  Workshop *Quantum Algorithms, Computational Models and Foundations of Quantum Mechanics*,
+  University of British Columbia, Vancouver, 23–25 July 2010, at the invitation of Robert
+  Raussendorf. The workshop sat in the middle of the summer school below.  
+  Joint work with David Poulin and Chen-Fu Chiang.  
+  The talk is built on [arXiv:0905.2199](https://arxiv.org/abs/0905.2199) and
+  [arXiv:1001.1130](https://arxiv.org/abs/1001.1130).  
+  The title page carries the date I last typeset the slides, ten days after the workshop.  
+  [presentation](documents/2010-07_thermal_gibbs_states_vancouver/thermal_gibbs_states_vancouver_presentation.pdf) ·
+  [sources](documents/2010-07_thermal_gibbs_states_vancouver/)
+
 - **Quantum Algorithms** — *Lecture course*, July 2010  
   10th Canadian Summer School on Quantum Information, University of British Columbia,
   Vancouver, 17–19 July 2010, at the invitation of Robert Raussendorf.  
@@ -29,8 +49,8 @@ and the talks I gave after 2020 are not yet reconstructed.
   Joint work with Stephen Jordan.  
   The talk is built on [arXiv:0807.4688](https://arxiv.org/abs/0807.4688) and
   [arXiv:0904.2211](https://arxiv.org/abs/0904.2211).  
-  The slides here are the ones typeset at the time; the source beside them no longer compiles
-  as it stands.  
+  The slides here are the ones typeset at the time; the source beside them still runs through
+  LaTeX, but no longer reproduces them.  
   [presentation](documents/2010-03_jones_homflypt_polynomials_washington/jones_homflypt_polynomials_washington_presentation.pdf) ·
   [sources](documents/2010-03_jones_homflypt_polynomials_washington/)
 
@@ -112,7 +132,7 @@ and the talks I gave after 2020 are not yet reconstructed.
   [quant-ph/0606229](https://arxiv.org/abs/quant-ph/0606229) and
   [arXiv:0705.1180](https://arxiv.org/abs/0705.1180).  
   The slides here are the ones typeset at the time; the source beside them still runs through
-  LaTeX, but it no longer produces every page.  
+  LaTeX, but no longer reproduces them.  
   [presentation](documents/2007-11_classical_problems_mit/classical_problems_mit_presentation.pdf) ·
   [sources](documents/2007-11_classical_problems_mit/)
 

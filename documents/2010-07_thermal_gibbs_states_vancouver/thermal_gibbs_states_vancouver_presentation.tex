@@ -1,0 +1,528 @@
+\documentclass{beamer}
+\usepackage{beamerthemeshadow}
+\usepackage{amsmath,amsfonts,amsthm}
+
+\setbeamertemplate{navigation symbols}{}
+\usetheme{Warsaw}
+\beamersetuncovermixins{\opaqueness<1>{25}}{\opaqueness<2->{15}}
+
+\include{Qcircuit}
+\newcommand{\E}{\mathbf{E}}
+\newcommand{\cA}{\mathcal A}
+\newcommand{\cB}{\mathcal B}
+\newcommand{\cH}{\mathcal H}
+\newcommand{\C}{\mathbb C}
+\newcommand{\TVD}{\mathrm{TVD}}
+\renewcommand{\>}{\rangle}
+\newcommand{\<}{\langle}
+
+
+\begin{document}
+\title{Algorithm for Preparing Thermal Gibbs States}  
+\author{Pawel Wocjan\\ University of Central Florida}
+\date{\today} 
+\frame{\titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame{\frametitle{Related work}
+
+This work is based on
+
+\medskip
+
+\begin{itemize}
+\item {\em Sampling from the Thermal Quantum Gibbs State and Evaluating Partition Functions with a Quantum Computer} 
+
+\medskip
+with David Poulin, Phys. Rev. Lett. 103, 220502 (2009)
+
+\bigskip	
+\item {\em Algorithm for Preparing Thermal States -- Detailed Analysis} 
+
+\medskip
+with C.-F. Chiang, Proc. NATO ARW ``Quantum Cryptography and Computing: Theory and Implementation, Gdansk, Poland, 9-12 September 2009  
+\end{itemize}
+
+\bigskip
+This work has been supported by the National Science Foundation grants CCF-0726771 and CCF-0746600
+} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frame{\frametitle{Definitions}
+
+Let $H$ be a Hamiltonian with spectral decomposition
+\[
+H = \sum_{a=1}^D E_a |\psi_a\>\<\psi_a|\ %,, \quad E_a \in [0,1]
+\]
+
+The partition function $Z_\beta$ at inverse temperature $\beta$ is
+\[
+Z_\beta := \sum_{a=1}^D e^{-\beta E_a}
+\]
+
+The thermal state $\rho_\beta$ at inverse temperature $\beta$ is
+\[
+\rho_\beta := \sum_{a=1}^D \frac{e^{-\beta E_a}}{Z_\beta} |\psi_a\>\<\psi_a|
+\]
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frame{\frametitle{Thermalizing quantum systems}
+
+Given $H$, $\beta$, and $\epsilon$, prepare a quantum state $\tilde{\rho}_\beta$ with
+
+\medskip
+\[
+\| \rho_\beta - \tilde{\rho}_\beta \|_{\mathrm{tr}} \le \epsilon 
+\]
+
+\bigskip
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frame{\frametitle{Methods}
+Metropolis Sampling
+  
+\bigskip
+
+Quantized Metropolis Sampling  
+
+\begin{itemize}
+\item Somma, Boixo, Barnum, and Knill, PRL 101,130504 
+\item W. and Abeyesinghe, PRA 78, 032311
+\end{itemize}
+  
+\bigskip
+
+Method based on Amplitude Amplification (this presentation)
+  
+\bigskip
+
+Quantum Metropolis Sampling (David Poulin's presentation)
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frame{\frametitle{Classical Hamiltonians}
+
+Let $\Omega$ be a set whose elements $x$ correspond to the states of some classical system
+
+\bigskip
+Let $E : \Omega\rightarrow [0,1]$ denote the energy function, assigning to each state $x$ its energy $E(x)$
+
+\bigskip
+Let 
+\[
+H = \sum_{x\in\Omega} E(x) |x\>\<x|
+\]
+
+\bigskip 
+Thermalizing such classical systems is easier because $H$ is diagonal in the computational basis $\{ |x\> \}_{x\in\Omega}$
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frame{\frametitle{Metropolis sampling}
+
+Given such classical Hamiltonian $H$, we can always construct a Markov chain $P$ whose limiting distribution is equal to $\rho_\beta$
+
+\bigskip
+The spectral gap $\delta$ determines how fast we can approach the Boltzmann distribution
+
+\bigskip
+The run time scales like $1/\delta$
+
+\bigskip
+In general, it is not possible to determine (or bound) the spectral gap $\Rightarrow$ heuristics
+
+\bigskip
+There are important cases where it can be shown that the gap is large
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frame{\frametitle{Quantized Metropolis algorithm}
+
+Given such classical Hamiltonian $H$, there is a ``quantized'' Metropolis
+algorithm preparing a state $|\tilde{\varphi}_\beta\>$ with
+
+\medskip
+\[
+\big\| |\varphi_\beta\> - |\tilde{\varphi}_\beta\> \big\| \le \epsilon
+\]
+
+\bigskip
+where $|\varphi_\beta\>$ is a ``quantized'' version of the Boltzmann distribution
+
+\medskip
+\[
+|\varphi_\beta\> := \sum_{x\in \Omega} \sqrt{\frac{e^{-\beta E_x}}{Z_\beta}} |x\>
+\]
+
+\bigskip
+The run times scales like $\sqrt{1/\delta}$ 
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frame{\frametitle{Structure of our method}
+
+Prepare the state 
+\[
+\frac{1}{\sqrt{D}}\sum_{x\in\Omega} |x\> \otimes |E_x\> \otimes |0\>
+\]
+
+\bigskip
+Apply a controlled rotation to obtain the state
+\[
+|\Psi\> = \frac{1}{\sqrt{D}}\sum_{x\in\Omega} |x\> \otimes |E_x\> \otimes \Big(
+\sqrt{e^{-\beta E_x}} |0\> + \sqrt{1-e^{-\beta E_x}} |1\> \Big)
+\]
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frame{\frametitle{Structure of our method}
+
+Measure in the basis $|0\>$, $|1\>$
+
+\bigskip
+If we obtain $|0\>$ $\Rightarrow$ the post-measurement state is
+
+\medskip
+\[
+\frac{|\Pi_0 |\Psi\>}{\|\Pi_0 |\Psi\>\|} = 
+\sum_{x\in\Omega} \sqrt{\frac{e^{-\beta E_x}}{Z_\beta}} |x\> \otimes |E_x\> \otimes  |0\> 
+\]
+
+\medskip
+where $\Pi_0 = I \otimes |0\>\<0|$
+
+\bigskip
+Using amplitude amplification, we can achieve an expected run time
+\[
+\frac{1}{\|\Pi_0 |\Psi\>\|} = \sqrt{\frac{D}{Z_\beta}}
+\]
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frame{\frametitle{Generalization to quantum Hamiltonians}
+
+Let $H$ be an arbitrary quantum Hamiltonian with spectral decomposition
+
+\medskip
+\[
+H = \sum_{a=1}^D E_a |\psi_a\>\<\psi_a| \quad\quad E_a \in [0,1/2]
+\]
+
+\bigskip
+There are two difficulties:
+
+\medskip
+\begin{itemize}
+\item we cannot change between the computational basis $|a\>$ and the eigenvector basis $|\psi_a\>$ of $H$
+
+\medskip
+\item we do not know the energies $E_a$
+\end{itemize}
+
+\bigskip
+Both difficulties can be overcome with quantum phase estimation $\Rightarrow$ we can extend the previous method to quantum Hamiltonians
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frame{\frametitle{Error sources}
+
+Given $H$, $\beta$, and $\epsilon$, our quantum algorithm prepares $\tilde{\rho}_\beta$
+\[
+ \| \rho_\beta - \tilde{\rho}_\beta \|_{\mathrm{tr}} \le \epsilon 
+\]
+
+\bigskip
+The errors come from two sources:
+\[
+\| \rho_\beta           - \tilde{\rho}_\beta   \|_{\mathrm{tr}} \le 
+\| \rho                 - \rho_{\textrm{sim}}  \|_{\mathrm{tr}} +
+\| \rho_{\textrm{sim}}  - \rho_{\textrm{fail}} \|_{\mathrm{tr}} 
+\]
+
+\bigskip
+	\begin{itemize}
+	\item $\rho_{\textrm{sim}}$ due to imperfect simulation of $\exp(2 \pi i H)$
+	
+	\bigskip
+	\item $\tilde{\rho}_\beta=\rho_{\textrm{fail}}$ due to nonzero failure
+	probability and limited precision of quantum phase estimation
+	\end{itemize}
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frame{\frametitle{Imperfect simulation of Hamiltonians}
+
+Assume that $H$ is sparse and let $U = \exp(2\pi i H)$
+
+\bigskip
+Using techniques for simulating Hamiltonian time evolutions, we can implement $U_{\textrm{sim}}$ with
+
+\medskip
+\[
+\| U - U_{\textrm{sim}} \| \le \epsilon_{\textrm{sim}}
+\]
+
+\bigskip
+The cost scales like 
+\[
+\mathrm{poly}(\log D, 1/\epsilon_{\textrm{sim}}, s)
+\]
+
+\medskip
+where $s$ indicates the sparseness of $H$
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frame{\frametitle{Technical results}
+
+Matrix logarithm is Lipschitz continuous:
+
+\[
+\| U - U_{\textrm{sim}} \| \le \epsilon_{\textrm{sim}}
+\]
+
+$\Rightarrow$ there is a Hamiltonian $H_{\textrm{sim}}$ with
+\[
+\| H - H_{\textrm{sim}} \| \le O(\epsilon_{\textrm{sim}})
+\]
+
+\bigskip
+Thermal states are H\"older continuous:
+
+\[
+\| H - H_{\textrm{sim}} \| \le O(\epsilon_{\textrm{sim}})
+\]
+
+$\Rightarrow$ the corresponding thermal states satisfy
+\[
+\| \rho - \rho_{\textrm{sim}} \|_{\textrm{tr}} \le O(\sqrt{\beta \epsilon_{\textrm{sim}}})
+\]    
+ 
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frame{\frametitle{Structure of our method}
+
+Start with the maximally entangled state 
+
+\medskip
+\[
+|\Phi\>:=\frac{1}{\sqrt{D}} \sum_{a=1}^D |a\> \otimes |a\>
+\]
+
+\bigskip
+Run phase estimation of $U_\mathrm{sim}$ on first part of $|\Phi\>$ and record eigenphase
+in the energy register
+
+\bigskip
+Apply the controlled rotation $R = \sum_E |E\>\<E| \otimes R_E$	 
+
+\medskip
+\[
+R_E =  
+\left(
+\begin{array}{cc}
+\sqrt{e^{-\beta E}}   & - \sqrt{1-e^{-\beta E}} \\
+\sqrt{1-e^{-\beta E}} &   \sqrt{e^{-\beta E}}
+\end{array}
+\right)
+\] 
+
+\bigskip
+Use amplitude amplification to increase overlap with $|0\>$ component
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frame{\frametitle{Invariance of maximally entangled state}
+
+Let
+\begin{eqnarray*}
+|\Phi\>  & := & \frac{1}{\sqrt{D}} \sum_{a=1}^D |a\> \otimes |a\> \\ & & \\
+V        & := & \sum_{a=1}^D |\psi_a\>\<a|
+\end{eqnarray*}
+
+\bigskip
+Due to invariance of $|\Phi\>$ under $V\otimes \bar{V}$, we have
+
+\medskip
+\[
+|\Phi\> = \frac{1}{\sqrt{D}} \sum_{a=1}^D |\psi_a\> \otimes |\bar{\psi}_a\>
+\]
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frame{\frametitle{Correspondance between energy levels and eigenphases}
+
+Recall that $U=\exp(2\pi iH)$
+
+\bigskip
+We have
+\begin{eqnarray*}
+(U \otimes I_D) |\psi_a\> \otimes |\bar{\psi}_a\> & = & e^{2 \pi i E_a}
+|\psi_a\> \otimes |\bar{\psi}_a\> \\ && \\
+(U \otimes I_D) |\Phi\>                       & = & \frac{1}{\sqrt{D}} \sum_{a=1}^D e^{2 \pi i E_a}
+|\psi_a\> \otimes |\bar{\psi}_a\>
+\end{eqnarray*}
+
+The energy levels $E_a$ of $H$ correspond bijectively to the eigenphases
+$E_a$ of $U$
+
+\bigskip
+$\Rightarrow$ Apply quantum phase estimation to approximate the energy levels
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frame{\frametitle{Intuition -- perfect quantum phase estimation}
+
+If perfect quantum phase estimation were possible (infinite precion and zero probability of failure), we could prepare the state 
+\[
+|\Psi\> = \frac{1}{\sqrt{D}}
+\sum_{a=1}^D |\psi_a\> \otimes |\bar{\psi}_a\> \otimes |E_a\> 
+\otimes 
+\Big(
+\sqrt{e^{-\beta E_a}}  |0\> + \sqrt{1-e^{-\beta E_a}} |1\> 
+\Big)
+\]
+
+\bigskip
+$\Rightarrow$ Using amplitude amplification just as in the case of classical Hamiltonians,
+we could obtain a purification of the thermal state
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frame{\frametitle{Imperfect quantum phase estimation}
+
+We use quantum phase estimation that invokes the controlled $U_\mathrm{sim}$ operation
+
+\[
+O((1/\epsilon_{\textrm{prec}})\log(1/\epsilon_{\textrm{fail}})) \mbox{ times} 
+\]
+
+\bigskip
+$\Rightarrow$ We transform $|\Phi\>$ to the state 
+\[
+\frac{1}{\sqrt{D}} 
+\sum_{a=1}^D |\psi_a\> \otimes |\bar{\psi}_a\> \otimes \Big( c_a^- |E_a^-\> +
+c_a^+ |E_a^+\> \Big) + |\xi\>
+\]
+
+\medskip
+\begin{itemize}
+\item $E_a^+ - E_a  \le \epsilon_{\textrm{prec}}$, \quad $E_a - E_a^- \le \epsilon_{\textrm{prec}}$
+
+\medskip
+\item $|c_a^+|^2 + |c_a^-|^2 \geq 1 - \epsilon_{\textrm{fail}}$
+
+\medskip
+\item $\| |\xi\> \| ^2 \le \epsilon_{\textrm{fail}}$
+\end{itemize}
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frame{\frametitle{Controlled rotation}
+
+After quantum phase estimation, we apply the rotation controlled by the value in the energy register to prepare the state $|\tilde{\Psi}\>$ 
+
+\medskip
+\[ 
+\frac{1}{\sqrt{D}} \sum_{a=1}^D |\psi_a\> \otimes |\bar{\psi}_a\> \otimes c_a^\pm |E_a^\pm\> \otimes 
+\Big(
+\sqrt{e^{-\beta E_a^\pm}} |0\> + \sqrt{1-e^{-\beta E_a^\pm}} |1\>
+\Big) 
+ + |\tilde{\xi}\>
+\]
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frame{\frametitle{Amplitude amplification}
+
+We apply amplitude amplification to obtain
+
+\medskip
+\[
+|\tilde{\beta}\> := \frac{\Pi_0 |\tilde{\Psi}\>}{\|\Pi_0 |\tilde{\Psi}\>\|} 
+\] 
+
+\bigskip
+The required number of iterations is 
+
+\medskip
+\[
+1/\|\Pi_0 |\tilde{\Psi}\>\|
+\]
+
+\bigskip
+The desired approximate thermal state is 
+
+\medskip
+\[\tilde{\rho}_\beta =
+\mathrm{Tr}_{\bar{A}}(|\tilde{\beta}\>\<\tilde{\beta}|)
+\]
+where we trace out over the ancilla, the energy register and the register holding ${|\bar{\psi}_a}\>$ 
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frame{\frametitle{Error analysis}
+
+The approximate thermal state $\tilde{\rho}_\beta$ is close to the perfect $\rho_\beta$ provided that simulation and phase estimation are accurate enough
+
+\bigskip
+Given $H$, $\beta$, and $\epsilon$, our quantum algorithm makes it possible to prepare $\tilde{\rho}_\beta$
+
+\medskip
+\[
+\| \rho_\beta - \tilde{\rho}_\beta \|_{\mathrm{tr}} \le \epsilon 
+\]
+
+\bigskip
+The expected run time is
+
+\medskip
+\[
+\sqrt{\frac{D}{Z_\beta}} \cdot \frac{\beta}{\epsilon} \cdot \left(
+\log \frac{1}{\epsilon} +
+\beta
+\right)
+\]
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+
