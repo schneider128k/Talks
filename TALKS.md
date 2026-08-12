@@ -10,6 +10,25 @@ and the talks I gave after 2020 are not yet reconstructed.
 
 ## University of Central Florida
 
+- **Estimating Partition Functions via Quantum Walks** — *Invited talk*, September 2008  
+  QICS Workshop on Foundational Structures for Quantum Information and Computation,
+  Obergurgl, Austria, 14–20 September 2008, at the invitation of Prof. Hans Briegel.  
+  Joint work with Chen-Fu Chiang, Anura Abeyesinghe and Daniel Nagaj.  
+  I gave a revised version of this talk in February 2009, under the title *Quantum Speed-Up
+  of Estimating Partition Functions*, at the Université de Sherbrooke at the invitation of
+  David Poulin, and to the colloquium of the Institute for Quantum Computing in Waterloo at
+  the invitation of Andrew Childs.  
+  The talk is built on [arXiv:0811.0596](https://arxiv.org/abs/0811.0596).  
+  [presentation](documents/2008-09_partition_functions_obergurgl/partition_functions_obergurgl_presentation.pdf) ·
+  [sources](documents/2008-09_partition_functions_obergurgl/)
+
+- **Speed-up via Quantum Sampling** — *Seminar*, 29 April 2008  
+  Institute for Quantum Information (IQI), California Institute of Technology, Pasadena.  
+  Joint work with Anura Abeyesinghe.  
+  I gave this one at the blackboard. I still have the handwritten notes and plan to scan
+  them in.  
+  The talk is built on [arXiv:0804.4259](https://arxiv.org/abs/0804.4259).
+
 - **Hamiltonian Quantum Cellular Automata in 1D** — *Invited talk*, March 2008  
   Workshop on Classical and Quantum Information Theory, Center for Nonlinear Studies, Los
   Alamos National Laboratory, held in Santa Fe, 24–28 March 2008, at the invitation of
@@ -22,14 +41,6 @@ and the talks I gave after 2020 are not yet reconstructed.
   beside them no longer compiles as it stands.  
   [presentation](documents/2008-03_hamiltonian_cellular_automata_santa_fe/hamiltonian_cellular_automata_santa_fe_presentation.pdf) ·
   [sources](documents/2008-03_hamiltonian_cellular_automata_santa_fe/)
-
-- **Estimating Partition Functions via Quantum Walks** — *Invited talk*, September 2008  
-  QICS Workshop on Foundational Structures for Quantum Information and Computation,
-  Obergurgl, Austria, 14–20 September 2008, at the invitation of Prof. Hans Briegel.  
-  Joint work with Chen-Fu Chiang, Anura Abeyesinghe and Daniel Nagaj.  
-  The talk is built on [arXiv:0811.0596](https://arxiv.org/abs/0811.0596).  
-  [presentation](documents/2008-09_partition_functions_obergurgl/partition_functions_obergurgl_presentation.pdf) ·
-  [sources](documents/2008-09_partition_functions_obergurgl/)
 
 - **Efficient Combinatorial Schemes for Decoupling and Simulating Hamiltonians** —
   *Invited talk*, December 2007  
