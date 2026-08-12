@@ -10,6 +10,14 @@ and the talks I gave after 2020 are not yet reconstructed.
 
 ## University of Central Florida
 
+- **Estimating Partition Functions via Quantum Walks** — *Invited talk*, September 2008  
+  QICS Workshop on Foundational Structures for Quantum Information and Computation,
+  Obergurgl, Austria, 14–20 September 2008, at the invitation of Prof. Hans Briegel.  
+  Joint work with Chen-Fu Chiang, Anura Abeyesinghe and Daniel Nagaj.  
+  The talk is built on [arXiv:0811.0596](https://arxiv.org/abs/0811.0596).  
+  [presentation](documents/2008-09_partition_functions_obergurgl/partition_functions_obergurgl_presentation.pdf) ·
+  [sources](documents/2008-09_partition_functions_obergurgl/)
+
 - **Efficient Combinatorial Schemes for Decoupling and Simulating Hamiltonians** —
   *Invited talk*, December 2007  
   QEC07, the First International Conference on Quantum Error Correction, Center for Quantum
