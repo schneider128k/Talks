@@ -10,6 +10,19 @@ and the talks I gave after 2020 are not yet reconstructed.
 
 ## University of Central Florida
 
+- **Hamiltonian Quantum Cellular Automata in 1D** — *Invited talk*, March 2008  
+  Workshop on Classical and Quantum Information Theory, Center for Nonlinear Studies, Los
+  Alamos National Laboratory, held in Santa Fe, 24–28 March 2008, at the invitation of
+  Razvan Teodorescu and Jon Yard.  
+  Joint work with Daniel Nagaj.  
+  I gave the same talk at the Perimeter Institute for Theoretical Physics in Waterloo in
+  late January 2008, at the invitation of Jonathan Walgate.  
+  The talk is built on [arXiv:0802.0886](https://arxiv.org/abs/0802.0886).  
+  What I have is the PostScript I sent the organizers, and the PDF made from it; the source
+  beside them no longer compiles as it stands.  
+  [presentation](documents/2008-03_hamiltonian_cellular_automata_santa_fe/hamiltonian_cellular_automata_santa_fe_presentation.pdf) ·
+  [sources](documents/2008-03_hamiltonian_cellular_automata_santa_fe/)
+
 - **Estimating Partition Functions via Quantum Walks** — *Invited talk*, September 2008  
   QICS Workshop on Foundational Structures for Quantum Information and Computation,
   Obergurgl, Austria, 14–20 September 2008, at the invitation of Prof. Hans Briegel.  

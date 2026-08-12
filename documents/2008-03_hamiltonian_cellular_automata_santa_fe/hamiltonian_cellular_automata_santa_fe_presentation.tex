@@ -1,0 +1,541 @@
+\documentclass[slideColor]{prosper}
+\usepackage{amsmath,amsfonts,amsthm}
+%\usepackage{epsfig}
+\include{Qcircuit}
+
+
+\newcommand{\bul}{\centerdot}
+\newcommand{\gat}{\blacktriangleright}
+
+\newcommand{\bbC}{{\mathbb{C}}}
+\newcommand{\C}{{\mathbb{C}}}
+\newcommand{\F}{{\mathbb{F}}}
+\newcommand{\N}{{\mathbb{N}}}
+\newcommand{\Q}{{\mathbb{Q}}}
+\renewcommand{\R}{{\mathbb{R}}}
+\newcommand{\Z}{{\mathbb{Z}}}
+
+\newcommand{\cA}{{\mathcal{A}}}
+\newcommand{\cD}{{\mathcal{D}}}
+\newcommand{\cH}{{\mathcal{H}}}
+\newcommand{\cN}{{\mathcal{N}}}
+\newcommand{\cP}{{\mathcal{P}}}
+\newcommand{\cQ}{{\mathcal{Q}}}
+\newcommand{\cS}{{\mathcal{S}}}
+\newcommand{\cU}{{\mathcal{U}}}
+\newcommand{\cV}{{\mathcal{V}}}
+
+\newcommand{\tr}{\mathop{\mathrm{tr}}}
+\newcommand{\rank}{\mathop{\mathrm{rank}}}
+\newcommand{\poly}{\mathop{\mathrm{poly}}}
+\newcommand{\E}{\mathop{\mbox{$\mathbf{E}$}}}
+\newcommand{\schur}{\mathop{\mathrm{Schur}}}
+\newcommand{\schursmall}[2]{{\mathrm{S}}_{#1,#2}}
+\newcommand{\planch}{\mathop{\mathrm{Planch}}}
+\newcommand{\planchsmall}[1]{{\mathrm{P}}_{#1}}
+\renewcommand{\d}{{\mathrm{d}}}
+
+\newcommand{\HSP}{\textsc{hsp}\xspace}
+
+\renewcommand{\>}{\rangle}
+\newcommand{\<}{\langle}
+%\newcommand{\ket}[1]{|#1\rangle}
+%\newcommand{\bra}[1]{\langle #1|}
+\newcommand{\scalar}[2]{\langle #1|#2\rangle}
+\newcommand{\proj}[1]{\left|#1\right\>\!\left\<#1\right|}
+\newcommand{\norm}[1]{\|#1\|}
+\newcommand{\ot}{\otimes}
+\newcommand{\eps}{\epsilon}
+\newcommand{\ra}{\rightarrow}
+
+\renewcommand{\setminus}{\mathbin{-}}
+\newcommand{\partitionof}{\mathbin{\vdash}}
+
+
+\newcommand{\I}{\mathrm{I}}
+\renewcommand{\H}{\mathrm{H}}
+\renewcommand{\S}{\mathrm{S}}
+\newcommand{\T}{\mathrm{T}}
+\newcommand{\G}{\mathrm{G}}
+%
+
+\newcommand{\bI}{\mathbb{I}}
+\newcommand{\bH}{\mathbb{H}}
+\newcommand{\bS}{\mathbb{S}}
+\newcommand{\bT}{\mathbb{T}}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Hamiltonian Cellular Automata in 1D}
+\author{Pawel M. Wocjan\\[1ex]School of Electrical Engineering and Computer Science\\ University of Central Florida\\Orlando}
+\email{wocjan@eecs.ucf.edu}
+
+\begin{document}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Joint work with}
+\begin{itemize}
+\item Daniel Nagaj (MIT)
+
+\medskip
+\texttt{quant-ph/0802.0886}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Quantum Circuit Model}
+\begin{itemize}
+\item abstracts from the details of concrete physical systems and states that the required elementary operations are
+\begin{itemize}
+
+\medskip
+\item initialization in basis states
+
+\medskip
+\item implementation of one and two-qubit gates
+
+\medskip
+\item measurement of single qubits in basis states
+\end{itemize}
+
+\medskip
+\item many other models such as measurement-based qc, adiabatic qc, topological qc
+
+\medskip
+\item however, the common principle underlying all these models is that the computation process is driven by applying a sequence of control operations
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Hamiltonian Quantum Computer}
+
+\begin{itemize}
+\item prepare an initial state in the computational basis that encodes both the data and program
+
+\medskip 
+\item let the Hamiltonian time evolution act undisturbed for a sufficiently long time 
+
+\medskip
+\item measure a small subsystem in the computational basis to obtain the result of the computation with high probability
+
+
+\end{itemize}
+\end{slide}
+
+\begin{slide}{Hamiltonian Quantum Cellular Automaton}
+
+\begin{itemize}
+\item more specifically, we call it a Hamiltonian quantum cellular automaton provided that 
+\begin{itemize}
+
+\medskip
+\item the Hamiltonians acts on qudits that are arranged on some lattice
+
+\medskip
+\item is invariant with respect to transitions along the symmetry axis of the lattice
+
+\medskip
+\item contains only finite range interactions
+\end{itemize}
+
+\medskip
+\item most natural Hamiltonians have these properties, so it is important to construct HQCA that are as close as possible to natural interactions
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Continuous-time versus Discrete-Time QCA}
+\begin{itemize}
+\medskip
+\item the evolution of discrete-time QCA proceeds in discrete update steps (tensor products of local unitary operations)
+
+\medskip
+\item the execution of updates on overlapping cells is synchronized by external control
+
+\medskip
+\item in contrast, the states of the HQCA change in a continuous way according to the Schr\"odinger equation (time-independent Hamiltonian)
+
+\medskip
+\item all the couplings (interactions) are present all the time $\Rightarrow$ they have to include a mechanism that ensures the logical operations are executed in the correct order
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Motivation}
+\begin{itemize}
+\item fundamental question in thermodynamics of computation how to realize computational processes within a closed physical system
+
+\medskip
+\item HQCA could trigger new ideas for reducing the set of necessary control operations in current proposals by using the inherent computational power of the interactions
+
+\medskip
+\item this model can show the limitations of current and future methods in condensed for simulating the time evolution of translationally invariant systems
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Related works}
+
+\begin{itemize}
+\item Benioff/Feynman/Margolus
+
+\medskip
+\item Janzing/W. 
+
+initial state is a canonical basis state; finite range interactions in 2D
+
+\medskip
+univ. nn H. in 2D acting on qutrits; is trans. inv. only if translated over several lattice sites
+
+\medskip
+\item Vollbrecht/Cirac
+
+univ. trans. inv. nn H in 1D acting on $30$-dimensional qudits
+
+\medskip
+\item Chase/Landahl
+
+univ. nn $H$ in 1D acting on $8$-dimensional qudits; but not trans. inv.
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Our Hamiltonian}
+
+\begin{itemize}
+\item acts on $10$-dimensional qudits arranged on a 1D chain
+
+\medskip
+\item contains only nearest-neighbor couplings (pair interactions)
+
+\medskip
+\item is translationally invariant (translation by one cell)
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Universal Quantum Gates}
+
+\begin{itemize}
+\item we can realize universal QC with the controlled gate 
+\[
+W=\left(
+\begin{array}{cccc}
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} \\
+0 & 0 & \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}}
+\end{array}
+\right)
+\]
+provided that we can apply it to \textcolor{red}{arbitrary} pairs of qubits
+
+\medskip
+\item however, we want to operate only on \textcolor{blue}{adjacent} qubits $\Rightarrow$ we have to include the swap gate $S$
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Universal ``Staircase'' Quantum Circuits}
+
+\[
+\Qcircuit @C=1em @R=.7em {
+\lstick{|w_1\>} & \multigate{1}{W} & \qw              & \multigate{1}{I} & \qw              & \multigate{1}{S} & \qw              & \qw \\
+\lstick{|w_2\>} & \ghost{W}        & \multigate{1}{S} & \ghost{I}        & \multigate{1}{W} & \ghost{S}        & \multigate{1}{W} & \qw \\
+\lstick{|w_3\>} & \qw              & \ghost{S}        & \qw              & \ghost{W}        & \qw              & \ghost{W}        & \qw
+}
+\]
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Hilbert space of the HQCA}
+
+\begin{itemize}
+\item a cell $\cH_c$ consists of a program subcell and a data subcell
+\[
+\cH_c = \cH_p \otimes \cH_d = \C^5 \otimes \C^2 
+\]
+
+\item the canonical basis states of $\cH_p$ are 
+\begin{itemize}
+\item $|\gat\>$ \quad\quad\quad\quad\quad pointer symbol
+\item $|\,\,\bul\,\,\>$ \quad\quad\quad\quad\quad empty spot symbol
+\item $|W\>$, $|S\>$, $|I\>$ \quad\, gates symbols 
+\end{itemize}
+
+\medskip
+\item the canonical basis states of the $\cH_d$ are $|0\>$ and $|1\>$
+
+\medskip 
+\item the Hilbert space of the HQCA is
+\[
+\cH_c \otimes \cH_c \otimes \cdots \otimes \cH_c
+\]
+\item
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Initialization of the HQC}
+
+\[
+\Qcircuit @C=1em @R=.7em {
+\lstick{|w_1\>} & \multigate{1}{\textcolor{red}{W}} & \qw              & \multigate{1}{\textcolor{blue}{I}} & \qw              & \multigate{1}{\textcolor{green}{S}} & \qw              & \qw \\
+\lstick{|w_2\>} & \ghost{W}        & \multigate{1}{\textcolor{red}{S}} & \ghost{I}        & \multigate{1}{\textcolor{blue}{W}} & \ghost{S}        & \multigate{1}{\textcolor{green}{W}} & \qw \\
+\lstick{|w_3\>} & \qw              & \ghost{S}        & \qw              & \ghost{W}        & \qw              & \ghost{W}        & \qw
+}
+\]
+
+the initial state $|\varphi\>$ is a canonical basis state
+\[
+\begin{array}{cccccccccccccccccccccccccccccccccc}
+\bul & \bul & \gat & \bul & \bul & \gat & \bul & \bul & \gat & I   & \textcolor{red}{W}   & \textcolor{red}{S} & I & \textcolor{blue}{I} & \textcolor{blue}{W} & I & \textcolor{green}{S} & \textcolor{green}{W} & I \\
+0    & 0    & 0    & 0    & 0    & 0    & 0    & 0    & 0    & w_1 & w_2 & w_3 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+\end{array}
+\]
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% 1
+
+\begin{slide}{Transition Rules of the HQCA}
+
+\[
+\begin{array}{cccccccccccccccccccccccccccccccccc}
+\bul & \bul & \gat & \bul & \bul & \gat & \bul & \bul & \gat & I   & \textcolor{red}{W}   & \textcolor{red}{S} & I & \textcolor{blue}{I} & \textcolor{blue}{W} & I & \textcolor{green}{S} & \textcolor{green}{W} & I \\
+0    & 0    & 0    & 0    & 0    & 0    & 0    & 0    & 0    & w_1 & w_2 & w_3 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+\end{array}
+\]
+
+\end{slide}
+
+% 2
+
+\begin{slide}{Transition Rules of the HQCA}
+
+\[
+\begin{array}{cccccccccccccccccccccccccccccccccc}
+\bul & \bul & \gat & \bul & \bul & \gat & \bul & \bul & I & \gat   & \textcolor{red}{W}   & \textcolor{red}{S} & I & \textcolor{blue}{I} & \textcolor{blue}{W} & I & \textcolor{green}{S} & \textcolor{green}{W} & I \\
+0    & 0    & 0    & 0    & 0    & 0    & 0    & 0    & 0    & w_1 & w_2 & w_3 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+\end{array}
+\]
+
+\medskip
+$I$ has been applied to $0$ and $w_1$
+
+\end{slide}
+
+
+% 3
+
+\begin{slide}{Transition Rules of the HQCA}
+
+\[
+\begin{array}{cccccccccccccccccccccccccccccccccc}
+\bul & \bul & \gat & \bul & \bul & \gat & \bul & I & \bul & \gat   & \textcolor{red}{W}   & \textcolor{red}{S} & I & \textcolor{blue}{I} & \textcolor{blue}{W} & I & \textcolor{green}{S} & \textcolor{green}{W} & I \\
+0    & 0    & 0    & 0    & 0    & 0    & 0    & 0    & 0    & w_1 & w_2 & w_3 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+\end{array}
+\]
+
+\medskip
+$I$ has moved one spot to the left
+
+\end{slide}
+
+
+% 4
+
+\begin{slide}{Transition Rules of the HQCA}
+
+\[
+\begin{array}{cccccccccccccccccccccccccccccccccc}
+\bul & \bul & \gat & \bul & \bul & \gat & \bul & I & \bul & \textcolor{red}{W} & \gat & \textcolor{red}{S} & I & \textcolor{blue}{I} & \textcolor{blue}{W} & I & \textcolor{green}{S} & \textcolor{green}{W} & I \\
+0    & 0    & 0    & 0    & 0    & 0    & 0    & 0    & 0    & w_1 & w_2 & w_3 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+\end{array}
+\]
+
+\medskip
+$W$ has been applied to $w_1$ and $w_2$
+
+\end{slide}
+
+
+% 5
+
+\begin{slide}{Transition Rules of the HCA}
+
+\[
+\begin{array}{cccccccccccccccccccccccccccccccccc}
+\bul & \bul & \gat & \bul & \bul & \gat & \bul & I & \bul & \textcolor{red}{W} & \textcolor{red}{S} & \gat & I & \textcolor{blue}{I} & \textcolor{blue}{W} & I & \textcolor{green}{S} & \textcolor{green}{W} & I \\
+0    & 0    & 0    & 0    & 0    & 0    & 0    & 0    & 0    & w_1 & w_2 & w_3 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+\end{array}
+\]
+
+\medskip
+$S$ has been applied to $w_2$ and $w_3$
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Transition Rules of the HCA}
+
+\begin{itemize}
+\item
+a gate particle $A\in\{W,S,I\}$ can move one spot to the left if that spot is empty
+\[
+\begin{array}{c|c}
+\,\bul\, & A \\
+\end{array}
+\quad\rightarrow\quad
+\begin{array}{c|c}
+A & \,\bul\, \\
+\end{array}
+\]
+
+\item if a gate particle meets the pointer $\gat$, then $A$ and $\gat$ swap positions and the gate $A$ is applied to the two qubits below
+\[
+\begin{array}{c|c}
+\gat & A \\ \hline
+x    & y \\
+\end{array}
+\quad \rightarrow \quad
+\begin{array}{c|c}
+\gat\, & A \\ \hline
+\multicolumn{2}{c}{A(x,y)} \\
+\end{array}
+\]
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Hamiltonian of the HCA}
+
+\begin{itemize}
+\item the Hamiltonian is 
+\[
+H = \sum_j ( F + F^\dagger )_{(j,j+1)}
+\]
+
+\item the forward-time operator 
+\[
+F = \sum_{A\in\{W,S,I} \Big[
+|A\,\, \bul\>\<\bul\,\, A|_{p,p'} \otimes I_{d,d'} \, + \,
+|A \gat\>\<\gat A|_{p,p'} \otimes A_{d,d'} 
+\Big]
+\]
+realizes the transition rules
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Analysis of the Run-Time}
+\begin{itemize}
+\item the time evolved state $|\varphi(t)\>=\exp(-iH t)|\varphi\>$ can be written as
+\[
+\sum_C \alpha_C(t) |C\> \otimes |\psi_C\> \otimes |00\cdots0\>
+\]
+\begin{itemize}
+\item $C$ is a configuration of the program band
+
+\medskip
+\item $|\psi_C\>$ is the state of the data register corresponding to $C$
+
+\medskip
+\item $|00\cdots 0\>$ is the (invariant) state of the data band outside the data register
+\end{itemize}
+\item
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Analysis of the Run-Time}
+
+\begin{itemize}
+\item choose $t$ so that all \textcolor{blue}{gate particles of the program code} have moved to the left of the data register
+
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Dynamics of hard-core bosons in 1D}
+
+\begin{itemize}
+
+\item $W\, S\,\, I \quad\mapsto\quad 1\quad \quad\quad \bul\,\,\gat \quad\mapsto\quad 0$
+
+\medskip
+\item the initial state is mapped onto 
+\[
+\cdots 000000000000000000|\textcolor{blue}{1111111111111}1111111111111111\cdots
+\]
+
+\item how long does it take the $L$ blue particles to move to the left of $|$ with high probability under the dynamics
+\[
+H=\sum_j \Big( |01\>\<10| + |10\>\<01| \Big)_{j,j+1}
+\]
+
+\medskip if we let the system evolve for $t$ chosen uniformly at random from $[0,\Theta(L\log L)]$, the probability is at least $5/6-O(1/\log L)$
+\end{itemize} 
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Conclusion/Future Research}
+
+\begin{itemize}
+\item Hamiltonian Quantum Cellular Automaton
+\begin{itemize}
+
+\medskip
+\item does not require any control operations during computational process
+
+\medskip
+\item requires only the preparation of product states in the canonical basis and measurement of a small subsystem in the canonical basis
+\end{itemize}
+
+\medskip
+\item reduce the dimension of the cells even further
+
+\medskip
+\item incorporate fault-tolerance in HQCA
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
