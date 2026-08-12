@@ -14,17 +14,6 @@ and the talks I gave after 2020 are not yet reconstructed.
   Workshop on the Computational Complexity of Quantum Hamiltonian Systems, Lorentz Center,
   Universiteit Leiden, organized by Barbara Terhal and David DiVincenzo.  
   Joint work with Dominik Janzing.  
-  A combinatorial problem stated with no reference to quantum mechanics at all. Given three
-  strings and a symmetric relation saying which short substrings may be exchanged for which,
-  count the ways each of two targets can be reached from the source after a fixed number of
-  replacements, and decide which count is larger. Subject to a growth condition and a gap
-  condition, determining that sign is PromiseBQP-complete — so the problem captures exactly
-  what a quantum computer can do efficiently, and gives a purely classical characterization
-  of BQP. The hardness direction encodes a quantum circuit as a translationally invariant
-  finite-range interaction on a line, converts the Hamiltonian into rewriting rules, and
-  recovers the answer from the adjacency matrix of the resulting line graph. The closing
-  claim is that quantum computers are better at counting and comparing the numbers of
-  solutions of combinatorial problems.  
   The talk is built on [arXiv:0705.1180](https://arxiv.org/abs/0705.1180).  
   [presentation](documents/2007-07_string_rewriting_leiden/string_rewriting_leiden_presentation.pdf) ·
   [abstract](documents/2007-07_string_rewriting_leiden/string_rewriting_leiden_abstract.txt) ·
@@ -34,15 +23,6 @@ and the talks I gave after 2020 are not yet reconstructed.
   *Seminar*, May 2007  
   Institute for Quantum Information (IQI), California Institute of Technology, Pasadena.  
   Joint work with Thomas Decker and Jan Draisma.  
-  The Hidden Polynomial Function Graph Problem: an abelian hidden subgroup problem is the
-  case where the hidden object is the graph of a *linear* function over a finite field, and
-  the generalization lets the function be a polynomial of higher degree. Classically the
-  black-box query complexity stays polynomial in the field size; quantum mechanically the
-  problem reduces to identifying a quantum state, and the query complexity stops depending on
-  the field size altogether. For univariate polynomials the talk builds the von Neumann
-  measurement that distinguishes those states, and gets the efficient algorithm by bounding
-  its success probability below by a constant — the bound coming from algebraic geometry, via
-  properties of generic morphisms between affine spaces.  
   I gave versions of this talk several more times through 2007.  
   The talk is built on [arXiv:0706.1219](https://arxiv.org/abs/0706.1219).  
   [presentation](documents/2007-05_hidden_polynomial_graphs_caltech/hidden_polynomial_graphs_caltech_presentation.pdf) ·
@@ -54,16 +34,6 @@ and the talks I gave after 2020 are not yet reconstructed.
   STACS 2007, the 24th International Symposium on Theoretical Aspects of Computer Science,
   RWTH Aachen.  
   Joint work with Andrew Childs and Aram Harrow.  
-  Weak Fourier sampling measures only the name of the irreducible representation and throws
-  the rest away; weak Schur sampling does the same for the partition under Schur duality. The
-  talk shows what that costs. The distribution produced by weak Schur sampling depends only
-  on the spectrum of the state, which lets the question be turned into a quantum collision
-  problem and answered with a careful analysis of the Schur distribution and the typical
-  shape of partitions under Plancherel measure. The conclusion is negative and sharp: weak
-  Fourier-Schur sampling cannot distinguish a hidden reflection in the dihedral group, nor an
-  order-two subgroup of the symmetric group, without exponentially many copies.  
-  Along the way it gives the first results on estimating the spectrum of a quantum state in
-  the regime where the number of copies is much smaller than the square of the dimension.  
   The talk is built on
   [quant-ph/0609110](https://arxiv.org/abs/quant-ph/0609110).  
   [presentation](documents/2007-02_weak_fourier_schur_sampling_stacs/weak_fourier_schur_sampling_stacs_presentation.pdf) ·
@@ -81,13 +51,6 @@ and the talks I gave after 2020 are not yet reconstructed.
   invitation of Stephen Bigelow, under the title *Quantum algorithms, quantum complexity
   theory and their connection to the Jones polynomial*. The slides here are the Eindhoven
   ones; the abstract beside them is the one written for Santa Barbara.  
-  Links as closures of braids, the Jones polynomial at roots of unity, and the unitary
-  Jones-Wenzl representations of the braid group, with the Birman moves and the
-  representation-theoretic formula that follows from them; then quantum computation read as
-  the approximate evaluation of the Jones polynomial. The contribution is a direct proof
-  that approximating the Jones polynomial of plat closures at roots of unity is
-  BQP-complete — encoding a qubit in four strands rather than going through topological
-  quantum computation — together with a braid problem complete for Quantum-NP.  
   The talk is built on [quant-ph/0603069](https://arxiv.org/abs/quant-ph/0603069).  
   [presentation](documents/2006-11_jones_polynomial_eindhoven/jones_polynomial_eindhoven_presentation.pdf) ·
   [abstract](documents/2006-11_jones_polynomial_eindhoven/jones_polynomial_abstract_santa_barbara.txt) ·
@@ -97,11 +60,6 @@ and the talks I gave after 2020 are not yet reconstructed.
   Problems** — *Seminar*, October 2005  
   Institute for Quantum Information (IQI), California Institute of Technology, Pasadena.  
   Joint work with Andrew Childs.  
-  Graph isomorphism, and isomorphism of rigid graphs, recast as hidden shift problems over
-  nonabelian groups — and the evidence that the recasting does not make them easy. Measuring
-  a single register does not suffice: the distribution it produces with the shift and the
-  one without it are exponentially close in total variation, so any algorithm along these
-  lines has to make entangled measurements across many copies.  
   The talk is built on [quant-ph/0510185](https://arxiv.org/abs/quant-ph/0510185).  
   No mail from the Caltech years survives, so the month is that of the finished slides
   rather than of the seminar itself.  
@@ -113,11 +71,6 @@ and the talks I gave after 2020 are not yet reconstructed.
 - **Estimating mixing properties of local Hamiltonian dynamics and continuous quantum random
   walks is PSPACE-hard** — *Invited talk*, 3 February 2004  
   Universität Innsbruck, at the invitation of Prof. Dr. Hans Briegel.  
-  The results of the dissertation, turned around to give hardness rather than efficiency: a
-  hypothetical apparatus measuring arbitrary 4-local observables on *n* qubits would solve
-  PSPACE problems probabilistically, and estimating the entropy of the time-average of
-  computational basis states under 4-local Hamiltonians and quantum random walks is
-  PSPACE-hard.  
   I gave the same talk twice more the following month, on a trip through England: at the
   University of Bristol on 17 March 2004, at Richard Jozsa's invitation, under the title
   *Measuring 4-local n-qubit observables could probabilistically solve PSPACE*; and at
@@ -133,10 +86,6 @@ and the talks I gave after 2020 are not yet reconstructed.
   The main results of the dissertation, shown to Rasetti shortly before he examined them: he was
   the Korreferent, the second reviewer, and the oral examination followed on 17 November 2003
   under this same title.  
-  The control-theoretic model and the definition of mutual simulation of Hamiltonians; lower
-  bounds from the majorization and rank criteria; the complexity of time reversal; selective
-  decoupling by chromatic index; the construction of planar orthogonal Hamiltonians whose ground
-  states encode maximum independent sets; and the new complete problems for QMA and QCMA.  
   [presentation](documents/2003-09_computational_power_turin/computational_power_turin_presentation.pdf) ·
   [abstract](documents/2003-09_computational_power_turin/computational_power_turin_abstract.txt) ·
   [sources](documents/2003-09_computational_power_turin/)
@@ -145,10 +94,7 @@ and the talks I gave after 2020 are not yet reconstructed.
   Institute for Quantum Information (IQI), California Institute of Technology, Pasadena, at
   the invitation of Prof. John Preskill. I stayed three weeks.  
   Joint work with Dominik Janzing, Martin Rötteler and Thomas Beth.  
-  The Karlsruhe Hamiltonian-simulation work in its settled form: the control-theoretic model,
-  simulation as a convex sum of local conjugates, decoupling schemes, and the bounds read off
-  the interaction graph — with the harder direction added, that determining the ground-state
-  energy for cubic planar interaction graphs is NP-complete.  
+  The Karlsruhe Hamiltonian-simulation work in its settled form.  
   [presentation](documents/2003-04_mutual_simulation_caltech/mutual_simulation_caltech_presentation.pdf) ·
   [abstract](documents/2003-04_mutual_simulation_caltech/mutual_simulation_caltech_abstract.txt) ·
   [sources](documents/2003-04_mutual_simulation_caltech/)
@@ -158,35 +104,28 @@ and the talks I gave after 2020 are not yet reconstructed.
   opened I wrote to the professors of the faculty, offering to discuss the results of the thesis;
   these are the slides I prepared for that round. The examination itself followed on
   17 November 2003, under this same title.  
-  The Karlsruhe Hamiltonian-simulation work put to a general audience: average Hamiltonian
-  theory and the fast control limit, simulation as a convex sum of local conjugates, decoupling
-  by error bases and orthogonal arrays, and the bounds on the time overhead read off the
-  interaction graph — with time reversal and the separability problem as the applications.  
+  The Karlsruhe Hamiltonian-simulation work put to a general audience.  
   [presentation](documents/2003-02_computational_power_karlsruhe/computational_power_karlsruhe_presentation.pdf) ·
   [sources](documents/2003-02_computational_power_karlsruhe/)
 
 - **Complexity of Mutual Simulation of Hamiltonian Dynamics** — *Invited talk*, 12 July 2002  
   Ludwig-Maximilians-Universität München, at the invitation of Robert Raussendorf.  
   Joint work with Dominik Janzing, Martin Rötteler and Thomas Beth.  
-  Much the same talk as the one in Bad Honnef six months earlier, but with new material on
-  the mathematics it rests on: vector and operator majorization, and Uhlmann's theorem.
-  Those two slides are the earliest record I have of my working with majorization, which
-  came back many years later in my work on spectral graph theory, so they are also set
-  here on their own.  
+  Much the same talk as the one in Bad Honnef six months earlier, with two new slides on
+  majorization and Uhlmann's theorem — the earliest record I have of my working with
+  majorization, so they are also set here on their own.  
   The abstract was written in German, under the title *Simulation hamiltonscher Dynamiken
   auf wechselwirkenden Quantensystemen*.  
   [presentation](documents/2002-07_complexity_of_mutual_simulation/complexity_of_mutual_simulation_presentation.pdf) ·
   [abstract](documents/2002-07_complexity_of_mutual_simulation/complexity_of_mutual_simulation_abstract.pdf) ·
+  [majorization and Uhlmann](documents/2002-07_complexity_of_mutual_simulation/majorization_and_uhlmann.pdf) ·
   [sources](documents/2002-07_complexity_of_mutual_simulation/)
 
 - **Mutual Simulation of Hamiltonian Dynamics on Interacting Quantum Systems** — *Colloquium*, January 2002  
   Colloquium *Quantum Information Processing* of the Deutsche Forschungsgemeinschaft, at the
   [Physikzentrum Bad Honnef](https://www.dpg-physik.de/ueber-uns/physikzentrum-bad-honnef).  
   Joint work with Dominik Janzing, Martin Rötteler and Thomas Beth.  
-  Simulating one Hamiltonian with another on *n* interacting quantum systems: the
-  control-theoretic model and average Hamiltonian theory, decoupling schemes built from
-  orthogonal arrays and error bases, and bounds on the time overhead read off the
-  interaction graph — its chromatic index, and the spectrum of its adjacency matrix.  
+  Simulating one Hamiltonian with another on *n* interacting quantum systems.  
   [presentation](documents/2002-01_mutual_simulation_of_hamiltonians/mutual_simulation_of_hamiltonians_presentation.pdf) ·
   [sources](documents/2002-01_mutual_simulation_of_hamiltonians/)
 
@@ -204,10 +143,7 @@ and the talks I gave after 2020 are not yet reconstructed.
   partners: Karlsruhe, which coordinated it, and the Fondazione Istituto per l'Interscambio
   Scientifico in Turin.  
   Joint work with Martin Rötteler, Dominik Janzing and Thomas Beth.  
-  The Karlsruhe Hamiltonian-simulation work on a single A1 sheet: decoupling and time
-  reversal in quantum networks, schemes built from orthogonal arrays and error bases, and
-  bounds on the simulation overhead taken from the spectrum and the chromatic index of the
-  interaction graph.  
+  The Karlsruhe Hamiltonian-simulation work on a single A1 sheet.  
   What I have is the PostScript it was printed from.  
   [poster](documents/2001-10_multiparticle_hamiltonians/multiparticle_hamiltonians_poster.pdf) ·
   [sources](documents/2001-10_multiparticle_hamiltonians/)
@@ -225,10 +161,6 @@ and the talks I gave after 2020 are not yet reconstructed.
   Computing, Capri, 3–8 July 2000.  
   Joint work with Dejan E. Lazić and Thomas Beth. The seven sheets carry no title page, so
   the authorship is recorded only here.  
-  Lower bounds on the error exponent of binary block codes used on classical-quantum
-  channels: rescaled binomial multiplicity enumerators, Holevo's suboptimal decision rule,
-  and the expurgated and cutoff rate bounds. The accompanying paper is in the conference
-  proceedings, pp. 43–46.  
+  The accompanying paper is in the conference proceedings, pp. 43–46.  
   [poster](documents/2000-07_binary_block_codes/binary_block_codes_poster.pdf) ·
   [sources](documents/2000-07_binary_block_codes/)
-

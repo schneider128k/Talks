@@ -15,9 +15,6 @@ handed in afterwards.
   I prepared these notes on the entropy function for the Übung to Dr. Dejan E. Lazić's
   Vorlesung *Signale, Codes und Chiffren*. Parts of that Vorlesung were relevant to the
   poster and the publication for the Capri conference, which was joint work with him.  
-  Stirling's approximation, binomial and multinomial coefficients, composition classes and
-  the binary and *q*-ary entropy functions, and entropy read both as uncertainty and as a
-  measure of information.  
   The source carries no date of its own, so it is left exactly as it was and the PDF beside
   it is the one typeset at the time.  
   [notes](documents/2000-08_entropy_function_notes/entropy_function_notes.pdf) ·
@@ -27,9 +24,8 @@ handed in afterwards.
   Seminar *Quantum Computing* at the Institut für Algorithmen und Kognitive Systeme
   (IAKS), Fakultät für Informatik, Universität Karlsruhe (TH), run by
   Prof. Dr. Thomas Beth with Markus Grassl and Jörn Müller-Quade.  
-  Grover's search algorithm and the diffusion transformation as an inversion about the
-  average, the lower bound for quantum search, and algorithms for finding the minimum
-  and estimating the median.  
+  Grover's search algorithm, the lower bound for quantum search, and algorithms for finding
+  the minimum and estimating the median.  
   [presentation](documents/1997-06_quantum_search_algorithms/quantum_search_algorithms_presentation.pdf) ·
   [report](documents/1997-06_quantum_search_algorithms/quantum_search_algorithms_report.pdf) ·
   [sources](documents/1997-06_quantum_search_algorithms/)
@@ -44,12 +40,8 @@ handed in afterwards.
   precisely, the examples worked through, and the whole set in a consistent notation and
   organised into the structure it has here. The mathematics and the choice of material are
   Dr. Geiselmann's; the exposition is mine.  
-  Eighty pages: protocols, one-way and hash functions, digital signatures, key exchange
-  and zero-knowledge; knapsack, RSA, Diffie-Hellman, ElGamal and McEliece; then the number
-  theory underneath — quadratic residues, the Solovay-Strassen and Rabin-Miller primality
-  tests, Pollard's *p*−1, factoring with elliptic curves, Dixon's algorithm and the
-  quadratic sieve; the discrete logarithm by baby-step giant-step, index calculus and
-  Coppersmith; and finally authentication, Kerberos and digital cash.  
+  Eighty pages, from protocols and digital signatures through the public-key systems to the
+  number theory underneath.  
   It is marked *Vorabversion* on the title page, and it still is one.  
   [lecture notes](documents/1997-10_public_key_cryptography/public_key_cryptography_lecture_notes.pdf) ·
   [sources](documents/1997-10_public_key_cryptography/)
@@ -59,8 +51,7 @@ handed in afterwards.
   (IAKS), Fakultät für Informatik, Universität Karlsruhe (TH), run by
   Prof. Dr. Thomas Beth with Markus Grassl and Jörn Müller-Quade.  
   Quantum theory when the state of the system is only incompletely known: the density
-  operator, mixed states as against linear superpositions, populations and coherences,
-  polarised photons as a worked example, and the dynamics of a mixture.  
+  operator, mixed states, and the dynamics of a mixture.  
   I gave this one at the blackboard — no slides were made, and what I have is the
   Ausarbeitung as it went into the seminar volume.  
   [report](documents/1996-06_density_operators/density_operators_report.pdf) ·
@@ -70,9 +61,8 @@ handed in afterwards.
   Institut für Algorithmen und Kognitive Systeme (IAKS), Fakultät für Informatik,
   Prof. Dr. Thomas Beth, Universität Karlsruhe (TH).  
   Supervisor: Michael Schmid.  
-  The fractional Fourier transform, its eigenfunctions, and its realisation in a
-  quadratic GRIN medium. My first talk, in my third semester.  
+  The fractional Fourier transform and its realisation in a quadratic GRIN medium. My first
+  talk, in my third semester.  
   [presentation](documents/1996-02_fractal_fourier_transform/fractal_fourier_presentation.pdf) ·
   [report](documents/1996-02_fractal_fourier_transform/fractal_fourier_report.pdf) ·
   [sources](documents/1996-02_fractal_fourier_transform/)
-
