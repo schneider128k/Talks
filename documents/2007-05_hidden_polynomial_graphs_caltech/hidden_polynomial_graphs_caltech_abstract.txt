@@ -1,0 +1,26 @@
+Title: Quantum Algorithms for Identifying Hidden Polynomial Functions Graphs
+
+Abstract:
+
+We introduce the Hidden Polynomial Function Graph Problem as a natural
+generalization of an abelian Hidden Subgroup Problem where the subgroups
+and their cosets correspond to graphs of linear functions over a finite
+field F_q.  For the Hidden Polynomial Function Graph Problem the
+functions are not restricted to be linear but can also be multivariate
+polynomial functions of higher degree.
+
+For a fixed number of indeterminates and bounded total degree the Hidden
+Polynomial Function Graph Problem is hard on a classical computer as its
+black box query complexity is polynomial in q. In contrast, this problem
+can be reduced to a quantum state identification problem so that the
+resulting quantum query complexity does not depend on q.  For univariate
+polynomials we construct a von Neumann measurement for distinguishing
+these states.  We relate the success probability and the implementation
+of this measurement to certain classical problems involving polynomial
+equations.  We present an efficient algorithm for hidden univariate
+polynomial functions by establishing that the success probability of the
+measurement is lower bounded by a constant and that it can be
+implemented efficiently for fixed degree.  These results are obtained
+with the help of tools from algebraic geometry allowing us to make
+specific statements about properties of generic morphisms between
+affince spaces.

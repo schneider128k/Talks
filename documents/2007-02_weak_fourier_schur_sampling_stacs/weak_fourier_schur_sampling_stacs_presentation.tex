@@ -1,0 +1,410 @@
+\documentclass[slideColor]{prosper}
+\usepackage{amsmath,amsfonts,amsthm}
+%\usepackage{epsfig}
+%\include{Qcircuit}
+
+
+\newcommand{\bbC}{{\mathbb{C}}}
+\newcommand{\C}{{\mathbb{C}}}
+\newcommand{\F}{{\mathbb{F}}}
+\newcommand{\N}{{\mathbb{N}}}
+\newcommand{\Q}{{\mathbb{Q}}}
+\renewcommand{\R}{{\mathbb{R}}}
+\newcommand{\Z}{{\mathbb{Z}}}
+
+\newcommand{\cD}{{\mathcal{D}}}
+\newcommand{\cN}{{\mathcal{N}}}
+\newcommand{\cP}{{\mathcal{P}}}
+\newcommand{\cQ}{{\mathcal{Q}}}
+\newcommand{\cS}{{\mathcal{S}}}
+\newcommand{\cU}{{\mathcal{U}}}
+\newcommand{\cV}{{\mathcal{V}}}
+
+\newcommand{\tr}{\mathop{\mathrm{tr}}}
+\newcommand{\rank}{\mathop{\mathrm{rank}}}
+\newcommand{\poly}{\mathop{\mathrm{poly}}}
+\newcommand{\E}{\mathop{\mbox{$\mathbf{E}$}}}
+\newcommand{\schur}{\mathop{\mathrm{Schur}}}
+\newcommand{\schursmall}[2]{{\mathrm{S}}_{#1,#2}}
+\newcommand{\planch}{\mathop{\mathrm{Planch}}}
+\newcommand{\planchsmall}[1]{{\mathrm{P}}_{#1}}
+\renewcommand{\d}{{\mathrm{d}}}
+
+\newcommand{\HSP}{\textsc{hsp}\xspace}
+
+\renewcommand{\>}{\rangle}
+\newcommand{\<}{\langle}
+\newcommand{\ket}[1]{|#1\rangle}
+\newcommand{\bra}[1]{\langle #1|}
+\newcommand{\scalar}[2]{\langle #1|#2\rangle}
+\newcommand{\proj}[1]{\left|#1\right\>\!\left\<#1\right|}
+\newcommand{\norm}[1]{\|#1\|}
+\newcommand{\ot}{\otimes}
+\newcommand{\eps}{\epsilon}
+\newcommand{\ra}{\rightarrow}
+
+\renewcommand{\setminus}{\mathbin{-}}
+\newcommand{\partitionof}{\mathbin{\vdash}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Weak Fourier-Schur Sampling,\\ the Hidden Subgroup Problem \&\\ the Quantum Collision Problem}
+\author{Pawel M. Wocjan\\[1ex]School of Electrical Engineering and Computer Science\\ University of Central Florida\\Orlando}
+\email{wocjan@cs.ucf.edu}
+
+\begin{document}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Hidden Subgroup Problem}
+
+\begin{itemize}
+\item let $G$ be a finite group and $S$ some finite set
+\item let $f : G \rightarrow S$ be a black-box function
+\item we have the promise that $f$ hides a subgroup $H\le G$, that is, $f(g)=f(g')$ iff $gH=g'H$
+\item the task is to determine the unknown subgroup $H$ (say, in terms of a generating set) as quickly as possible
+\item an algorithm is considered to be efficient if it runs in time poly(log($|G|$)
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Motivation - Integer Factorization}
+\begin{itemize}
+\item integer factorization can be reduced (probabilistically) to determining the order of an element $a$ modulo $n$
+\item this can be viewed as a HSP over $G:=\Z$
+\item let $S:=\Z_n$ and define $f$ by setting $f(x)=a^x$
+\item the HSP is $r\Z$, where $r$ is the order of $a$, that is, the smallest positive integer such that $a^r=1$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Motivation - Graph Auto/Isomorphism}
+\begin{itemize}
+\item graph automorphism (and also graph isomorphism) can be reduced to HSP over the symmetric group $S_n$
+\item let $G:=S_n$, $S$ be the set of adjacency matrices of graphs on $n$ vertices, and $A$ be some adjacency matrix
+\item define $f$ by setting $f(\pi)=P_{\pi} A P_{\pi}^{-1}$, where $P_{\pi}$ is the permutation matrix of size $n\times n$ corresponding to $\pi$
+\item the HSP is the automorphism group of the graph defined by $A$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Classical vs. Quantum Algorithms for HSP}
+\begin{itemize}
+\item classical query complexity $\Theta(|G|)$
+\item quantum query complexity $O(\poly(\log(|G|))$
+\item quantum time complexity $O(\poly(\log(|G|))$ for
+\begin{itemize}
+\item abelian groups
+\item Heisenberg groups
+\item extraspecial groups
+\item and some more (good news: the list has been growing steadily)
+\end{itemize}
+\item big challenges:
+\begin{itemize}
+\item symmetric groups $\Longrightarrow$ graph auto/isomorphism
+\item dihedral groups $\Longrightarrow$ shortest lattice vector problem 
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Standard Approach to HSP}
+\begin{itemize}
+\item evaluate $f$ in superposition
+\[
+\frac{1}{\sqrt{|G|}} \sum_{g\in G}|g\>|f(g)\>
+\]
+\item measure second register; assume $s$ is observed; then we obtain the coset state
+\[
+|gH\>:=\frac{1}{\sqrt{|H|}} \sum_{h\in H}|gh\>
+\]
+in the first register, where $g$ is such that $f(g)=s$; the element $g$ is completely at random
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{HSP as Quantum State Identification}
+\begin{itemize}
+\item using mixed states, this is described by
+\[
+\rho_H = \frac{1}{|G|}\sum_{g\in G}|gH\>\<gH| 
+\]
+\item the HSP consists in distinguishing the states $\rho_H$ for the possible $H\le G$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Symmetry of Coset States}
+\begin{itemize}
+\item the coset state $\rho_H$ can be expressed as
+\[
+\rho_H = \frac{1}{|G|} \sum_{g\in G} L(g) |H\>\<H| L(g)^\dagger
+\]
+where $L(g)|h\> = |gh\>$ is the left regular representation of $G$
+\item this symmetry can be exploited with the help of Fourier decomposition
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Fourier Decomposition}
+\begin{itemize}
+\item the group algebra $\C G$ decomposes as
+\[
+  \C G \stackrel{G \times G}{\cong}
+  \bigoplus_{\sigma \in \hat G} \cV_\sigma \otimes \cV_\sigma^*
+\]
+where $\hat G$ denotes a complete set of irreducible representations of $G$, and $\cV_\sigma$ and $\cV_\sigma^*$ are the row and column subspaces acted upon by $\sigma$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Block Structure in the Fourier Basis}
+\begin{itemize}
+\item $\rho_H$ is invariant under the left multiplication of $G$
+\item the Fourier decomposition shows that
+\[
+\rho_H \cong 
+\frac{1}{|G|} 
+\bigoplus_{\sigma \in \hat{G}} I_{\dim \cV_\sigma} \otimes \rho_{H,\sigma}
+\]
+\item this means that $\rho_H$ is block diagonal in the Fourier basis:
+\begin{itemize}
+\item with blocks labeled by the irreps $\sigma\in\hat G$
+\item for each $\sigma$, there is a $\dim \cV_\sigma \times \dim \cV_\sigma$ block $\rho_{H,\sigma}$ that appears $\dim \cV_\sigma$ times (or in word, that it is maximally mixed in the row space)
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Weak Fourier Sampling}
+\begin{itemize}
+\item information gain vs. disturbance: measurements extract information about the quantum state, but at the same disturb/destroy it
+\item without loss of information, we can 
+\begin{itemize}
+\item measure the irrep name $\sigma$ and
+\item discard the information about which $\sigma$-isotopic block occurred
+\end{itemize}
+\item the process of measuring the irrep name $\sigma$ is referred to as weak Fourier sampling
+\item weak Fourier sampling alone produces insufficient information about $H$ for most nonabelian groups
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Strong Fourier Sampling}
+\begin{itemize}
+\item therefore, a refined measurement must be performed inside the resulting subspace
+\item this is referred to as strong Fourier sampling
+\item many possibilities; especially if the irrep has large dimension
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{$k$ copies $\rho_H^{\otimes k}$}
+\begin{itemize}
+\item just one $\rho_H$ is not sufficient to determine $H$
+\item $\Rightarrow$ we must repeat the sampling procedure to obtain statistics
+\item however, repeating strong Fourier sampling a polynomial number of times is not sufficient
+\item $\Rightarrow$ to solve the HSP in general, we must perform a joint measurement on $k=\poly(\log(|G|))$ copies of $\rho_H^{\otimes k}$
+\item in fact, for some groups such as the symmetric group must be entangled across $\Omega(\log(|G|)$ copies
+\item $\Rightarrow$ the difficulty of the general HSP may be
+attributed at least in part to that fact that highly entangled
+measurements are required
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Motivation for Schur sampling}
+
+there is another measurement that can also be performed without loss of information
+
+\[
+\rho_H \otimes \rho_H \otimes \cdots \otimes \rho_H
+\]
+we consider the permutation symmetry, that is, that the state $\rho_H^{\otimes k}$ is invariant under permuting the tensor components
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Schur Duality}
+\begin{itemize}
+\item
+the decomposition of $(\C G)^{\otimes k}$ afforded by {\em Schur duality} decomposes $k$ copies of a $d$-dimensional space as 
+\[
+  (\C^d)^{\otimes k} \stackrel{\cS_k \times \cU_d}{\cong}
+  \bigoplus_{\lambda \partitionof k}
+  \cP_\lambda \otimes \cQ_\lambda^d
+\]
+\item the symmetric group $\cS_k$ acts to permute the $k$ registers 
+\item the unitary group $\cU_d$ acts identically on each register
+\item the subspaces $\cP_\lambda$ and $\cQ_\lambda^d$ correspond to irreps of $\cS_k$ and $\cU_d$, respectively
+\item the irreps are labeled by partitions $\lambda \partitionof k$), that is, $\lambda=(\lambda_1,\lambda_2,\ldots)$ where $\lambda_1 \ge \lambda_2 \ge \ldots$ and $\sum_j \lambda_j = k$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Form in Schur basis}
+\begin{itemize}
+\item $\rho_H^{\otimes k}$ is invariant under the action of $\cS_k$ $\Rightarrow$ the Schur decomposition shows that it is block diagonal 
+\item for each $\lambda$, there is a $\dim \cQ_\lambda^{|G|} \times \dim \cQ_\lambda^{|G|}$ block that appears $\dim \cP_\lambda$ times; or  in other words, the state is maximally mixed in the permutation space
+\item no information is lost if we measure the partition $\lambda$ and discard the permutation register
+\item by analogy to weak Fourier sampling, we refer to this as {\em weak Schur sampling}.  
+\item this is a natural measurement to consider (no loss of information and entangling measurement)
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{slide}{Weak Schur Sampling}
+\begin{itemize}
+\item the distribution under weak Schur sampling is given by
+\[
+  \Pr(\lambda|\gamma) =
+  \tr(\Pi_\lambda \gamma)
+\]
+\begin{itemize}
+\item $\Pi_\lambda$ is the projector onto the $\lambda$-subspace 
+\[
+  \Pi_\lambda := \frac{\dim \cP_\lambda}{k!} \sum_{\pi \in \cS_k}
+                 \chi_\lambda(\pi) \, P(\pi)
+\]
+\item $\chi_\lambda$ is the character of the irrep of $\cS_k$ labeled
+by $\lambda$, and 
+\item $P$ is the (reducible) representation of $\cS_k$ that acts to permute the $k$ registers:
+$
+  P(\pi)|i_1\> \ldots |i_k\> =
+  |i_{\pi^{-1}(1)}\>\ldots 
+  |i_{\pi^{-1}(k)}\>
+$
+\end{itemize}
+
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Invariance of the Schur Distribution}
+\begin{itemize}
+\item the distribution of $\lambda$ according to weak Schur sampling is
+invariant under the actions of the permutation and unitary groups:
+\[
+\Pr(\lambda|\gamma) = 
+\Pr(\lambda|P(\pi)U^{\otimes k}\, \gamma\, U^{\dagger \, \otimes k} P(\pi)^\dagger)
+\]
+for all $U\in\cU_d$ and all $\pi\in\cS_k$
+\item in particular, the invariance under $U^{\otimes k}$ implies that for
+$\gamma = \rho_H^{\otimes k}$, the distribution according to weak Schur
+sampling depends only on the spectrum of $\rho$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Failure of Weak Schur Sampling}
+\begin{itemize}
+\item the state $\rho_H$ is proportional to a projector of rank $|G|/|H|$
+\item suppose we could distinguish between $\rho_H$ for $H=\{1\}$ and some particular $H$ of order $|H| \ge 2$
+\item $\Rightarrow$ we could distinguish between 
+\begin{itemize}
+\item $k$ copies of the maximally mixed state $I_{|G|}/|G|$
+\item $k$ copies of the state $J_{|G|/|H|}/(|G|/|H|)$
+\end{itemize}
+\item $\Rightarrow$ we could distinguish $1$-to-$1$ functions from $|H|$-to-$1$ functions using $k$ queries of the function
+\item $\Rightarrow$ this would violate the quantum lower bound for the $|H|$-collision problem stating that $k=\Omega(\sqrt[3]{|G|/|H|})$ copies are required 
+\item however, $O(\sqrt[3]{|G|/|H|})$ copies are not sufficient
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Quantum Collision Sampling Problem}
+
+{\bf Theorem:}
+Given $\rho^{\otimes k}$, distinguishing between
+\begin{itemize}
+\item $\rho =
+I/d$ and 
+\item $\rho^2 = \rho/\frac{d}{r}$, that is, $\rho$ is proportional to a projector of rank $d/r$
+\end{itemize} 
+is possible with success probability $1 - \exp(-\Theta(kr/d))/2$.  
+
+In particular, constant advantage is possible iff $k=\Omega(d/r)$.
+
+\bigskip
+In addition to providing the first results on estimation of the spectrum of a quantum state in the regime where $k \ll d^2$, this gives tight estimates of the effectiveness of weak Schur sampling
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Proof Idea}
+\begin{itemize}
+\item the proof relies on a very careful analysis of the {\em Schur distribution}, $\schur(k,d)$, with
+\[
+  \Pr(\lambda) = \frac{\dim \cP_\lambda \dim \cQ_\lambda^d}{d^k} 
+               = \frac{(\dim \cP_\lambda)^2}{k!}
+                  \prod_{(i,j) \in \lambda} \! \left(1 + \frac{j-i}{d}\right)
+\]
+\item we make use of known results on the typical shape of partitions under the Plancherel distributions 
+\item we derive matching lower and upper bounds on the total variation distance of $\schur(k,d)$ and $\schur(k,d/r)$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Failure of Weak Schur Sampling}
+
+{\bf Corollary:} Applying weak Schur sampling to $\rho_H^{\ot k}$ (where $\rho_H$ is defined in, one can distinguish the case $|H|\geq r$ from the case $H=\{1\}$ with constant advantage iff $k=\Omega(|G|/r)$.
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Weak Fourier-Schur Sampling}
+\begin{itemize}
+\item it is possible to combine Fourier and Schur sampling
+\item carry out weak Fourier sampling $k$ times; since the order in which the irreps are obtained does not carry any information, we just consider the type $\underline{\sigma}:=(\sigma_1,\sigma_2,\ldots,\sigma_k) \in \hat G^k$
+\item this weak Fourier-type sampling leads to a permutation-symmetric state $\rho_{H,\underline{\sigma}}$
+\item apply weak Schur sampling to $\rho_{H,\underline{\sigma}}$
+\end{itemize}
+it turns out that the distributions of $\underline{\sigma}$ and $\lambda$ are uncorrelated provided that $\underline{\sigma}$ is multiplicity free; this is extremely unlikely for many groups
+\end{slide}
+
+\begin{slide}{Failure of Weak Fourier-Schur Sampling}
+
+{\bf Theorem:} The probability that weak Fourier-Schur sampling applied to $\rho_H^{\ot k}$ provides a result that depends on $|H|$ is at most $k^2 d_{\max}^2 |H| / |G|$, where $d_{\max}$ is the largest dimension of an irrep of $G$.
+
+\bigskip
+
+{\bf Corollary (Weak Fourier-Schur sampling on $\cD_N$ and $\cS_n$):}
+\begin{itemize}
+\item Weak Fourier-Schur sampling on the dihedral group $\cD_N$ cannot
+distinguish the trivial subgroup from a hidden reflection with
+constant advantage (i.e., success probability $\frac{1}{2} + \Omega(1)$) unless $k = \Omega(\sqrt{N})$. 
+\item weak Fourier-Schur sampling on the symmetric group $\cS_n$ or on the
+wreath product $\cS_n\wr\Z_2$ cannot
+distinguish the trivial subgroup from an order $2$ subgroup with constant
+advantage unless $k=\exp(\Omega(\sqrt{n}))$
+\end{itemize}
+
+\end{slide}
+
+\end{document}

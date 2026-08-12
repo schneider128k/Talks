@@ -1,0 +1,533 @@
+\documentclass[slideColor]{prosper}
+\usepackage{amsmath,amsfonts,amsthm}
+%\usepackage{epsfig}
+%\include{Qcircuit}
+
+
+\newcommand{\bbC}{{\mathbb{C}}}
+\newcommand{\C}{{\mathbb{C}}}
+\newcommand{\F}{{\mathbb{F}}}
+\newcommand{\N}{{\mathbb{N}}}
+\newcommand{\Q}{{\mathbb{Q}}}
+\renewcommand{\R}{{\mathbb{R}}}
+\newcommand{\Z}{{\mathbb{Z}}}
+
+\newcommand{\cD}{{\mathcal{D}}}
+\newcommand{\cN}{{\mathcal{N}}}
+\newcommand{\cP}{{\mathcal{P}}}
+\newcommand{\cQ}{{\mathcal{Q}}}
+\newcommand{\cS}{{\mathcal{S}}}
+\newcommand{\cU}{{\mathcal{U}}}
+\newcommand{\cV}{{\mathcal{V}}}
+
+\newcommand{\tr}{\mathop{\mathrm{tr}}}
+\newcommand{\rank}{\mathop{\mathrm{rank}}}
+\newcommand{\poly}{\mathop{\mathrm{poly}}}
+\newcommand{\E}{\mathop{\mbox{$\mathbf{E}$}}}
+\newcommand{\schur}{\mathop{\mathrm{Schur}}}
+\newcommand{\schursmall}[2]{{\mathrm{S}}_{#1,#2}}
+\newcommand{\planch}{\mathop{\mathrm{Planch}}}
+\newcommand{\planchsmall}[1]{{\mathrm{P}}_{#1}}
+\renewcommand{\d}{{\mathrm{d}}}
+
+\newcommand{\FF}{{\mathbb F}}
+\newcommand{\ZZ}{{\mathbb Z}}
+\newcommand{\QQ}{{\mathbb Q}}
+\newcommand{\NN}{{\mathbb N}}
+\renewcommand{\AA}{{\mathbb A}}
+
+
+\newcommand{\HSP}{\textsc{hsp}\xspace}
+
+\renewcommand{\>}{\rangle}
+\newcommand{\<}{\langle}
+\newcommand{\ket}[1]{|#1\rangle}
+\newcommand{\bra}[1]{\langle #1|}
+\newcommand{\scalar}[2]{\langle #1|#2\rangle}
+\newcommand{\proj}[1]{\left|#1\right\>\!\left\<#1\right|}
+\newcommand{\norm}[1]{\|#1\|}
+\newcommand{\ot}{\otimes}
+\newcommand{\eps}{\epsilon}
+\newcommand{\ra}{\rightarrow}
+
+\renewcommand{\setminus}{\mathbin{-}}
+\newcommand{\partitionof}{\mathbin{\vdash}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Efficient Quantum Algorithm for Identifying Hidden Polynomial Function Graphs}
+\author{Pawel M. Wocjan\\[1ex]School of Electrical Engineering and Computer Science\\ University of Central Florida\\Orlando}
+\email{wocjan@cs.ucf.edu}
+
+\begin{document}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Joint work}
+\begin{itemize}
+\item Thomas Decker (Department of Computer Science \& Engineering, University of Washington)
+\item Jan Draisma (Department of Mathematics \& Computer Science, Technical University of Eindhoven)
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Motivation and Context}
+
+\begin{itemize}
+\item Which problems can be solved exponentially faster on quantum computer than on a classical computer?
+\item Most such problems are black-box problems
+\begin{itemize}
+\item Hidden Subgroup Problems (abelian/nonabelian)
+\item Hidden Shift Problems
+\end{itemize}
+\item Motivation: interesting problems can be reduced to these black-box problems
+\begin{itemize}
+\item Integer Factorization, Discrete Logarithm
+\item Pell's Equation, Principle Ideal Problem, Problem of Computing the Unit and Class Group of a Number Field
+\item Shortest Lattice Problem
+\item Graph Isomorphism
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Motivation and Context}
+\begin{itemize}
+\item Most quantum algorithms rely on the efficient solution of the abelian HSP
+\item The nonabelian HSP seems to be hard for groups of interest such as the symmetric and dihedral groups
+\item Are there other ways of extending the success of the abelian HSP besides considering the nonabelian case?
+\end{itemize}
+\end{slide}
+
+\begin{slide}{Non-linear Structures}
+Design quantum algorithms for certain black-box problems involving \textcolor{green}{non-linear structures}
+
+\bigskip
+A.~Childs, L.~Schulman, and U.~Vazirani, {\em Quantum algorithms for hidden nonlinear structures}, QIP 2007
+\begin{itemize}
+\item Query complexity of Hidden Polynomial Problem
+\item Efficient quantum algorithms for Hidden Sphere Problems
+\begin{itemize}
+\item Hidden Radius Problem
+\item Hidden Subspace of Centers Problem
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Outline}
+\begin{itemize}
+\item Definition of the Hidden Polynomial Function Graph Problem
+\item Reduction to quantum state identification
+\item Polynomial quantum query complexity
+\item Construction of a von Neuman measurement for identifying the quantum states
+\begin{itemize}
+\item Reduction of its implementation to a classical algebro-geometric problem
+\item Efficient solution of this problem
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Definition}
+\begin{itemize}
+\item let $Q(X)\in\F[X]$ be an arbitrary polynomial of total degree at most $n$ whose constant term is equal to $0$
+\item let $B : \F^2 \rightarrow \F$ be a black-box function hiding the polynomial Q in the following sense:
+\[
+B(x,y)=\pi(y-Q(x))\,,
+\]
+where $\pi$ is an unknown bijection permuting the elements of $\F$ arbitrarily
+\item the Hidden Polynomial Function Graph Problem is to identify $Q$
+\item an algorithm for polynomials with degree less or equal to $n$ (where $n$ is a constant) is efficient if its running time is polylogarithmic in $p$, i.e., the size of $\F$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Hidden Polynomial Function Graph}
+can be considered as a natural generalization of abelian HSP over groups of form $\F\times\F$
+\begin{itemize}
+\item the black-box function $B$ is constant on the subsets
+\[
+H_{Q,z}:=\{(x,Q(x)+z) : x \in \F\}
+\]
+of $\F^2$ and distinct for different values of $z$
+\item assume that $Q$ is linear, i.e., $Q(X)=q X$ with unknown $q$ $\Rightarrow$
+\[
+H_{Q}:=\{(x,Q(x)) : x\in\F\}
+\] 
+is a subgroup as $(x,Q(x))+(x',Q(x'))=(x+x',Q(x,x'))$
+\item the sets $H_{Q,z}$ correspond to the cosets of the hidden subgroup $H_Q$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Classical Query Complexity}
+\begin{itemize}
+\item we need to find at least $n$ different points 
+\[
+(x_1,y_1), \ldots (x_n,y_n) \mbox{ with } B(x_1,y_1)=\ldots B(x_n,y_n)
+\]
+in order to determine the hidden polynomial $Q$ of degree $n$
+\item the probability of obtaining such an $n$-fold collision is $1/p^{n-1}$
+\item $\Rightarrow$ classical query complexity is polynomial in $p$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Reduction to Quantum State Identification}
+\begin{itemize}
+\item evaluate the black-box function on an equally weighted superposition of $(x,y)\in\F^2$
+\[
+\frac{1}{p} \sum_{x,y\in\F} |x\> \otimes |y\> \otimes |B(x,y)\>
+\]
+\item measure third register; assume we have obtained $\pi(z)$, then the state on the first and second register is
+\[
+|\phi_{Q,z}\> := \frac{1}{\sqrt{p}}\sum_{x\in\F} |x\> \otimes |Q(x)+z\>\,,
+\]
+where $z\in\F$ is uniformly at random; the density matrix $\rho_Q := \frac{1}{p}\sum_{z\in\F} |\phi_{Q,z}\>\<\phi_{Q,z}|$ is called a polynomial function state
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Quantum Query Complexity}
+\begin{itemize}
+\item let $\rho$ and $\sigma$ be two quantum state with spectral decompositions $\rho=\sum_i \lambda_i |\psi_i\>\<\psi_i|$ and $\rho=\sum_i \mu_j |\phi_j\>\<\phi_j|$
+\item assume that $\max_{i,j}|\<\psi_i|\phi_j\>|\le\alpha$ for some $\alpha$ $\Rightarrow$
+\[
+F(\rho,\sigma)\le\alpha \cdot \min \left\{
+\sum_i \sqrt{\lambda_i}, \sqrt{\mu_j}
+\right\}\,,
+\]
+where $F(\sigma,\rho):=\|\sqrt{\rho}\sqrt{\sigma}\|_1$ is the fidelity of $\rho$ and $\sigma$
+\item we have $F(\rho_Q,\rho_{\tilde{Q}})\le n/\sqrt{p}$ for any pair of different polynomial function states as
+\[
+|\<\phi_{Q,z}|\phi_{\tilde{Q},\tilde{z}}\> = \frac{1}{p} |\{x \in \F : Q(x) + z = \tilde{Q}(x) + \tilde{z}\}| \le
+\frac{n}{p}
+\]
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Quantum Query Complexity}
+\begin{itemize}
+\item there is a POVM $\{E_Q\}$ acting on $k$ copies of a polynomial function state such that
+\[
+P_{\rm success} := \min_Q \mathrm{Tr} (\rho_Q^{\otimes k} E_Q) \ge 1-\epsilon
+\]
+provided that $k\ge 2(\log N - \log\epsilon)/(-\log F)$, where 
+\begin{itemize}
+\item $N:=p^n$ is the number of different $\rho_Q$ 
+\item $F:=\max_{Q\neq\tilde{Q}} F(\rho_Q,\rho_{\tilde{Q}})$
+\end{itemize}
+(this follows from results by {\sc Harrow and Winter})
+\item this bound and the upper bound on the maximal fidelity $F\le n/\sqrt{p}$ imply $P_{\rm success}$ is a least $1/2$ for $k=4n$
+\item $n$ copies are required to have $P_{\rm success}$ at least $1/2$ (follows from a lower bound)
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Structure of $\rho_Q$}
+\begin{itemize}
+\item the state $\rho_Q$ can be written as
+\begin{eqnarray*}
+\rho_Q & = & 
+\frac{1}{p^2} \sum_{b,c\in\F} |b\>\<c| \otimes \sum_{z\in\F} |Q(b)+z\>\<Q(c)+z| \\
+& = & 
+\frac{1}{p^2} \sum_{b,c\in\F} \sum|b\>\<c| \otimes S^{Q(b)-Q(c)}\,,
+\end{eqnarray*}
+where $S$ is the cyclic shift operator acting by $S|u\>=|u+1 \mod p\>$
+\item apply the Fourier transform $F$ on the second register to diagonalize all powers of $S$
+\[
+\hat{\rho}_Q := 
+({\bf 1} \otimes F) \rho ({\bf 1} \otimes F)^\dagger
+=
+\frac{1}{p^2} \sum_{b,c,x\in\F} \omega_p^{[Q(b)-Q(c)]\cdot x} |b\>\<c| \otimes |x\>\<x|
+\]
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Structure of $\hat{\rho}_Q^{\otimes k}$}
+\vspace{-0.5cm}
+\begin{eqnarray*}
+\hat{\rho}_Q^{\otimes k} & = & 
+\frac{1}{p^{2k}}
+\sum_{b,c,x\in\F^k} \omega_p^{\sum_{j=1}^k [Q(b_j)-Q(c_j)] x_j}
+|b\>\<c| \otimes |x\>\<x| \\
+& = &
+\frac{1}{p^{2k}} \sum_{b,c,x\in\F^k}
+\omega_p^{\<q|\Phi_n(b) - \Phi_n(c)|x\>} |b\>\<c| \otimes
+|x\>\<x|
+\end{eqnarray*}
+\begin{itemize}
+\item $\<q|:=(q_1,q_2,\ldots,q_n) \in \F^{1 \times n}$ where $Q(X)=\sum_{i=1}^n q_i X^i$
+\item 
+\[
+\Phi_n(b) := \sum_{i=1}^n \sum_{j=1}^k b_j^i |i\>\<j| = \left(
+\begin{array}{cccc}
+b_1    & b_2    & \cdots & b_k    \\
+b_1^2  & b_2^2  & \cdots & b_k^2  \\
+\vdots & \vdots &        & \vdots \\
+b_1^n  & b_2^n  & \cdots & b_k^n  
+\end{array}
+\right)\,,
+\]
+\item \vspace{-0.2cm} $|x\>:=(x_1,\ldots,x_k)^T \in \F^k$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Algebro-Geometric Problem}
+\vspace{-0.2cm}
+\begin{itemize}
+\item determine all $b\in\F^k$ for given $x\in\F^k$ and $w\in\F^n$ s.t.
+\[
+\left(
+\begin{array}{cccc}
+b_1 & b_2 & \cdots & b_k \\ b_1^2 & b_2^2 & \cdots & b_k^2 \\ \vdots &
+\vdots & & \vdots \\ b_1^n & b_2^n & \cdots & b_k^n
+\end{array}
+\right)\cdot \left(
+\begin{array}{c}
+x_1 \\ x_2 \\ \vdots \\ x_k
+\end{array}
+\right) = \left(
+\begin{array}{c}
+w_1 \\ w_2 \\ \vdots \\ w_n
+\end{array}
+\right)
+\]
+\item denote the set of solutions and its cardinality by
+\[
+S_w^x := \{ b\in \F^k \,:\, \Phi_n(b)|x\> = |w\>\} 
+\quad\; {\rm and} \quad\;
+\eta_w^x := |S_w^x|
+\]
+\item define the quantum states $|S_w^x\>$ for $\eta^x_w>0$ 
+\[
+|S_w^x\> := \frac{1}{\sqrt{\eta_w^x}} \sum_{b\in S_w^x} |b\>
+\]
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Structure of $\hat{\rho}_Q^{\otimes k}$}
+\begin{eqnarray*}
+\hat{\rho}_Q^{\otimes k} & = & 
+\frac{1}{p^{2k}} \sum_{\textcolor{red}{b},\textcolor{blue}{c},x\in\F^k}
+\omega_p^{\<q| \textcolor{red}{\Phi_n(b)|x\>} - \<q|\textcolor{blue}{\Phi_n(c)|x\>}} 
+|\textcolor{red}{b}\>\<\textcolor{blue}{c}| \otimes |x\>\<x| \\
+& = &
+\frac{1}{p^{2k}}\sum_{x\in\F^k}
+\sum_{\textcolor{red}{w},\textcolor{blue}{v}\in\F^n} \omega_p^{\<q|\textcolor{red}{w\>} - \<q|\textcolor{blue}{v\>}} 
+\sqrt{\textcolor{red}{\eta_w^x} \textcolor{blue}{\eta_v^x}} 
+|\textcolor{red}{S_w^x}\>\<\textcolor{blue}{S_v^x}| \otimes |x\>\<x|
+\end{eqnarray*}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Measurement of $x$}
+\begin{itemize}
+\item the block structure implies that we can measure $x\in\F^k$ without loss of generality
+\item the probability of obtaining a particular $x$ is $1/p^k$ (uniformly at random)
+\item the reduced state is
+\[
+\hat{\rho}_Q^x := 
+\frac{1}{p^{k}}
+\sum_{w,v\in\F^n} \omega_p^{\<q|w\> - \<q|v\>} \sqrt{\eta_w^x
+\eta_v^x} |S_w^x\>\<S_v^x| 
+\]
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Ideal Quantum Sampling}
+\begin{itemize}
+\item assume we could implement a unitary $U_x$ with
+\[
+U_x |S_w^x\> = |w\>
+\]
+\item applying $U_x$ to $\hat{\rho}_Q^x$ gives
+\[
+U_x \hat{\rho}_Q^x U_x^\dagger = \frac{1}{p^k} \sum_{w,v\in\F^n}
+\omega_p^{\<q|w\> - \<q|v\>} \sqrt{\eta_w^x \eta_v^x} |w\>\<v|
+\]
+\item
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Measurement in Fourier basis}
+\begin{itemize}
+\item measure in the Fourier basis, i.e., carry out the orthogonal measurement with respect to the states
+\[
+|\psi_Q\> := \frac{1}{\sqrt{p^n}} \sum_{w \in \F^n}
+ \omega_p^{\<q|w\>} |w\>
+\]
+\item the probability for correct detection of $\hat{\rho}_Q^x$ is
+\[
+\< \psi_Q | U_x {\hat \rho}_Q^x U_x^\dagger | \psi_Q \> =
+\frac{1}{p^{k+n}} \left( \sum_{w \in \F^n} \sqrt{\eta_w^x}
+\right)^2\
+\]
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Summery of the Steps}
+\begin{itemize}
+\item apply Fourier on second register
+\item measure $x$ in second register
+\item apply (ideal) quantum sampling $U_x$
+\item measure in Fourier basis
+\item the outcome determines the coefficients of the hidden polynomial
+\item the overall success probability is
+\[
+\frac{1}{p^{2k+n}} \sum_{x\in\F^k} \left( \sum_{w \in \F_p^n} \sqrt{\eta_w^x}
+\right)^2
+\]
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Approximate Quantum Sampling}
+\vspace{-0.2cm}
+\begin{itemize}
+\item determine all $b\in\F^k$ for given $x\in\F^k$ and $w\in\F^n$ 
+\[
+\left(
+\begin{array}{cccc}
+b_1 & b_2 & \cdots & b_k \\ b_1^2 & b_2^2 & \cdots & b_k^2 \\ \vdots &
+\vdots & & \vdots \\ b_1^n & b_2^n & \cdots & b_k^n
+\end{array}
+\right)\cdot \left(
+\begin{array}{c}
+x_1 \\ x_2 \\ \vdots \\ x_k
+\end{array}
+\right) = \left(
+\begin{array}{c}
+w_1 \\ w_2 \\ \vdots \\ w_n
+\end{array}
+\right)
+\]
+\item recall $S_w^x := \{ b\in \F^k \,:\, \Phi_n(b)|x\> = |w\>\}$ and $\eta_w^x := |S_w^x|$
+\item it suffices to implement an approximate version $V_x$ of quantum sampling satisfying
+\[
+V_x|S_w^x\>=|w\>
+\]
+for a vast majority of pairs $(x,w)$.
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Properties of Generic Morphisms}
+Proposition
+\begin{itemize}
+\item
+consider a morphism $f:\AA^k \times \AA^n \rightarrow \AA^n$ defined
+over $\ZZ$
+\begin{itemize}
+\item $f$ is given by an $n$-tuple $f=(f_1,\ldots,f_n)$
+of polynomials in $\ZZ[X,B]$
+\item $X=(X_1,\ldots,X_k)$ and
+$B=(B_1,\ldots,B_n)$ are the coordinates on $\AA^k$ and on the first
+copy of $\AA^n$ 
+\end{itemize}
+\item 
+suppose that the Jacobian determinant
+$\det (\partial f_i/\partial B_j)_{ij}$ is a non-zero element of
+$\ZZ[X,B]$
+\item $\Rightarrow$ there exist a positive real number $\gamma$ and a
+non-zero polynomial $g \in \ZZ[X]$ such that for all finite fields $\FF$
+and $x \in \FF^k$ with $g(x) \neq 0$ we have $|f(\{x\} \times \FF^n)|
+\geq \gamma |\FF|^n$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Implications for our AG problem}
+\begin{itemize}
+\item let $X_{\mathrm{good}}:=\{x\in\F^k \,:\, g(x)\neq 0\}$
+\item for all $x\in X_{\mathrm{good}}$ let $W_{\mathrm{good}}^x\subseteq\F^n$ to the set such that
+\[
+w\in W_{\mathrm{good}}^x \Rightarrow 1 \le \eta_x^w \le d
+\]
+where $d$ is some constant independent of the size of $\F$
+\item we can implement quantum sampling
+\[
+V_x|S_w^x\>=|w\>
+\]
+for all $(x,w)$ with $x\in X_{\mathrm{good}}$ and $w\in W_{\mathrm{good}}^x$ because
+\begin{itemize}
+\item $S_w^x$ have constant size for all good pairs $(x,w)$ and
+\item all solutions $b\in S_w^x$ can be enumerated efficiently 
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Success of Approximate Measurement}
+if choose the number of copies $k$ to be equal to $n$ (the maximal degree of the hidden polynomial) then
+\begin{itemize}
+\item $|X_{\mathrm{good}}|=\Omega(p^n)$
+\item $|W_{\mathrm{good}}^x|=\Omega(p^n)$
+\item the overall success probability is bounded from below as follows
+\begin{eqnarray*}
+P_{{\mathrm success}} & = &
+\frac{1}{p^{3n}}
+\sum_{x \in X_{\mathrm{good}}}
+\left( \sum_{w \in W_{\mathrm{good}}^x} \sqrt{\eta^x_w} \right)^2 \\
+& \approx & 
+\frac{1}{p^{3n}} \,
+\Omega(p^n) \, 
+\Big(
+\Omega(p^n) 
+\Big)^2 = \Omega(1)
+\end{eqnarray*}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Conclusions and Possible Extensions}
+\begin{itemize}
+\item definition of a new black-box problem (a special case of the hidden polynomial problem)
+\item classically hard (polynomial classical query complexity) 
+\item polylogarithmic quantum algorithm (for fixed degree)   
+\item $\Rightarrow$ what useful real-life problem can be reduced to this black-box problem???
+\item possible extensions:
+\begin{itemize}
+\item polynomials over non-prime fields; this is straightforward
+\item polynomials over rings such as $\Z_d$???
+\item multivariate polynomials??? some cases can be easily reduced to univariate case, e.g., hidden hyperbola
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
