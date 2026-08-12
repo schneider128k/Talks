@@ -93,8 +93,6 @@ and the talks I gave after 2020 are not yet reconstructed.
   Institute for Quantum Information (IQI), California Institute of Technology, Pasadena.  
   Joint work with Andrew Childs.  
   The talk is built on [quant-ph/0510185](https://arxiv.org/abs/quant-ph/0510185).  
-  No mail from the Caltech years survives, so the month is that of the finished slides
-  rather than of the seminar itself.  
   [presentation](documents/2005-10_nonabelian_hidden_shift_caltech/nonabelian_hidden_shift_caltech_presentation.pdf) ·
   [sources](documents/2005-10_nonabelian_hidden_shift_caltech/)
 
