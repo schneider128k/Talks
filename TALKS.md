@@ -12,10 +12,7 @@ and the talks I gave after 2020 are not yet reconstructed.
 
 - **Efficient Quantum Algorithm for Identifying Hidden Polynomial Function Graphs** —
   *Seminar*, May 2007  
-  Institute for Quantum Information (IQI), California Institute of Technology, Pasadena. The
-  visit was arranged with Ann Harvey; I sent her the title and abstract on 11 May and flew
-  into Los Angeles on the evening of Monday 21 May. The day of the seminar itself is not
-  recorded anywhere I have.  
+  Institute for Quantum Information (IQI), California Institute of Technology, Pasadena.  
   Joint work with Thomas Decker and Jan Draisma.  
   The Hidden Polynomial Function Graph Problem: an abelian hidden subgroup problem is the
   case where the hidden object is the graph of a *linear* function over a finite field, and
@@ -26,14 +23,8 @@ and the talks I gave after 2020 are not yet reconstructed.
   measurement that distinguishes those states, and gets the efficient algorithm by bounding
   its success probability below by a constant — the bound coming from algebraic geometry, via
   properties of generic morphisms between affine spaces.  
-  The talk predates the paper: it was given in May 2007, and
-  [arXiv:0706.1219](https://arxiv.org/abs/0706.1219) went up the following month.  
-  I gave versions of this talk repeatedly through 2007 — in Sydney in May, in Warsaw at the
-  end of July, and in Princeton in October.  
-  These are the slides as I finished them in Pasadena, sent to myself under the subject
-  *Final talk* on 22 May. They are one revision later than the copy that survives in my own
-  files, which stops at 21 May and carries a wrong normalization in three of the
-  density-matrix expressions.  
+  I gave versions of this talk several more times through 2007.  
+  The talk is built on [arXiv:0706.1219](https://arxiv.org/abs/0706.1219).  
   [presentation](documents/2007-05_hidden_polynomial_graphs_caltech/hidden_polynomial_graphs_caltech_presentation.pdf) ·
   [abstract](documents/2007-05_hidden_polynomial_graphs_caltech/hidden_polynomial_graphs_caltech_abstract.txt) ·
   [sources](documents/2007-05_hidden_polynomial_graphs_caltech/)
@@ -41,7 +32,7 @@ and the talks I gave after 2020 are not yet reconstructed.
 - **Weak Fourier-Schur Sampling, the Hidden Subgroup Problem and the Quantum Collision
   Problem** — *Conference talk*, February 2007  
   STACS 2007, the 24th International Symposium on Theoretical Aspects of Computer Science,
-  RWTH Aachen. I travelled to Aachen on 21 February and came back on the evening of the 24th.  
+  RWTH Aachen.  
   Joint work with Andrew Childs and Aram Harrow.  
   Weak Fourier sampling measures only the name of the irreducible representation and throws
   the rest away; weak Schur sampling does the same for the partition under Schur duality. The
