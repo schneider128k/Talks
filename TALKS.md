@@ -10,6 +10,26 @@ and the talks I gave after 2020 are not yet reconstructed.
 
 ## University of Central Florida
 
+- **A PromiseBQP-complete String Rewriting Problem** — *Invited talk*, July 2007  
+  Workshop on the Computational Complexity of Quantum Hamiltonian Systems, Lorentz Center,
+  Universiteit Leiden, organized by Barbara Terhal and David DiVincenzo.  
+  Joint work with Dominik Janzing.  
+  A combinatorial problem stated with no reference to quantum mechanics at all. Given three
+  strings and a symmetric relation saying which short substrings may be exchanged for which,
+  count the ways each of two targets can be reached from the source after a fixed number of
+  replacements, and decide which count is larger. Subject to a growth condition and a gap
+  condition, determining that sign is PromiseBQP-complete — so the problem captures exactly
+  what a quantum computer can do efficiently, and gives a purely classical characterization
+  of BQP. The hardness direction encodes a quantum circuit as a translationally invariant
+  finite-range interaction on a line, converts the Hamiltonian into rewriting rules, and
+  recovers the answer from the adjacency matrix of the resulting line graph. The closing
+  claim is that quantum computers are better at counting and comparing the numbers of
+  solutions of combinatorial problems.  
+  The talk is built on [arXiv:0705.1180](https://arxiv.org/abs/0705.1180).  
+  [presentation](documents/2007-07_string_rewriting_leiden/string_rewriting_leiden_presentation.pdf) ·
+  [abstract](documents/2007-07_string_rewriting_leiden/string_rewriting_leiden_abstract.txt) ·
+  [sources](documents/2007-07_string_rewriting_leiden/)
+
 - **Efficient Quantum Algorithm for Identifying Hidden Polynomial Function Graphs** —
   *Seminar*, May 2007  
   Institute for Quantum Information (IQI), California Institute of Technology, Pasadena.  

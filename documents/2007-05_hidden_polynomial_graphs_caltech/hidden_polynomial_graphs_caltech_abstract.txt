@@ -23,4 +23,4 @@ measurement is lower bounded by a constant and that it can be
 implemented efficiently for fixed degree.  These results are obtained
 with the help of tools from algebraic geometry allowing us to make
 specific statements about properties of generic morphisms between
-affince spaces.
+affine spaces.
