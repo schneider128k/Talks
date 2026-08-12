@@ -1,0 +1,917 @@
+\documentclass[slideColor]{prosper}
+\usepackage{amsmath,amsfonts,amsthm}
+%\usepackage{epsfig}
+\include{Qcircuit}
+
+
+\newcommand{\E}{\mathbf{E}}
+%\newcommand{\R}{\mathbb{R}}
+
+\newcommand{\cA}{\mathcal A}
+\newcommand{\cB}{\mathcal B}
+\newcommand{\cH}{\mathcal H}
+\newcommand{\C}{\mathbb C}
+\newcommand{\TVD}{\mathrm{TVD}}
+
+\renewcommand{\>}{\rangle}
+\newcommand{\<}{\langle}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Thermalizing Quantum Systems \&\\ Evaluating Partition Functions\\ with a Quantum Computer}
+\author{Pawel M. Wocjan\\[1ex]School of Electrical Engineering and Computer Science\\ University of Central Florida\\Orlando}
+\email{wocjan@eecs.ucf.edu}
+
+\begin{document}
+
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Joint work with}
+\begin{itemize}
+\item David Poulin (University of Sherbrooke) 
+
+\medskip
+arXiv preprint 0905.2199
+
+\bigskip
+
+\item Chen-Fu Chiang (University of Central Florida)
+
+\bigskip\bigskip
+\item this work has been supported by the National Science Foundation
+grants CCF-0726771 and CCF-0746600
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Definitions}
+\begin{itemize}
+\vspace{-0.25cm}
+\item let $H$ be a Hamiltonian with spectral decomposition
+\[
+H = \sum_{a=1}^D E_a |\psi_a\>\<\psi_a|\,, \quad E_a \in [0,1]
+\]
+
+\item the partition function $Z_\beta$ at inverse temperature $\beta$ is
+\[
+Z_\beta := \sum_{a=1}^D e^{-\beta E_a}
+\]
+
+\item the thermal state $\rho_\beta$ at temperature $\beta$ is
+\[
+\rho_\beta := \sum_{a=1}^D \frac{e^{-\beta E_a}}{Z_\beta} |\psi_a\>\<\psi_a|
+\]
+
+\medskip
+\item 
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Tasks}
+\begin{itemize}
+\item \textcolor{blue}{Evaluating parition functions}
+
+\medskip\noindent
+given $H$, $\beta$, and $\epsilon$, output a random value $\tilde{Z}_\beta$ such that
+\[
+\Pr \Big( \big| \tilde{Z}_\beta - Z_\beta \big| < \epsilon Z_\beta \big) > \frac{3}{4}
+\]
+
+\bigskip
+\item \textcolor{blue}{Thermalizing quantum systems}
+
+\medskip\noindent
+given $H$, $\beta$, and $\epsilon$, prepare a quantum state $\tilde{\rho}_\beta$ with
+\[
+\frac{1}{2} \| \rho_\beta - \tilde{\rho}_\beta \|_{\mathrm{tr}} \le \epsilon 
+\]
+
+\bigskip
+\item
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Thermalizing Quantum Systems}
+\begin{itemize}
+\item given $H$, $\beta$, and $\epsilon$, prepare a quantum state $\tilde{\rho}_\beta$ with
+\[
+\frac{1}{2} \| \rho_\beta - \tilde{\rho}_\beta \|_{\mathrm{tr}} \le \epsilon \quad \mbox{(*)}
+\]
+
+\item the above task was studied by Terhal and Divincenzo in Phys. Rev. A 61, 022301
+
+\begin{itemize}
+\item constructed a TCP whose fix-point is the thermal state $\rho_\beta$ in an idealized
+setting (perturbation theory)
+
+\medskip
+\item 
+did not prove how the number of iterations has to be chosen to obtain a state $\tilde{\rho}_\beta$ satisfying (*)
+
+\medskip
+\item numerical simulations suggests that this algorithm may outperform classical algorithms
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Our Quantum Algorithm}
+\begin{itemize}
+\item given $H$, $\beta$, and $\epsilon$, our quantum algorithm makes it possible to prepare $\tilde{\rho}_\beta$ with
+\[
+\frac{1}{2} \| \rho_\beta - \tilde{\rho}_\beta \|_{\mathrm{tr}} \le \epsilon 
+\]
+
+\bigskip
+\item its running time is
+\[
+\sqrt{\frac{D}{Z_\beta}} \, \cdot \, poly(\log D, 1/\epsilon, \beta)
+\]
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Classical Hamiltonians}
+\begin{itemize}
+\item let $\Omega$ be a set whose elements $x$ correspond the states of some classical system
+
+\medskip
+\item let $E : \Omega\rightarrow [0,1]$ denote the energy function, assigning to each state $x$ its energy $E(x)$
+
+\medskip
+\item let 
+\[
+H = \sum_{x\in\Omega} E_x |x\>\<x|
+\]
+
+\medskip 
+\item thermalizing such classical systems is easier because $H$ is diagonal in the computational basis $\{ |x\> \}_{x\in\Omega}$
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Metropolis Algorithm}
+\begin{itemize}
+\item given such classical Hamiltonian $H$, we can always construct a Markov chain $P$ whose limiting distribution is equal to $\rho_\beta$
+
+\medskip
+\item the spectral gap $\delta$ determines how fast we can approach the Boltzmann distribution
+
+\medskip
+\item the run time scales like $1/\delta$
+
+\medskip
+\item often, it is not possible to determine (or bound) the spectral gap $\Rightarrow$ heuristics
+
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Quantized Metropolis Algorithm}
+\begin{itemize}
+\item given such classical Hamiltonian $H$, there is a ``quantized'' Metropolis algorithm preparing $|\tilde{\varphi}_\beta\>$ with
+\[
+\big\| |\varphi_\beta\> - |\tilde{\varphi}_\beta\> \big\| \le \epsilon
+\]
+where $|\varphi_\beta\>$ is a ``quantized'' version of the Boltzmann distribution
+\[
+|\varphi_\beta\> := \sum_{x\in \Omega} \sqrt{\frac{e^{-\beta E_x}}{Z_\beta}} |x\>
+\]
+
+\item the run times scales like $\sqrt{1/\delta}$
+
+\medskip
+\item 
+proved in Somma, Boixo, Barnum, and Knill, PRL 101, 130504 and W. and Abeyesinghe, PRA 78, 032311
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Grover's State Engineering}
+\begin{itemize}
+\item prepare the state 
+\[
+\frac{1}{\sqrt{D}}\sum_{x\in\Omega} |x\> \otimes |E_x\> \otimes |0\>
+\]
+
+\bigskip
+\item apply a controlled rotation to obtain the state
+\[
+\frac{1}{\sqrt{D}}\sum_{x\in\Omega} |x\> \otimes |E_x\> \otimes \Big( \sqrt{e^{-\beta E_x}} |0\> + \sqrt{1-e^{-\beta E_x}} |1\> \Big)
+\]
+
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Grover's State Engineering}
+\begin{itemize}
+
+\item apply Grover to increase the overlap with the $|0\>$ component and measure in the basis $|0\>$, $|1\>$ 
+
+
+\medskip
+\item if we obtain $|0\>$, then the post-measurement state is
+\[
+\sum_{x\in\Omega} \sqrt{\frac{e^{-\beta E_x}}{Z_\beta}} |x\> \otimes |E_x\> \otimes  |0\> 
+\]
+
+\medskip
+\item the expected run time to obtain this state scales like
+\[
+\sqrt{\frac{D}{Z_\beta}}
+\]
+
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Our Quantum Algorithm}
+\begin{itemize}
+\item is a generalization of the algorithm based on Grover's state engineering to \textcolor{red}{quantum} Hamiltonians
+
+\bigskip
+\item let $H$ be an arbitrary Hamiltonian with spectral decomposition
+\[
+H = \sum_{a=1}^D E_a |\psi_a\>\<\psi_a|\,, \quad E_a \in [0,1]
+\]
+
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Error Sources}
+\begin{itemize}
+\item given $H$, $\beta$, and $\epsilon$, our quantum algorithm makes prepares $\tilde{\rho}_\beta$
+\[
+\frac{1}{2} \| \rho_\beta - \tilde{\rho}_\beta \|_{\mathrm{tr}} \le \epsilon 
+\]
+
+\medskip
+\item the errors come from three sources:
+\[
+\| \rho                 - \tilde{\rho}         \|_{\mathrm{tr}} \le 
+\| \rho                 - \rho_{\textrm{sim}}  \|_{\mathrm{tr}} +
+\| \rho_{\textrm{sim}}  - \rho_{\textrm{prec}} \|_{\mathrm{tr}} +
+\| \rho_{\textrm{prec}} - \rho_{\textrm{fail}} \|_{\mathrm{tr}} +
+\| \rho_{\textrm{fail}} - \tilde{\rho}          \|_{\mathrm{tr}} 
+\]
+
+\medskip
+\begin{itemize}
+\item $\rho_{\textrm{sim}}$ imperfect simulation of $\exp(i H)$
+
+\medskip
+\item $\rho_{\textrm{prec}}$ limited precision of phase estimation
+
+\medskip
+\item $\rho_{\textrm{fail}}$ nonzero failure probability of phase estimation
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Imperfect Hamiltonian Simulation}
+\begin{itemize}
+\item assume that $H$ is sparse and let $U = \exp(i H)$
+
+\medskip
+\item using techniques for simulating Hamiltonian time evolutions, we can implement $U_{\textrm{sim}}$ with
+\[
+\| U - U_{\textrm{sim}} \| \le \epsilon_{\textrm{sim}}
+\]
+
+\medskip
+\item the run time scales like 
+\[
+poly(log D, 1/\epsilon_{\textrm{sim}}, s)
+\]
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Technical Arguments}
+\begin{itemize}
+\vspace{-0.25cm}
+\item matrix logarithm is Lipschitz continuous:
+\[
+\| U - U_{\textrm{sim}} \| \le \epsilon_{\textrm{sim}}
+\]
+\quad implies that there is a Hamiltonian $H_{\textrm{sim}}$ with
+\[
+\| H - H_{\textrm{sim}} \| \le O(\epsilon_{\textrm{sim}})
+\]
+
+\item thermal states are H\"older continuous:
+\[
+\| H - H_{\textrm{sim}} \| \le O(\epsilon_{\textrm{sim}})
+\]
+\quad implies that the corresponding thermal states satisfy
+\[
+\| \rho - \rho_{\textrm{sim}} \|_{\textrm{tr}} \le O(\sqrt{\beta \epsilon_{\textrm{sim}}})
+\]
+
+\item we assume $U_\textrm{sim}=U$ (and keep track of the error)
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Maximally Entangled State}
+
+\begin{itemize}
+\item let
+\[
+|\Phi\> := \frac{1}{\sqrt{D}} \sum_{a=1}^D |i\> \otimes |i\>
+\]
+
+\item let
+\[
+V = \sum_{a=1}^D |\psi_a\>\<a|
+\]
+
+\item it is important that we can express $|\Phi\>$ as
+\[
+|\Phi\> = \sum_{a=1}^D |\psi_a\> \otimes |\psi^T_a\>
+\]
+
+this follows from $(V\otimes I_D)|\Phi\>=(I_D\otimes V^T)|\Phi\>$
+
+\medskip
+\item 
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Phase Estimation with Boosting}
+
+\begin{itemize}
+\item recall that $U=\exp(iH)$
+
+\bigskip
+\item $\Rightarrow$ we have
+\begin{eqnarray*}
+(U \otimes I_D) |\psi_a\> \otimes |\psi^T_a\> & = & e^{i E_a} |\psi_a\> \otimes |\psi^T_a\> \\
+&& \\
+(U \otimes I_D) |\Phi\>                       & = & \sum_{a=1}^D e^{i E_a} |\psi_a\> \otimes |\psi^T_a\>
+\end{eqnarray*}
+
+\item ${}$ $\Rightarrow$ the energy levels $E_a$ of $H$ are mapped bijectively
+
+${}$ \phantom{$\Rightarrow$} onto the phases $e^{i E_a}$ of $U$
+
+\medskip
+\item $\Rightarrow$ apply phase estimation to estimate the energy levels
+
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Phase Estimation with Boosting}
+
+\begin{itemize}
+\medskip
+\item use phase estimation with $O(1/\epsilon_{\textrm{prec}})$ ancillas and 
+
+run $O(\log(1/\epsilon_{\textrm{fail}}))$ boosting rounds
+
+\medskip
+\item $\Rightarrow$ this transforms $|\Phi\>$ into the state
+\[
+\sum_{a=1}^D |\psi_a\> \otimes |\psi^T_a\> \otimes \Big( c_a^- |E_a^-\> + c_a^+ |E_a^+\> \Big) + |\textrm{junk}\>
+\]
+where
+\begin{itemize}
+\item $E_a^+ - E_a  \le \epsilon_{\textrm{prec}}$, \quad $E_a - E_a^- \le \epsilon_{\textrm{prec}}$
+
+\medskip
+\item $|c_a^+|^2 + |c_a^-|^2=1$
+
+\medskip
+\item $\| |\textrm{junk}\> \| \le \epsilon_{\textrm{fail}}$
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+
+
+
+\begin{slide}{FPRAS}
+\begin{itemize}
+\item the problem of computing the partition function exactly is too difficult; it's \#P-hard
+
+\medskip
+\item $\Rightarrow$ consider fully polynomial randomized approximation schemes
+
+\medskip
+\item a FRAPS
+
+\begin{itemize}
+\item outputs a random number $\hat{Z}$ satisfying
+\[
+\Pr\Big( (1-\epsilon)Z(\beta) \le \hat{Z} \le (1+\epsilon) Z(\beta) \Big) \ge 3/4
+\]
+where $\epsilon\in (0,1)$ determines the desired accuracy
+
+\medskip
+\item runs in time polynomial in $\log(|\Omega|)$ and $1/\epsilon$
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Simulated Annealing}
+\begin{itemize}
+\item choose a cooling schedule $\beta_0 < \beta_1 < \cdots < \beta_{\ell+1}$ with $\beta_0=0$ and $\beta_{\ell+1}=\beta$
+
+\medskip
+\item express the desired quantity as a telescoping product
+\[
+Z(\beta) = \frac{Z(\beta_{\ell+1})}{Z(\beta_\ell)} \cdot \frac{Z(\beta_\ell)}{Z(\beta_{\ell-1})} \cdots \frac{Z(\beta_1)}{Z(\beta_0)} \cdot Z(\beta_0) 
+\]
+
+\medskip
+\item observe that $Z(\beta_0)$ is trivial since $Z(\beta_0)=|\Omega|$
+
+\medskip
+\item $\Rightarrow$ estimate the ratios $\alpha_i:=Z(\beta_{i+1})/Z(\beta_i)$ 
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Estimation via Boltzmann Sampling I}
+\begin{itemize}
+\item denote by $\pi_i=\big(\pi_i(x) : x\in\Omega\big)$ the Boltzmann distribution at inverse temperature $\beta_i$
+\[
+\pi_i(x) = \frac{e^{-\beta_i E(x)}}{Z(\beta_i)}
+\]
+
+\item assume we can sample from $\pi_i$
+
+\medskip
+\item ensure that each ratio $\alpha_i:=Z(\beta_{i+1})/Z(\beta_i)$ is bounded from below by a constant, say $1/2$
+
+\medskip
+\item $\Rightarrow$ it suffices to take a small number of samples $\sim \pi_i$ to estimate $\alpha_i$
+
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Estimation via Boltzmann Sampling II}
+\begin{itemize}
+\item let $X_i \sim \pi_i$
+
+\medskip
+\item let $\Delta\beta_i = \beta_{i+1} - \beta_i$ 
+
+\medskip
+\item define a new random variable 
+\[
+Y_i = e^{-\Delta\beta_i E(X_i)}
+\]
+ 
+\item the expected value $\E(Y_i)$ is equal to
+\[
+\sum_{x \in \Omega}
+\pi_i(x) 
+e^{-\Delta\beta_i E(x)}  =
+\sum_{x \in \Omega}
+\frac{e^{-\beta_i E(x)}}{Z(\beta_i)} 
+e^{(-\beta_{i+1} + \beta_i) E(x)}  
+= 
+\alpha_i
+\]
+\item $\Rightarrow$ $Y_i$ is an unbiased estimator for $\alpha_i$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Estimation via Boltzmann Sampling III}
+\begin{itemize}
+\item draw $O(l/\epsilon^2)$ samples of $X_i$ and compute the mean $\bar{Y}_i$
+
+\medskip
+\item $\Rightarrow$ the random variable $\bar{Y}=\bar{Y}_0 \bar{Y}_1 \cdots \bar{Y}_{\ell}$ satisfies
+\[
+\Pr\Big(
+(1-\epsilon) \alpha < \bar{Y} < (1+\epsilon) \alpha
+\Big)
+\ge 3/4
+\]
+where $\alpha=\alpha_0\alpha_1\cdots\alpha_\ell$
+
+\medskip
+\item $\Rightarrow$ the total number of samples is
+\[
+O\Big(\ell^2 / {\red \epsilon^2} \Big)
+\] 
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Sampling with Markov Chains}
+\begin{itemize}
+\item in general, we are not able to sample directly from $\pi_i$ 
+
+\medskip
+\item $\Rightarrow$ construct a Markov chain $P_i$ such that 
+
+\begin{itemize}
+\item its stationary distribution is equal to $\pi_i$ 
+
+\medskip
+\item its spectral gap $\delta$ is large
+
+\begin{itemize}
+\item $\Rightarrow$ we have to simulate  
+\[
+\tilde{O}(1/ {\red \delta})
+\] 
+steps of $P_i$ to obtain one sample from $\tilde{\pi}_i$
+
+\medskip
+\item $\tilde{\pi}_i$ has to be $O(\epsilon^2/\ell^2)$ close to $\pi_i$
+\end{itemize}
+
+\end{itemize}
+
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Quantum Speed-Up}
+\begin{itemize}
+\item classical complexity
+\[
+\tilde{O}\Big(
+\ell^2 /\big(\delta \epsilon^2\big) 
+\Big)
+\]
+
+\item quantum complexity
+\[
+\tilde{O}\Big(
+\ell^2/\big(\sqrt{\delta} \epsilon\big)
+\Big)
+\]
+
+\item $1/\delta \rightarrow 1\sqrt{\delta}$ is due to the quadratic relation between the spectral gaps of $P_i$ and the phase gaps of the corresponding quantum walks $W(P_i)$ 
+
+\medskip
+\item $\epsilon^2 \rightarrow \epsilon$ is due to quantum estimation of expected values of observables
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Classical Walk}
+\begin{itemize}
+\item $P_i$ is a time-reversible Markov chain 
+\[
+P_i=\Big(p_i(x,y)\Big)_{x,y\in\Omega}
+\]
+with stationary distribution 
+\[
+\pi_i=\Big(\pi_i(x)\Big)_{x\in\Omega}
+\]
+
+\item $\pi_i$ is the unique left eigenvector of $P_i$ with eigenvalue $1$
+\[
+\pi_i P_i = \pi_i
+\]
+
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Spectral Gap}
+
+\begin{itemize}
+
+\item let $1=\lambda_0 > \lambda_1 > \ldots > \lambda_{|\Omega|-1}$ be the spectrum of $P_i$
+
+\bigskip
+\item the spectral gap 
+\[
+\delta := 1 - \lambda_1
+\]
+
+\medskip
+determines how fast $\pi_i$ is approached from any initial state
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Quantum Update}
+
+\begin{itemize}
+\item a quantum update for $P_i$ is any unitary $U_i$ acting on $\C^{|\Omega|}\otimes\C^{|\Omega|}$ with
+\begin{equation*}
+U_i \Big( |x\> \otimes |0\> \Big) = 
+|x\> \otimes 
+\sum_{y\in\Omega} \sqrt{p_i(x,y)} |y\> 
+\end{equation*}
+for some fixed state $0\in\Omega$
+
+\bigskip
+\item classical complexity: the number of times we apply $P_i$
+
+\bigskip
+\item quantum complexity: the number of times we apply $U_i$ or $U_i^\dagger$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Quantum Walk}
+\begin{itemize}
+\item the quantum walk $W(P_i)$ is realized by applying $U_i$ twice and $U_i^\dagger$ twice (and also some other simple unitaries)
+
+\bigskip
+\item the unique eigenvector of $W(P_i)$ with eigenvalue $1$ is
+\[
+|\pi_i\> = \sum_{x\in\Omega} \sqrt{\pi_i(x)} |x\>
+\]
+
+\item
+$|\pi_i\>$ is a coherent version of the limiting distribution $\pi_i$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Quadratic Relation}
+\begin{itemize}
+\item the phase gap $\Delta$ of $W(P_i)$ is
+\[
+\min\{ |\varphi| : \mbox{ $e^{i\varphi}$ is an eigenvalue of $W(P_i)$, $e^{i\varphi}\neq 1$} \} 
+\]
+
+\medskip
+\item the quadratic relation between the phase and spectral gaps
+\[
+\Delta \ge \sqrt{\delta}
+\]
+is at the heart of quantum speed-ups of many search problems
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Primitives}
+\begin{itemize}
+\item let
+\[
+\Pi_i := |\pi_i\>\<\pi_i| \quad \mbox{and} \quad \Pi_i^\perp = I - \Pi_i
+\]
+
+\medskip
+\item we can implement approximate versions of 
+\begin{eqnarray*}
+R_i         & = & - \Pi_i             + \Pi_i^\perp \\
+S_i         & = & e^{-2\pi j/3} \Pi_i + \Pi_i^\perp \quad \mbox{and} \quad S_i^\dagger 
+\end{eqnarray*}
+
+\medskip
+by applying the quantum walk $W(P_i)$
+\[
+\tilde{O}\Big(
+\frac{1}{\sqrt{\delta}}
+\Big)
+\]
+times
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Quantum Estimation of the Ratios I}
+\begin{itemize}
+\item let $A_i$ be the observable
+\[
+A_i = \sum_{x\in\Omega} e^{-\Delta\beta_i E(x)} |x\>\<x|
+\]
+
+\medskip
+\item we have 
+\[
+\<\pi_i|A_i|\pi_i\> = \alpha_i
+\]
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Quantum Estimation of the Ratios II}
+\begin{itemize}
+\item let 
+\[
+V_i := \sum_{x\in\Omega} |x\>\<x| \otimes
+\left(
+\begin{array}{cc}
+ \sqrt{e^{-\Delta\beta_i E(x)}}   & \sqrt{1-e^{-\Delta\beta_i E(x)}} \\
+-\sqrt{1-e^{-\Delta\beta_i E(x)}} & \sqrt{e^{-\Delta\beta_i E(x)}}
+\end{array}
+\right)
+\]
+
+\medskip
+\item let 
+\[
+|\psi_i\> = V_i \Big( |\pi_i\> \otimes |0\> \Big) \quad \mbox{ and } \quad \Gamma := I \otimes |0\>\<0|
+\]
+
+\medskip
+\item $\Rightarrow$ we have
+\begin{eqnarray*}
+\<\psi_i|\Gamma|\psi_i\> & = & \<\pi_i|A_i|\pi_i\> \\
+& = & \alpha_i
+\end{eqnarray*}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Quantum Estimation of the Ratios III}
+\begin{itemize}
+\item we apply quantum phase estimation to 
+\[
+G = \big(2|\psi_i\>\<\psi_i)-I\big) \big( 2\Gamma - I \big) \quad\mbox{and}\quad
+|\psi_i\> = |\pi_i\>|0\>
+\]
+
+\item $\Rightarrow$ we get a random variable $Q_i$ such that
+\[
+\hspace{-0.5cm}
+\Pr\left( \Big(1-\frac{\epsilon}{2(\ell+1)}\Big)\alpha_i \le Q_i \le \Big(1+\frac{\epsilon}{2(\ell+1)}\Big)\alpha_i \right) \ge 1 - \frac{1}{16(\ell+1)}
+\]
+
+\medskip
+\item it suffices to apply the reflection $R_i$ around $|\pi_i\>$
+\[
+O\Big(
+\frac{\ell}{\epsilon}
+\Big)
+\]
+times
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Quantum Estimation of the Ratios IV}
+\begin{itemize}
+\item let $Q$ be the random variable 
+\[
+Q=Q_0 Q_1 \cdots Q_\ell
+\]
+
+\item $\Rightarrow$ we have
+\[
+\Pr\Big( (1-\epsilon)\alpha \le Q \le (1+\epsilon)\alpha \Big) \ge \frac{15}{16}
+\]
+
+\item it suffices to apply operators from $\{W(P_0),\ldots,W(P_\ell)\}$
+\[
+O\Big(
+\frac{\ell^2}{\sqrt{\delta}\epsilon}
+\Big)
+\]
+times
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Preparation of Quantum Samples I}
+\begin{itemize}
+\item the fact that the ratios $\alpha_i$ are bounded from below by $1/2$ implies 
+\[
+|\<\pi_i|\pi_{i+1}\>|^2 \ge \frac{1}{2}
+\]
+
+\medskip
+\item $\Rightarrow$ we can drive $|\pi_i\>$ to $|\tilde{\pi}_i\>$ by applying operators from the set $\{S_i,S_i^\dagger,S_{i+1},S_{i+1}^\dagger\}$
+\[
+\tilde{O}(1)
+\] 
+times
+
+\medskip
+\item this is based on Grover's $\frac{\pi}{3}$-fixed point search
+
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Preparation of Quantum Samples II}
+\begin{itemize}
+\item starting from $|\pi_0\>$ (easy because uniform superposition), we can prepare any $|\tilde{\pi}_i\>$ by
+\[
+|\pi_0\> \rightarrow |\tilde{\pi}_1\> \rightarrow \cdots \rightarrow |\tilde{\pi}_i\> \rightarrow \cdots \rightarrow |\tilde{\pi}_\ell\>
+\]
+
+\medskip
+\item $\Rightarrow$ it suffices to apply the operators from the set $\{S_k,S_k^\dagger : k = 0,\ldots,i\}$ $\tilde{O}(i)$ times
+
+\medskip
+\item $\Rightarrow$ the complexity of approximating
+\[
+|\pi_0\> \otimes |\pi_1\> \otimes \cdots \otimes |\pi_\ell\>
+\]
+is 
+\[
+\tilde{O}\Big(
+\ell^2
+\Big)
+\]
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Summary}
+
+\hspace{5cm}
+\Qcircuit @C=0.9em @R=0.9em {
+\lstick{|\pi_0\>}                                                                                  & \gate{\tilde{\alpha}_0}      & \qw \\ 
+\lstick{|\pi_0\> \rightarrow |\tilde{\pi}_{1}\>}                                                   & \gate{\tilde{\alpha}_1}      & \qw \\ 
+                                                                                                   &                   &     \\
+\lstick{|\pi_0\> \rightarrow |\tilde{\pi}_{1}\> \rightarrow \cdots \rightarrow |\tilde{\pi}_{l}\>} & \gate{\tilde{\alpha}_{\ell}} & \qw    
+}
+
+\bigskip
+for each $i=0,\ldots,\ell$,
+\begin{itemize}
+\item the complexity of preparing an approximate version $|\tilde{\pi}_i\>$ of $|\pi_i\>$ is $\tilde{O}(\ell)$
+
+\medskip
+\item the complexity of estimating $\alpha_i$ is 
+$\tilde{O}\Big(
+\frac{\ell}{\sqrt{\delta} \epsilon}
+\Big)$ 
+\end{itemize}
+
+$\Rightarrow$ overall complexity $\tilde{O}\Big(
+\frac{\ell^2}{\sqrt{\delta} \epsilon}
+\Big)$ 
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Future Research}
+
+\begin{itemize}
+\item quantum speed-up of estimating permanents of matrices with non-negative entries
+
+\medskip
+\item quantum speed-up of estimting the volume of a convex polytope?
+
+\medskip 
+\item quantum speed-up of other classical approximation algorithms?
+
+\medskip
+\item estimating the partition functions of quantum Hamiltonians???
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

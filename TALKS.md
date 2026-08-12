@@ -10,6 +10,26 @@ and the talks I gave after 2020 are not yet reconstructed.
 
 ## University of Central Florida
 
+- **Thermalizing Quantum Systems and Evaluating Partition Functions with a Quantum
+  Computer** — *Invited talk*, September 2009  
+  NATO Advanced Research Workshop *Quantum Cryptography and Computing: Theory and
+  Implementation*, National Quantum Information Centre of Gdańsk, University of Gdańsk,
+  9–12 September 2009, at the invitation of Ryszard Horodecki and Janusz Kowalik.  
+  Joint work with David Poulin and Chen-Fu Chiang.  
+  The talk is built on [arXiv:0905.2199](https://arxiv.org/abs/0905.2199).  
+  [presentation](documents/2009-09_thermalizing_quantum_systems_gdansk/thermalizing_quantum_systems_gdansk_presentation.pdf) ·
+  [sources](documents/2009-09_thermalizing_quantum_systems_gdansk/)
+
+- **A Simple PromiseBQP-complete Matrix Problem** — *Invited talk*, March 2009  
+  IMA Conference on Quantum Computing and Complexity of Quantum Simulation, Institute for
+  Mathematical Sciences, Imperial College London, 31 March – 2 April 2009, at the invitation
+  of Prof. Richard Jozsa.  
+  Joint work with Dominik Janzing.  
+  The talk is built on
+  [quant-ph/0606229](https://arxiv.org/abs/quant-ph/0606229).  
+  [presentation](documents/2009-03_promisebqp_matrix_problem_london/promisebqp_matrix_problem_london_presentation.pdf) ·
+  [sources](documents/2009-03_promisebqp_matrix_problem_london/)
+
 - **Estimating Partition Functions via Quantum Walks** — *Invited talk*, September 2008  
   QICS Workshop on Foundational Structures for Quantum Information and Computation,
   Obergurgl, Austria, 14–20 September 2008, at the invitation of Prof. Hans Briegel.  

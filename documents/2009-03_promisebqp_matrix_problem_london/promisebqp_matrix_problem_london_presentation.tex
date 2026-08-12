@@ -1,0 +1,857 @@
+\documentclass[slideColor]{prosper}
+\usepackage{amsmath,amsfonts,amsthm}
+%\usepackage{epsfig}
+%\include{Qcircuit}
+
+
+\newcommand{\bbC}{{\mathbb{C}}}
+\newcommand{\C}{{\mathbb{C}}}
+\newcommand{\F}{{\mathbb{F}}}
+\newcommand{\N}{{\mathbb{N}}}
+\newcommand{\Q}{{\mathbb{Q}}}
+\renewcommand{\R}{{\mathbb{R}}}
+\newcommand{\Z}{{\mathbb{Z}}}
+
+\newcommand{\cA}{{\mathcal{A}}}
+\newcommand{\cD}{{\mathcal{D}}}
+\newcommand{\cH}{{\mathcal{H}}}
+\newcommand{\cN}{{\mathcal{N}}}
+\newcommand{\cP}{{\mathcal{P}}}
+\newcommand{\cQ}{{\mathcal{Q}}}
+\newcommand{\cS}{{\mathcal{S}}}
+\newcommand{\cU}{{\mathcal{U}}}
+\newcommand{\cV}{{\mathcal{V}}}
+
+\newcommand{\tr}{\mathop{\mathrm{tr}}}
+\newcommand{\rank}{\mathop{\mathrm{rank}}}
+\newcommand{\poly}{\mathop{\mathrm{poly}}}
+\newcommand{\E}{\mathop{\mbox{$\mathbf{E}$}}}
+\newcommand{\schur}{\mathop{\mathrm{Schur}}}
+\newcommand{\schursmall}[2]{{\mathrm{S}}_{#1,#2}}
+\newcommand{\planch}{\mathop{\mathrm{Planch}}}
+\newcommand{\planchsmall}[1]{{\mathrm{P}}_{#1}}
+\renewcommand{\d}{{\mathrm{d}}}
+
+\newcommand{\HSP}{\textsc{hsp}\xspace}
+
+\renewcommand{\>}{\rangle}
+\newcommand{\<}{\langle}
+\newcommand{\ket}[1]{|#1\rangle}
+\newcommand{\bra}[1]{\langle #1|}
+\newcommand{\scalar}[2]{\langle #1|#2\rangle}
+\newcommand{\proj}[1]{\left|#1\right\>\!\left\<#1\right|}
+\newcommand{\norm}[1]{\|#1\|}
+\newcommand{\ot}{\otimes}
+\newcommand{\eps}{\epsilon}
+\newcommand{\ra}{\rightarrow}
+
+\renewcommand{\setminus}{\mathbin{-}}
+\newcommand{\partitionof}{\mathbin{\vdash}}
+
+
+\newcommand{\I}{\mathrm{I}}
+\renewcommand{\H}{\mathrm{H}}
+\renewcommand{\S}{\mathrm{S}}
+\newcommand{\T}{\mathrm{T}}
+\newcommand{\G}{\mathrm{G}}
+%
+
+\newcommand{\bI}{\mathbb{I}}
+\newcommand{\bH}{\mathbb{H}}
+\newcommand{\bS}{\mathbb{S}}
+\newcommand{\bT}{\mathbb{T}}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{A Simple PromiseBQP-complete\\ Matrix Problem}
+\author{Pawel M. Wocjan\\[1ex]School of Electrical Engineering and Computer Science\\ University of Central Florida\\Orlando}
+\email{wocjan@eecs.ucf.edu}
+
+\begin{document}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Joint work with}
+\begin{center}
+Dominik Janzing
+\end{center}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Challenges for Quantum Computing}
+
+\begin{itemize}
+\item find new efficient quantum algorithms 
+
+(provide more evidence that BQP is strictly greater than BPP)
+
+\medskip
+\item	understand the computational power and limitations of quantum computers in comparison to classical computers
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Efficient Simulation of Quantum Models}
+
+\medskip
+\begin{itemize}
+\item explore what quantum models can be simulated efficiently on a classical computers; see for example:
+
+\medskip
+\begin{itemize}
+\item {\em Match gates and classical simulation of quantum circuits}, Jozsa and Miyake
+
+\medskip
+\item Knill-Gottesman Theorem; {\em Generalised Clifford groups and simulation of associated quantum circuits}, Clark, Jozsa, Linden
+
+\medskip
+\item Simulating quantum circuits using the formalism of matrix product states and the formalism of contracting tensor networks;
+generalizations in {\em On the simulation of quantum circuit}, Jozsa
+
+
+\medskip
+\item ...
+\end{itemize}
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Charaterizing BQP}
+
+\begin{itemize}
+\item approximately evaluating the Jones polynomial of plat closures of braids at roots of unity, Aharonov, Jones, Landau
+
+\medskip
+\item approximating the Potts model at some points of the Tutte plane, Aharonov, Arad, Eban, Landau
+
+\medskip
+\item approximating partition functions of lattice models in certain complex-parameter regimes, Van den Nest, D{\"u}r, Raussendorf, Briegel
+
+\medskip
+\item approximately evaluating quadratically signed weight enumerators, Knill, Laflamme
+
+\medskip
+\item ...
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Language / Decision Problem}
+
+\begin{itemize}
+\item a language $L$ is a subset of $\{0,1\}^*$
+
+\medskip
+\item the corresponding decision problem (``language recognition'') consists in determining if
+
+\medskip
+\begin{itemize}
+\item either $x\in L$ 
+
+\medskip
+\item or $x\not\in L$ 
+\end{itemize}
+
+\medskip
+for given input $x\in\{0,1\}^*$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Complexity Class BQP}
+
+\begin{itemize}
+\item BQP is the class of decision problems that can be solved by a {\em uniform} family of quantum circuits $\{U_n\}$ in the following sense:
+
+\bigskip
+let $x\in\{0,1\}^n$ $\Rightarrow$
+the application of $U_n$ to $|x,0\>$ yields
+\[
+U_n |x,0\> = 
+\alpha_{x,\textcolor{red}{0}}|\textcolor{red}{0}\> \otimes |\psi_{x,0}\> + 
+\alpha_{x,\textcolor{blue}{1}}|\textcolor{blue}{1}\> \otimes |\psi_{x,1}\>
+\]
+such that 
+
+\medskip
+\begin{itemize}
+\item $|\alpha_{x,1}|^2\ge 2/3$ if $x\in L$
+\item $|\alpha_{x,1}|^2\le 1/3$ if $x\not\in L$
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Promise Problem}
+
+\begin{itemize}
+\item a promise problem $\Pi$ is a pair $(\Pi_{\rm YES},\Pi_{\rm NO})$ of non-intersecting sets: 
+
+\medskip
+$\Pi_{\rm YES},\Pi_{\rm NO}\subseteq\{0,1\}^*$ and $\Pi_{\rm YES}\cap\Pi_{\rm NO}=\emptyset$
+
+\bigskip
+\item
+the set $\Pi_{\rm YES}\cup\Pi_{\rm NO}$ is called the {\em promise}
+
+\bigskip
+\item
+standard ``language recognition'' problems can be cast as the special case:
+
+\medskip
+$\Pi_{\rm YES}\cup\Pi_{\rm NO}=\{0,1\}^*$ ({\em trivial promise})
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Complexity Class PromiseBQP}
+\begin{itemize}
+\item PromiseBQP is the class of promise problems $(\Pi_{\rm YES},\Pi_{\rm NO})$ that can be solved by a {\em uniform} family of quantum circuits $\{U_n\}$ in the following sense:
+
+\bigskip
+\item let $x\in\{0,1\}^n$ $\Rightarrow$ the application of $U_n$ to $|x,0\>$ yields
+\[
+U_n |x,0\> = \alpha_{x,0}|0\> \otimes |\psi_{x,0}\> + \alpha_{x,1}|1\> \otimes |\psi_{x,1}\>
+\]
+
+such that 
+
+\medskip
+\begin{itemize}
+\item $|\alpha_{x,1}|^2\ge 2/3$ if $x\in\Pi_{\rm YES}$
+\item $|\alpha_{x,1}|^2\le 1/3$ if $x\in\Pi_{\rm NO}$
+\end{itemize}
+
+\medskip
+\item
+nothing is required with respect to $x\not\in\Pi_{\rm YES}\cup \Pi_{\rm NO}$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Complete Problems}
+\begin{itemize}
+\item no complete problems are known for complexity classes such as BPP, BQP, and MA
+
+\medskip
+\item complete problems are only known for their promise versions 
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Diagonal Entry Estimation I}
+\begin{itemize}
+\item decide if
+
+\medskip
+\begin{itemize}
+\item $(A^m)_{jj} \ge g + \epsilon b^m$ 
+
+\medskip
+\item $(A^m)_{jj} \le g - \epsilon b^m$
+\end{itemize}
+
+\medskip
+\item $A$ is a sparse symmetric matrix of size $N\times N$ with $\|A\| \le b$ 
+
+\medskip 
+\item $j\in [1,\ldots,N]$
+
+\medskip
+\item $m={\rm polylog}(N)$
+
+\medskip
+\item 
+$\epsilon=1/{\rm polylog}(N)$
+
+\medskip
+\item $g\in[-b^m,b^m]$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Diagonal Entry Estimation II}
+\begin{itemize}
+\item the task is to decide if the tuple $(A,b,m,j,\epsilon,g)$ is an element of $\Pi_{\rm YES}$ or of $\Pi_{\rm NO}$
+
+\medskip
+\item the instances are defined as follows:
+
+\medskip
+\begin{itemize}
+\item $(A,b,m,j,\epsilon,g)$ is a YES instance iff
+\[
+(A^m)_{jj} \ge g + \epsilon b^m
+\]
+
+\medskip
+\item $(A,b,m,j,\epsilon,g)$ is a NO instance iff
+\[
+(A^m)_{jj} \le g - \epsilon b^m
+\]
+
+\medskip
+\item the promise is that only tuples in $\Pi=\Pi_{\rm YES} \cup \Pi_{\rm NO}$ are considered
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{DEE is PromiseBQP-complete}
+
+\begin{itemize}
+\item Diagonal Entry Estimation is PromiseBQP-complete
+
+\medskip
+\item we prove this by showing that
+
+\medskip
+\begin{itemize}
+\item DEE is in PromiseBQP $\Leftrightarrow$
+
+\medskip
+DEE can be solved efficiently on a quantum computer 
+
+\medskip
+\item DEE is PromiseBQP-hard $\Leftrightarrow$
+
+\medskip
+quantum circuits can be encoded in such a way that we can decide whether they accept an input or not by looking at the corresponding diagonal entry
+\end{itemize}
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Spectral Measure I}
+\begin{itemize}
+\item let 
+\[
+A = \sum_\lambda \lambda Q_\lambda
+\]
+be the \textcolor{blue}{spectral decomposition of $A$} and $|\psi\>\in\C^N$ some unit vector
+
+\medskip
+\item the \textcolor{red}{spectral measure induced by $A$ and $|\psi\>$} is a probability distribution on the spectrum of $A$ such that 
+\[
+\Pr(\lambda) = \|Q_\lambda |\psi\> \|^2
+\]
+
+\medskip
+\item we refer to the process of sampling from the spectral measure as \textcolor{green}{measuring the observable $A$ in the state $|\psi\>$}
+
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Spectral Measure II}
+\begin{itemize}
+\item the expected value of $A^m$ in the state $|\psi\>$ is given by
+\[
+\<\psi|A^m|\psi\> = \sum_\lambda \lambda^m \<\psi |Q_\lambda|\psi\>
+\]
+and is equal to the $m$th statistical moment of the spectral measure
+
+\medskip
+\item we have $(A^m)_{jj} = \<j|A^m|j\>$
+
+\bigskip
+$\Rightarrow$ find quantum algorithm for estimating statistical moments of spectral measures to show that DEE is in PromiseBQP
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Outline of Quantum Algorithm}
+\begin{itemize}
+\item we measure the observable $A$ in the state $j$
+
+\medskip
+\item we obtain the eigenvalue $\lambda$ and compute $\lambda^m$ 
+
+\medskip
+\item we repeat this process and compute the average value of these powers
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Measuring the Observable $A$}
+
+\begin{itemize}
+\item we can measure the observable $A$ by
+
+\medskip
+\begin{itemize}
+\item considering $A$ as a Hamiltonian and simulating the corresponding time dynamics
+\[
+U = \exp(i A / \|A\|)
+\]
+
+\medskip
+\item applying the phase estimation algorithm to $U$
+\end{itemize}
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Analysis of Error Sources}
+
+\begin{itemize}
+\item this quantum algorithm works because the following errors can be made sufficiently small with polynomial resources only
+
+\medskip
+\begin{itemize}
+\item errors due to imperfections (limited resolution and success probability) of phase estimation
+
+\medskip
+\item statistical errors due to estimation of the expected value from the empirical mean
+
+\medskip
+\item errors due to imperfect simulation of the Hamiltonian time evolution
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{DEE is PromiseBQP-hard}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Equivalent Definition of PromiseBQP}
+
+\begin{itemize}
+\item let $U$ be a BQP quantum circuit and let $x$ be the input
+
+\medskip
+\item let $p_0$ and $p_1$ denote the probability of finding the output qubit in state $|0\>$ and $|1\>$, respectively
+
+\medskip
+\item elementary calculations show that
+\[
+\<x,0|U^\dagger\sigma_z^{\textrm{(ouput)}} U|x,0\>=p_0 - p_1
+\]
+
+\medskip
+\item the sign of this quantity indicates if $x\in\Pi_{\rm YES}$ or $x\in\Pi_{\rm NO}$
+
+\bigskip
+$p_0 - p_1 \le -1/3$ if $x\in\Pi_{\textrm{YES}}$ and $\ge 1/3$ if $x\in\Pi_{\textrm{NO}}$
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Forward-time Operator}
+
+\begin{itemize}
+\item let $V = U^\dagger \sigma_z^{(\textrm{output})} U$ and
+\[
+V = V_{M-1} V_{M-2} \cdots V_0
+\]
+the decomposition of $V$ into elementary gates ($M$ is odd)
+
+\medskip
+\item the \textcolor{blue}{forward-time operator $F$} is
+\[
+F = \sum_{\ell=0}^{M-1} |\ell+1\>\<\ell|_{\mathrm{clock}} \otimes V_\ell
+\]
+
+\medskip
+\item we have $F^{2M}=I$ because $V^2=I$
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Orbit}
+
+\begin{itemize}
+\item we restrict our attention to the orbit
+\[
+\left\{
+F^\ell |0\>_{\mathrm{clock}} \otimes |x,0\> \, : \, \ell\in\N
+\right\}
+\]
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Action of the Forward-time Operator}
+
+\begin{itemize}
+\item the input $x$ is fully rejected ($p_0=1$) $\Rightarrow$
+
+\begin{itemize}
+\item the orbit is $M$-periodic 
+
+\medskip
+\item the action of $F$ is isomorphic to the action of a cyclic shift in $M$ dimensions
+\[
+|\ell\> \mapsto |(\ell + 1) \mod M \>
+\]
+where $F^\ell |0\>\otimes |x,0\>$ corresponds to $|\ell\>$
+
+\medskip
+\item the spectral measure $R^{(0)}$ induced by $F$ and $|0\>\otimes|x,0\>$ is 
+the uniform distribution on the $M$th roots of unity
+\[
+\Pr\big(\exp(i\pi 2\ell/M)\big) = \frac{1}{M} 
+\]
+
+\end{itemize}
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%% YES CASE %%%%
+
+\begin{slide}{Action of the Forward-time Operator}
+
+\begin{itemize}
+\item the input $x$ is fully accepted ($p_1=1$) $\Rightarrow$
+
+\medskip
+\begin{itemize}
+\item the action of $F$ is isomorphic to the action of a cyclic shift in $M$ dimensions with an \textcolor{red}{additional phase $-1$}
+\begin{eqnarray*}
+|\ell\> & \mapsto & \phantom{-}|\ell + 1\> \mbox{ for $\ell=0,\ldots,M-2$} \\
+|M-1\>  & \mapsto & \textcolor{red}{-} |0\>
+\end{eqnarray*}
+
+\medskip
+\item the spectral measure $R^{(1)}$ induced by $F$ and $|0\>\otimes|x,0\>$ is 
+\[
+\Pr\big(\exp(i\pi (2\ell \textcolor{red}{+ 1}) / 2M)\big) = \frac{1}{M} 
+\]
+
+\end{itemize}
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Spectral Measure}
+
+\begin{itemize}
+\item in the general case, the spectral measure induced by $F$ and $|0\>\otimes |x,0\>$ is a convex
+combination
+\[
+R = p_0 R^{(0)} + p_1 R^{(1)}
+\]
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Sparse Matrix}
+
+\begin{itemize}
+\item we define the self-adjoint sparse matrix
+\[
+A = \frac{1}{2} (F + F^\dagger)
+\]
+
+\medskip
+\item
+the spectral measure induced by $A$ and $|0\>\otimes |x,0\>$ is given by
+\[
+P = p_0 P^{(0)} + p_1 P^{(1)}
+\]
+
+\medskip
+where the supports of $P^{(0)}$ and $P^{(1)}$ are given by the real parts of $R^{(0)}$ and $R^{(1)}$ (cosine values)
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Spectral Measures}
+
+\begin{itemize}
+\item $p_0=1$ $\Rightarrow$ the spectral measure $P^{(0)}$ has the form
+
+\[
+\begin{array}{ccc|ccc}
+&&& \multicolumn{3}{c}{\mbox{for $\ell=1,\ldots,M-1$}}                                \\ \hline 
+\lambda^{(0)}           & = & +1   & \lambda^{(0)}_\ell      & = & +\cos(2\pi \ell / M) \\
+\Pr(\lambda^{(0)}_0)    & = & 1/M & \Pr(\lambda^{(0)}_\ell) & = & 2/M                 \\
+\end{array}
+\]
+
+\medskip
+\item $p_1=1$ $\Rightarrow$ the spectral $P^{(1)}$ has the form
+
+\[
+\begin{array}{ccc|ccc}
+&&& \multicolumn{3}{c}{\mbox{for $\ell=1,\ldots,M-1$}}                                \\ \hline 
+\lambda^{(1)}           & = & \textcolor{red}{-}1   & \lambda^{(1)}_\ell      & = & \textcolor{red}{-}\cos(2\pi \ell / M) \\
+\Pr(\lambda^{(1)}_0)    & = & 1/M & \Pr(\lambda^{(1)}_\ell) & = & 2/M                 \\
+\end{array}
+\]
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Statistical Moments}
+
+\begin{itemize}
+\item identify $j$ with the label of the initial state $|0\>\otimes |x,0\>$
+
+\medskip
+\item the $m$th statistical moment is equal to 
+\[
+(A^m)_{jj} = (p_0 - p_1) \, \cdot \, \left(
+1 + \sum_{\ell=1}^{M-1} \cos^{m}(2\pi \ell/M)
+\right)
+\]
+
+\medskip 
+\item for $m=M^3=\mathrm{poly}(\mbox{\# quantum gates})$, we have
+\[
+(A^m)_{jj} \approx p_0 - p_1 
+\]
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Strengthening of the Result}
+
+\begin{itemize}
+\item the DEE problem for sparse matrices $A$ with entries restricted to $0,\pm 1$ remains PromiseBQP-hard
+
+\medskip
+\item the problem of estimating off-diagonal terms is also in PromiseBQP
+
+\medskip
+\item if $A$ is restricted to have only $0,1$ as entries, then the problem of estimating differences
+\[
+(A^m)_{ii} - (A^m)_{ij}
+\]
+is PromiseBQP-complete
+
+\medskip
+\item the adjacency matrix $A$ can be obtained from simple string rewriting rules (more explicit than saying that $A$ is sparse)
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Connection to Quantum Algorithms}
+quantum algorithms that 
+
+\begin{itemize}
+\item implement 
+\[
+\exp(-i A t)
+\]
+
+\medskip
+\item and compute
+\[
+\<\psi|f(A)|\psi\>
+\]
+
+\medskip
+for sparse $A$ and smooth functions $f$
+
+\medskip
+\begin{itemize}
+\item {\em Quantum algorithm for solving linear systems of equations}, Harrow, Hassidim, Lloyd
+
+\medskip
+\item {\em A quantum algorithm to solve nonlinear differential equations}, Leyton, Osborne
+
+\medskip
+\item
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Conclusions}
+\begin{itemize}
+\item a purely classical (quantum free) characterization of BQP in terms of a simple matrix problem
+
+\medskip
+\item quantum computers are better at counting and comparing the number of solutions of combinatorial problems (provided that BQP is strictly larger BQP)
+
+\medskip
+\item $\Rightarrow$ can we find new quantum algorithms based on this observation?
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{String Rewriting Problem}
+
+\begin{itemize}
+\item let $\cA$ be a finite alphabet
+
+\medskip
+\item let $\sim$ be a symmetric relation on substrings of length at most $k$ (where $k$ is a constant)
+
+\medskip
+\item let $A$ be the adjacency matrix of the undirected graph $G=(V,E)$, where
+\begin{itemize}
+
+\medskip
+\item the set of vertices $V$ is $\cA^r$ (strings of length $r$ over $\cA$)
+
+\medskip
+\item the set of edges $E$ corresponds to possible conversions between strings, that is,
+\[
+(avb,awb)\in E \quad \Longleftrightarrow \quad v\sim w\
+\]
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{String Rewriting Problem}
+\begin{itemize}
+\item let $s$, $t$, and $t'$ be three strings in $\cA^r$
+\item let 
+\[
+\Delta_{s,t,t'}(n):=A_{s,t}^n - A_{s,t'}^n
+\]
+be the difference between the number of possibilities to obtain $t$ from $s$ and those to obtain $t'$ from $s$ after exactly $n$ replacements
+\item given the promise
+\begin{itemize}
+\item $|\Delta_{s,t,t'}(n)| \le c^n$ for all $n\in\N$ ({\em growth condition})
+\item $|\Delta_{s,t,t'}(m)|\ge \epsilon c^m$
+\end{itemize}
+determine the sign of $\Delta_{s,t,t'}(m)$ where
+
+$c>0$ is a constant, $m\in\N$ with $m=poly(r)$, and $\epsilon\in [0,1]$ with $\epsilon=poly(1/r)$
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Motivation from Bioinformatics}
+\begin{itemize}
+\item strings $s$, $t$, and $t'$ correspond to DNA sequences 
+\item mutations change substrings (possible mutations are specified by the relation $\sim$)
+\item String rewriting problem:
+
+Are there more possibilities to mutate from $s$ to $t$ or from $s$ to $t'$ if exactly $m$ mutations occur?
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{PromiseBQP-complete}
+Theorem: String Rewriting is PromiseBQP-complete
+
+\bigskip
+The string rewriting problem is the most difficult problem that can be efficiently solved on a quantum computer.
+
+\bigskip
+Quantum computers are better at estimating differences of combinatorial quantities than classical computers (provided that BPP is not equal to BQP).
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{String Rewriting is in PromiseBQP}
+
+\begin{itemize}
+\item rewrite $\Delta_{s,t,t'}(m)$ as a difference of expected values
+\[
+\Delta_{s,t,t'}(m)=\sqrt{2}(\<\psi^+|A^m|\psi^+\> - \<\psi^-|A^m|\psi^-\>)
+\]
+with $|\psi^{\pm}\>=(|s\>\pm|\varphi\>)/\sqrt{2}$ and $|\varphi\>=(|t\>+|t'\>))/\sqrt{2}$
+\item determine the expected values as follows:
+\begin{itemize}
+\item let $U:=\exp(-i A/b)$ where $b\le\|A\|$
+\item apply quantum phase estimation to $U$ and $|\psi^{\pm}\>$
+
+\medskip
+this allows one to sample according to the spectral measure induced by $A$ and $|\psi^{\pm}\>$: 
+
+eigenvalue $\lambda_j$ occurs with probability  $\<\psi^{\pm}|P_j|\psi^{\pm}\>$
+\end{itemize}
+\item raise the outcome to the $m$th power
+\item output average value after sufficiently many runs 
+\end{itemize}
+\end{slide}
