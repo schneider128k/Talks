@@ -191,6 +191,10 @@ Current work, not yet in a journal.
     [arXiv:0706.1219](https://arxiv.org/abs/0706.1219) ·
     [doi](https://doi.org/10.26421/QIC9.3-4-3)
 
+    An earlier preprint with Thomas Decker, *Efficient quantum algorithm for hidden quadratic and
+    cubic polynomial function graphs* (2007), was the starting point for this paper.
+    [arXiv:quant-ph/0703195](https://arxiv.org/abs/quant-ph/0703195)
+
 33. P. Wocjan, C.-F. Chiang, D. Nagaj, and A. Abeyesinghe, *Quantum algorithm for approximating
     partition functions*, Physical Review A **80** (2009), 022340. The preprint is titled *Quantum
     speed-up for approximating partition functions*.
@@ -458,11 +462,6 @@ the starting point for later work, and some was never sent anywhere.
 
 - *Efficient quantum processing of ideals in finite rings*, 2009, revised 2023 —
   [arXiv:0908.0022](https://arxiv.org/abs/0908.0022)
-
-- *Efficient quantum algorithm for hidden quadratic and cubic polynomial function graphs*, 2007.
-  The starting point for the work with Thomas Decker and Jan Draisma that became *Efficient quantum
-  algorithm for identifying hidden polynomials* —
-  [arXiv:quant-ph/0703195](https://arxiv.org/abs/quant-ph/0703195)
 
 - *BQP-complete problems concerning mixing properties of classical random walks on sparse graphs*,
   2006 — [arXiv:quant-ph/0610235](https://arxiv.org/abs/quant-ph/0610235)
