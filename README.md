@@ -37,7 +37,6 @@ was done with, and links to the slides or the poster and to the sources.
 entropy function, and the seminars and proseminars. Two of the entries are write-ups of courses
 given by other people, where the mathematics is theirs and the writing is mine.
 
-
 ## Folder layout
 
 Everything with sources lives under `documents/`, one folder per entry, named
