@@ -7,7 +7,15 @@ that followed.
 
 ## How this is organised
 
-Three lists, each in reverse chronological order, newest first.
+Three lists, each in reverse chronological order, newest first, and each divided into the four
+places the work was done — in that same order, newest first:
+
+- **IBM Quantum**, at the Thomas J. Watson Research Center, from 2020.
+- **The University of Central Florida**, 2006 to 2020 — with a sabbatical year at **MIT**,
+  June 2012 to July 2013, as a Visiting Associate Professor in the Mathematics Department and
+  the Center for Theoretical Physics.
+- **The Institute for Quantum Information at Caltech**, 2004 to 2006.
+- **Universität Karlsruhe (TH)**, the student years and the doctorate at the IAKS.
 
 **[→ PUBLICATIONS.md](PUBLICATIONS.md)** — papers and theses. Almost everything is on the arXiv,
 so this is a list of links rather than a store of sources: each entry points at the preprint and,
@@ -25,8 +33,8 @@ was done with, and links to the slides or the poster and to the sources.
 entropy function, and the seminars and proseminars. Two of the entries are write-ups of courses
 given by other people, where the mathematics is theirs and the writing is mine.
 
-Entries in TALKS.md and NOTES.md are being added one at a time, and the talks I gave after 2020
-are not yet reconstructed. The recovery itself is finished; the publishing is not.
+TALKS.md holds the talks I gave to audiences outside the institution I was at; the internal
+seminars and project meetings of my IBM years are not there.
 
 ## Folder layout
 
