@@ -10,6 +10,32 @@ and the talks I gave at IBM are only partly reconstructed.
 
 ## IBM Quantum, Thomas J. Watson Research Center
 
+- **A Factorization Identity for Twisted Multinomial Coefficients, with Application to Pilot
+  States in Hamiltonian Decoded Quantum Interferometry** — *Invited talk*, 26 May 2026  
+  An online seminar for Prof. Mio Murao's group at the University of Tokyo, six months after
+  the visit below. The slides are built on a Japanese theme and close in Japanese, which is why
+  they look unlike anything else here. Their title page carries 28 April, the day I first
+  finished them.  
+  The talk is built on [arXiv:2604.01022](https://arxiv.org/abs/2604.01022), and on the
+  Hamiltonian decoded quantum interferometry papers it names,
+  [arXiv:2510.07913](https://arxiv.org/abs/2510.07913) and
+  [arXiv:2601.18773](https://arxiv.org/abs/2601.18773).  
+  These slides need LuaLaTeX and the Noto Sans CJK JP font; the rest of the repository builds
+  with pdfLaTeX.  
+  [presentation](documents/2026-05_twisted_multinomial_coefficients_tokyo/twisted_multinomial_coefficients_presentation.pdf) ·
+  [sources](documents/2026-05_twisted_multinomial_coefficients_tokyo/)
+
+- **Brief Introduction to Quantum Algorithms** — *Invited talk*, November 2025  
+  Department of Physics, University of Tokyo, during a three-week visit to Prof. Mio Murao's
+  group, 3–21 November 2025. The second of the two talks I gave there.  
+  A survey rather than a report on my own work: circuits and elementary algorithms, the quantum
+  Fourier transform, phase estimation and order finding, the hidden subgroup problem, and a
+  closing look at non-Abelian Fourier transforms.  
+  The prism figure on the non-Abelian Fourier transform slide is IBM's, from the IBM Quantum
+  blog post the following slide links to; it is not my work.  
+  [presentation](documents/2025-11_brief_introduction_quantum_algorithms_tokyo/brief_introduction_quantum_algorithms_presentation.pdf) ·
+  [sources](documents/2025-11_brief_introduction_quantum_algorithms_tokyo/)
+
 - **Quantized Markov Chain Couplings that Prepare Qsamples** —
   *Invited talks*, June 2025 – January 2026  
   The slides here are the version I gave at the Institute for Pure & Applied Mathematics,
