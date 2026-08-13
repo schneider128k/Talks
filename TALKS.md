@@ -10,6 +10,22 @@ and the talks I gave at IBM are only partly reconstructed.
 
 ## IBM Quantum, Thomas J. Watson Research Center
 
+- **Quantized Markov Chain Couplings that Prepare Qsamples** —
+  *Invited talks*, June 2025 – January 2026  
+  The slides here are the version I gave at the Institute for Pure & Applied Mathematics,
+  University of California, Los Angeles, on 14 January 2026.  
+  I had given earlier versions at the University of Central Florida in June 2025; at the
+  MIT–IBM Workshop in Cambridge in October 2025; and three times in Japan in November 2025 —
+  at the Department of Physics of the University of Tokyo, at Keio University on the 12th, and
+  at the RIKEN Center for Quantum Computing on the 20th — during a three-week visit to Prof.
+  Mio Murao's group in Tokyo, 3–21 November 2025. The versions differ in their opening and
+  closing slides, tailored to each occasion; the talk itself is the same, so only one is here.  
+  Joint work with Kristan Temme.  
+  The talk is built on [arXiv:2504.02651](https://arxiv.org/abs/2504.02651), published as
+  *Quantum* **9** (2025), 1951.  
+  [presentation](documents/2025-06_quantized_markov_chain_couplings/quantized_markov_chain_couplings_presentation.pdf) ·
+  [sources](documents/2025-06_quantized_markov_chain_couplings/)
+
 - **Simpler Classical and Faster Quantum Algorithms for Gibbs Partition Functions** —
   *Workshop talk*, July 2022  
   IBM – Tufts University Quantum Workshop.  
