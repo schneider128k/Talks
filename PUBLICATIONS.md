@@ -396,12 +396,6 @@ Current work, not yet in a journal.
    (editors), Wiley-VCH, Berlin, 2003, 1–13.
    [doi](https://doi.org/10.1002/3527603549.ch1)
 
-## Technical reports
-
-1. M. Eck, P. Wocjan, and Th. Beth, *Entwurf und Implementierung eines Simulators für
-   Quantenschaltkreise*, E.I.S.S.-Report 03/2000, European Institute for System Security,
-   Universität Karlsruhe (TH), 2001.
-
 ## Theses
 
 Each has a dedicated repository. The Studienarbeit and the Diplomarbeit repositories also hold the
@@ -423,6 +417,12 @@ original implementation, where there is one, and a modern Python reimplementatio
    Sommersemester 1997. Fakultät für Informatik, Universität Karlsruhe (TH). Supervised by
    Prof. Dr. Thomas Beth and Dipl.-Inform. Michael Schmid.
    [→ github.com/schneider128k/Studienarbeit](https://github.com/schneider128k/Studienarbeit)
+
+## Technical reports
+
+1. M. Eck, P. Wocjan, and Th. Beth, *Entwurf und Implementierung eines Simulators für
+   Quantenschaltkreise*, E.I.S.S.-Report 03/2000, European Institute for System Security,
+   Universität Karlsruhe (TH), 2001.
 
 ## Unpublished manuscripts
 
