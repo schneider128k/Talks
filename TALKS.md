@@ -3,7 +3,7 @@
 Newest first. Each entry gives the occasion and date, names the people the work was done with,
 and links to the slides or the poster and the sources they were built from.
 
-The list runs from February 1996 to May 2026. It holds the talks I gave to audiences outside the
+The list runs from October 1998 to May 2026. It holds the talks I gave to audiences outside the
 institution I was at; the internal seminars and project meetings of my IBM years are not here.
 
 ---
@@ -405,3 +405,11 @@ institution I was at; the internal seminars and project meetings of my IBM years
   as it stands.  
   [poster](documents/2000-07_binary_block_codes/binary_block_codes_poster.pdf) ·
   [sources](documents/2000-07_binary_block_codes/)
+
+- **Absolute Factorization of Bivariate Polynomials** — *Workshop talk*, 26–27 October 1998  
+  Centre International de Rencontres Mathématiques, Luminy, Marseille. I was in Nancy at the
+  time, writing my Diplomarbeit at the LORIA with the Polka group, and I gave the talk in
+  French.  
+  Joint work with Gaétan Haché, whose Brill-Noether algorithm the work builds on; I implemented
+  it in MuPAD.  
+  I do not have the slides.
