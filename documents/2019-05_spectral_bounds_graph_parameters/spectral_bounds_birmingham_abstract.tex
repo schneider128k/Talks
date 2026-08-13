@@ -1,0 +1,140 @@
+% ----------------------------------------------------------
+% Abstract for talk at 26th British Combinatorial Conference
+% ----------------------------------------------------------
+
+% ----------------------------------------------------------
+% PLEASE DO NOT MODIFY THIS HEADER SECTION
+
+\documentclass[12pt,a4paper]{article}
+\newcommand{\TalkTimeLocation}{Xxxday 00:00 TC30x}
+
+\pagestyle{empty}
+
+\frenchspacing \setlength{\parskip}{9pt plus 3pt minus 1pt}
+\setlength{\parindent}{0pt}
+
+\setlength{\textwidth}{6.27in}
+\setlength{\textheight}{9.69in}
+\setlength{\topmargin}{0pt}
+\setlength{\headsep}{0pt}
+\setlength{\headheight}{0pt}
+\setlength{\oddsidemargin}{0pt}
+\setlength{\evensidemargin}{0pt}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{tikz}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{question}[theorem]{Question}
+
+\newcommand{\ifEmpty}[3]{\setbox0=\hbox{#1\unskip}\ifdim\wd0=0pt{#2}\else{#3}\fi}
+\newcommand{\nothingIfEmpty}[2]{\ifEmpty{#1}{}{#2}}
+\newcommand{\showIfNotEmpty}[1]{\nothingIfEmpty{#1}{#1}}
+\newcommand{\showTalkJointWork}[1]{\nothingIfEmpty{#1}{(This talk is based on joint work with #1.)}}
+\newcommand{\warn}[1]{\color{red}\large\textbf{\textsf{#1}}}
+\renewcommand{\refname}{}
+\newenvironment{talkBibliog}{\vspace*{-24pt}\begin{thebibliography}{9}\footnotesize}{\end{thebibliography}}
+
+% PLEASE DO NOT MODIFY ABOVE HERE
+
+% ----------------------------------------------------------
+% PLEASE SPECIFY THE TALK INFORMATION HERE
+
+\newcommand{\TalkTitle}{Spectral bounds for graph parameters -- Part II} %TITLE of the talk}
+\newcommand{\TalkPresenter}{Pawel Wocjan} %NAME of the speaker}
+\newcommand{\TalkEmail}{wocjan@cs.ucf.edu} %my.email@uni.ac.uk}
+\newcommand{\TalkAffiliation}{University of Central Florida} %University of the speaker}
+\newcommand{\TalkJointWork}{Clive Elphick} %A. Coauthor}     % leave blank if not joint work
+\newcommand{\TalkMSCCodes}{05C15, 05C50} %MSC codes here}                   % REQUIRED - see www.ams.org/msc/msc.html
+
+% ----------------------------------------------------------
+% PERSONAL MACROS MAY BE PLACED HERE
+
+% \newcommand{\iso}{\cong}
+
+\newcommand{\C}{\mathbb{C}}
+
+% ----------------------------------------------------------
+% PLEASE DO NOT MODIFY THIS SECTION
+
+\begin{document}
+\hfill \textsf{\TalkTimeLocation}
+\begin{center}
+ {\Large\textsc{\TalkTitle}}
+
+ \textbf{\TalkPresenter}
+
+ \showIfNotEmpty{\texttt{\TalkEmail}}
+
+ \showIfNotEmpty{\TalkAffiliation}
+
+ \showTalkJointWork{\TalkJointWork}
+
+ {\small{MSC2000: \ifEmpty{\TalkMSCCodes}{\warn{An MSC code is required!}}{\TalkMSCCodes}}}
+
+ \bigskip\bigskip
+\end{center}
+
+% ----------------------------------------------------------
+% PLEASE INSERT YOUR ABSTRACT HERE
+
+This talk is the second of a pair of consecutive talks by Clive Elphick and Pawel Wocjan on their joint work on spectral bounds for graph parameters, that lie between the clique number $\omega(G)$, and the chromatic number, $\chi(G)$. The second talk will provide more technical details. 
+
+Let $[c]=\{0,\ldots,c-1\}$ for some positive integer $c$ and let $I_d$ and $0_d$ denote the identity and zero matrices acting on $\C^d$. 
+A quantum $c$-coloring of an undirected graph $G=(V,E)$ without loops and without multiple edges is a collection of orthogonal projectors 
+\[
+\{ P_{v,k} : v \in V, k \in [c] \}
+\]
+acting on $\C^d$ for some $d>0$ such that
+\begin{itemize}
+\item for all vertices $v\in V$
+\[
+\sum_{k\in [c]} P_{v,k} = I_d \quad \quad \mbox{completeness}
+\]
+\item for all edges $vw\in E$ and for all $k\in [c]$
+\[
+P_{v,k} P_{w,k} = 0_d \quad \quad \mbox{orthogonality}
+\]
+\end{itemize}
+The quantum chromatic number, $\chi_q$, is the smallest $c$ for which the graph $G$ admits a quantum $c$-coloring. The classical chromatic number is a special case when $d=1$.
+
+We will establish that the existence of a quantum $c$-coloring implies the existence of a unitary matrix $U$ acting on $\C^n \otimes \C^d$ such that
+\[
+\sum_{\ell=1}^{c-1} U^\ell (A\otimes I_d) (U^*)^\ell = -A \otimes I_d,
+\]
+where $A$ is the adjacency matrix of $G$ and $n$ its number of vertices.  
+
+We will show that applying the majorization result for maximal eigenvalues of Hermitian matrices $X$ and $Y$, 
+$\mu_{\max}(X) + \mu_{\max}(Y) \ge \mu_{\max}(X+Y)$, to the above matrix equality yields the Hoffman bound for the quantum chromatic number: $\chi_q(G) \ge 1 + \mu_{\max(A)}/|\mu_{\min}(A)|$.
+
+Similarly, we will show that applying the rank inequality for positive semidefinite matrices $X$ and $Y$ with $X-Y$ positive semidefinite, $\mathrm{rank}(X)\ge\mathrm{rank}(Y)$, to the above matrix inequality yields the inertial lower bound on the quantum chromatic number: $\chi_q(G)\ge 1 + \max\{n^+(A)/n^-(A), n^-(A) / n^+(A)\}$, where $n^\pm(A)$ denote the number of positive and negative eigenvalues of $A$.
+
+%Please do the following:
+%\begin{enumerate}
+%  \item Save this file as \texttt{\emph{YourFirstName}-\emph{YourLastName}.tex}, using your name.
+%  \item Add the talk information as required. You must specify at least one MSC code; see \texttt{www.ams.org/msc/msc.html}.
+%  \item Insert your abstract. Graphics may be included using TikZ. Theorems, etc., may be included using the appropriate environments. You may also include references. The complete abstract must fit on a single page. Do not change the font size or the margins.
+%  \item If you haven't already done so, register for the conference by visiting BCC's webpage.
+%  \item Email both the .tex file and the PDF to \texttt{bcc2019@contacts.bham.ac.uk} by 31st~May 2019.
+%\end{enumerate}
+%Thanks!
+
+
+
+
+
+% ----------------------------------------------------------
+% PLEASE ADD ANY REFERENCES HERE
+
+
+
+
+% ----------------------------------------------------------
+\end{document}
+% ----------------------------------------------------------

@@ -10,6 +10,24 @@ and the talks I gave after 2020 are not yet reconstructed.
 
 ## University of Central Florida
 
+- **Spectral Bounds for Classical & Quantum Graph Parameters** —
+  *Invited talk*, May – August 2019  
+  2nd IAMCS Workshop on Quantum Computation and Information, Institute for Applied Mathematics
+  and Computational Science, Texas A&M University, College Station, 13–15 May 2019, at the
+  invitation of Prof. Andreas Klappenecker.  
+  I gave a revised version at the British Combinatorial Conference, University of Birmingham,
+  29 July – 2 August 2019, as the second of a pair of consecutive talks with Clive Elphick on
+  our joint work; his came first and mine carried the technical detail.  
+  Joint work with Clive Elphick.  
+  The talk is built on [arXiv:1805.08334](https://arxiv.org/abs/1805.08334),
+  [arXiv:1806.02734](https://arxiv.org/abs/1806.02734),
+  [arXiv:1808.10820](https://arxiv.org/abs/1808.10820) and
+  [arXiv:1812.02613](https://arxiv.org/abs/1812.02613).  
+  [Texas slides](documents/2019-05_spectral_bounds_graph_parameters/spectral_bounds_texas_presentation.pdf) ·
+  [Birmingham slides](documents/2019-05_spectral_bounds_graph_parameters/spectral_bounds_birmingham_presentation.pdf) ·
+  [abstract](documents/2019-05_spectral_bounds_graph_parameters/spectral_bounds_birmingham_abstract.pdf) ·
+  [sources](documents/2019-05_spectral_bounds_graph_parameters/)
+
 - **Quantum Algorithm for Computing the Period Lattice of an Infrastructure** —
   *Seminar and invited talks*, October 2011 – April 2013  
   First to the quantum information seminar at the Massachusetts Institute of Technology on

@@ -1,0 +1,611 @@
+\documentclass{beamer}
+%
+% Choose how your presentation looks.
+%
+% For more themes, color themes and font themes, see:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+%
+\mode<presentation>
+{
+  \usetheme{default}      % or try Darmstadt, Madrid, Warsaw, ...
+  \usecolortheme{crane} % or try albatross, beaver, crane, ...
+  \usefonttheme{structurebold}  % or try serif, structurebold, ...
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+} 
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+
+\usepackage{tikz-cd}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cD}{\mathcal{D}}
+\renewcommand{\>}{\rangle}
+\newcommand{\<}{\langle}
+
+\title[Spectral Bounds]{Spectral Bounds for Classical \& Quantum Graph Parameters}
+\author{Pawe{\l} Wocjan}
+\institute{University of Central Florida}
+\date{May 2019}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Uncomment these lines for an automatically generated outline.
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+\section{Spectral graph theory}
+
+\begin{frame}{Spectral graph theory}
+\begin{itemize}
+\item Spectral graph theory is a well-established branch of graph theory.
+
+\item It studies properties of a graph with the help of eigenvalues and eigenvectors of matrices associated to the graph such as the adjacency and Laplacian matrices.
+
+\item One of the most well-known results in graph theory is the Hoffman lower bound on the chromatic number.
+\end{itemize}
+\end{frame}
+
+\section{Graph parameters}
+
+\begin{frame}{Graph parameters I \\ Chromatic numbers and Lov\'asz theta functions}
+%\[
+%\omega(G) \le \chi_v(G) = \theta'(\overline{G}) \le \chi_{sv}(G) = \theta(\overline{G}) \le \chi_{rv}(G) = \theta^+(\overline{G}) \le \chi(G).
+%\]
+\begin{itemize}
+\item $\omega(G)$ -- clique number
+\item $\chi_v(G)$ -- vector chromatic number
+\item $\chi_{sv}(G)$ -- strict vector chromatic number
+\item $\chi_{rv}(G)$ -- rigid vector chromatic number
+\item $\chi_{\mathrm{vect}}(G)$ -- vectorial chromatic number
+
+\medskip
+\item $\theta'(\overline{G})$  -- Schrijver variant of Lov\'asz theta function
+\item $\theta(\overline{G})$ -- Lov\'asz theta function 
+\item $\theta^+(\overline{G})$ -- Szegedy variant of Lov\'asz theta function 
+
+\medskip
+\item These parameters, other than $\omega(G)$ can all be calculated using semi-definite programming
+\end{itemize}
+\end{frame}
+
+%
+
+\begin{frame}{Graph parameters II}
+\begin{itemize}
+\item $\xi_f(G)$ -- projective rank
+\item $\xi(G)$ -- orthogonal rank
+\item $\xi't(G)$ -- normalized orthogonal rank
+\item  $\chi_q(G)$ -- quantum chromatic number
+\item $\chi_q^{(1)}(G)$ -- rank one quantum chromatic number
+\item $\chi_f(G)$ -- fractional chromatic number
+\item $\chi_c(G)$ -- circular chromatic number
+\item $\chi(G)$ -- chromatic number
+\end{itemize}
+\end{frame}
+
+%
+
+\begin{frame}[fragile]{Hierarchies of graph parameters}
+
+{\tiny
+\[
+\begin{tikzcd}
+                        &                        &                                                            &                                                     & \lceil \theta^+(\overline{G}) \rceil = \chi_{\mathrm{vect}}(G)  \\
+\omega(G) \ar[r] & \chi_v(G)=\theta'(\overline{G}) \ar[r] &\chi_{sv}(G) = \theta(\overline{G}) \ar[r]  & \chi_{rv}(G) = \theta^+(\overline{G}) \ar[r] \ar[ru] & \xi_f(G) 
+\end{tikzcd}
+\]
+
+\[
+\begin{tikzcd}
+\chi_{\mathrm{vect}}(G)   \ar[r] \ar[rd]         &  \xi(G)       \ar[to=2-3] \\ 
+\xi_f(G ) \ar[to=2-2] \ar[to=1-2] \ar[to=3-2] &  \chi_q(G)  \ar[to=2-3]  & \chi_q^{(1)}(G) \ar[to=2-4] & \xi'(G) \ar[to=2-5] & \lceil \chi_c(G) \rceil = \chi(G) \\
+                                                               &  \chi_f(G)     \ar[to=3-3] & \chi_c(G) \ar[to=2-5] \\
+\end{tikzcd}
+\]
+}
+\end{frame}
+
+%
+
+\section{Coloring}
+
+\begin{frame}{Coloring \& chromatic number}
+
+\begin{itemize}
+\item We consider only undirected graphs without multiple edges and without loops.
+
+\item A \textcolor{red}{$c$-coloring} of a graph $G=(V,E)$ is a collection of colors 
+\[
+\{ c_v : v \in V\}
+\]
+in $[c]=\{0,\ldots,c-1\}$ such that for all $vw\in E$
+\[
+c_v \neq c_w.
+\]
+
+\item The \textcolor{red}{chromatic number $\chi$} of a graph $G$ is the minimum $c$ admitting a $c$-coloring of $G$.
+
+\item The chromatic number is NP-hard to approximate. 
+\end{itemize}
+\end{frame}
+
+%
+
+\section{Quantum coloring}
+
+\begin{frame}{Quantum coloring, quantum chromatic number}
+
+\begin{itemize}
+\item A \textcolor{red}{quantum $c$-coloring} of a graph $G=(V,E)$ is a collection of orthogonal projectors 
+\[
+\{ P_{v,k} : v \in V, k \in [c] \}
+\]
+acting on $\C^d$ for some $d>0$ such that
+\begin{itemize}
+\item for all vertices $v\in V$
+\[
+\sum_{k\in [c]} P_{v,k} = I_d \quad \quad \mbox{completeness}
+\]
+\item for all edges $vw\in E$ and for all $k\in [c]$
+\[
+P_{v,k} P_{w,k} = 0_d \quad \quad \mbox{orthogonality}
+\]
+\end{itemize}
+
+\item The \textcolor{red}{quantum chromatic number $\chi_q$} is the smallest $c$ for which the graph $G$ admits a quantum $c$-coloring.
+
+\end{itemize}
+
+\end{frame}
+
+%
+
+\begin{frame}{Classical coloring as a special case of quantum coloring}
+
+\begin{itemize}
+\item Let $\{c_v : v\in V\}$ be a collection of colors in $[c]$ that defines a classical $c$-coloring.  
+
+\item For $v\in V$, consider the ``\emph{one-hot-encoding}''
+\[
+\{P_{v,k} : k \in [c]\}
+\] 
+of the color $c_v\in [c]$, that is,
+\[
+P_{v,k} = [c_ v = k],
+\]
+where $[\cdot ]$ denotes the Iverson bracket.
+
+\item It is immediate that the above gives rise to a quantum coloring in dimension $d=1$ (where the only orthogonal projectors are the scalars $0$ and $1$).
+\end{itemize}
+
+\end{frame}
+
+%
+
+\begin{frame}{Exponential separation between classical and quantum chromatic numbers}
+\begin{itemize}
+\item The \textcolor{red}{orthogonality graph}, $\Omega(n)$, has the vertex set of $\pm 1$-vectors of length $n$, with two vertices adjacent if they are orthogonal.
+
+\item The \textcolor{blue}{quantum} chromatic number is \textcolor{blue}{linear} in $n$ (equal to $n$), whereas the \textcolor{red}{classical} chromatic number $\chi(\Omega(n))$ is \textcolor{red}{exponential} in $n$.
+\end{itemize}
+\end{frame}
+
+%
+
+\section{Hoffman bound}
+
+\begin{frame}{Hoffman lower bound on the quantum chromatic number}
+
+\begin{itemize}
+\item Let $A=(a_{vw})\in\C^{n\times n}$ be the adjacency matrix of a graph $G$, that is, 
+
+\begin{itemize}
+\item $a_{vw}=1$ for all $vw\in E$ 
+\item $a_{vw}=0$ otherwise
+\end{itemize}
+
+\item Let $\mu_{\max}$ and $\mu_{\min}$ denote the maximum and minimum eigenvalues of $A$, respectively.
+
+\item The \textcolor{red}{Hoffman bound} states
+\[
+\chi_q \ge 1 + \frac{\mu_{\max}}{|\mu_{\min|}},
+\]
+
+\end{itemize}
+\end{frame}
+
+%
+
+\begin{frame}{Quantum coloring $\Rightarrow$ matrix equality for the adjacency matrix}
+
+\begin{itemize}
+\item We will show starting from a quantum $c$-coloring we can construct a unitary matrix 
+\[
+U\in \C^{n\times n}\otimes\C^{d\times d}
+\]
+such that the following \textcolor{red}{matrix equality} holds
+\[
+\sum_{\ell=1}^{c-1} U^\ell (-A\otimes I_d) (U^\dagger)^\ell = A \otimes I_d.
+\]
+
+\item Once we have established the above matrix equality for the adjacency matrix, we can use results from majorization theory to prove the Hoffman bound.
+\end{itemize}
+
+\end{frame}
+
+%
+
+\begin{frame}{Majorization inequality for maximum eigenvalues}
+
+\begin{itemize}
+\item Let $X$ and $Y$ be two arbitrary hermitian matrices in $\C^{m\times m}$.
+
+\item It is well known that the maximum eigenvalues of the matrices satisfy 
+\[
+\mu_{\max}(X) + \mu_{\max}(Y) \ge \mu_{\max}(X + Y).
+\]
+\end{itemize}
+\end{frame}
+
+%
+
+\begin{frame}{Proof of the Hoffman bound}
+\begin{itemize}
+\item Applying the majorization bound and the invariance of the spectrum under conjugation with unitaries to the 
+matrix equality for the adjacency matrix
+\[
+\sum_{\ell=1}^{c-1} U^\ell (-A\otimes I_d) (U^\dagger)^\ell = A \otimes I_d.
+\]
+yields 
+\[
+(c-1) \mu_{\max}(-A \otimes I_d) \ge \mu_{\max}(A\otimes I_d).
+\]
+\item This further simplifies to
+\[
+(c-1) |\mu_{\min(A)}| \ge \mu_{\max}(A),
+\]
+which is the Hoffman lower bound.
+\end{itemize}
+\end{frame}
+
+%
+
+\section{Inertial bound}
+
+\begin{frame}{Inertial lower bound on the quantum chromatic number}
+
+\begin{itemize}
+\item Let $(n^+, n^0, n^-)$ denote the inertia of a graph $G$, that is, the number of positive, zero, and negative eigenvalues of its adjacency matrix $A$.
+
+\item The \textcolor{red}{inertial bound} states
+\[
+\chi_q \ge 1 + \max \left\{ \frac{n^+}{n^-}, \frac{n^-}{n^+} \right\}.
+\]
+\end{itemize}
+
+\end{frame}
+
+%
+
+\begin{frame}{Rank inequality for positive semidefinite matrices}
+\begin{itemize}
+\item A hermitian matrix $X\in\C^{m\times m}$ is called \textcolor{red}{positive semidefinite} if all its eigenvalues are nonnegative.
+
+\item Let $X,Y\in\C^{m\times m}$ be two hermitian matrices. 
+
+We say that $X$ is \textcolor{red}{greater or equal to} $Y$, denoted by $X\ge Y$, if their difference $X-Y$ is positive semidefinite.
+
+\medskip
+\item Assume that $X,Y\in\C^{m\times m}$ are two positive semidefinite matrices with $X\ge Y$.
+
+\item Then, we have the rank inequality
+\[
+\mathrm{rank}(X) \ge \mathrm{rank}(Y).
+\]
+\end{itemize}
+\end{frame}
+
+%
+
+\begin{frame}{Decomposition of the adjacency matrix in positive and negative parts}
+
+\begin{itemize}
+\item Let $\mu_1\ge \mu_2\ge \ldots \ge \mu_n$ denote the eigenvalues of the adjacency matrix $A$ and $P_1,\ldots,P_n$ the corresponding one-dimensional projectors.
+
+\item Define 
+\[
+\begin{array}{lll}
+A^+ = \sum_{i : \lambda_i > 0} \mu_i P_i & \quad &
+P^+ = \sum_{i : \lambda_i > 0} P_i \\
+\\
+A^- = \sum_{i : \lambda_i < 0} |\mu_i| P_i & \quad &
+P^- = \sum_{i : \lambda_i < 0} P_i 
+\end{array}
+\]
+\item 
+Then, we can write
+\[
+A = A^+ - A^-
+\]
+\item Note that
+\[
+n^{\pm} = \mathrm{rank}(A^{\pm})
+\quad\mbox{and}\quad
+A^{\pm} = \pm P^{\pm} A P^{\pm}
+\]
+and also $n=n^+ + n^0 + n^-$.
+\end{itemize}
+
+\end{frame}
+
+%
+
+\begin{frame}{Proof of the inertial bound}
+\begin{itemize}
+\item We start with the matrix equality
+\[
+\sum_{\ell=1}^{c-1} U^\ell (-A\otimes I_d) (U^\dagger)^\ell = A \otimes I_d
+\]
+\item Plugging in $A=A^+ - A^-$ yields
+\[
+\sum_{\ell=1}^{c-1} U^\ell \left((A^- - A^+\right) \otimes I_d) (U^\dagger)^\ell = (A^+ - A^-) \otimes I_d
+\]
+\item Multiplying both sides by $P^+$ from left and right yields
+\[
+\sum_{\ell=1}^{c-1} P^+ U^\ell \left((A^- - A^+\right) \otimes I_d) (U^\dagger)^\ell P^+= A^+ \otimes I_d
+\]
+\end{itemize}
+\end{frame}
+
+%
+
+\begin{frame}{Proof of the inertial bound}
+\begin{itemize}
+\item Dropping the subtraction on the left hand side yields
+\[
+\sum_{\ell=1}^{c-1} P^+ U^\ell (A^-  \otimes I_d) (U^\dagger)^\ell P^+ \ge A^+ \otimes I_d
+\]
+\item Using the rank inequality and some elementary results on the rank yields
+\[
+(c-1) \cdot \mathrm{rank} (A^- \otimes I_d) \ge \mathrm{rank}(A^+ \otimes I_d)
+\]
+which simplifies to the inertial bound
+\[
+c \ge 1 + \frac{n^+}{n^-}.
+\]
+The other inequality $c \ge 1 + n^-/n^+$ is proved similarly.
+\end{itemize}
+\end{frame}
+
+%
+%
+%
+
+\section{Pinching}
+
+\begin{frame}{Pinching}
+\begin{itemize}
+\item Let $\{Q_k : k\in [c]\}$ be any collection of orthogonal projectors in $\C^{m\times m}$ that form a resolution of the identity.
+
+\item Then, the operation $\cC$ that maps an arbitrary matrix $X\in\C^{m\times m}$ to
+\[
+\cC(X) = \sum_{k\in [c]} Q_k X Q_k
+\]
+is called \textcolor{red}{pinching}.
+
+\item We say that the pinching $\cC$ \textcolor{red}{annihilates} $X$ if
+\[
+\cC(X) = 0_m.
+\]
+\end{itemize}
+\end{frame}
+
+%
+
+\begin{frame}{Pinching from quantum coloring}
+
+\begin{itemize}
+\item Assume that the orthogonal projectors 
+\[
+P_{v,k} \quad \quad v \in V, k \in [c] 
+\]
+acting on $\C^d$ form a quantum $c$-coloring of $G$.
+
+\item Then, the block-diagonal orthogonal projectors defined by
+\[
+P_k = \sum_{v\in V} |v\>\<v| \otimes P_{v,k} \quad \quad k \in [c]
+\]
+acting on $\C^n\otimes \C^d$ define a pinching $\cC$.
+
+\item Moreover, this pinching annihilates $A\otimes I_d$, that is, 
+\[
+\cC(A\otimes I_d) = 0_n \otimes 0_d.
+\]
+\end{itemize}
+
+\end{frame}
+
+%
+
+\section{Twirling}
+
+\begin{frame}{Twirling}
+\begin{itemize}
+\item Let $\{U_\ell : \ell\in [c]\}$ be any collection of unitary matrices in $\C^{m\times m}$.
+
+\item Then, the operation $\cD$ that maps an arbitrary matrix $X\in\C^{m\times m}$ to
+\[
+\cD(X) = \frac{1}{c} \sum_{\ell\in [c]} U_\ell X U_\ell^\dagger
+\]
+is called \textcolor{red}{twirling}.
+
+\item We say that the twirling $\cD$ \textcolor{red}{annihilates} $X$ if
+\[
+\cD(X) = 0_m.
+\]
+\end{itemize}
+
+\end{frame}
+
+%
+
+\begin{frame}{Twirling from pinching}
+
+\begin{itemize}
+\item Let $\{Q_k : k\in [c]\}$ be a collection of orthogonal projectors defining a pinching operation $\cC$.
+
+\item Let $\omega = e^{2 \pi i /c}$ be a $c$th root of unity.
+
+\item Then, the collection of unitary matrices $\{ U^\ell : \ell \in [c]\}$ consisting of the powers of the unitary $U$
+\[
+U = \sum_{k\in [c]} \omega^{k} Q_k,
+\]
+defines a twirling operation $\cD$ such that
+\[
+\cC(X) = \cD(X) 
+\]
+for all  matrices $X\in\C^{m\times m}$.
+
+\end{itemize}
+
+\end{frame}
+
+%
+
+\begin{frame}{Twirling from quantum coloring}
+
+\begin{itemize}
+
+\item Use the orthogonal projectors $P_{k,v}$, $v\in V, k \in [c]$, of a quantum $c$-coloring
+%
+to construct the corresponding block-diagonal orthogonal projectors 
+\[
+P_k = \sum_{v\in V} |v\>\<v| \otimes P_{v,k} \quad \quad k \in [c]
+\]
+acting on $\C^n\otimes \C^d$ and the unitary
+\[
+U = \sum_{k \in [c]} \omega^{k} P_k\,. 
+\]
+
+\item Then, the twirling map $\cD$ defined by the powers of $U$
+\[
+\cD(X) = \frac{1}{c} \sum_{\ell\in [c]} U^\ell X (U^\dagger)^\ell
+\]
+annihilates $A\otimes I_d$. This is equivalent to the matrix equality.
+\end{itemize}
+
+\end{frame}
+
+%
+
+\begin{frame}{Importance of twirling from quantum coloring}
+\begin{itemize}
+\item The construction of twirling/pinching from quantum coloring led to a unified way of proving the Hoffman and inertial lower bounds for $\chi_q$.
+
+\medskip
+\item Moreover, any existing or future lower bound on the minimum number of operations for pinching and twirling to annihilate $A$ is automatically a lower bound for $\chi_q$.
+\end{itemize}
+\end{frame}
+
+%
+
+\begin{frame}{Implication of the lower bounds}
+\begin{itemize}
+\item The spectrum of the Clebsch graph on $16$ vertices is $(5^1, 1^10, -3^5)$.
+
+\item It is known that $\chi=4$.
+
+\item The Hoffman bound implies $\chi_q \ge 3$, whereas the inertial bounds $\chi_q \ge 4$.
+
+\item Sometimes these and other spectral lower bounds allow us to determine the quantum chromatic number. 
+
+\item It is not known whether the quantum chromatic number is computable which is why spectral bounds are particularly useful and interesting.
+\end{itemize}
+\end{frame}
+
+%
+
+\begin{frame}{Joint work with Clive Elphick}
+
+\begin{thebibliography}{10}
+
+\bibitem{wocjan184}
+P. Wocjan and C. Elphick, \emph{Spectral lower bounds for the orthogonal and projective ranks of a graph}, Elec. J. Combinatorics, 2019.
+
+\bibitem{wocjan18}
+P. Wocjan and C. Elphick, \emph{Spectral lower bounds for the quantum chromatic number of a graph},  arXiv: 1805.08334. 
+
+\bibitem{wocjan183}
+P. Wocjan and C. Elphick, \emph{More Tales of Hoffman: bounds for the vector chromatic number of a graph}, arXiv: 1812.02613.
+
+\bibitem{wocjan182}
+P. Wocjan and C. Elphick, \emph{An inertial upper bound for the quantum independence number of a graph},  arXiv: 1808.10820.
+\end{thebibliography}
+
+
+\end{frame}
+
+%
+
+\end{document}
+
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+
+\begin{frame}{Vector majorization}
+\begin{itemize}
+\item For an arbitrary vector $x=(x_1,\ldots,x_m)\in\R^n$, define $x^\downarrow=(x_1^\downarrow,\ldots,x_n^\downarrow)$ to be the vector whose entries are the entries of $x$ sorted in non-increasing order. 
+
+For instance,
+\[
+(3.1, 1.5, 2.0)^\downarrow = (1.5, 2.0, 3.1)
+\]
+
+\item Let $x,y\in\R^m$. We say $x$ \textcolor{red}{majorizes} $y$, denoted by, $x \succeq y$, iff
+\begin{align*}
+\sum_{i=1}^m x_i^\downarrow &\ge \sum_{i=1}^m y_i^\downarrow \quad \mbox{for $m=1,\ldots,n-1$} \\
+\sum_{i=1}^m x_i^\downarrow & \ge \sum_{i=1}^m y_i^\downarrow \quad\mbox{for $m=n$}.
+\end{align*}
+
+\end{itemize}
+\end{frame}
+
+%
+
+\begin{frame}{Matrix majorization}
+\begin{itemize}
+\item Let $A\in\C^{n\times n}$ be an arbitrary hermitian matrix. Let 
+\[
+\mathrm{spec}(A)=(\mu_1(A),\ldots,\mu_n(A))
+\]
+be the spectrum of $A$, that is, the vector whose entries are the eigenvalues of $A$.
+
+\item Let $A,B\in\C^{n\times n}$ be two arbitrary hermitian matrices. We say $A$ \textcolor{red}{majorizes} $B$, denoted by $A\succeq B$, iff the spectrum of $A$ majorizes the spectrum of $B$, that is,
+\[
+\mathrm{spec}(A) \succeq \mathrm{spec}(B).
+\]
+\end{itemize}
+\end{frame}
