@@ -37,6 +37,13 @@ was done with, and links to the slides or the poster and to the sources.
 entropy function, and the seminars and proseminars. Two of the entries are write-ups of courses
 given by other people, where the mathematics is theirs and the writing is mine.
 
+Two shorter files sit beside them, both from the university years:
+
+**[→ FUNDING.md](FUNDING.md)** — the three National Science Foundation grants I held at the
+University of Central Florida, and the two awards.
+
+**[→ TEACHING.md](TEACHING.md)** — what I taught there, and where the course materials are.
+
 ## Folder layout
 
 Everything with sources lives under `documents/`, one folder per entry, named
