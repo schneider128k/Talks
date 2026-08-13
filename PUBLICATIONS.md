@@ -238,8 +238,7 @@ Current work, not yet in a journal.
 
 39. P. Wocjan, D. Janzing, and T. Decker, *Measuring 4-local qubit observables could
     probabilistically solve PSPACE*, Quantum Information & Computation **8** (2008), no. 8–9,
-    741–755. The 2003 preprint carries a fourth author, Th. Beth, and the title *Measuring 4-local
-    n-qubit observables could probabilistically solve PSPACE*.
+    741–755.
     [arXiv:quant-ph/0308011](https://arxiv.org/abs/quant-ph/0308011) ·
     [doi](https://doi.org/10.26421/QIC8.8-9-5)
 
