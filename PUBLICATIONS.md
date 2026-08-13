@@ -1,12 +1,28 @@
 # Publications
 
-Papers and theses, newest first. Almost everything here is on the arXiv, so this file is a
-list of links rather than a store of sources: each entry points at the preprint and, where
-there is one, at the published version.
+Papers and theses. Almost everything here is on the arXiv, so this file is a list of links
+rather than a store of sources: each entry points at the preprint and, where there is one, at
+the published version.
 
-The three theses are the exception. Each has a repository of its own, linked in its place.
+The current preprints come first, then the published work, grouped by kind and newest first
+within each group. The three theses are the exception to the links-only rule: each has a
+repository of its own, linked in its place. The older preprints close the file.
 
 ---
+
+## Preprints
+
+Current work, not yet in a journal.
+
+- *Quantum algorithm for identifying hidden graphs: spectral theory and numerical evidence*, 2026 —
+  [arXiv:2605.11228](https://arxiv.org/abs/2605.11228)
+
+- *A factorization identity for twisted multinomial coefficients with application to pilot states in
+  Hamiltonian decoded quantum interferometry*, 2026 —
+  [arXiv:2604.01022](https://arxiv.org/abs/2604.01022)
+
+- *Controlization schemes based on orthogonal arrays*, 2024 —
+  [arXiv:2407.09382](https://arxiv.org/abs/2407.09382)
 
 ## Journal articles
 
@@ -408,20 +424,10 @@ they came from.
    Studienarbeit's method written up for an optics audience. It belongs with the
    [Studienarbeit](https://github.com/schneider128k/Studienarbeit).
 
-## Preprints
+## Older preprints
 
-Work that is still only on the arXiv. Some of it was superseded by one of the papers above, some of
-it became the starting point for later work, and some was never sent anywhere.
-
-- *Quantum algorithm for identifying hidden graphs: spectral theory and numerical evidence*, 2026 —
-  [arXiv:2605.11228](https://arxiv.org/abs/2605.11228)
-
-- *A factorization identity for twisted multinomial coefficients with application to pilot states in
-  Hamiltonian decoded quantum interferometry*, 2026 —
-  [arXiv:2604.01022](https://arxiv.org/abs/2604.01022)
-
-- *Controlization schemes based on orthogonal arrays*, 2024 —
-  [arXiv:2407.09382](https://arxiv.org/abs/2407.09382)
+Work that stayed on the arXiv. Some of it was superseded by one of the papers above, some became
+the starting point for later work, and some was never sent anywhere.
 
 - *Space-efficient quantization method for reversible Markov chains*, 2022 —
   [arXiv:2206.06886](https://arxiv.org/abs/2206.06886)
