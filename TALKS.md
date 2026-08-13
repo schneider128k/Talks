@@ -322,7 +322,8 @@ The list runs from October 1998 to May 2026.
   Prof. Mario Rasetti. I was in Turin from 22 to 25 September.  
   The main results of the dissertation, shown to Rasetti shortly before he examined them: he was
   the Korreferent, the second reviewer, and the oral examination followed on 17 November 2003
-  under this same title.  
+  under this same title; the slides I showed there are in the
+  [dissertation repository](https://github.com/schneider128k/Dissertation/blob/main/talk/dissertation_talk.pdf).  
   [presentation](documents/2003-09_computational_power_turin/computational_power_turin_presentation.pdf) ·
   [abstract](documents/2003-09_computational_power_turin/computational_power_turin_abstract.txt) ·
   [sources](documents/2003-09_computational_power_turin/)
@@ -340,7 +341,8 @@ The list runs from October 1998 to May 2026.
   Universität Karlsruhe (TH), Fakultät für Informatik. Before the doctoral procedure was formally
   opened I wrote to the professors of the faculty, offering to discuss the results of the thesis;
   these are the slides I prepared for that round. The examination itself followed on
-  17 November 2003, under this same title.  
+  17 November 2003, under this same title; the slides I showed there are in the
+  [dissertation repository](https://github.com/schneider128k/Dissertation/blob/main/talk/dissertation_talk.pdf).  
   The Karlsruhe Hamiltonian-simulation work put to a general audience.  
   [presentation](documents/2003-02_computational_power_karlsruhe/computational_power_karlsruhe_presentation.pdf) ·
   [sources](documents/2003-02_computational_power_karlsruhe/)
