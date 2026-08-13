@@ -11,9 +11,9 @@ and the talks I gave after 2020 are not yet reconstructed.
 ## University of Central Florida
 
 - **Quantum Algorithm for Computing the Period Lattice of an Infrastructure** —
-  *Seminar*, 31 October 2011  
-  Quantum information seminar, Massachusetts Institute of Technology, at the invitation of
-  Prof. Edward Farhi.  
+  *Seminar and invited talks*, October 2011 – April 2013  
+  First to the quantum information seminar at the Massachusetts Institute of Technology on
+  31 October 2011, at the invitation of Prof. Edward Farhi.  
   I gave revised versions twice more: at the workshop *Recent Progress in Quantum Algorithms*,
   held jointly by the Institute for Quantum Computing at the University of Waterloo and the
   Perimeter Institute for Theoretical Physics, 11–13 April 2012, at the invitation of Rolando
