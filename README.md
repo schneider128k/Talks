@@ -7,8 +7,9 @@ that followed.
 
 ## How this is organised
 
-Three lists, each in reverse chronological order, newest first, and each divided into the four
-places the work was done — in that same order, newest first:
+Three lists, each in reverse chronological order, newest first.
+
+The talks are grouped by the four places the work was done, in that same order:
 
 - **IBM Quantum**, at the Thomas J. Watson Research Center, from 2020.
 - **The University of Central Florida**, 2006 to 2020 — with a sabbatical year at **MIT**,
@@ -16,6 +17,9 @@ places the work was done — in that same order, newest first:
   the Center for Theoretical Physics.
 - **The Institute for Quantum Information at Caltech**, 2004 to 2006.
 - **Universität Karlsruhe (TH)**, the student years and the doctorate at the IAKS.
+
+The publications are grouped by kind rather than by place, and the notes are a single list —
+all of them are from the Karlsruhe years.
 
 **[→ PUBLICATIONS.md](PUBLICATIONS.md)** — papers and theses. Almost everything is on the arXiv,
 so this is a list of links rather than a store of sources: each entry points at the preprint and,
