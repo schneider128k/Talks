@@ -231,6 +231,11 @@ Current work, not yet in a journal.
     [arXiv:0710.1615](https://arxiv.org/abs/0710.1615) ·
     [doi](https://doi.org/10.1088/1367-2630/10/9/093004)
 
+    An earlier preprint with Shengyu Zhang, *Several natural BQP-complete problems* (2006), which
+    showed Local Hamiltonian Eigenvalue Sampling and Phase Estimation Sampling to be BQP-complete,
+    was the starting point for this paper.
+    [arXiv:quant-ph/0606179](https://arxiv.org/abs/quant-ph/0606179)
+
 39. P. Wocjan, D. Janzing, and T. Decker, *Measuring 4-local qubit observables could
     probabilistically solve PSPACE*, Quantum Information & Computation **8** (2008), no. 8–9,
     741–755. The 2003 preprint carries a fourth author, Th. Beth, and the title *Measuring 4-local
@@ -472,9 +477,6 @@ the starting point for later work, and some was never sent anywhere.
 
 - *BQP-complete problems concerning mixing properties of classical random walks on sparse graphs*,
   2006 — [arXiv:quant-ph/0610235](https://arxiv.org/abs/quant-ph/0610235)
-
-- *Several natural BQP-complete problems*, 2006 —
-  [arXiv:quant-ph/0606179](https://arxiv.org/abs/quant-ph/0606179)
 
 - *Real mutually unbiased bases*, 2005 —
   [arXiv:quant-ph/0502024](https://arxiv.org/abs/quant-ph/0502024)
