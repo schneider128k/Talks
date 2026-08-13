@@ -122,6 +122,10 @@ Current work, not yet in a journal.
     [arXiv:1106.6347](https://arxiv.org/abs/1106.6347) ·
     [doi](https://doi.org/10.26421/QIC14.1-2-4)
 
+    A companion preprint with Felix Fontein, *Quantum algorithm for computing the period lattice of
+    an infrastructure* (2011), carries this over from one dimension to arbitrary fixed dimension.
+    [arXiv:1111.1348](https://arxiv.org/abs/1111.1348)
+
 20. A. Bookatz, P. Wocjan, and L. Viola, *Hamiltonian quantum simulation with bounded-strength
     controls*, New Journal of Physics **16** (2014), no. 4, 045021.
     [arXiv:1310.4153](https://arxiv.org/abs/1310.4153) ·
@@ -456,9 +460,6 @@ the starting point for later work, and some was never sent anywhere.
 
 - *Efficient computation of the permanent of block factorizable matrices*, 2012 —
   [arXiv:1208.6589](https://arxiv.org/abs/1208.6589)
-
-- *Quantum algorithm for computing the period lattice of an infrastructure*, 2011 —
-  [arXiv:1111.1348](https://arxiv.org/abs/1111.1348)
 
 - *Efficient quantum processing of ideals in finite rings*, 2009, revised 2023 —
   [arXiv:0908.0022](https://arxiv.org/abs/0908.0022)
