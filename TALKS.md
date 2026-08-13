@@ -24,9 +24,9 @@ and the talks I gave after 2020 are not yet reconstructed.
   [arXiv:1211.6246](https://arxiv.org/abs/1211.6246).  
   The PDF I made of the Waterloo slides at the time will not open; the one here was made from
   the PostScript of the same build.  
-  [presentation, MIT](documents/2011-10_period_lattice_infrastructure/period_lattice_infrastructure_mit_presentation.pdf) ·
-  [presentation, Waterloo](documents/2011-10_period_lattice_infrastructure/period_lattice_infrastructure_waterloo_presentation.pdf) ·
-  [presentation, Bristol](documents/2011-10_period_lattice_infrastructure/period_lattice_infrastructure_bristol_presentation.pdf) ·
+  [MIT slides](documents/2011-10_period_lattice_infrastructure/period_lattice_infrastructure_mit_presentation.pdf) ·
+  [Waterloo slides](documents/2011-10_period_lattice_infrastructure/period_lattice_infrastructure_waterloo_presentation.pdf) ·
+  [Bristol slides](documents/2011-10_period_lattice_infrastructure/period_lattice_infrastructure_bristol_presentation.pdf) ·
   [sources](documents/2011-10_period_lattice_infrastructure/)
 
 - **Efficient Quantum Algorithms for One-Dimensional Infrastructures** —
@@ -101,11 +101,10 @@ and the talks I gave after 2020 are not yet reconstructed.
   I gave a revised version, under the title *Quantum Speed-Up of Estimating Partition
   Functions*, at the Université de Sherbrooke in February 2009 at the invitation of David
   Poulin, and to the colloquium of the Institute for Quantum Computing in Waterloo in March
-  2009 at the invitation of Andrew Childs. All three sets of slides are here.  
+  2009 at the invitation of Andrew Childs. I used the same slides at both.  
   The talk is built on [arXiv:0811.0596](https://arxiv.org/abs/0811.0596).  
-  [presentation, Obergurgl](documents/2008-09_partition_functions_obergurgl/partition_functions_obergurgl_presentation.pdf) ·
-  [presentation, Sherbrooke](documents/2008-09_partition_functions_obergurgl/partition_functions_sherbrooke_presentation.pdf) ·
-  [presentation, Waterloo](documents/2008-09_partition_functions_obergurgl/partition_functions_waterloo_presentation.pdf) ·
+  [presentation](documents/2008-09_partition_functions_obergurgl/partition_functions_obergurgl_presentation.pdf) ·
+  [the 2009 revision](documents/2008-09_partition_functions_obergurgl/partition_functions_2009_revision_presentation.pdf) ·
   [sources](documents/2008-09_partition_functions_obergurgl/)
 
 - **Speed-up via Quantum Sampling** — *Seminar*, 29 April 2008  
