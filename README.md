@@ -99,17 +99,18 @@ Everything here — sources, figures and compiled PDFs — is under
 [CC BY 4.0](LICENSE-CC-BY-4.0). Work made jointly with other people is marked as such in the
 lists, where the co-authors are named.
 
-The same goes for the few files that came with a seminar template or with the institute's shared
-LaTeX setup rather than from me — `haupt.sty`, `mathsym.sty`, `boldmath.sty`, `diplom.sty`, and
-`unilogo.tex` and `logo.eps`, the last two being the university's and the institute's marks. They
-are here only so that the documents still build, and they are not my work.
+A few files here are not my work, and are kept only so that the documents still build.
+`non-abelian-QFT.jpg`, in the November 2025 Tokyo talk, is IBM's figure, taken from the IBM
+Quantum blog post that the next slide links to.
 
-`non-abelian-QFT.jpg`, in the November 2025 Tokyo talk, is the same case: the figure is IBM's,
-from the IBM Quantum blog post that the next slide links to, and it is here only so that the
-talk still builds.
+The rest are from the Karlsruhe years, and came with a seminar template or with the institute's
+shared LaTeX setup rather than from me — `haupt.sty`, `mathsym.sty`, `boldmath.sty`,
+`diplom.sty`, and `unilogo.tex` and `logo.eps`, the last two being the university's and the
+institute's marks.
 
-The lecture notes on public key cryptography are a special case: the writing is mine, but the
-course was Dr. Willi Geiselmann's, and the mathematics and the choice of material in them are his.
+The lecture notes on public key cryptography, from the same years, are a special case: the
+writing is mine, but the course was Dr. Willi Geiselmann's, and the mathematics and the choice of
+material in them are his.
 
 There is no code in this repository, so there is no software licence here. The code sits in the
 thesis repositories instead — the original implementations and the modern Python reimplementations —
