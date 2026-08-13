@@ -93,14 +93,15 @@ and the talks I gave after 2020 are not yet reconstructed.
   [presentation](documents/2009-03_promisebqp_matrix_problem_london/promisebqp_matrix_problem_london_presentation.pdf) ·
   [sources](documents/2009-03_promisebqp_matrix_problem_london/)
 
-- **Estimating Partition Functions via Quantum Walks** — *Invited talk*, September 2008  
+- **Estimating Partition Functions via Quantum Walks** —
+  *Invited talk and colloquia*, September 2008 – March 2009  
   QICS Workshop on Foundational Structures for Quantum Information and Computation,
   Obergurgl, Austria, 14–20 September 2008, at the invitation of Prof. Hans Briegel.  
   Joint work with Chen-Fu Chiang, Anura Abeyesinghe and Daniel Nagaj.  
-  I gave a revised version of this talk in February 2009, under the title *Quantum Speed-Up
-  of Estimating Partition Functions*, at the Université de Sherbrooke at the invitation of
-  David Poulin, and to the colloquium of the Institute for Quantum Computing in Waterloo at
-  the invitation of Andrew Childs.  
+  I gave a revised version, under the title *Quantum Speed-Up of Estimating Partition
+  Functions*, at the Université de Sherbrooke in February 2009 at the invitation of David
+  Poulin, and to the colloquium of the Institute for Quantum Computing in Waterloo in March
+  2009 at the invitation of Andrew Childs.  
   The talk is built on [arXiv:0811.0596](https://arxiv.org/abs/0811.0596).  
   [presentation](documents/2008-09_partition_functions_obergurgl/partition_functions_obergurgl_presentation.pdf) ·
   [sources](documents/2008-09_partition_functions_obergurgl/)
@@ -156,7 +157,7 @@ and the talks I gave after 2020 are not yet reconstructed.
   [sources](documents/2007-11_classical_problems_mit/)
 
 - **Introduction to Quantum Algorithms Based on Group Representations** —
-  *Conference talk*, September 2007  
+  *Conference talk and seminar*, September 2007 – March 2008  
   Conference on Group Representations and Combinatorics, Department of Mathematics,
   University of Florida, Gainesville, at the invitation of Prof. Pham Huu Tiep.  
   I gave the same talk again to the Department of Mathematics at the University of Central
@@ -179,7 +180,7 @@ and the talks I gave after 2020 are not yet reconstructed.
   [sources](documents/2007-07_string_rewriting_leiden/)
 
 - **Efficient Quantum Algorithm for Identifying Hidden Polynomial Function Graphs** —
-  *Seminar*, May 2007  
+  *Seminar and invited talks*, May – October 2007  
   Institute for Quantum Information (IQI), California Institute of Technology, Pasadena.  
   Joint work with Thomas Decker and Jan Draisma.  
   I gave versions of this talk three more times that year: at a workshop on quantum algorithms
