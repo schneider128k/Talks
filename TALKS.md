@@ -17,7 +17,6 @@ and the talks I gave at IBM are only partly reconstructed.
   Temme, of the Quantum Algorithms Group.  
   The talk is built on [arXiv:2009.11270](https://arxiv.org/abs/2009.11270), published as
   *Quantum* **6** (2022), 789.  
-  No copy of the slides as they were shown survives; the PDF here was typeset from the source.  
   [presentation](documents/2022-07_gibbs_partition_functions_ibm_tufts/gibbs_partition_functions_presentation.pdf) ·
   [sources](documents/2022-07_gibbs_partition_functions_ibm_tufts/)
 
