@@ -101,9 +101,11 @@ and the talks I gave after 2020 are not yet reconstructed.
   I gave a revised version, under the title *Quantum Speed-Up of Estimating Partition
   Functions*, at the Université de Sherbrooke in February 2009 at the invitation of David
   Poulin, and to the colloquium of the Institute for Quantum Computing in Waterloo in March
-  2009 at the invitation of Andrew Childs.  
+  2009 at the invitation of Andrew Childs. All three sets of slides are here.  
   The talk is built on [arXiv:0811.0596](https://arxiv.org/abs/0811.0596).  
-  [presentation](documents/2008-09_partition_functions_obergurgl/partition_functions_obergurgl_presentation.pdf) ·
+  [presentation, Obergurgl](documents/2008-09_partition_functions_obergurgl/partition_functions_obergurgl_presentation.pdf) ·
+  [presentation, Sherbrooke](documents/2008-09_partition_functions_obergurgl/partition_functions_sherbrooke_presentation.pdf) ·
+  [presentation, Waterloo](documents/2008-09_partition_functions_obergurgl/partition_functions_waterloo_presentation.pdf) ·
   [sources](documents/2008-09_partition_functions_obergurgl/)
 
 - **Speed-up via Quantum Sampling** — *Seminar*, 29 April 2008  
