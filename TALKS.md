@@ -3,8 +3,7 @@
 Newest first. Each entry gives the occasion and date, names the people the work was done with,
 and links to the slides or the poster and the sources they were built from.
 
-The list runs from October 1998 to May 2026. It holds the talks I gave to audiences outside the
-institution I was at; the internal seminars and project meetings of my IBM years are not here.
+The list runs from October 1998 to May 2026.
 
 ---
 
@@ -14,8 +13,7 @@ institution I was at; the internal seminars and project meetings of my IBM years
   States in Hamiltonian Decoded Quantum Interferometry** — *Invited talk*, 26 May 2026  
   An online seminar for Prof. Mio Murao's group at the University of Tokyo, six months after
   the visit below. The slides are built on a Japanese theme and close in Japanese, which is why
-  they look unlike anything else here. Their title page carries 28 April, the day I first
-  finished them.  
+  they look unlike anything else here.  
   The talk is built on [arXiv:2604.01022](https://arxiv.org/abs/2604.01022).  
   These slides need LuaLaTeX and the Noto Sans CJK JP font; the rest of the repository builds
   with pdfLaTeX.  

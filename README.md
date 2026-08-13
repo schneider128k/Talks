@@ -37,8 +37,6 @@ was done with, and links to the slides or the poster and to the sources.
 entropy function, and the seminars and proseminars. Two of the entries are write-ups of courses
 given by other people, where the mathematics is theirs and the writing is mine.
 
-TALKS.md holds the talks I gave to audiences outside the institution I was at; the internal
-seminars and project meetings of my IBM years are not there.
 
 ## Folder layout
 
