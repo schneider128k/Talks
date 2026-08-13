@@ -13,3 +13,11 @@
 *.fls
 *.fdb_latexmk
 *.synctex.gz
+
+# Scratch images from page-rendering checks. Never part of the record.
+*.pgm
+*.ppm
+
+# One exception to the rule above: the 2007 MIT talk cannot be rebuilt from its
+# source, so the compiled output of the evening it was given is the artifact.
+!documents/2007-11_classical_problems_mit/classical_problems_mit_presentation.dvi
