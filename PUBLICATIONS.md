@@ -207,9 +207,10 @@ The three theses are the exception. Each has a repository of its own, linked in 
     [arXiv:0710.1615](https://arxiv.org/abs/0710.1615) ·
     [doi](https://doi.org/10.1088/1367-2630/10/9/093004)
 
-39. P. Wocjan, D. Janzing, T. Decker, and Th. Beth, *Measuring 4-local n-qubit observables could
+39. P. Wocjan, D. Janzing, and T. Decker, *Measuring 4-local qubit observables could
     probabilistically solve PSPACE*, Quantum Information & Computation **8** (2008), no. 8–9,
-    741–755.
+    741–755. The 2003 preprint carries a fourth author, Th. Beth, and the title *Measuring 4-local
+    n-qubit observables could probabilistically solve PSPACE*.
     [arXiv:quant-ph/0308011](https://arxiv.org/abs/quant-ph/0308011) ·
     [doi](https://doi.org/10.26421/QIC8.8-9-5)
 
