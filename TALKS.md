@@ -246,6 +246,9 @@ institution I was at; the internal seminars and project meetings of my IBM years
 - **A PromiseBQP-complete String Rewriting Problem** — *Invited talk*, July 2007  
   Workshop on the Computational Complexity of Quantum Hamiltonian Systems, Lorentz Center,
   Universiteit Leiden, organized by Barbara Terhal and David DiVincenzo.  
+  The invitation came out of a visit the summer before: in June 2006 the two of them had me to
+  the IBM Thomas J. Watson Research Center in Yorktown Heights, where I gave an earlier talk on
+  the complexity of Hamiltonian problems. Those slides have not survived.  
   Joint work with Dominik Janzing.  
   The talk is built on [arXiv:0705.1180](https://arxiv.org/abs/0705.1180).  
   [presentation](documents/2007-07_string_rewriting_leiden/string_rewriting_leiden_presentation.pdf) ·
