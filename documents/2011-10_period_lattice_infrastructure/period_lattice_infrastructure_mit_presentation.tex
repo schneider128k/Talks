@@ -1,0 +1,871 @@
+\documentclass[slideColor]{prosper}
+\usepackage{amsmath,amsfonts,amsthm}
+%\usepackage{epsfig}
+%\include{Qcircuit}
+
+%\usepackage{algorithm} 
+%\usepackage{algorithmic}
+
+\newcommand{\E}{\mathbf{E}}
+\renewcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\newcommand{\cA}{\mathcal A}
+\newcommand{\cB}{\mathcal B}
+\newcommand{\cH}{\mathcal H}
+\newcommand{\C}{\mathbb C}
+\newcommand{\TVD}{\mathrm{TVD}}
+
+\renewcommand{\>}{\rangle}
+\newcommand{\<}{\langle}   
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Quantum Algorithm for Computing the Period Lattice of an Infrastructure}
+\author{Pawel M. Wocjan\\[1ex]Department of Electrical Engineering and Computer Science\\ University of Central Florida\\Orlando}
+\email{wocjan@eecs.ucf.edu}
+
+\begin{document}
+
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Joint work}
+\vspace{-0.2cm}
+\begin{itemize}
+\item \emph{Quantum Algorithms for One-Dimensional Infrastructures}
+
+\medskip
+with Pradeep Sarvepalli (University of British Columbia) 
+ 
+\medskip
+preprint arXiv:1106.6347
+
+\bigskip
+\item \emph{Quantum Algorithm for Computing the Period Lattice of an Infrastructure}
+ 
+\medskip
+with Felix Fontein (University of Z\"urich)
+ 
+\medskip
+preprint to appear soon on the arXiv
+
+\bigskip
+\item P.W. gratefully acknowledges the support from the NSF grant CCF-0726771 and the NSF CAREER Award CCF-0746600
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Motivation and overview}
+\vspace{-0.3cm}
+\begin{itemize}
+\item infrastructures are group-like algebraic objects
+
+\medskip
+\item they appear in arithmetic geometry in the study of computational problems related to
+algebraic number fields and function fields with finite constant fields
+
+\medskip
+\item arithmetic geometry provides a unified treatment of global fields 
+
+\medskip
+\item
+the most prominent computational tasks are computing 
+
+\begin{itemize}
+\item the period lattice of the infrastructure and
+
+\medskip
+\item generalized discrete logarithms
+\end{itemize}
+
+\medskip
+\item
+both problems are not known to have efficient classical algorithms
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{QA for problems in algebraic geometry}
+\begin{itemize}
+\item there is an elegant and efficient quantum algorithm for infrastructures arising from function fields (of curves over finite fields)
+
+\medskip
+\item such infrastructures are discrete and embed into finite abelian groups (divisor class groups of degree zero)
+
+\medskip
+\item there are efficient (classical) methods to do arithmetics in these groups
+
+\medskip
+\item $\Rightarrow$ we can simply use the quantum algorithm for the abelian HSP to compute the period lattice of discrete infrastructures
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{QA for problems in algebraic geometry}
+\vspace{-0.2cm}
+\begin{itemize}
+\item the quantum algorithm for the abelian HSP can also be used to efficiently
+
+\medskip
+\begin{itemize}
+\item compute generalized DLOGs in discrete infrastructures
+
+\medskip
+\item compute the whole divisor group class and the ideal class group
+
+\medskip
+\item solve the principal ideal problem
+
+\medskip
+\item compute the Zeta function
+
+\end{itemize}
+
+\medskip
+\item $\Rightarrow$ we focus our attention on non-discrete infrastructures
+
+\medskip
+\item such infrastructures arise from number fields
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{One-dimensional pseudo-periodic states}
+
+\begin{itemize}
+\item let $\Lambda=R \mathbb{Z}$ with $R\in\mathbb{R}_{>0}$
+
+\medskip
+\item a quantum state in $\C^{qN}$ of the form
+\[
+|\psi\> \propto \sum_{\lambda\in\Lambda\cap [0,qN)} | v + N \lambda + \xi_\lambda \> \quad\mbox{with $\xi_\lambda\in (-1,1)$}
+\]
+
+is called a pseudo-periodic with period $R$ (with period lattice $\Lambda$)
+
+\medskip
+\item $v\in\{0,1,\ldots,\lfloor N R \rfloor\}$ is random
+
+\medskip
+\item there are approximately $\tfrac{q}{\mathrm{det}(\Lambda)} = \tfrac{q}{R}$ elements in $|\psi\>$
+
+\medskip
+\item task: find a rational number $\hat{R}$ such that $|\hat{R}-R|\le \gamma$
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{QA for estimating the period}
+
+\begin{itemize}
+
+\item INPUT:
+
+\begin{itemize}
+\item two positive integer $q$ and $N$ with $q > 2 R$ and $N > \tfrac{2}{R}$
+
+\medskip
+\item two pseudo-periodic states in $\mathbb{C}^{qN}$ with period $R$
+\end{itemize}
+
+\medskip
+\item embed each state into a register $\mathbb{C}^{2qN}$
+
+\medskip
+\item apply the QFT of size $2qN$ to each state
+
+\medskip
+\item measure both registers
+
+\medskip
+\item denote the outcomes by $w_1$ and $w_2$
+
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Sampling approximations of $\Lambda^*$}
+
+\begin{itemize}
+\item let $\Lambda^* = \tfrac{1}{R} \mathbb Z$ be the dual lattice of $\Lambda= R \mathbb{Z}$
+
+\medskip
+\item let $\mathcal{Y}$ be the set of $w\in\{0,1,\ldots,2qN\}$ satisfying
+
+\medskip
+\begin{itemize}
+\item $w_i = [2q \lambda^*]$ and for some $\lambda^*\in\Lambda^*$ and 
+
+\medskip
+\item $0\le w_i \le 2q (\kappa N)$ with $\kappa\in (0,1)$
+\end{itemize}
+
+\medskip
+\item for all $w\in\mathcal{Y}$, we have
+\[
+\Pr(w) \ge \frac{1}{2qN} \cos^2\big( \pi (\tfrac{1}{4} + \tfrac{1}{4qN} + 2\kappa) \big) \frac{q}{R}
+\]
+
+\medskip
+\item the cardinality of $\mathcal{Y}$ is approximately $\tfrac{\kappa N}{\mathrm{det}(\Lambda^*)} = \kappa N R$
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Approximate generating set for $\Lambda^*$}
+\begin{itemize}
+\item Let $a$ and $b$ be two numbers chosen uniformly at random from $\{1,2,\ldots,B\}$ for $B\ge 2$
+
+\[
+\Pr\big( \gcd(a,b) = 1 \big) \ge 1 - \sum_{p \, \mathrm{prime}} \frac{1}{p^2} > \frac{1}{2}
+\]
+
+\medskip
+\item for half of the pairs $(w_1,w_2)\in\mathcal{Y}\times\mathcal{Y}$, the corresponding $\lambda_i^*$ generate $\Lambda^*$
+
+\medskip
+\item $\Rightarrow$ the pair $(\tfrac{w_1}{2q},\tfrac{w_2}{2q})$ is an approximate generating set of $\Lambda^*$ with probability at least
+\[
+\frac{\kappa^2}{8} \cos^4\big( \pi (\tfrac{1}{4} + \tfrac{1}{4qN} + 2\kappa) \big) \ge 10^{-5} \quad \mbox{for } \kappa=\tfrac{1}{16}
+\]
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Approximate basis for $\Lambda$}
+
+\begin{itemize}
+
+\item we can recover an approximate basis of $\Lambda^*$ from the approximate generating set formed by $\tfrac{w_1}{2q}$ and $\tfrac{w_1}{2q}$  
+
+\medskip
+\item we can recover an approximate basis of $\Lambda^*$, i.e., $\hat{R}$ by taking the inverse of the approximate basis of $\Lambda^*$
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Success probability of the QA}
+
+\begin{itemize}
+\item our algorithm yields the approximation $\hat{R}$ with probability at least $10^{-5}$ 
+
+\medskip
+\item Hallgren's analysis yields the significantly worse bound $\Omega(1/\log^4(M))$ where $M$ is an upper bound on $RN$ and 
+works only if $\log(M) \ge 256$
+
+\medskip
+\[
+\frac{1}{256^4} = \frac{1}{4\,294\,967\,296} < \frac{1}{4 \cdot 10^9}
+\]
+
+\bigskip
+$\Rightarrow$ the guaranteed expected running time would be at least $50$ days if it took $1$ ms to execute the quantum algorithm once
+
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{One-dimensional infrastructures}
+\begin{itemize}
+
+\medskip
+\item the problem of computing the period lattice of a one-dimensional infrastructure
+\[ 
+\mbox{{\Large $\Downarrow$}}
+\]
+the problem of estimating the period of a one-dimensional periodic quantum state
+
+\medskip
+\item one-dimensional infrastructures arise from number fields of unit rank one
+
+\medskip
+\item 
+quadratic number fields $\mathbb{Q}(\sqrt{d})$ with $d$ positive and squarefree are only one type of number fields of unit rank one
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Improvements}
+\vspace{-0.4cm}
+\begin{itemize}
+\item quadratic number fields yield one-dimensional IS\\ $\Rightarrow$ 
+our algorithms can be used to solve Pell's equation and the principal ideal problem
+
+\medskip
+\item in this sense, they generalize Hallgren's QA
+
+\medskip
+\item our improvements and extensions:
+
+\medskip
+\begin{itemize}
+\item give a conceptually simpler presentation 
+
+\medskip
+\item obtain an improved technique of analyzing Fourier sampling of one-dimensional pseudo-periodic states
+
+\medskip
+\item find algorithms with lower complexity and constant success probability
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{One-dimensional infrastructure}
+
+\begin{itemize}
+\item a one-dimensional infrastructure of circumference $R$ is a pair $(X,d)$ where
+
+\begin{itemize}
+\item $X=\{x_0,x_1,\ldots,x_{m-1}\}$ is a finite set and
+
+\medskip
+\item $d \, : \, X \rightarrow \R/R\Z$ is injective
+\end{itemize}
+
+\medskip
+\item the elements of $X$ are ordered such that 
+\[
+0=d(x_0)<d(x_1)<\ldots<d(x_{m-1})<R
+\]
+we use representatives in $[0,R)$ to order the $d(x_i)$
+
+\medskip
+\item imagine that we place the elements around a circle of circumference $R$ starting at the top most point and moving clockwise
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Baby step}
+
+\begin{itemize}
+\vspace{-0.25cm}
+\item the baby step $\mathrm{bs} : X \rightarrow X$ is defined as
+\[
+\mathrm{bs}(x_i) = \left\{
+\begin{array}{ll}
+x_{i+1} & 0 \le i < m-1 \\
+x_0     & i=m-1
+\end{array}
+\right.
+\]
+\medskip
+it gives you the next element on the circle
+
+\medskip
+\item the relative distance function $\Delta_{\mathrm{bs}} : X \rightarrow [0,R)$ is such that
+\[
+d(\mathrm{bs}(x)) = d(x) + \Delta_{\mathrm{bs}}(x)
+\]
+holds for all $x\in X$
+
+\medskip
+it tells you how far you have to travel along the circle to get to the next element
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Giant step}
+\vspace{-0.25cm}
+\begin{itemize}
+\item for $x,y\in X$ consider the set
+\[
+S_{x,y} = \{ s \in [0,R) \, | \, d(x) + d(y) + s \in d(X) \}
+\]
+
+\medskip
+\item the giant step $\mathrm{gs} : X \times X \rightarrow X$ is defined as
+\[
+\mathrm{gs}(x,y)=z 
+\]
+
+such that
+\[
+d(z) = d(x) + d(y) + \min S_{x,y}
+\]
+
+\medskip
+\item the relative distance function $\Delta_{\mathrm{gs}} \, : \, X \times X \rightarrow [0,R)$ is defined as
+\[
+\Delta_{\mathrm{gs}}(x,y) = \min S_{x,y}
+\]
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Computational problems}
+\vspace{-0.25cm}
+\begin{itemize}
+\item estimate the circumference $R$
+
+\medskip
+\item given $x\in X$, estimate $d(x)$
+
+\bigskip
+\item these problems are computationally hard for classical computers
+
+\medskip
+\item the first generalizes the problem of computing the order of a (black-box) cyclic group
+
+\medskip
+\item the second generalizes the problem of determining discrete logarithms in a (black-box) cyclic group
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Finite cyclic groups}
+\vspace{-0.25cm}
+\begin{itemize}
+\item suppose $G=\<g\>$ is a finite cyclic group of order $R$
+
+\medskip
+\item $\Rightarrow$ we can form an infrastructure out of $G$ as follows:
+
+\begin{itemize}
+\item $X=G$
+
+\medskip
+\item $d(h) = \log_g(h)$ 
+
+\medskip
+\item the baby step corresponds to multiplication by $g$
+
+\medskip
+\item the giant step corresponds to the multiplication of two elements in $G$
+
+\medskip
+\item $\Delta_{\mathrm{bs}}$ always takes on the value $1$
+
+\medskip 
+\item $\Delta_{\mathrm{gs}}$ always takes on the value $0$
+\end{itemize}
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Group arithmetic with $f$-reps}
+
+\begin{itemize}
+\item a pair $(x,t)\in X\times \R$ is called an $f$-representation if 
+\[
+0 \le t < \Delta_{\mathrm{bs}}(x)
+\]
+
+\medskip
+\item denote the set of all $f$-representations by $\mathrm{Rep}(\mathcal{I})$
+
+\medskip
+\item $\mathrm{Rep}(\mathcal{I})$ can be endowed with a group structure such that 
+\[
+\mathrm{Rep}(\mathcal{I}) \cong \R/R\Z
+\]
+
+\medskip
+\item set
+\[
+\Lambda = R \mathbb{Z}
+\]
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{HSP over $\R$}
+
+\begin{itemize}
+\item we have a surjective group homomorphism
+
+\[
+f : \R \rightarrow \mathrm{Rep}(\mathcal{I}) \quad \mbox{with}\quad
+\ker f = \Lambda
+\]
+
+\medskip
+\item $\Rightarrow$ intuition: determine the subgroup $\Lambda$ of $\R$ 
+hidden by $f$
+
+\medskip
+\item but there are two fundamental problems:
+
+\medskip
+\begin{itemize}
+\item we can only evaluate at a finite number of points
+
+\medskip
+\item we cannot compute $f$ exactly due to finite precision since $\Delta_{\mathrm{bs}}$ and $\Delta_{\mathrm{gs}}$
+can only be approximated
+\end{itemize}
+
+\item $\Rightarrow$ we have to work with a finite number of carefully chosen evaluation points that avoid ``forbidden intervals''
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Computable version}
+
+\vspace{-0.3cm}
+\begin{itemize}
+\item Let $h : \mathcal{V} \rightarrow X \times \mathcal{V}$ be defined as
+\[
+h(v) = (x,\lfloor N t \rfloor)
+\]
+
+\begin{itemize}
+\item $\mathcal{V}=\{0,\ldots,qN-1\}$
+
+\medskip
+\item $s$ is some random offset 
+
+\medskip
+\item $f(s+\tfrac{v}{N}) = (x,t)$
+\end{itemize}
+
+\medskip
+\item we can compute $h(v)=(x,k)$ correctly for all $v\in \mathcal{V}$ with high probability
+
+\medskip
+\item for most $(x,k)\in h(\mathcal{V})$, the preimage has the special form
+\[
+h^{-1}(x,k) = \{ v + N \lambda + \xi_\lambda \, : \, \lambda\in\Lambda \} \subseteq \mathcal{V}, \quad \xi_j\in (-1,1) 
+\]
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Reduction to pseudo-periodic states}
+
+\begin{itemize}
+
+\item evaluate $h$ in superposition over $\mathcal{V}$ and measure
+
+\medskip
+\item this process prepares a pseudo-periodic state in $\C^{qN}$
+
+\[
+|\psi\> \propto \sum_{\lambda\in R\mathbb{Z} \cap [0,qN)} 
+| v + N \lambda + \xi_\lambda \> \quad\mbox{with $\xi_\lambda\in (-1,1)$}
+\]
+
+\medskip
+\item $\Rightarrow$ we can apply our quantum algorithm to obtain the estimate $\hat{R}$
+ 
+\end{itemize}
+
+\end{slide}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Higher-dim. pseudo-periodic states}
+\vspace{-0.25cm}
+\begin{itemize}
+\item let $\Lambda$ be a full-rank lattice in $\R^n$
+
+\medskip
+\item a quantum state in ${(\mathbb{C}^{qN})}^{\otimes n}$ of the form
+
+\[
+\sum_{\lambda\in\Lambda\cap [0,qN)^n} | v + N \lambda + \xi_\lambda\>, \quad \xi_\lambda\in (-1,1)^n
+\]
+
+is called pseudo-periodic state with period lattice $\Lambda$
+
+\medskip
+\item
+Task: find an approximate basis $\lambda'_1,\ldots,\lambda'_n$ of $\Lambda$
+
+\medskip
+\item 
+$\lambda'_1,\ldots,\lambda'_n$ is called a $\gamma$-approximate basis iff
+
+\begin{itemize}
+\medskip
+\item $\Lambda=\mathbb{Z}\lambda_1 + \ldots + \mathbb{Z} \lambda_n$ 
+
+\medskip
+\item $\|\lambda_i - \lambda'_i \|_2 \le \gamma$
+\end{itemize}
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Higher-dimensional infrastructures}
+
+\begin{itemize}
+	\item an $n$-dimensional infrastructure~$\mathcal{I}$ is a finite set of distinguished
+  points on an $n$-dimensional torus $\mathbb{R}^n / \Lambda$
+  
+  \medskip
+  \item $\Lambda$ is a lattice of full rank in $\R^n$ 
+  
+  \medskip
+  \item to each distinguished point $x$, we assign a region on the torus, so
+  that every point on the torus lies in exactly one such region
+  
+  \medskip
+  \item $\Rightarrow$ every point~$y$ in the region of $x$ can be represented by the difference $t := y - x$ together
+  with $x$, i.e.\ as the pair $(x, t)$ 
+  
+  \medskip
+  \item these tuples $(x, t)$ are called the $f$-representations
+  of the infrastructure
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Group arithmetic with $f$-reps.}
+
+\begin{itemize}
+\item denote the set of all $f$-representations by $\mathrm{Rep}(\mathcal{I})$
+
+\bigskip
+\item $\mathrm{Rep}(\mathcal{I})$ can be endowed with a group structure such that 
+\[
+\mathrm{Rep}(\mathcal{I}) \cong \R^n / \Lambda
+\]
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{HSP over $\R^n$}
+
+\begin{itemize}
+\item exactly as in the one-dimensional case, we have a surjective group homomorphism
+
+\[
+f : \R^n \rightarrow \mathrm{Rep}(\mathcal{I}) \quad \mbox{with}\quad
+\ker f = \Lambda
+\]
+
+\medskip
+\item $\Rightarrow$ intuition: determine the subgroup $\Lambda$ of $\R^n$ 
+hidden by $f$
+
+\medskip
+\item but there are two fundamental problems:
+
+\medskip
+\begin{itemize}
+\item we can only evaluate at a finite number of points
+
+\medskip
+\item we cannot compute $f$ exactly because we cannot can only approximate $f$-representations 
+\end{itemize}
+
+\item $\Rightarrow$ we have to work with a finite number of carefully chosen evaluation points that avoid ``forbidden regions''
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Forbidden regions}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Reduction to pseudo-periodic states}
+
+\begin{itemize}
+\item evaluate $h$ in superposition over $\mathcal{V}=\{0,\ldots,qN-1\}^n$ and measure 
+
+\medskip
+\item with high probability, we obtain the pseudo-periodic state
+
+\[
+\sum_{\lambda\in\Lambda\cap [0,qN)^n} | v + N \lambda + \xi_\lambda\>, \quad \xi_\lambda\in (-1,1)^n
+\]
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{QA for estimating the period lattice}
+
+\begin{itemize}
+
+\item INPUT:
+
+\begin{itemize}
+\item two positive integers $q$ and $N$ that are sufficiently large
+
+\medskip
+\item $2n+1$ pseudo-periodic states in ${(\mathbb{C}^{qN})}^{\otimes n}$ with period lattice $\Lambda$
+\end{itemize}
+
+\medskip
+\item embed each state into a register ${(\mathbb{C}^{2nqN})}^{\otimes n}$
+
+\medskip
+\item apply the multidimensional QFT to each state
+
+\medskip
+\item measure 
+
+\medskip
+\item denote the outcomes by $w_1,\ldots,w_{2n+1}$
+
+\end{itemize}
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Sampling approximations of $\Lambda^*$}
+
+\begin{itemize}
+\item let $\Lambda^*$ be the dual lattice of $\Lambda$
+
+\medskip
+\item let $\mathcal{Y}$ be the set of $w\in\{0,1,\ldots,2nqN-1\}^n$ satisfying
+
+\medskip
+\begin{itemize}
+\item $w_i = [2n q \lambda^*]$ and for some $\lambda^*\in\Lambda^*$ and 
+
+\medskip
+\item $\|w_i \|_\infty \le 2n q (\kappa N)$ with $\kappa\in (0,1)$
+\end{itemize}
+
+\medskip
+\item for all $w\in\mathcal{Y}$, we have
+\[
+\Pr(w) \ge \frac{1}{(2qnN)^n} \cos^2\big( \pi (\tfrac{1}{4} + \tfrac{1}{4qN} + 2\kappa) \big) \frac{q^n}{\mathrm{det}(\Lambda)}
+\]
+
+\medskip
+\item the cardinality of $\mathcal{Y}$ is approx. $\tfrac{(\kappa N)^n}{\mathrm{det}(\Lambda^*)} = (\kappa N)^n \mathrm{det}(\Lambda)$
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Approximate generating set for $\Lambda^*$}
+\begin{itemize}
+\item we sample $n$ vectors of $\Lambda^* \cap [0,b)^n$ 
+
+\medskip
+\item with prob. at least $\tfrac{1}{4}$, they generate a full-rank sublattice $\Lambda^*_0$
+
+\medskip
+\item $\Lambda^*/\Lambda^*_0$ is a finite group generated by $n$ elements
+
+\medskip
+\item we sample $n+1$ vectors of $\Lambda^* \cap [0,b_0)^n$ with $b_0 > b$
+
+\medskip
+\item this induces an almost uniform distribution of $\Lambda^*/\Lambda^*_0$
+
+\medskip
+\item with prob. at least $\frac{1}{4}-\hat{\zeta}>0.184$ the new and old samples generate $\Lambda^*$ 
+
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Approximate basis for $\Lambda$}
+
+\begin{itemize}
+
+\item we can recover an approximate basis of $\Lambda^*$ from the approximate generating set formed by 
+
+\[
+	\frac{w_1}{2nq},\ldots,\frac{w_{2n+1}}{2nq}
+\]  
+
+\medskip
+\item we can recover an approximate basis of $\Lambda^*$from the approximate basis of $\Lambda^*$
+
+\medskip
+\item the algorithm succeeds with probability at least
+\[
+	\frac{1}{4} \Big( \frac{1}{4}-\hat{\zeta} \Big) \left( \frac{c \kappa^n}{(2n)^n} \right)^{2n+1}
+\]
+
+where $c=\cos^2\big( \pi ( \tfrac{1}{4} + \tfrac{1}{4qN} + 2\kappa) \big)$ and $\kappa = \tfrac{1}{16n}$
+\end{itemize}
+
+\end{slide}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{slide}{Improvements}
+
+\begin{itemize}
+
+\item we present a rigorous and complete proof that the running time is polynomial in the determinant of the period lattice $\Lambda$
+
+\medskip
+\item we give an explicit lower bound on the success probability 
+
+\medskip
+{\sc Hallgren} and {\sc Schmidt and Vollmer} did not give any lower bound
+
+\medskip
+{\sc Schmidt} presented a lower bound in his dissertation which is worse than our bound  
+
+\medskip
+\item message: it is very important to improve the lower bound ! 
+
+\medskip
+we are sure that this can be done !
+
+\end{itemize}
+
+\end{slide}
+
+\begin{slide}{Thank you!!!}
+
+\end{slide}
+
+\end{document} 

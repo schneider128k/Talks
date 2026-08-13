@@ -10,6 +10,22 @@ and the talks I gave after 2020 are not yet reconstructed.
 
 ## University of Central Florida
 
+- **Quantum Algorithm for Computing the Period Lattice of an Infrastructure** —
+  *Seminar*, 31 October 2011  
+  Quantum information seminar, Massachusetts Institute of Technology, at the invitation of
+  Prof. Edward Farhi.  
+  I gave a revised version of this talk at the workshop *Recent Progress in Quantum
+  Algorithms*, held jointly by the Institute for Quantum Computing at the University of
+  Waterloo and the Perimeter Institute for Theoretical Physics, 11–13 April 2012, at the
+  invitation of Rolando Somma. Both sets of slides are here.  
+  Joint work with Felix Fontein.  
+  The talk is built on [arXiv:1111.1348](https://arxiv.org/abs/1111.1348).  
+  The PDF I made of the Waterloo slides at the time will not open; the one here was made from
+  the PostScript of the same build.  
+  [presentation, MIT](documents/2011-10_period_lattice_infrastructure/period_lattice_infrastructure_mit_presentation.pdf) ·
+  [presentation, Waterloo](documents/2011-10_period_lattice_infrastructure/period_lattice_infrastructure_waterloo_presentation.pdf) ·
+  [sources](documents/2011-10_period_lattice_infrastructure/)
+
 - **Efficient Quantum Algorithms for One-Dimensional Infrastructures** —
   *Minisymposium talk*, October 2011  
   Minisymposium on quantum computing at the SIAM Conference on Applied Algebraic Geometry
