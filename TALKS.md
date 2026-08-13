@@ -16,10 +16,7 @@ institution I was at; the internal seminars and project meetings of my IBM years
   the visit below. The slides are built on a Japanese theme and close in Japanese, which is why
   they look unlike anything else here. Their title page carries 28 April, the day I first
   finished them.  
-  The talk is built on [arXiv:2604.01022](https://arxiv.org/abs/2604.01022), and on the
-  Hamiltonian decoded quantum interferometry papers it names,
-  [arXiv:2510.07913](https://arxiv.org/abs/2510.07913) and
-  [arXiv:2601.18773](https://arxiv.org/abs/2601.18773).  
+  The talk is built on [arXiv:2604.01022](https://arxiv.org/abs/2604.01022).  
   These slides need LuaLaTeX and the Noto Sans CJK JP font; the rest of the repository builds
   with pdfLaTeX.  
   [presentation](documents/2026-05_twisted_multinomial_coefficients_tokyo/twisted_multinomial_coefficients_presentation.pdf) ·
@@ -31,8 +28,6 @@ institution I was at; the internal seminars and project meetings of my IBM years
   A survey rather than a report on my own work: circuits and elementary algorithms, the quantum
   Fourier transform, phase estimation and order finding, the hidden subgroup problem, and a
   closing look at non-Abelian Fourier transforms.  
-  The prism figure on the non-Abelian Fourier transform slide is IBM's, from the IBM Quantum
-  blog post the following slide links to; it is not my work.  
   [presentation](documents/2025-11_brief_introduction_quantum_algorithms_tokyo/brief_introduction_quantum_algorithms_presentation.pdf) ·
   [sources](documents/2025-11_brief_introduction_quantum_algorithms_tokyo/)
 
