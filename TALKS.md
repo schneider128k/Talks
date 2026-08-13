@@ -33,9 +33,8 @@ and the talks I gave at IBM are only partly reconstructed.
   our joint work; his came first and mine carried the technical detail.  
   A third version went to the Professional Interest Communities seminar of the quantum research
   group at the IBM Thomas J. Watson Research Center, Yorktown Heights, in the week of 7 October
-  2019, at the invitation of Ted Yoder and Kristan Temme. I was at Watson that week to work with
-  Kristan Temme, and this version closes on a section about simulating Hamiltonians that the
-  earlier two do not have.  
+  2019, which I spent there working with the group. This version closes on a section about
+  simulating Hamiltonians that the earlier two do not have.  
   Joint work with Clive Elphick.  
   The talk is built on [arXiv:1805.08334](https://arxiv.org/abs/1805.08334),
   [arXiv:1806.02734](https://arxiv.org/abs/1806.02734),
