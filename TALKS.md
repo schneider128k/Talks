@@ -3,8 +3,8 @@
 Newest first. Each entry gives the occasion and date, names the people the work was done with,
 and links to the slides or the poster and the sources they were built from.
 
-Entries are being added one at a time. The recovery itself is finished; the publishing is not,
-and the talks I gave at IBM are only partly reconstructed.
+The list runs from February 1996 to May 2026. It holds the talks I gave to audiences outside the
+institution I was at; the internal seminars and project meetings of my IBM years are not here.
 
 ---
 
