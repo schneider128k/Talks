@@ -148,7 +148,9 @@ and the talks I gave after 2020 are not yet reconstructed.
   [quant-ph/0606229](https://arxiv.org/abs/quant-ph/0606229) and
   [arXiv:0705.1180](https://arxiv.org/abs/0705.1180).  
   The slides here are the ones typeset at the time; the source beside them still runs through
-  LaTeX, but no longer reproduces them.  
+  LaTeX, but no longer reproduces them. The page size recorded in that 2007 file was smaller
+  than the slides drawn on it, so they were cut off down the right-hand side. I have corrected
+  the page size and changed nothing else.  
   [presentation](documents/2007-11_classical_problems_mit/classical_problems_mit_presentation.pdf) ·
   [sources](documents/2007-11_classical_problems_mit/)
 
