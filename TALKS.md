@@ -4,20 +4,38 @@ Newest first. Each entry gives the occasion and date, names the people the work 
 and links to the slides or the poster and the sources they were built from.
 
 Entries are being added one at a time. The recovery itself is finished; the publishing is not,
-and the talks I gave after 2020 are not yet reconstructed.
+and the talks I gave at IBM are only partly reconstructed.
 
 ---
+
+## IBM Quantum, Thomas J. Watson Research Center
+
+- **Simpler Classical and Faster Quantum Algorithms for Gibbs Partition Functions** —
+  *Workshop talk*, July 2022  
+  IBM – Tufts University Quantum Workshop.  
+  Joint work with Srinivasan Arunachalam, Vojtěch Havlíček, Giacomo Nannicini and Kristan
+  Temme, of the Quantum Algorithms Group.  
+  The talk is built on [arXiv:2009.11270](https://arxiv.org/abs/2009.11270), published as
+  *Quantum* **6** (2022), 789.  
+  No copy of the slides as they were shown survives; the PDF here was typeset from the source.  
+  [presentation](documents/2022-07_gibbs_partition_functions_ibm_tufts/gibbs_partition_functions_presentation.pdf) ·
+  [sources](documents/2022-07_gibbs_partition_functions_ibm_tufts/)
 
 ## University of Central Florida
 
 - **Spectral Bounds for Classical & Quantum Graph Parameters** —
-  *Invited talk*, May – August 2019  
+  *Invited talk*, May – October 2019  
   2nd IAMCS Workshop on Quantum Computation and Information, Institute for Applied Mathematics
   and Computational Science, Texas A&M University, College Station, 13–15 May 2019, at the
   invitation of Prof. Andreas Klappenecker.  
   I gave a revised version at the British Combinatorial Conference, University of Birmingham,
   29 July – 2 August 2019, as the second of a pair of consecutive talks with Clive Elphick on
   our joint work; his came first and mine carried the technical detail.  
+  A third version went to the Professional Interest Communities seminar of the quantum research
+  group at the IBM Thomas J. Watson Research Center, Yorktown Heights, in the week of 7 October
+  2019, at the invitation of Ted Yoder and Kristan Temme. I was at Watson that week to work with
+  Kristan Temme, and this version closes on a section about simulating Hamiltonians that the
+  earlier two do not have.  
   Joint work with Clive Elphick.  
   The talk is built on [arXiv:1805.08334](https://arxiv.org/abs/1805.08334),
   [arXiv:1806.02734](https://arxiv.org/abs/1806.02734),
@@ -25,6 +43,7 @@ and the talks I gave after 2020 are not yet reconstructed.
   [arXiv:1812.02613](https://arxiv.org/abs/1812.02613).  
   [Texas slides](documents/2019-05_spectral_bounds_graph_parameters/spectral_bounds_texas_presentation.pdf) ·
   [Birmingham slides](documents/2019-05_spectral_bounds_graph_parameters/spectral_bounds_birmingham_presentation.pdf) ·
+  [IBM slides](documents/2019-05_spectral_bounds_graph_parameters/spectral_bounds_ibm_presentation.pdf) ·
   [abstract](documents/2019-05_spectral_bounds_graph_parameters/spectral_bounds_birmingham_abstract.pdf) ·
   [sources](documents/2019-05_spectral_bounds_graph_parameters/)
 
