@@ -1,0 +1,32 @@
+Identifying Hidden Graphs with Quantum Walks:
+From BQP-Completeness to an Exponential Separation
+
+Time evolution under a huge, sparse Hamiltonian can, from a well-chosen
+initial state, behave exactly like a walk on a tiny graph: the evolution
+never leaves a low-dimensional invariant subspace, and on that subspace the
+Hamiltonian is the adjacency matrix of a small graph. If we know in advance
+that this small graph is one of two possibilities, the algorithm splits
+cleanly into two parts. Classically, and before the quantum computer is
+switched on, we compute the return amplitudes of the two candidate graphs
+and the time at which they differ most. Quantumly, we run the evolution for
+exactly that long and read off the amplitude by interferometry — a Hadamard
+test, with the evolution as its controlled operation.
+
+I will describe two problems of this shape. In the first, the small graph is
+a cycle whose length encodes the outcome of an arbitrary quantum circuit;
+deciding whether the short or the long cycle is hidden inside the
+Hamiltonian is therefore BQP-complete, so this single question captures the
+full power of quantum computation. In the second, we get to choose the
+hidden graph ourselves. Any regular graph can be buried inside an
+exponentially larger "spired graph," presented only through a black box that
+returns the neighbors of a label and reveals nothing else. The quantum walk
+collapses that graph back down to a polynomial-size object determined by the
+graph we hid; classically the problem is conjectured to be intractable, by
+close analogy with the proved exponential lower bound for the welded-trees
+problem, which the construction specializes to. Taking the two candidates to
+be a prism and a Möbius ladder — the same ladder closed straight or closed
+with a single localized twist — gives an efficient quantum identification
+algorithm supported by spectral theory and numerics, together with a
+conjectured exponential separation relative to the oracle. Details of the
+second part: arXiv:2605.11228 (https://arxiv.org/abs/2605.11228); the BQP
+connection is not in the paper.

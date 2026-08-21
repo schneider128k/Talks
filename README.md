@@ -70,8 +70,8 @@ Some entries have no folder. Those are papers that live on the arXiv, and longer
 work that have a repository of their own; the lists record them in their place in the sequence and
 link out, rather than duplicating anything.
 
-The August 2026 talk is the one folder that holds a PDF and nothing else. Its sources are not
-published yet.
+The 2026 talk on identifying hidden graphs is the one folder that holds only a PDF and an
+abstract. Its sources are not published yet.
 
 ## Minimal changes
 

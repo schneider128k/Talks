@@ -3,22 +3,26 @@
 Newest first. Each entry gives the occasion and date, names the people the work was done with,
 and links to the slides or the poster and the sources they were built from.
 
-The list runs from October 1998 to August 2026.
+The list runs from October 1998 to September 2026.
 
 ---
 
 ## IBM Quantum, Thomas J. Watson Research Center
 
-- **Quantum Algorithm for Identifying Hidden Graphs** — *Online talk*, 19 August 2026  
-  An online meeting at the University of Tokyo.  
+- **Identifying Hidden Graphs with Quantum Walks: From BQP-Completeness to an Exponential
+  Separation** — *Talks*, August – September 2026  
+  The slides here are the revised version, which I am to give in Warsaw in September 2026.
+  I gave an earlier version of the talk at an online meeting at the University of Tokyo on
+  19 August 2026, under the shorter title *Quantum Algorithm for Identifying Hidden Graphs*.  
   The question is which of a list of candidate graphs is hidden inside an exponentially large
   sparse Hamiltonian, rather than whether one can be traversed: a continuous-time quantum walk
   and a single Hadamard test at a classically precomputed time. The middle of the talk sets
   the problem against the BQP-complete construction of my earlier work with Dominik Janzing,
   which it grew out of.  
   The talk is built on [arXiv:2605.11228](https://arxiv.org/abs/2605.11228).  
-  Only the slides as I gave them are here; the sources are not published yet.  
-  [presentation](documents/2026-08_identifying_hidden_graphs_tokyo/identifying_hidden_graphs_presentation.pdf)
+  Only the slides are here; the sources are not published yet.  
+  [presentation](documents/2026-08_identifying_hidden_graphs/identifying_hidden_graphs_presentation.pdf) ·
+  [abstract](documents/2026-08_identifying_hidden_graphs/identifying_hidden_graphs_abstract.txt)
 
 - **A Factorization Identity for Twisted Multinomial Coefficients, with Application to Pilot
   States in Hamiltonian Decoded Quantum Interferometry** — *Invited talk*, 26 May 2026  
